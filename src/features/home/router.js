@@ -4,7 +4,8 @@ export default {
   path: '/',
   name: 'Home', 
   childRoutes: [
-    { path: 'Home',
+    { 
+      path: 'Home',
       name: 'Home',
       component: Home,
       isIndex: true,

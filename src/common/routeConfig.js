@@ -1,10 +1,18 @@
-import { App } from '../features/home'
-import { PageNotFound } from '../features/common'
+import { App, PageNotFound } from '../features/common'
 import homeRoute from '../features/home/router'
+import orderRoute from '../features/order/router'
+import deviceRoute from '../features/device/router'
+import rmonRoute from '../features/rmon/router'
+import userRoute from '../features/user/router'
+
 import _ from 'lodash'
 
 const childRoutes = [
   homeRoute,
+  orderRoute,
+  deviceRoute,
+  rmonRoute,
+  userRoute
 ]
 
 const routes = [{
@@ -23,10 +31,10 @@ function handleIndexRoute(route) {
 
   const indexRoute = _.find(route.childRoutes, (child => child.isIndex))
   if (indexRoute) {
-    const first = { ...indexRoute } 
+    const first = { ...indexRoute }
     first.path = ''
     first.exact = true
-    first.autoIndexRoute = true 
+    first.autoIndexRoute = true
     route.childRoutes.unshift(first)
   }
   route.childRoutes.forEach(handleIndexRoute)

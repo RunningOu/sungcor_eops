@@ -1,0 +1,64 @@
+@import "../../styles/mixins";
+.order-page-create {
+  background-color: @bg-color;
+  height: calc(100vh - 27.5px);
+  .title {
+    margin-top: 0.6rem;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+  }
+  .subtitle {
+    text-align: center;
+    opacity: 0.7;
+    span {
+      color: rgb(26, 70, 213);
+    }
+  }
+  .select-main {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: flex-start;
+    height: 50vh;
+    margin-left: 20px;
+    margin-right: 20px;
+    overflow-y: auto;
+    .order-modal {
+      width: 44%;
+      .order-modal-icon {
+        height: 120px;
+        line-height: 120px;
+        border-radius: 8px;
+        border: 2px solid rgb(210, 212, 216);
+        text-align: center;
+        .img {
+          width: 35%;
+        }
+      }
+      .modal-name{
+        margin-top: 8px;
+        text-align: center;
+        opacity: .7;
+      }
+    }
+    .order-modal.selected {
+      .order-modal-icon {
+        border-color: @primary-color;
+      }
+      .modal-name {
+        color: @primary-color;
+        opacity: 1;
+        font-weight: bold;
+      }
+    } 
+  }
+  .handle-group {
+    margin-top: 0.8rem;
+    text-align: center;
+    .handle-button {
+      background-color: @primary-color;
+    }
+  }
+}

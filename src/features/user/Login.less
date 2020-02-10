@@ -1,0 +1,105 @@
+.user-page-login {
+  .login {
+    height: calc(100vh - 0.55rem);
+    padding-top: 2.8rem;
+    position: relative;
+  }
+  .login_logo {
+    position: relative;
+    background: linear-gradient(to right, #002157, #005da3);
+    width: 100%;
+    height: 3rem;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    z-index: -1;
+    img{
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 1rem;
+      width: 50%;
+    }
+  }
+  .login_view {
+    position: relative;
+    top: -20px;
+    margin-left: .3rem;
+    margin-right: .3rem;
+    padding: 0.3rem;
+    background-color: #fff;
+    border-radius: .1rem;
+    box-shadow: 0 .05rem .15rem #ccc;
+    z-index: 2;
+    .login_input {
+      position: relative;
+      box-shadow: 0 1px 5px #eee;
+      &:first-child {
+        margin-top: .5rem;
+        margin-bottom: 0.5rem;
+      }
+      &::after {
+        position: absolute;
+        top: .1rem;
+        left: 1.2rem;
+        color: #005da3;
+        opacity: 0.5;
+        content: attr(data-title);
+      }
+      span {
+        display: inline-block;
+        font-size: 24px;
+        color: #005da3;
+        padding: 0.1rem 0.2rem;
+        border-right: 1px solid #eee;
+      }
+      input {
+        position: relative;
+        width: 70%;
+        border: 0;
+        background-color: rgba(0, 0, 0, 0);
+        top: 0.1rem;
+        color: #005da3;
+        padding-left: 0.3rem;
+        padding-top: 0.3rem;
+        font-size: 16px;
+        outline: none;
+      }
+    }
+    .login_ts {
+      text-align: right;
+      color: #005da3;
+      opacity: 0.5;
+      padding-top: 0.2rem;
+      padding-bottom: 0.2rem;
+    }
+    .login_btn {
+      background-color: rgba(0, 93, 163, .7);
+      color: #fff;
+      border: none;
+      z-index: 1;
+      box-shadow: 0 1px 5px #eee;
+      margin-bottom: .5rem;
+      width: 100%;
+    }
+    .login_bg {
+      position: absolute;
+      left: 0;
+      transform: translateX(-50%);
+      transform: scale(1.1);
+      opacity: 0.5;
+      bottom: 1rem;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+  .version {
+    position: absolute;
+    color: #005da3;
+    width: 100%;
+    height: 0.2rem;
+    text-align: center;
+    bottom: 0.3rem;
+    z-index: -1;
+  }
+}

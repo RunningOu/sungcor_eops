@@ -2,9 +2,26 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
+
+import { FooterBar } from '../common'
+
+import { 
+  Carousel,
+  Ribbon, 
+  Repairs,
+  Notice
+} from './components'
+
 const Home = (props) => {
-  console.log(props)
-  return (<div>Home Page</div>)
+  return (
+    <div>
+      <Carousel /> 
+      <Ribbon />
+      <Repairs />
+      <Notice />
+      <FooterBar pathname={props.location.pathname}/>
+    </div>
+  )
 }
 
 function mapStateToProps(state) {

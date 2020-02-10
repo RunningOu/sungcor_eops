@@ -1,0 +1,23 @@
+.user-page-index {
+  .header {
+    height: 2.5rem;
+    background-color: #fff;
+    .username {
+      font-size: 32px;
+      font-weight: bold;
+      color: #477bff;
+      margin: 0;
+      &::after {
+        content: attr(data-job);
+        color: #505050;      
+        font-size: 18px;
+        font-weight: normal;
+      }
+    }
+    .corporation {
+      color: #6c6c6c;
+    }
+  }
+  .data_info{
+  }
+}

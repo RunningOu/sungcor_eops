@@ -1,0 +1,26 @@
+@import '../../styles/mixins';
+
+.common-footer-bar {
+  position: fixed;
+  display: flex;
+  justify-content: space-around;
+  bottom: 0;
+  width: 100%;
+  height: 1.2rem;
+  z-index: 100;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  .footer-btn {
+    position: relative;
+    padding-top: .2rem;
+    color: @disabled-color;
+    background-color: #fff;
+    width: 25%;
+    height: 1.2rem;
+    text-align: center;
+    &.action {
+      color: @primary-color;
+      background-color: #fdfdfd;
+    }
+  }
+}
