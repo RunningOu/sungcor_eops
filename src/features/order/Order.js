@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HeaderBar, FooterBar } from '../common'
 import { Tabs, Input, Icon, Drawer, Tag, List, message } from 'antd'
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroller';
 import { queryOrderList } from '../../common/request'
@@ -23,14 +24,14 @@ const tabsConfig = userId => [
   [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }],
   [{ key: "participation", value: userId, operator: "IN" }],
   [{ key: "status", value: "3", operator: "IN" }],
-  [{ key: "overdue", value: userId, operator: "IN" }] 
+  [{ key: "overdue", value: userId, operator: "IN" }]
 ]
-
 const Order = (props) => {
   const { userAccountInfo } = props.user
+  const history = useHistory()
   const [orderList, setOrderList] = useState([]) // 工单列表
 
-  const [ orderType, setOrderType ] = useState(0)
+  const [orderType, setOrderType] = useState(0)
   const [model, setModel] = useState({}) // 工单查询参数
   const [count, setCount] = useState(0) // 列表总数
   const [pageNum, setPageNum] = useState(1) // 列表分页下标
@@ -40,9 +41,9 @@ const Order = (props) => {
   const [drawerOpen, setDrawerOpen] = useState(false) // 侧边抽屉开关
   const [selectedTags, setSelectedTags] = useState([]) // 侧边抽屉选中项
 
- 
-  const callback = (key,a) => {
-    console.log(key,a)
+
+  const callback = (key, a) => {
+    console.log(key, a)
     setOrderType(key)
   }
   const handleChange = (tag, checked) => {
@@ -59,7 +60,7 @@ const Order = (props) => {
       setLoading(false)
       return
     }
-    setPageNum( current => current+1 )
+    setPageNum(current => current + 1)
   }
 
   useEffect(() => {
@@ -73,12 +74,12 @@ const Order = (props) => {
         attrs: [
           ...tabsConfig(userAccountInfo.userId)[orderType]
         ]
-      } 
+      }
     })
   }, [orderType, userAccountInfo])
 
   useEffect(() => {
-    if(count > 0) {
+    if (count > 0) {
       message.success(`共有${count}条记录`)
     }
   }, [count])
@@ -147,7 +148,7 @@ const Order = (props) => {
           useWindow={false}
         >
           <List dataSource={orderList} renderItem={item => (
-            <div className='item' onClick={() => {}}>
+            <div className='item' onClick={() => { history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}`) }}>
               <h2 className='title'>{item.title + ' - ' + item.flowNo}</h2>
               <p className='description'>工单描述：{item.formData.ticketDesc || '无工单描述信息'}</p>
               <p className='date'>报修时间： <span>{item.formData.bxsj ? formatDate(new Date(item.formData.bxsj), 'YYYY-MM-DD hh:mm:ss') : ''}</span></p>

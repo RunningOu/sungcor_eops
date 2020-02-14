@@ -1,4 +1,10 @@
-import { Order, Create, Form, SelectDevice} from './'
+import { 
+  Order, 
+  Create, 
+  Form, 
+  SelectDevice,
+  Details,
+  FormHandle} from './'
 
 export default {
   path: '/order',
@@ -21,6 +27,14 @@ export default {
       path: 'Create/Form/:modal/SelectDevice',
       name: 'SelectDevice',
       component: SelectDevice
+    },{ 
+      path: ':modal',
+      name: 'Details',
+      component: Details
+    },{ 
+      path: ':modal/handle',
+      name: 'FormHandle',
+      component: FormHandle
     }
   ],
 }

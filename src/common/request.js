@@ -47,7 +47,17 @@ export const handleOrder = async (d) => {
   })
   return data
 }
-
+// 更新工单form 
+export const updateOrder = async (d) => {
+  const { data } = await axios({
+    method: 'post',
+    url: 'http://itsm.sungcor.com:38021/iom/devops/itsm/updateTicket',
+    data: {
+      ...d
+    }
+  })
+  return data
+}
 // 上传图片 
 export const updateImage = async (d) => {
   const { data } = await axios({
@@ -79,7 +89,19 @@ export const queryOrderModel = async (modelId) => {
     url: '/ticket/getItsmTicketModel',
     params: {
       apikey: 'e10adc3949ba59abbe56e057f2gg88dd',
-      modelId
+      ...modelId
+    }
+  })
+  return data
+}
+
+// 获取结束工单模型 
+export const queryLastOrderModel = async (params) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/ticket/getTicketModelInfoById',
+    params: {
+      ...params
     }
   })
   return data
@@ -102,19 +124,6 @@ export const changeOrderExecutor = async (params) => {
   const { data } = await axios({
     method: 'get',
     url: '/ticket/reassignTicket',
-    params: {
-      ...params
-    }
-  })
-  return data
-}
-
-
-// 获取结束工单模型 
-export const queryLastOrderModel = async (params) => {
-  const { data } = await axios({
-    method: 'get',
-    url: '/ticket/getTicketModelInfoById',
     params: {
       ...params
     }

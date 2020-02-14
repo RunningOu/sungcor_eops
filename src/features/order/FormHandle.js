@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { useParams, useHistory } from 'react-router-dom'
 import { Form, message, Upload, Button } from 'antd'
 import _ from 'lodash'
 import {
@@ -10,9 +9,10 @@ import {
   singleSel,
   dateTime,
   resource,
-  listSel
+  listSel,
+  HandleButton
 } from './components'
-import { queryOrderModel, createOrder, updateImage } from '../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrder, updateImage } from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -59,7 +59,8 @@ const cr = {
   "double": singleRowText
 }
 const MESSAGE_KEY = 'messageKey'
-const CreateOrder = Form.create({
+
+const HandleOrder = Form.create({
   onFieldsChange: (props, changeFields, allFields) => {
     props.actions.setForm(fieldsToObj(allFields))
   },
@@ -67,44 +68,96 @@ const CreateOrder = Form.create({
     return objToFields(props.order.form)
   }
 })((props) => {
-  // console.log(props)
-  const { modal } = useParams()
-  const history = useHistory()
+  const { location: { search }, match: { params: { modal } }, history } = props
   const [orderModal, setOrderModal] = useState({})
   const [meta, setMeta] = useState([])
   const [needFile, setNeedFile] = useState(false)
-
+  const [orderInfo, setOrderInfo] = useState([])
   const [files, setFiles] = useState([]) //图片
-  
-  useEffect(() => { 
-    if(files.length) {
-      let file = files[0]
-      let reader = new FileReader()
-      reader.readAsDataURL(file)
-      console.log(file) 
-    }
-  }, [files])
-  useEffect(() => {
-    // 加载工单模板
-    queryOrderModel({ modelId: modal }).then(d => {
-      console.log(d)
-      setOrderModal(d)
-    }).catch(e => {
-      message.error('从远程加载模板失败' + e)
-    })
-  }, [modal])
+  const [moreHandle, setMoreHandle] = useState(false)
 
+  function handleForm(handle_rules) {
+    let pass = true
+    const query = new URLSearchParams(search)
+    props.form.validateFieldsAndScroll((err, value) => {
+      if (err) {
+        pass = false
+      }
+    })
+    if (!pass) {
+      message.warning('请填写完全工单信息！')
+      return
+    }
+    handleOrder({
+      ticket_id: modal,//工单id
+      model_id: query.get('modelId'),//模型id
+      activity_id: query.get('actId'),//当前环节id
+      handle_type: "1",
+      form: {
+        ...props.order.form
+      },
+      handle_rules: {
+        ...handle_rules
+      }
+    }).then(d => {
+      message.success({content:'创建成功', key:MESSAGE_KEY})
+      if(files.length) {
+        message.loading({content:'开始上传图片……', key:MESSAGE_KEY})
+        files.map((i) => {
+          let reader = new FileReader();
+          reader.readAsDataURL(i)
+          reader.onload = e => {
+            let imgBase64 = e.target.result
+            updateImage({
+              ticketId: modal,
+              filesBase64: [imgBase64.split(',')[1]]
+            }).then(() => {
+              message.success({content:'上传成功', key:MESSAGE_KEY})
+            })
+          }
+        })  
+      
+        history.push('/order')
+      }else {
+        history.push('/order')
+      }
+    })
+  }
+
+  useEffect(() => {
+    const query = new URLSearchParams(search)
+    queryOrderInfo(modal).then(d => {
+      let formData = {}
+      props.actions.clearForm()
+      if (d.hasOwnProperty('form')) {
+        d.form.forEach(f => {
+          if (f.hasOwnProperty('default_value')) {
+            formData[f.code] = f.default_value
+          }
+        })
+        setOrderInfo(d)
+        props.actions.setForm(formData)
+      }
+      queryOrderModel({
+        modelId: query.get('modelId'),
+        actId: query.get('actId')
+      }).then(d => {
+        setOrderModal(d)
+      })
+    })
+  }, [modal, props.actions, search])
   useEffect(() => {
     // 给formBuilder提供meta
+    const query = new URLSearchParams(search)
     let newMeta = []
     if (orderModal.hasOwnProperty('field_list')) {
-      let orderRule = _.get(orderConfig, `${modal}.${orderModal.name}`, {})
+      let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
       orderModal.field_list.forEach(field => {
-        if (field.code === 'file') {
-          setNeedFile(true)
+        if (orderRule.hidden && orderRule.hidden.includes(field.code)) {
           return
         }
-        if (orderRule.hidden && orderRule.hidden.includes(field.code)) {
+        if (field.code === 'file') {
+          setNeedFile(true)
           return
         }
         const element = pickProps(field, [
@@ -126,9 +179,10 @@ const CreateOrder = Form.create({
       })
       setMeta(newMeta)
     }
-  }, [orderModal, props.order, modal])
+  }, [orderModal, props.order, modal, search])
   useEffect(() => {
-    let orderRule = _.get(orderConfig, `${modal}.${orderModal.name}`, {})
+    const query = new URLSearchParams(search)
+    let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
     if (orderRule && orderRule.hasOwnProperty('defaultValue')) {
       let defaultForm = {}
       for (const [key, value] of Object.entries(orderRule.defaultValue)) {
@@ -140,10 +194,13 @@ const CreateOrder = Form.create({
       }
       props.actions.setForm(defaultForm)
     }
-  }, [props.actions, props.user, orderModal, modal])
+  }, [props.actions, props.user, orderModal, modal, search])
+
+
+
   return (
-    <div className='order-page-form'>
-      <HeaderBar title='工单创建' />
+    <div className='order-page-formhandle'>
+      <HeaderBar title='工单处理' />
       <div className='form'>
         <Form>
           <FormBuilder meta={meta} form={props.form} />
@@ -165,65 +222,20 @@ const CreateOrder = Form.create({
               上传图片
             </Upload>
           </div> : null}
-
-        <Button
-          type="primary"
-          style={{ backgroundColor: '#005da3' }}
-          block
-          onClick={() => {
-            let pass = true
-            props.form.validateFieldsAndScroll((err, value) => {
-              if (err) {
-                pass = false
-              }
-            })
-            if (!pass) {
-              message.warning('请填写完全工单信息！')
-              return
-            }
-            message.loading({content:'创建工单中……', key:MESSAGE_KEY})
-            createOrder({
-              model_id: modal,
-              ticket_source: "wchart",
-              urgent_level: 2,
-              title: props.order.form.title,
-              description: "",
-              form: {
-                ...props.order.form
-              },
-              handle_rules: {
-                route_id: orderModal.handle_rules[0].route_id
-              }
-            }).then(da => {
-              message.success({content:'创建成功', key:MESSAGE_KEY})
-              if(files.length) {
-                message.loading({content:'开始上传图片……', key:MESSAGE_KEY})
-                files.map((i) => {
-                  let reader = new FileReader();
-                  reader.readAsDataURL(i)
-                  reader.onload = e => {
-                    let imgBase64 = e.target.result
-                    updateImage({
-                      ticketId: da.data.id,
-                      filesBase64: [imgBase64.split(',')[1]]
-                    }).then(() => {
-                      message.success({content:'上传成功', key:MESSAGE_KEY})
-                    })
-                  }
-                })  
-              
-                history.push('/order')
-              }else {
-                history.push('/order')
-              }
-            })
-          }}>提交</Button>
+        <div className="handle-button-group">
+          {
+            moreHandle ?
+              orderInfo.handle_rules.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm}>{d.name}</HandleButton>)) :
+              <>
+                <HandleButton handle={orderModal} handleForm={handleForm}>{orderInfo.handle_rules ? orderInfo.handle_rules[0].name : ''}</HandleButton>
+                <Button block onClick={() => { setMoreHandle(true) }}>更多操作</Button>
+              </>
+          }
+        </div>
       </div>
     </div>
   )
 })
-
-
 
 function mapStateToProps(state) {
   return {
@@ -238,4 +250,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateOrder)
+export default connect(mapStateToProps, mapDispatchToProps)(HandleOrder)

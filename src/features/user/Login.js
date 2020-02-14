@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
 import { Button } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { USER_INFO_ID } from '../../config'
-import { local_set, local_get } from '../../utils/index'
+import { local_set } from '../../utils/index'
 import { Icon, message } from 'antd'
 import { login, queryUserInfo } from '../../common/request'
 
@@ -16,14 +16,7 @@ const Login = (props) => {
   const history = useHistory()
   const [userName, setUserName] = useState('')
   const [passWord, setPassWord] = useState('')
-  
-  useEffect(() => {
-    if(local_get(USER_INFO_ID)) {
-      accountLogin(local_get(USER_INFO_ID))
-      history.push('/')
-    }
-  }, [accountLogin, history])
-  
+    
   return (
     <div className='user-page-login'>
       <div className='login_logo'>

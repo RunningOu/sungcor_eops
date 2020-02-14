@@ -1,7 +1,6 @@
 import React from 'react';
 import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 import { Provider } from 'react-redux'
-
 const loginPathname = '/user/login'
 
 function renderRouteConfig(routes, contextPath) {
@@ -33,7 +32,7 @@ function renderRouteConfig(routes, contextPath) {
 function App(props) {
   const children = renderRouteConfig(props.routeConfig, '/')
   // if(Object.keys(props.store.getState().user.userAccountInfo).length === 0 && window.location.pathname !== loginPathname ) {
-  //   window.location.href = window.location.origin + loginPathname 
+  //   window.location.href = window.location.origin + '/#' + loginPathname 
   // }
   return (
     <Provider store={props.store}>

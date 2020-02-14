@@ -24,3 +24,12 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.unregister();
+if (module.hot) {
+  module.hot.accept(() => {
+    ReactDOM.render(
+      <ConfigProvider locale={zhCN}>
+        <Root store={store} routeConfig={routeConfig}/>
+      </ConfigProvider> 
+      , document.getElementById('root'));
+  });
+}

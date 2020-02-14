@@ -1,22 +1,28 @@
 import React from 'react'
-import { FooterBar } from '../common'
+import { HeaderBar, FooterBar, IconFont } from '../common'
 import * as actions from './redux/actions'
-// import { useHistory } from 'react-router-dom'
-// import { USER_INFO_ID } from '../../config'
-// import { local_set, local_get } from '../../utils/index'
-// import { message, Row, Col, Statistic, List } from 'antd'
+import { useHistory } from 'react-router-dom'
+import { USER_INFO_ID } from '../../config'
+import { List } from 'antd'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import './User.less'
 
-// const { Item } = List
+const { Item } = List
 const User = (props) => {
-  // const history = useHistory()
-  // const { userAccountInfo } = props.user
+  const history = useHistory()
   return (
     <div className='user-page-index'>
-      {/* <div className='header'>
+      <HeaderBar title="个人" />
+      <div className="main">
+        <Item arrow="horizontal" onClick={() => {
+          localStorage.removeItem(USER_INFO_ID)
+          history.push('/user/login')
+        }}>     <IconFont type={'iconqiehuan'} /> 切换用户
+      </Item> 
+      </div>
+        {/* <div className='header'>
           <h3 className='username' data-job={userAccountInfo.roleName}>{userAccountInfo.realname || 'unknow'}</h3>
           <p className='corporation'><IconFont type="iconposition" />{"上海尚禾信息技术有限公司"}</p>
       </div>
@@ -37,21 +43,21 @@ const User = (props) => {
         }}>
           <IconFont type={'iconqiehuan'} /> 切换用户
         </Item> */}
-      <FooterBar pathname={props.location.pathname}/>
-    </div>
-  )
-}
-
+        <FooterBar pathname={props.location.pathname} />
+      </div>
+      )
+    }
+    
 function mapStateToProps(state) {
   return {
-    user: state.user,
+        user: state.user,
+    }
   }
-}
-
+  
 function mapDispatchToProps(dispatch) {
   return {
-    actions: bindActionCreators({ ...actions }, dispatch),
+        actions: bindActionCreators({...actions}, dispatch),
+    }
   }
-}
-
+  
 export default connect(mapStateToProps, mapDispatchToProps)(User)

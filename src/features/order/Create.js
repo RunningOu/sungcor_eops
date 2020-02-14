@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { HeaderBar } from '../common'
 import { queryOrderTicketModel } from '../../common/request'
 import { Popover, Button, Icon, message } from 'antd'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as actions from './redux/actions'
 import { useHistory } from 'react-router-dom'
 import './Create.less'
 
@@ -44,6 +47,13 @@ const Create = (props) => {
             if(selectedModal === '') {
               message.warning('请选择一个工单模板')
             } else {
+              props.actions.createOrder({
+                model_id: selectedModal,
+                ticket_source: 'wchart',
+                title: '',
+                urgent_level: 2
+              })
+              props.actions.clearForm()
               history.push('create/form/' + selectedModal) 
             }
           }}>
@@ -54,4 +64,10 @@ const Create = (props) => {
   )
 }
 
-export default Create
+function mapDispatchToProps(dispatch) {
+  return {
+    actions: bindActionCreators({ ...actions }, dispatch),
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(Create)

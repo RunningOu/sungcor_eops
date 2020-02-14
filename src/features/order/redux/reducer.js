@@ -1,7 +1,8 @@
 import initialState from './initialState'
-import { reducer as changeForm } from './changeForm'
+import { reducer as setForm } from './setForm'
+import { reducer as setOrder } from './setOrder'
 
-const reducers = [ changeForm, ]
+const reducers = [ setForm, setOrder ]
 
 export default function reducer(state = initialState, action) {
   let newState;

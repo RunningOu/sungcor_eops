@@ -1,6 +1,9 @@
 const initialState = {
-  orderForm: {
+  form: {
   },
+  order: {
+    
+  }
 };
 
 export default initialState;
