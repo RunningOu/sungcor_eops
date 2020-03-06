@@ -15,4 +15,5 @@ export { default as dateTimeShow } from './dateTimeShow'
 export { default as resourceShow } from './resourceShow'
 export { default as listSelShow } from './listSelShow'
 export { default as HandleButton } from './HandleButton'
+export { default as FileShow } from './fileShow'
 

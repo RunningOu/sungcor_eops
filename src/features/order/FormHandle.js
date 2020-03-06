@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Form, message, Upload, Button } from 'antd'
+import { Form, message, Upload, Button, Modal, Tag, Input } from 'antd'
+import moment from 'moment'
 import _ from 'lodash'
 import {
   FormBuilder,
@@ -12,15 +13,18 @@ import {
   listSel,
   HandleButton
 } from './components'
-import { queryOrderModel, queryOrderInfo, handleOrder, updateImage } from '../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder } from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
 import { HeaderBar } from '../common'
 import orderConfig from './mock/orderConfig'
+import orderBefore from './mock/orderBefore'
 
 import './Form.less'
 
+const MESSAGE_KEY = 'messageKey'
+const { CheckableTag } = Tag
 function pickProps(source, props) {
   const target = {};
   props.forEach(prop => {
@@ -58,7 +62,7 @@ const cr = {
   "treeSel": singleRowText,
   "double": singleRowText
 }
-const MESSAGE_KEY = 'messageKey'
+
 
 const HandleOrder = Form.create({
   onFieldsChange: (props, changeFields, allFields) => {
@@ -74,7 +78,12 @@ const HandleOrder = Form.create({
   const [needFile, setNeedFile] = useState(false)
   const [orderInfo, setOrderInfo] = useState([])
   const [files, setFiles] = useState([]) //图片
-  const [moreHandle, setMoreHandle] = useState(false)
+
+  const [changeExecutor, setChangeExecutor] = useState(false)
+  const [changeRemark, setChangeRemark] = useState('')
+  const [changeTarget, setChangeTarget] = useState(null)
+
+  const query = new URLSearchParams(search)
 
   function handleForm(handle_rules) {
     let pass = true
@@ -100,10 +109,10 @@ const HandleOrder = Form.create({
         ...handle_rules
       }
     }).then(d => {
-      message.success({content:'创建成功', key:MESSAGE_KEY})
-      if(files.length) {
-        message.loading({content:'开始上传图片……', key:MESSAGE_KEY})
-        files.map((i) => {
+      message.success({ content: '创建成功', key: MESSAGE_KEY })
+      if (files.length) {
+        message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
+        files.forEach((i) => {
           let reader = new FileReader();
           reader.readAsDataURL(i)
           reader.onload = e => {
@@ -112,13 +121,13 @@ const HandleOrder = Form.create({
               ticketId: modal,
               filesBase64: [imgBase64.split(',')[1]]
             }).then(() => {
-              message.success({content:'上传成功', key:MESSAGE_KEY})
+              message.success({ content: '上传成功', key: MESSAGE_KEY })
             })
           }
-        })  
-      
+        })
+
         history.push('/order')
-      }else {
+      } else {
         history.push('/order')
       }
     })
@@ -195,7 +204,9 @@ const HandleOrder = Form.create({
       props.actions.setForm(defaultForm)
     }
   }, [props.actions, props.user, orderModal, modal, search])
-
+  useEffect(() => {
+    console.log(changeTarget)
+  }, [changeTarget])
 
 
   return (
@@ -223,14 +234,55 @@ const HandleOrder = Form.create({
             </Upload>
           </div> : null}
         <div className="handle-button-group">
-          {
-            moreHandle ?
-              orderInfo.handle_rules.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm}>{d.name}</HandleButton>)) :
-              <>
-                <HandleButton handle={orderModal} handleForm={handleForm}>{orderInfo.handle_rules ? orderInfo.handle_rules[0].name : ''}</HandleButton>
-                <Button block onClick={() => { setMoreHandle(true) }}>更多操作</Button>
-              </>
-          }
+          {orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm}>{d.name}</HandleButton>))}
+          {[3,6,8].includes(orderModal.sequence) ?
+            <>
+              <Button block onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
+              <Modal
+                visible={changeExecutor}
+                title="选择改派人"
+                onOk={() => {
+                  if (changeTarget) {
+                    changeOrderExecutor({
+                      ticketId: modal,
+                      executor: changeTarget.id,
+                      tacheId: query.get('actId')
+                    }).then(d => {
+                      updateOrder({
+                        ticket_id: modal,
+                        form: {
+                          gpsm: `${moment(new Date()).format("YYYY-MM-DD HH:mm")} 由 <${props.user.userAccountInfo.realname}> 改派给 <${changeTarget.name}> ${changeRemark !== '' ? '说明: ' + changeRemark : ''}`
+                        }
+                      }).then(() => {
+                        history.push('/order')
+                      })
+                    })
+                  } else {
+                    message.warning('请选择一个改派人')
+                  }
+
+                }}
+                onCancel={() => { setChangeExecutor(false) }}>
+                <div style={{ padding: "10px 0" }}>
+                  <span>选择改派人:</span>
+                  {
+                    orderBefore.changeExecutor[orderModal.sequence].map(e =>
+                      <CheckableTag
+                        key={e.id}
+                        checked={e.id === changeTarget?.id}
+                        onChange={checked => {
+                          if (!checked) {
+                            setChangeTarget(null)
+                          } else {
+                            setChangeTarget(e)
+                          }
+                        }}>{e.name}</CheckableTag>
+                    )}
+                </div>
+                <Input.TextArea rows="3" placeholder="改派说明" value={changeRemark} onChange={e => { setChangeRemark(e.target.value) }} />
+              </Modal>
+            </>
+            : null}
         </div>
       </div>
     </div>

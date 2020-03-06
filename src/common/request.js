@@ -51,7 +51,7 @@ export const handleOrder = async (d) => {
 export const updateOrder = async (d) => {
   const { data } = await axios({
     method: 'post',
-    url: 'http://itsm.sungcor.com:38021/iom/devops/itsm/updateTicket',
+    url: '/ticket/updateTicket',
     data: {
       ...d
     }
@@ -189,6 +189,15 @@ export const queryDeviceByClassCode = async (codes) => {
     params: {
       codes: codes
     }
+  })
+  return data
+}
+// 查询指定工单数量
+export const queryOrderCount = async (queryArr) => {
+  const { data } = await axios({
+    method: 'post',
+    url: '/ticket/countByDB',
+    data: queryArr
   })
   return data
 }

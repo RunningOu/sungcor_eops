@@ -16,7 +16,7 @@ const Login = (props) => {
   const history = useHistory()
   const [userName, setUserName] = useState('')
   const [passWord, setPassWord] = useState('')
-    
+
   return (
     <div className='user-page-login'>
       <div className='login_logo'>
@@ -26,7 +26,7 @@ const Login = (props) => {
         <div className='login_view'>
           <div
             className='login_input'
-            data-title="优云账号">
+            data-title="账号">
             <span><Icon type="user" /></span>
             <input onChange={(v) => {
               setUserName(v.target.value)
@@ -34,11 +34,11 @@ const Login = (props) => {
           </div>
           <div
             className='login_input'
-            data-title="优云密码">
+            data-title="密码">
             <span><Icon type="lock" /></span>
-            <input type="password" onChange={(v) => {
-              setPassWord(v.target.value)
-            }} />
+              <input type="password" onChange={(v) => {
+                setPassWord(v.target.value)
+              }} />
           </div>
           <p className='login_ts'>
             忘记密码？
@@ -65,7 +65,7 @@ const Login = (props) => {
                         role: d.role,
                         roleName: d.roleName,
                         realname: d.realname,
-                        mobile: d.mbile
+                        mobile: d.mobile
                       }
                       local_set(USER_INFO_ID, userInfo)
                       accountLogin(userInfo)
@@ -74,9 +74,9 @@ const Login = (props) => {
                 })
             }}>登录</Button>
         </div>
-        <p className='version'>
+        {/* <p className='version'>
           Vol.0.001 - 上海尚禾技术支持
-        </p>
+        </p> */}
       </div>
     </div>
   )

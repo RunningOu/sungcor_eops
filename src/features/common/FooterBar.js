@@ -9,7 +9,7 @@ export default (props) => {
     {name: '首页', route: '/', icon: (<Icon style={{ fontSize: '22px' }} type="home" />)},
     {name: '工单', route: '/order', icon: (<Icon style={{ fontSize: '22px' }} type="snippets" />)},
     {name: '资产', route: '/device', icon: (<Icon style={{ fontSize: '22px' }} type="codepen" />)},
-    {name: '监控', route: '/rmon', icon: (<Icon style={{ fontSize: '22px' }} type="monitor" />)},
+    // {name: '监控', route: '/rmon', icon: (<Icon style={{ fontSize: '22px' }} type="monitor" />)},
     {name: '个人', route: '/user', icon: (<Icon style={{ fontSize: '22px' }} type="user" />)},    
   ]
   return (

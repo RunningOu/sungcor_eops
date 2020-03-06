@@ -31,11 +31,12 @@ export default connect(undefined, mapDispatchToProps)((props) => {
   // const [classType, setClassType] = useState([])
   // const [selectedClass, setSelectedClass] = useState([{ code: "Camera", name: "摄像机" }])
   // const [selectedState, setSelectedState] = useState([])
+  const [devcieSearch, setDeviceSearch] = useState('')
   const [selectedClass] = useState([{ code: "Camera", name: "摄像机" }])
   const [selectedState] = useState([])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [count, setCount] = useState(0) // 列表总数
-  const [pageNum, setPageNum] = useState(1) // 列表分页下标
+  const [pageNum, setPageNum] = useState(0) // 列表分页下标
   const [loading, setLoading] = useState(false) // 列表加载中状态
   const [hasMore, setHasMore] = useState(true) // 列表加载中状态
 
@@ -49,12 +50,23 @@ export default connect(undefined, mapDispatchToProps)((props) => {
     setPageNum(current)
   }
   useEffect(() => {
+    setPageNum(0)
+    setHasMore(true)
+  }, [devcieSearch])
+  useEffect(() => {
     let conditions = []
     if (selectedClass.length) {
       conditions.push({
         field: 'classCode',
         value: selectedClass.map(classcode => classcode.code),
         operator: 'IN'
+      })
+    }
+    if (devcieSearch !== '') {
+      conditions.push({
+        field: 'name',
+        value: devcieSearch,
+        operator: 'LIKE'
       })
     }
     queryDeviceList({
@@ -67,11 +79,15 @@ export default connect(undefined, mapDispatchToProps)((props) => {
       if (d.hasOwnProperty('dataList')) {
         if (d.dataList.length !== 10) setHasMore(false)
         setCount(d.totalRecords)
-        setDeviceList(devlist => [...devlist, ...d.dataList])
+        if (pageNum > 0) {
+          setDeviceList(devlist => [...devlist, ...d.dataList])
+        }else {
+          setDeviceList([...d.dataList])
+        }
         console.log(d)
       }
     })
-  }, [selectedClass, selectedState, pageNum])
+  }, [selectedClass, selectedState, pageNum, devcieSearch])
   useEffect(() => {
     if (count > 0) message.info(`一共检索到${count}条记录`)
   }, [count])
@@ -80,13 +96,13 @@ export default connect(undefined, mapDispatchToProps)((props) => {
     <div className='order-page-select-device'>
       <HeaderBar title="选择设备" rightContent={<Button type='link' style={{ color: '#fff', position: 'relative', left: '14px' }} onClick={() => { history.go(-1) }}>确定</Button>} />
       <div className='search-bar'>
-        <Search className='search-input' placeholder={'请输入设备名称'} onSearch={value => console.log(value)} />
-        <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div>
+        <Search className='search-input' placeholder={'请输入设备名称'} onSearch={value => { setDeviceSearch(value) }} />
+        {/* <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div> */}
       </div>
       <div className='device-list'>
         <InfiniteScroll
           initialLoad={false}
-          pageStart={1}
+          pageStart={0}
           loadMore={handleInfiniteOnLoad}
           hasMore={!loading && hasMore}
           useWindow={false}
@@ -99,27 +115,33 @@ export default connect(undefined, mapDispatchToProps)((props) => {
                 className="device-item"
                 key={item.id}
                 actions={[
-                  <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
-                  <IconText type="tool" text={item.changsce} />]}
+                  <IconText type="api" text={_.find(deviceState, (v) => v.code === item.bxstatus).name} />,
+                  // <IconText type="tool" text={item.changsce} />
+                ]}
               >
                 <List.Item.Meta title={item.name} description={item.managementUnit} />
                 <Button className="btn" type="link" onClick={() => {
-                  props.actions.setForm({
-                    resource: [{
-                      name: item.name,
-                      className: item.className,
-                      status: 0,
-                      taskId: null,
-                      id: item.id
-                    }],
-                    fxpcs: item.managementUnit,
-                    wxdwmc: item.changsce,
-                    sbmc: item.name,
-                    deviceKey: item.serialNumber,
-                    deviceIP: item.ip,
-                    title: `${item.managementUnit} - ${item.name}`
-                  })
-                  history.go(-1);
+                  if(item.whcs) {
+                    props.actions.setForm({
+                      resource: [{
+                        name: item.name,
+                        className: item.className,
+                        status: 0,
+                        taskId: null,
+                        id: item.id
+                      }],
+                      fxpcs: item.managementUnit,
+                      wxdwmc: item.whcs[0].name,
+                      sbmc: item.name,
+                      deviceKey: item.serialNumber,
+                      deviceIP: item.ip,
+                      title: `${item.managementUnit} - ${item.name}`
+                    })
+                    history.go(-1);
+                  }else {
+                    message.error("设备信息不完善，报修失败。",() => { history.push("/") })
+                  }
+        
                 }}>点击选择</Button>
               </List.Item>)}
           />

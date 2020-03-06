@@ -16,7 +16,8 @@ import {
   resourceShow,
   dateTimeShow,
   multiSelShow,
-  OrderBuilder
+  OrderBuilder,
+  FileShow
 } from './components'
 import { HeaderBar } from '../common'
 import _ from 'lodash'
@@ -55,11 +56,12 @@ const Details = (props) => {
     }).then(d => {
       if(orderBefore[orderInfo.model_id] && orderBefore[orderInfo.model_id][orderInfo.activity_name]) {
         updateOrder({
-          "ticket_id": modal,
+          ticket_id: modal,
           form: {
             ...orderBefore[orderInfo.model_id][orderInfo.activity_name].update
           }
         })
+        fn(d)
       }else {
         fn(d)
       }
@@ -113,6 +115,7 @@ const Details = (props) => {
       <HeaderBar title="工单详情" />
       <div className='order'>
         <OrderBuilder meta={order} />
+        { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files}/> : null }
         <div className="handle">
           {
             orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
@@ -120,24 +123,22 @@ const Details = (props) => {
                 <>
                   <Button type="primary" block onClick={() => {
                     orderReceiving(() => {
+                      history.go(-1)
+                    })
+                  }}>接单</Button>
+                  <Button type="primary" block onClick={() => {
+                    orderReceiving(() => {
                       history.push(`${props.location.pathname}/handle${search}`)
                     })
                   }}>接单并处理</Button>
-                  <Button type="primary" block onClick={() => {
-                    orderReceiving(() => {
-                      history.go(-1)
-                    })
-                  }}>接单不处理</Button>
                 </> :
                 <>
                   <Button type="primary" block onClick={() => {
                     history.push(`${props.location.pathname}/handle${search}`)
-                  }}>处理工单</Button>
+                  }}>处理</Button>
                 </> :
               null
           }
-
-          <Button block onClick={() => { history.go(-1) }}>退出</Button>
         </div>
       </div>
 

@@ -1,17 +1,23 @@
 import moment from 'moment'
 export default {
-  '7ebd1cae5f4a46d6bee4e00464ccae90':{
+  'a50f0654c8a7465291f17769d4b61fae':{
     '开始': {
-      required: ['fxBxr', 'telephone', "bxfs", "fxGzlx"],
+      required: ['telephone', "bxfs", "fxGzlx"],
       readOnly: ['fxpcs', 'wxdwmc', 'sbmc', 'deviceKey', 'deviceIP', 'title'],
-      hidden: ['urgentLevel', 'bxfs', 'bxsj'],
+      hidden: ['title',
+      'resource', 
+      'fxpcs', 'wxdwmc', 'sbmc',
+      'urgentLevel', "deviceKey" ,
+      "deviceIP",'bxfs', 'bxsj', 
+      'jdsj'],
       defaultValue: {
-        fxBxr: 'username',
+        fxBxr: 'realname',
+        telephone: 'mobile',
         urgentLevel: 2,
         bxfs: "1",
         bxsj: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       },
-      userInfo: {fxpcs: 'roleName'}
+      userInfo: {fxpcs: 'realname'}
     },
     '内场接单': {
       hidden: ['title', 'fxBxr', 'telephone',
@@ -21,7 +27,7 @@ export default {
       "deviceIP",'bxfs', 'bxsj', 
       'jdsj', 'file'],
       defaultValue: {
-        receivedman: 'username',
+        receivedman: 'realname',
       },
       readOnly: ['receivedman']
     },
@@ -31,9 +37,9 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj', 'receivedman', 'jdphone', 'jdsj', 'pdms', 'solvingTime'],
+      'jdsj', 'receivedman', 'jdphone', 'jdsj', 'pdms', 'solvingTime','gpsm'],
       defaultValue: {
-        solver: 'username',
+        solver: 'realname',
         solvingTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       },
       readOnly: ['solver'],

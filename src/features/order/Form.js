@@ -76,12 +76,16 @@ const CreateOrder = Form.create({
 
   const [files, setFiles] = useState([]) //图片
   
+  useEffect(() => {
+    if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
+      history.push(`${props.location.pathname}/selectdevice`)
+    }
+  }, [orderModal,  history, props.order.form, props.location.pathname])
   useEffect(() => { 
     if(files.length) {
       let file = files[0]
       let reader = new FileReader()
-      reader.readAsDataURL(file)
-      console.log(file) 
+      reader.readAsDataURL(file) 
     }
   }, [files])
   useEffect(() => {
@@ -187,7 +191,7 @@ const CreateOrder = Form.create({
               ticket_source: "wchart",
               urgent_level: 2,
               title: props.order.form.title,
-              description: "",
+              description: props.order.form.ticketDesc || '',
               form: {
                 ...props.order.form
               },
@@ -198,7 +202,7 @@ const CreateOrder = Form.create({
               message.success({content:'创建成功', key:MESSAGE_KEY})
               if(files.length) {
                 message.loading({content:'开始上传图片……', key:MESSAGE_KEY})
-                files.map((i) => {
+                files.forEach((i) => {
                   let reader = new FileReader();
                   reader.readAsDataURL(i)
                   reader.onload = e => {

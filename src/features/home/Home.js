@@ -9,16 +9,23 @@ import {
   Carousel,
   Ribbon, 
   Repairs,
-  Notice
+  Notice,
+  Statistic,
+  Charts
 } from './components'
 
+import './Home.less'
+
 const Home = (props) => {
+  const { userInfo } = props
   return (
-    <div>
+    <div className="home-page-home">
       <Carousel /> 
-      <Ribbon />
+      <Ribbon role={userInfo.role?.menus.ConvenientMenu}/>
       <Repairs />
-      <Notice />
+      {/* <Notice /> */}
+      <Statistic role={userInfo.role?.menus.StatisticsView}/>
+      <Charts role={userInfo.role?.menus.ReportView}/>
       <FooterBar pathname={props.location.pathname}/>
     </div>
   )
@@ -27,6 +34,7 @@ const Home = (props) => {
 function mapStateToProps(state) {
   return {
     home: state.home,
+    userInfo: state.user.userAccountInfo,
   }
 }
 

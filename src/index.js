@@ -12,7 +12,7 @@ import './styles/common.less'
 
 const store = configStore()
 
-message.config({ top: '30%'})
+message.config({ top: '30%', duration: 1, maxCount: 1})
 
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
