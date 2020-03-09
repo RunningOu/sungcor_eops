@@ -13,6 +13,11 @@ import './SelectDevice.less'
 const { Search } = Input;
 // const { CheckableTag } = Tag;
 const deviceState = [{ name: '在用', code: 'using' }, { name: '维修', code: 'maintenanceInfo' }, { name: '拆除', code: 'demolish' }]
+function mapStateToProps(state) {
+  return {
+    userAccountInfo: state.user.userAccountInfo,
+  }
+}
 function mapDispatchToProps(dispatch) {
   return {
     actions: bindActionCreators({ ...actions }, dispatch),
@@ -24,9 +29,8 @@ const IconText = ({ type, text }) => (
     {text}
   </span>
 );
-export default connect(undefined, mapDispatchToProps)((props) => {
-  console.log(props)
-  const history = useHistory()
+export default connect(mapStateToProps, mapDispatchToProps)((props) => {
+  const { history, userAccountInfo } = props
   const [deviceList, setDeviceList] = useState([]) // 设备列表
   // const [classType, setClassType] = useState([])
   // const [selectedClass, setSelectedClass] = useState([{ code: "Camera", name: "摄像机" }])
@@ -52,7 +56,7 @@ export default connect(undefined, mapDispatchToProps)((props) => {
   useEffect(() => {
     setPageNum(0)
     setHasMore(true)
-  }, [devcieSearch])
+  }, [devcieSearch, userAccountInfo])
   useEffect(() => {
     let conditions = []
     if (selectedClass.length) {
@@ -69,6 +73,12 @@ export default connect(undefined, mapDispatchToProps)((props) => {
         operator: 'LIKE'
       })
     }
+    if(['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
+      if(userAccountInfo.depts.length) {
+        if(userAccountInfo.roleName === '派出所人员') conditions.push({ field: 'pcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
+        if(userAccountInfo.roleName === '设备厂商') conditions.push({ field: 'whcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
+      }
+    }
     queryDeviceList({
       needCount: true,
       pageNum,
@@ -76,7 +86,7 @@ export default connect(undefined, mapDispatchToProps)((props) => {
       conditions
     }).then(d => {
       setLoading(false)
-      if (d.hasOwnProperty('dataList')) {
+      if (d.hasOwnProperty('dataList') && userAccountInfo.roleName) {
         if (d.dataList.length !== 10) setHasMore(false)
         setCount(d.totalRecords)
         if (pageNum > 0) {
@@ -87,7 +97,7 @@ export default connect(undefined, mapDispatchToProps)((props) => {
         console.log(d)
       }
     })
-  }, [selectedClass, selectedState, pageNum, devcieSearch])
+  }, [selectedClass, selectedState, pageNum, devcieSearch, userAccountInfo])
   useEffect(() => {
     if (count > 0) message.info(`一共检索到${count}条记录`)
   }, [count])

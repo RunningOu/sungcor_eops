@@ -65,7 +65,8 @@ const Login = (props) => {
                         role: d.role,
                         roleName: d.roleName,
                         realname: d.realname,
-                        mobile: d.mobile
+                        mobile: d.mobile,
+                        depts: d.depts
                       }
                       local_set(USER_INFO_ID, userInfo)
                       accountLogin(userInfo)

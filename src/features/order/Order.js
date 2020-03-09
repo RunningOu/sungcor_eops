@@ -107,6 +107,7 @@ const Order = (props) => {
         "pageSize": 10
       }).then((d) => {
         setCount(d.count)
+        console.log(d)
         if (d.hasOwnProperty('list')) {
           if (d.list.length !== 10) setHasMore(false)
           if(pageNum === 1) {
@@ -194,7 +195,7 @@ const Order = (props) => {
             <div className='item' onClick={() => { history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}`) }}>
               <h2 className='title'>{item.title}</h2>
               <p className='description'>当前处理人：{item.executor.join('，')}</p>
-              <p className='date'>报修时间： <span>{item.formData.bxsj ? formatDate(new Date(item.formData.bxsj), 'YYYY-MM-DD hh:mm:ss') : ''}</span></p>
+              <p className='date'>报修时间： <span>{item.formData.bxsj ? formatDate(new Date(item.formData.bxsj), 'YYYY-MM-DD HH:mm:ss') : ''}</span></p>
               <p className='orderstate'>{item.activityName}</p>
             </div>
           )} />

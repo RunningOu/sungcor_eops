@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HeaderBar, FooterBar } from '../common'
 import { Tabs, Input, Icon, Drawer, Tag, List, message } from 'antd'
-// import { connect } from 'react-redux'
+import { connect } from 'react-redux'
 import _ from 'lodash'
 import InfiniteScroll from 'react-infinite-scroller';
 import { queryDeviceList } from '../../common/request'
@@ -35,7 +35,7 @@ const tagsFromDiviceType = ['设备种类1', '设备种类2', '设备种类3', '
 const tagsFromDiviceForm = ['旅顺公安所', '大庆公安所', '包头公安所', '上饶派出所', '象山派出所', '五道口派出所']
 
 const Device = (props) => {
-  const { history } = props
+  const { history, userAccountInfo} = props
   const [deviceList, setDeviceList] = useState([]) // 工单列表
 
   const [orderState, setOrderState] = useState("0")
@@ -53,7 +53,7 @@ const Device = (props) => {
   useEffect(() => {
     setPageNum(0)
     setHasMore(true)
-  }, [deviceSearch, orderState])
+  }, [deviceSearch, orderState, userAccountInfo])
   useEffect(() => {
     let conditions = [ ...tabsConfig[orderState]]
     if (deviceSearch !== '') {
@@ -62,6 +62,12 @@ const Device = (props) => {
         value: deviceSearch,
         operator: 'LIKE'
       })
+    }
+    if(['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
+      if(userAccountInfo.depts.length) {
+        if(userAccountInfo.roleName === '派出所人员') conditions.push({ field: 'pcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
+        if(userAccountInfo.roleName === '设备厂商') conditions.push({ field: 'whcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
+      }
     }
     queryDeviceList({
       needCount: true,
@@ -74,7 +80,7 @@ const Device = (props) => {
     }).then(d => {
       console.log(d)
       setCount(d.totalRecords)
-      if (d.hasOwnProperty('dataList')) {
+      if (d.hasOwnProperty('dataList') && userAccountInfo.roleName) {
         if (d.dataList.length !== 10) setHasMore(false)
         if (pageNum > 0) {
           setDeviceList(devlist => [...devlist, ...d.dataList])
@@ -84,7 +90,7 @@ const Device = (props) => {
         setLoading(false)
       }
     })
-  }, [pageNum, deviceSearch, orderState])
+  }, [pageNum, deviceSearch, orderState,userAccountInfo])
   useEffect(() => {
     if (count > 0) {
       message.success(`共有${count}条相关资产`)
@@ -187,5 +193,9 @@ const Device = (props) => {
     </div>
   )
 }
-
-export default Device
+function mapStateToProps(state) {
+  return {
+    userAccountInfo: state.user.userAccountInfo,
+  }
+}
+export default connect(mapStateToProps)(Device)
