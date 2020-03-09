@@ -22,7 +22,7 @@ const Home = (props) => {
     <div className="home-page-home">
       <Carousel /> 
       <Ribbon role={userInfo.role?.menus.ConvenientMenu}/>
-      <Repairs />
+      {/* <Repairs /> */}
       {/* <Notice /> */}
       <Statistic role={userInfo.role?.menus.StatisticsView}/>
       <Charts role={userInfo.role?.menus.ReportView}/>

@@ -5,6 +5,7 @@ import { IconFont } from '../../common';
 import './Ribbon.less';
 
 const base = {
+  "Repairs" : {name: '设备报修', icon: (<IconFont type="iconchuangjianbiao" />), path: { pathname: '/order/create' }},
   "MyToDo": { name: '待办工单', icon: (<IconFont type="iconweixiujilu" />), path: { pathname: '/order?state=1' } },
   "MyFlow": { name: '参与工单', icon: (<IconFont type="iconcanyu" />), path: { pathname: '/order?state=2'} },
   "Overdue": { name: '逾期工单', icon: (<IconFont type="iconyiyuqi" />), path: { pathname: '/order?state=4'} },
@@ -16,6 +17,7 @@ const base = {
 
 const Ribbon = function (props) {
   const { role } = props
+  console.log(role)
   const [fButton, setFButton] = useState([[1, 2, 3, 4, 5, 6]])
   const history = useHistory()
   useEffect(() => {
@@ -44,7 +46,7 @@ const Ribbon = function (props) {
                 return (
                   <div className='ribbon_fb' key={itemKey.name || i}>
                     <button onClick={() => { history.push(itemKey.path.pathname) }}>{itemKey.icon || '/'}</button>
-                    <p>{itemKey.name || ''}</p>
+                    <p>{list.name || ''}</p>
                   </div>
                 )
               }
