@@ -164,7 +164,11 @@ const CreateOrder = Form.create({
                   oldFiles.splice(index, 1)
                   return [...oldFiles]
                 })
+<<<<<<< HEAD
               }}
+=======
+              }}}
+>>>>>>> master
               beforeUpload={file => {
                 setFiles(oldFiles => [...oldFiles, file])
                 return false
