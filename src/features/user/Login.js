@@ -36,9 +36,9 @@ const Login = (props) => {
             className='login_input'
             data-title="密码">
             <span><Icon type="lock" /></span>
-              <input type="password" onChange={(v) => {
-                setPassWord(v.target.value)
-              }} />
+            <input type="password" onChange={(v) => {
+              setPassWord(v.target.value)
+            }} />
           </div>
           <p className='login_ts'>
             忘记密码？
@@ -68,18 +68,22 @@ const Login = (props) => {
                         mobile: d.mobile,
                         depts: d.depts
                       }
-                      local_set(USER_INFO_ID, userInfo)
-                      accountLogin(userInfo)
-                      history.push('/')
+                      if (!Object.keys(d.role.menus).length) {
+                        message.warning('该用户没有被授权,请联系管理人员。')
+                      }else {
+                        local_set(USER_INFO_ID, userInfo)
+                        accountLogin(userInfo)
+                        history.push('/')
+                      }
                     })
-                })
-            }}>登录</Button>
-        </div>
-        {/* <p className='version'>
+            })
+          }}>登录</Button>
+      </div>
+      {/* <p className='version'>
           Vol.0.001 - 上海尚禾技术支持
         </p> */}
-      </div>
     </div>
+    </div >
   )
 }
 

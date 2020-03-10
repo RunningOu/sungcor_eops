@@ -17,16 +17,6 @@ const App = props => {
 
     }
   }, [accountLogin, history])
-  useEffect(() => {
-    if (userInfo.username) {
-      if (!Object.keys(userInfo.role.menus).length) {
-        message.warning('该用户没有被授权,请联系管理人员。')
-        setTimeout(() => {
-          history.push('/user/login')
-        }, 0)
-      }
-    }
-  }, [userInfo, history])
   message.destroy()
   return (
     <div>

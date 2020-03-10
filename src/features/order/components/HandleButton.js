@@ -13,7 +13,7 @@ export default (props) => {
     if(groups && groups.key) {
       setVisible(true)
     }else {
-      handleForm({route_id:_.find(handle.handle_rules, r => r.name === children).route_id})
+      handleForm({route_id:_.find(handle.handle_rules, r => r.name === children).route_id}, children)
     }
   }
 
@@ -44,7 +44,7 @@ export default (props) => {
                   ...selectGroups
                 }
               }
-            })
+            }, children)
           }else {
             message.info('必须指定一个处理人或组')
           }

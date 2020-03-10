@@ -13,7 +13,7 @@ import {
   listSel,
   HandleButton
 } from './components'
-import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder } from '../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, wxMessage } from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -72,7 +72,7 @@ const HandleOrder = Form.create({
     return objToFields(props.order.form)
   }
 })((props) => {
-  const { location: { search }, match: { params: { modal } }, history } = props
+  const { location: { search }, match: { params: { modal } }, history, user: { userAccountInfo } } = props
   const [orderModal, setOrderModal] = useState({})
   const [meta, setMeta] = useState([])
   const [needFile, setNeedFile] = useState(false)
@@ -85,7 +85,7 @@ const HandleOrder = Form.create({
 
   const query = new URLSearchParams(search)
 
-  function handleForm(handle_rules) {
+  function handleForm(handle_rules, name) {
     let pass = true
     const query = new URLSearchParams(search)
     props.form.validateFieldsAndScroll((err, value) => {
@@ -109,7 +109,7 @@ const HandleOrder = Form.create({
         ...handle_rules
       }
     }).then(d => {
-      message.success({ content: '创建成功', key: MESSAGE_KEY })
+      if (name !== '维修完成关单') wxMessage({ id: userAccountInfo.userId })
       if (files.length) {
         message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
         files.forEach((i) => {
@@ -235,7 +235,8 @@ const HandleOrder = Form.create({
           </div> : null}
         <div className="handle-button-group">
           {orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm}>{d.name}</HandleButton>))}
-          {[3,6,8].includes(orderModal.sequence) ?
+          {/* {[3,6,8].includes(orderModal.sequence) ? */}
+          {[3, 4, 6].includes(orderModal.sequence) ?
             <>
               <Button block onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
               <Modal
