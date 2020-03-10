@@ -235,8 +235,8 @@ const HandleOrder = Form.create({
           </div> : null}
         <div className="handle-button-group">
           {orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm}>{d.name}</HandleButton>))}
-          {/* {[3,6,8].includes(orderModal.sequence) ? */}
-          {[3, 4, 6].includes(orderModal.sequence) ?
+          {[3,6,8].includes(orderModal.sequence) ?
+          // {[3, 4, 6].includes(orderModal.sequence) ?
             <>
               <Button block onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
               <Modal
