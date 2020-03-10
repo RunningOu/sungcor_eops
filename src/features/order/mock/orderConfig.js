@@ -29,6 +29,7 @@ export default {
       'jdsj', 'file'],
       defaultValue: {
         receivedman: 'realname',
+        jdphone: 'mobile',
       },
       readOnly: ['receivedman']
     },
@@ -53,7 +54,7 @@ export default {
       "deviceIP",'bxfs', 'bxsj', 
       'jdsj', 'receivedman', 'jdphone', 'jdsj',
       'pdms', 'solvingTime',
-      'gpsm', 'solver', 'solverphone', 'solveResult',
+      'gpsm', 'solver', 'solveResult',
       'problemReason', 'solvent',
       'file', 'acknowledgetime'
       ],
