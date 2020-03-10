@@ -30,7 +30,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 export default connect(mapStateToProps, mapDispatchToProps)((props) => {
-  const { history, userAccountInfo } = props
+  const { history, userAccountInfo, match:{params: {modal}} } = props
   const [deviceList, setDeviceList] = useState([]) // 设备列表
   // const [classType, setClassType] = useState([])
   // const [selectedClass, setSelectedClass] = useState([{ code: "Camera", name: "摄像机" }])
@@ -104,7 +104,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
 
   return (
     <div className='order-page-select-device'>
-      <HeaderBar title="选择设备" rightContent={<Button type='link' style={{ color: '#fff', position: 'relative', left: '14px' }} onClick={() => { history.go(-1) }}>确定</Button>} />
+      <HeaderBar title="选择设备"/>
       <div className='search-bar'>
         <Search className='search-input' placeholder={'请输入设备名称'} onSearch={value => { setDeviceSearch(value) }} />
         {/* <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div> */}
@@ -147,7 +147,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                       deviceIP: item.ip,
                       title: `${item.managementUnit} - ${item.name}`
                     })
-                    history.go(-1);
+                    history.push('/order/create/form/' + modal);
                   }else {
                     message.error("设备信息不完善，报修失败。",() => { history.push("/") })
                   }

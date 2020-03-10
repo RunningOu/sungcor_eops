@@ -224,7 +224,10 @@ const HandleOrder = Form.create({
               fileList={files}
               onRemove={file => {
                 const index = files.indexOf(file);
-                setFiles(oldFiles => [...oldFiles.splice(index, 1)])
+                setFiles(oldFiles => {
+                  oldFiles.splice(index, 1)
+                  return [...oldFiles]
+                })
               }}
               beforeUpload={file => {
                 setFiles(oldFiles => [...oldFiles, file])

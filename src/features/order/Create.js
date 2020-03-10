@@ -54,7 +54,7 @@ const Create = (props) => {
                 urgent_level: 2
               })
               props.actions.clearForm()
-              history.push('create/form/' + selectedModal) 
+              history.push('create/form/' + selectedModal + '/selectdevice') 
             }
           }}>
             下一步<Icon type="right" />
