@@ -4,7 +4,7 @@ export default {
   '7ebd1cae5f4a46d6bee4e00464ccae90':{
     '开始': {
       required: ['telephone', "bxfs", "fxGzlx"],
-      readOnly: ['fxpcs', 'wxdwmc', 'sbmc', 'deviceKey', 'deviceIP', 'title'],
+      readOnly: ['fxpcs', 'wxdwmc', 'sbmc', 'deviceKey', 'deviceIP', 'title', 'xmmc'],
       hidden: ['title',
       'resource', 
       'fxpcs', 'wxdwmc', 'sbmc',
@@ -26,7 +26,7 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj', 'file'],
+      'jdsj', 'file', 'xmmc'],
       defaultValue: {
         receivedman: 'realname',
         jdphone: 'mobile',
@@ -39,7 +39,7 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj', 'receivedman', 'jdphone', 'jdsj', 'pdms', 'solvingTime','gpsm'],
+      'jdsj', 'receivedman', 'jdphone', 'jdsj', 'pdms', 'solvingTime','gpsm', 'xmmc'],
       defaultValue: {
         solver: 'realname',
         solvingTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
@@ -56,7 +56,7 @@ export default {
       'pdms', 'solvingTime',
       'gpsm', 'solver', 'solveResult',
       'problemReason', 'solvent',
-      'file', 'acknowledgetime'
+      'file', 'acknowledgetime', 'xmmc'
       ],
       defaultValue: {
         acknowledgetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')

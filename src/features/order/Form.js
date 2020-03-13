@@ -164,7 +164,7 @@ const CreateOrder = Form.create({
                   oldFiles.splice(index, 1)
                   return [...oldFiles]
                 })
-              }}}
+              }}
               beforeUpload={file => {
                 setFiles(oldFiles => [...oldFiles, file])
                 return false
@@ -203,7 +203,7 @@ const CreateOrder = Form.create({
               }
             }).then(da => {
               message.success({content:'创建成功', key:MESSAGE_KEY})
-              wxMessage({id: userAccountInfo.userId})
+              wxMessage({id: da.data.id})
               if(files.length) {
                 message.loading({content:'开始上传图片……', key:MESSAGE_KEY})
                 files.forEach((i) => {
