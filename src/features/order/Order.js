@@ -195,7 +195,7 @@ const Order = (props) => {
             <div className='item' onClick={() => { history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}`) }}>
               <h2 className='title'>{item.title}</h2>
               <p className='description'>当前处理人：{item.executor.join('，')}</p>
-              <p className='date'>报修时间： <span>{item.formData.bxsj ? formatDate(new Date(item.formData.bxsj.replace("-", "/")), 'YYYY-MM-DD HH:mm:ss') : ''}</span></p>
+              <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
               <p className='orderstate'>{item.activityName}</p>
             </div>
           )} />

@@ -109,7 +109,7 @@ const HandleOrder = Form.create({
         ...handle_rules
       }
     }).then(d => {
-      if (name !== '维修完成关单') wxMessage({ id: userAccountInfo.userId })
+      if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
       if (files.length) {
         message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
         files.forEach((i) => {

@@ -73,10 +73,10 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
         operator: 'LIKE'
       })
     }
-    if(['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
-      if(userAccountInfo.depts.length) {
-        if(userAccountInfo.roleName === '派出所人员') conditions.push({ field: 'pcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
-        if(userAccountInfo.roleName === '设备厂商') conditions.push({ field: 'whcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
+    if (['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
+      if (userAccountInfo.depts.length) {
+        if (userAccountInfo.roleName === '派出所人员') conditions.push({ field: 'pcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
+        if (userAccountInfo.roleName === '设备厂商') conditions.push({ field: 'whcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
       }
     }
     queryDeviceList({
@@ -91,7 +91,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
         setCount(d.totalRecords)
         if (pageNum > 0) {
           setDeviceList(devlist => [...devlist, ...d.dataList])
-        }else {
+        } else {
           setDeviceList([...d.dataList])
         }
         console.log(d)
@@ -125,13 +125,22 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 className="device-item"
                 key={item.id}
                 actions={[
-                  <IconText type="api" text={_.find(deviceState, (v) => v.code === item.bxstatus).name} />,
+                  <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
                   // <IconText type="tool" text={item.changsce} />
                 ]}
               >
                 <List.Item.Meta title={item.name} description={item.managementUnit} />
                 <Button className="btn" type="link" onClick={() => {
-                  if(item.whcs) {
+                  if (item.cameraState !== "using") {
+                    if (item.cameraState === "maintenanceInfo") {
+                      message.error(`设备正在维修，无需重复报修`)
+                    }
+                    if (item.cameraState === "demolish") {
+                      message.error(`设备已拆除`)
+                    }
+                    return
+                  }
+                  if (item.whcs) {
                     props.actions.setForm({
                       resource: [{
                         name: item.name,
@@ -145,13 +154,14 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                       sbmc: item.name,
                       deviceKey: item.serialNumber,
                       deviceIP: item.ip,
-                      title: `${item.managementUnit} - ${item.name}`
+                      title: `${item.managementUnit} - ${item.name}`,
+                      xmmc: item.projectName
                     })
-                    history.push('/order/create/form/' + modal);
-                  }else {
-                    message.error("设备信息不完善，报修失败。",() => { history.push("/") })
+                    history.go(-1);
+                  } else {
+                    message.error("设备信息不完善，报修失败。", () => { history.push("/") })
                   }
-        
+
                 }}>点击选择</Button>
               </List.Item>)}
           />

@@ -1,24 +1,46 @@
 import axios from './httpConfig'
 
+// WX code => openId 接口
+export const wxGetAccessToken = async ({code}) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/wx/api/getAccessToken',
+    params: {
+      code
+    }
+  })
+  return data
+}
+// wx 快速登录
+export const wxQuickLogin = async ({openId}) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/user/getUserInfoByOpenId',
+    params: {
+      openId
+    }
+  })
+  return data
+}
 // 登录
-export const login = async ({ userName, passWord }) => {
+export const login = async (d) => {
   const { data } = await axios({
     method: 'post',
     url: '/user/login',
     data: {
-      "uyunUserName": userName,
-      "uyunPassWord": passWord
+      ...d
     }
   })
   return data
 }
 // 查询用户信息 
-export const queryUserInfo = async ({ userId }) => {
+export const queryUserInfo = async (d) => {
   const { data } = await axios({
     method: 'get',
     url: '/user/view',
     params: {
-      userId: userId
+      userId: d.userId,
+      openId: d.openId
     }
   })
   return data
