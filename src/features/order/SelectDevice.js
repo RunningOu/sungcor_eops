@@ -157,9 +157,9 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                       title: `${item.managementUnit} - ${item.name}`,
                       xmmc: item.projectName
                     })
-                    history.go(-1);
-                  } else {
-                    message.error("设备信息不完善，报修失败。", () => { history.push("/") })
+                    history.push('/order/create/form/' + modal);
+                  }else {
+                    message.error("设备信息不完善，报修失败。",() => { history.push("/") })
                   }
 
                 }}>点击选择</Button>

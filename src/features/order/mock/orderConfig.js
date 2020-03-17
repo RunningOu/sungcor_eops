@@ -16,7 +16,7 @@ export default {
         telephone: 'mobile',
         urgentLevel: 2,
         bxfs: "1",
-        bxsj: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        bxsj:() => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       },
       userInfo: {fxpcs: 'realname'}
     },
@@ -42,7 +42,7 @@ export default {
       'jdsj', 'receivedman', 'jdphone', 'jdsj', 'pdms', 'solvingTime','gpsm', 'xmmc'],
       defaultValue: {
         solver: 'realname',
-        solvingTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        solvingTime: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       },
       readOnly: ['solver'],
     },
@@ -59,7 +59,7 @@ export default {
       'file', 'acknowledgetime', 'xmmc'
       ],
       defaultValue: {
-        acknowledgetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        acknowledgetime: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       }
     }
   }

@@ -139,7 +139,11 @@ const CreateOrder = Form.create({
         if (props.user.userAccountInfo.hasOwnProperty(value)) {
           defaultForm[key] = props.user.userAccountInfo[value]
         } else {
-          defaultForm[key] = value
+          if(typeof value === "function") {
+            defaultForm[key] = value()
+          }else {
+            defaultForm[key] = value
+          }
         }
       }
       props.actions.setForm(defaultForm)
