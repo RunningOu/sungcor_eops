@@ -13,7 +13,7 @@ import {
   listSel,
   HandleButton
 } from './components'
-import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, wxMessage } from '../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder,  } from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -109,7 +109,6 @@ const HandleOrder = Form.create({
         ...handle_rules
       }
     }).then(d => {
-      if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
       if (files.length) {
         message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
         files.forEach((i) => {
@@ -272,7 +271,7 @@ const HandleOrder = Form.create({
                 }}
                 onCancel={() => { setChangeExecutor(false) }}>
                 <div style={{ padding: "10px 0" }}>
-                  <span>选择改派人:</span>
+                  <span>选择改派人: </span>
                   {
                     orderBefore.changeExecutor[orderModal.sequence].map(e =>
                       <CheckableTag

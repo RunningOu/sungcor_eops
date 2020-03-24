@@ -12,7 +12,7 @@ import {
   resource,
   listSel
 } from './components'
-import { queryOrderModel, createOrder, updateImage, wxMessage } from '../../common/request'
+import { queryOrderModel, createOrder, updateImage } from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -207,7 +207,6 @@ const CreateOrder = Form.create({
               }
             }).then(da => {
               message.success({content:'创建成功', key:MESSAGE_KEY})
-              wxMessage({id: da.data.id})
               if(files.length) {
                 message.loading({content:'开始上传图片……', key:MESSAGE_KEY})
                 files.forEach((i) => {

@@ -12,16 +12,18 @@ export default {
     8: [
       {name: "梁栋", id: "6ebe9bfe346d4011b8ecd9a090c7227c" }, 
       {name: "沈啸", id: "f1d7dfc93e1e4a189ebb63985ee3bb80" }, 
+      {name: "刘军", id: "acac12649ce647f18c53551c25f4a403" },
+      {name: "潘惠斌", id: "893487681844413db5422dc0b55b94d5" },
+      {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
     ],
-    3: [
+    6: [
       {name: "张辰磊", id: "7e8ad09a133646c18c56954c382fc8cf" }, 
-      {name: "王卓越", id: "c6b0a1173d7b47b4bb8865231432a036" }, 
-      {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" }, 
+    ],
+    3:[
+      {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
       {name: "李晓伟", id: "e33d11668c5b4fb3981cebeb1df73ae1" }, 
       {name: "李明", id: "faaea1f9dd7645939e6fb7b04eec8f64" }, 
-    ],
-    6:[
-      {name: "刘军", id: "acac12649ce647f18c53551c25f4a403" }, 
+      {name: "王卓越", id: "c6b0a1173d7b47b4bb8865231432a036" }, 
     ]
   }
   // changeExecutor: {
