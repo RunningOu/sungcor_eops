@@ -126,7 +126,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 key={item.id}
                 actions={[
                   <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
-                  // <IconText type="tool" text={item.changsce} />
+                  <IconText type="tool" text={item.whcs[0].name} />
                 ]}
               >
                 <List.Item.Meta title={item.name} description={item.managementUnit} />
