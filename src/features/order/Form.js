@@ -142,6 +142,10 @@ const CreateOrder = Form.create({
           defaultForm[key] = value
         }
       }
+      if (['超级管理员'].includes(props.user.userAccountInfo.roleName)) {
+        if(defaultForm.hasOwnProperty('fxBxr')) delete defaultForm.fxBxr
+        if(defaultForm.hasOwnProperty('telephone')) delete defaultForm.telephone
+      }
       props.actions.setForm(defaultForm)
     }
   }, [props.actions, props.user, orderModal, modal])

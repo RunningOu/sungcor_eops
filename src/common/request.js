@@ -214,6 +214,18 @@ export const queryDeviceById = async (id) => {
   return data
 }
 
+// 查询单个设备的归属人 （用于超级账户权限
+export const queryDeviceByManager = async (id) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/cmdb/getDeptInfo',
+    params: {
+      id:id
+    }
+  })
+  return data
+}
+
 // 查询全部设备classcode
 export const queryDeviceByClassCode = async (codes) => {
   const { data } = await axios({
