@@ -142,7 +142,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                   }
                   if (item.whcs) {
                     if (['超级管理员'].includes(userAccountInfo.roleName)) {
-                      queryDeviceByManager(item.pcs[0].uid).then(d => {
+                      queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
                         props.actions.setForm({
                           resource: [{
                             name: item.name,
@@ -151,8 +151,9 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                             taskId: null,
                             id: item.id
                           }],
-                          fxBxr: 1,
-                          telephone: 1,
+                          apikey: d.apikey,
+                          fxBxr: d.realname,
+                          telephone: d.mobile,
                           fxpcs: item.managementUnit,
                           wxdwmc: item.whcs[0].name,
                           sbmc: item.name,

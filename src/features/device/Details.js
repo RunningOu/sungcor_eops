@@ -29,12 +29,11 @@ export default (props) => {
             }
 
           </Descriptions.Item>
-          <Descriptions.Item label="编号">{device.code}</Descriptions.Item>
+          {/* <Descriptions.Item label="编号">{device.code}</Descriptions.Item> */}
           <Descriptions.Item label="管理单位">{device.managementUnit}</Descriptions.Item>
           <Descriptions.Item label="所在位置">{device.address}</Descriptions.Item>
-          {/* <Descriptions.Item label="键盘编号">650100196</Descriptions.Item> */}
+          <Descriptions.Item label="键盘编号">{device.serialNumber}</Descriptions.Item>
           <Descriptions.Item label="对应储存设备IP">{device.ip}</Descriptions.Item>
-          <Descriptions.Item label="对应储存设备通道">{device.ip}</Descriptions.Item>
           <Descriptions.Item label="设备类型">{device.className}</Descriptions.Item>
           {/* <Descriptions.Item label="设备功能">卡口枪机</Descriptions.Item> */}
           <Descriptions.Item label="设备型号">{device.cameraModel}</Descriptions.Item>

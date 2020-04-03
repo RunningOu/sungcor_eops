@@ -183,6 +183,7 @@ const CreateOrder = Form.create({
           block
           onClick={() => {
             let pass = true
+            let params = {}
             props.form.validateFieldsAndScroll((err, value) => {
               if (err) {
                 pass = false
@@ -191,6 +192,9 @@ const CreateOrder = Form.create({
             if (!pass) {
               message.warning('请填写完全工单信息！')
               return
+            }
+            if (props.order.form.hasOwnProperty('apikey')) {
+              params.apikey = props.order.form.apikey
             }
             message.loading({content:'创建工单中……', key:MESSAGE_KEY})
             createOrder({
@@ -205,7 +209,7 @@ const CreateOrder = Form.create({
               handle_rules: {
                 route_id: orderModal.handle_rules[0].route_id
               }
-            }).then(da => {
+            }, params).then(da => {
               message.success({content:'创建成功', key:MESSAGE_KEY})
               wxMessage({id: da.data.id})
               if(files.length) {
@@ -223,7 +227,6 @@ const CreateOrder = Form.create({
                     })
                   }
                 })  
-              
                 history.push('/order')
               }else {
                 history.push('/order')

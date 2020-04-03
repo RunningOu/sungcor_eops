@@ -33,6 +33,17 @@ export const login = async (d) => {
   })
   return data
 }
+// 修改密码
+export const passwordChange = async (d) => {
+  const { data } = await axios({
+    method: 'post',
+    url: '/user/updatePwd',
+    data: {
+      ...d
+    }
+  })
+  return data
+}
 // 查询用户信息 
 export const queryUserInfo = async (d) => {
   const { data } = await axios({
@@ -47,10 +58,13 @@ export const queryUserInfo = async (d) => {
 }
 
 // 创建工单
-export const createOrder = async (d) => {
+export const createOrder = async (d, p={}) => {
   const data = await axios({
     method: 'post',
     url: '/ticket/createTicket',
+    params: {
+      ...p
+    },
     data: {
       ...d
     }

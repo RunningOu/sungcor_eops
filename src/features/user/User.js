@@ -46,6 +46,12 @@ const User = (props) => {
         <h4 className="list-title">账户相关</h4>
         <List className="handle-list" title="账户相关">
           <Item onClick={() => {
+            history.push('/user/password')
+          }}>
+            <Item.Meta title={(<div className="item-title"><Icon type="barcode" />修改密码</div>)} />
+            <div><Icon type="right" /></div>
+          </Item>
+          <Item onClick={() => {
             localStorage.removeItem(USER_INFO_ID)
             history.push('/user/login')
           }}>
