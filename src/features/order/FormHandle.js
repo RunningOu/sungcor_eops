@@ -244,15 +244,9 @@ const HandleOrder = Form.create({
             </Upload>
           </div> : null}
         <div className="handle-button-group">
-<<<<<<< HEAD
           {orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm}>{d.name}</HandleButton>))}
           {[3,6,8].includes(orderModal.sequence) ?
           // {[3, 4, 6].includes(orderModal.sequence) ?
-=======
-          {orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
-          {/* {[3,6,8].includes(orderModal.sequence) ? */}
-          {[3, 4, 6].includes(orderModal.sequence) ?
->>>>>>> master
             <>
               <Button block onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
               <Modal

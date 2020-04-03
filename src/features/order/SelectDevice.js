@@ -141,27 +141,6 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     return
                   }
                   if (item.whcs) {
-<<<<<<< HEAD
-                    props.actions.setForm({
-                      resource: [{
-                        name: item.name,
-                        className: item.className,
-                        status: 0,
-                        taskId: null,
-                        id: item.id
-                      }],
-                      fxpcs: item.managementUnit,
-                      wxdwmc: item.whcs[0].name,
-                      sbmc: item.name,
-                      deviceKey: item.serialNumber,
-                      deviceIP: item.ip,
-                      title: `${item.managementUnit} - ${item.name}`,
-                      xmmc: item.projectName
-                    })
-                    history.push('/order/create/form/' + modal);
-                  }else {
-                    message.error("设备信息不完善，报修失败。",() => { history.push("/") })
-=======
                     if (['超级管理员'].includes(userAccountInfo.roleName)) {
                       queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
                         props.actions.setForm({
@@ -207,7 +186,6 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     }
                   } else {
                     message.error("设备信息不完善，报修失败。", () => { history.push("/") })
->>>>>>> master
                   }
 
                 }}>点击选择</Button>
