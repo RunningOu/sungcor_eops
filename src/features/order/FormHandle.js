@@ -83,10 +83,14 @@ const HandleOrder = Form.create({
   const [changeRemark, setChangeRemark] = useState('')
   const [changeTarget, setChangeTarget] = useState(null)
 
+  const [showPutUp, setShowPutUp] = useState(false)
+  const [putUpRemark, setPutUpRemark] = useState('')
+
   const query = new URLSearchParams(search)
 
-  function handleForm(handle_rules, name) {
+  function handleForm(handle_rules, name, extraForm = {}) {
     let pass = true
+    let form = { ...props.order.form, ...extraForm }
     const query = new URLSearchParams(search)
     props.form.validateFieldsAndScroll((err, value) => {
       if (err) {
@@ -103,7 +107,7 @@ const HandleOrder = Form.create({
       activity_id: query.get('actId'),//当前环节id
       handle_type: "1",
       form: {
-        ...props.order.form
+        ...form
       },
       handle_rules: {
         ...handle_rules
@@ -208,8 +212,8 @@ const HandleOrder = Form.create({
     }
   }, [props.actions, props.user, orderModal, modal, search])
   useEffect(() => {
-    console.log(changeTarget)
-  }, [changeTarget])
+    console.log(orderInfo, orderModal)
+  }, [orderInfo, orderModal])
 
 
   return (
@@ -240,9 +244,15 @@ const HandleOrder = Form.create({
             </Upload>
           </div> : null}
         <div className="handle-button-group">
+<<<<<<< HEAD
           {orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm}>{d.name}</HandleButton>))}
           {[3,6,8].includes(orderModal.sequence) ?
           // {[3, 4, 6].includes(orderModal.sequence) ?
+=======
+          {orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
+          {/* {[3,6,8].includes(orderModal.sequence) ? */}
+          {[3, 4, 6].includes(orderModal.sequence) ?
+>>>>>>> master
             <>
               <Button block onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
               <Modal
@@ -287,6 +297,33 @@ const HandleOrder = Form.create({
                     )}
                 </div>
                 <Input.TextArea rows="3" placeholder="改派说明" value={changeRemark} onChange={e => { setChangeRemark(e.target.value) }} />
+              </Modal>
+            </>
+            : null}
+          {orderInfo.activity_name === '内场接单' ?
+            <>
+              <Button block onClick={() => { setShowPutUp(true) }}>挂起</Button>
+              <Modal
+                visible={showPutUp}
+                title="填写挂起原因"
+                onOk={() => {
+                  if(putUpRemark !== '') {
+                    updateOrder({
+                      ticket_id: modal,
+                      form: {
+                        sfbx: 'ygq',
+                        gqyy: putUpRemark
+                      }
+                    }).then(() => {
+                      history.push('/order')
+                    })
+                  }else {
+                    message.warning('请填写挂起原因')
+                  }
+                }}
+                onCancel={() => {setShowPutUp(false)}}
+                >
+                <Input.TextArea rows="3" placeholder="挂起原因" value={putUpRemark} onChange={e => { setPutUpRemark(e.target.value) }} />
               </Modal>
             </>
             : null}

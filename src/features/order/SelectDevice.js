@@ -7,7 +7,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import * as actions from './redux/actions'
 import { HeaderBar } from '../common'
 import _ from 'lodash'
-import { queryDeviceList } from '../../common/request'
+import { queryDeviceList, queryDeviceByManager } from '../../common/request'
 
 import './SelectDevice.less'
 const { Search } = Input;
@@ -141,6 +141,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     return
                   }
                   if (item.whcs) {
+<<<<<<< HEAD
                     props.actions.setForm({
                       resource: [{
                         name: item.name,
@@ -160,6 +161,53 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     history.push('/order/create/form/' + modal);
                   }else {
                     message.error("设备信息不完善，报修失败。",() => { history.push("/") })
+=======
+                    if (['超级管理员'].includes(userAccountInfo.roleName)) {
+                      queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
+                        props.actions.setForm({
+                          resource: [{
+                            name: item.name,
+                            className: item.className,
+                            status: 0,
+                            taskId: null,
+                            id: item.id
+                          }],
+                          apikey: d.apikey,
+                          fxBxr: d.realname,
+                          telephone: d.mobile,
+                          fxpcs: item.managementUnit,
+                          wxdwmc: item.whcs[0].name,
+                          sbmc: item.name,
+                          deviceKey: item.serialNumber,
+                          deviceIP: item.ip,
+                          title: `${item.managementUnit} - ${item.name}`,
+                          xmmc: item.projectName
+                        })
+                        history.go(-1);
+                      })
+                      return
+                    } else {
+                      props.actions.setForm({
+                        resource: [{
+                          name: item.name,
+                          className: item.className,
+                          status: 0,
+                          taskId: null,
+                          id: item.id
+                        }],
+                        fxpcs: item.managementUnit,
+                        wxdwmc: item.whcs[0].name,
+                        sbmc: item.name,
+                        deviceKey: item.serialNumber,
+                        deviceIP: item.ip,
+                        title: `${item.managementUnit} - ${item.name}`,
+                        xmmc: item.projectName
+                      })
+                      history.go(-1);
+                    }
+                  } else {
+                    message.error("设备信息不完善，报修失败。", () => { history.push("/") })
+>>>>>>> master
                   }
 
                 }}>点击选择</Button>

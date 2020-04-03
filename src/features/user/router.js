@@ -1,4 +1,4 @@
-import { User, Login } from './'
+import { User, Login, Password } from './'
 
 export default {
   path: '/user',
@@ -13,6 +13,10 @@ export default {
       path: 'Login',
       name: 'Login',
       component: Login,
+    },{
+      path: 'Password',
+      name: 'Password',
+      component: Password,
     }
   ],
 }

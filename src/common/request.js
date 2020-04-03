@@ -33,6 +33,17 @@ export const login = async (d) => {
   })
   return data
 }
+// 修改密码
+export const passwordChange = async (d) => {
+  const { data } = await axios({
+    method: 'post',
+    url: '/user/updatePwd',
+    data: {
+      ...d
+    }
+  })
+  return data
+}
 // 查询用户信息 
 export const queryUserInfo = async (d) => {
   const { data } = await axios({
@@ -47,10 +58,13 @@ export const queryUserInfo = async (d) => {
 }
 
 // 创建工单
-export const createOrder = async (d) => {
+export const createOrder = async (d, p={}) => {
   const data = await axios({
     method: 'post',
     url: '/ticket/createTicket',
+    params: {
+      ...p
+    },
     data: {
       ...d
     }
@@ -198,6 +212,18 @@ export const queryDeviceById = async (id) => {
     url: '/cmdb/get',
     params: {
       id: id
+    }
+  })
+  return data
+}
+
+// 查询单个设备的归属人 （用于超级账户权限
+export const queryDeviceByManager = async (id) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/cmdb/getDeptInfo',
+    params: {
+      id:id
     }
   })
   return data

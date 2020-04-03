@@ -17,7 +17,7 @@ Axios.interceptors.request.use(config => {
   // }
   config.params = config.params? config.params : {}
   if(local_get(USER_INFO_ID) && local_get(USER_INFO_ID).apiKey) {
-    config.params['apikey'] = local_get(USER_INFO_ID).apiKey
+    if(!config.params['apikey']) config.params['apikey'] = local_get(USER_INFO_ID).apiKey
   }
   return config
 }, error => {

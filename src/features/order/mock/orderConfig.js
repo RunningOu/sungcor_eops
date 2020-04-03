@@ -26,7 +26,7 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj', 'file', 'xmmc'],
+      'jdsj', 'file', 'xmmc', 'sfbx', 'gqyy'],
       defaultValue: {
         receivedman: 'realname',
         jdphone: 'mobile',
@@ -39,12 +39,26 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj', 'receivedman', 'jdphone', 'jdsj', 'pdms', 'solvingTime','gpsm', 'xmmc'],
+      'jdsj', 'receivedman', 'jdphone', 'jdsj'
+      , 'pdms', 'solvingTime','gpsm', 'xmmc'
+      , 'sfbx', 'gqyy'],
       defaultValue: {
         solver: 'realname',
         solvingTime: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       },
       readOnly: ['solver'],
+    },
+    '内场审核': {
+      hidden: ['title', 'fxBxr', 'telephone',
+      'resource', 'fxGzlx', 'ticketDesc', 
+      'fxpcs', 'wxdwmc', 'sbmc',
+      'urgentLevel', "deviceKey" ,
+      "deviceIP",'bxfs', 'bxsj', 
+      'jdsj', 'receivedman', 'jdphone', 'jdsj',
+      'pdms', 'solvingTime',
+      'gpsm', 'solver', 'solveResult',
+      'problemReason', 'solvent',
+      'file', 'acknowledgetime', 'xmmc', 'sfbx', "solverphone"],
     },
     '用户确认': {
       hidden: ['title', 'fxBxr', 'telephone',
@@ -56,7 +70,7 @@ export default {
       'pdms', 'solvingTime',
       'gpsm', 'solver', 'solveResult',
       'problemReason', 'solvent',
-      'file', 'acknowledgetime', 'xmmc'
+      'file', 'acknowledgetime', 'xmmc', 'sfbx', 'gqyy'
       ],
       defaultValue: {
         acknowledgetime: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
