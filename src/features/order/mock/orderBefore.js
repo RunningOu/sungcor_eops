@@ -1,6 +1,6 @@
 import moment from 'moment'
 export default { 
-  'a50f0654c8a7465291f17769d4b61fae':{
+  'e2fa1a08e5b54847b00fc614378703d8':{
   // '7ebd1cae5f4a46d6bee4e00464ccae90':{
     '内场接单': {
       update: {
@@ -9,17 +9,17 @@ export default {
     }
   },
   changeExecutor: {
-    8: [
+    3: [
       {name: "梁栋", id: "6ebe9bfe346d4011b8ecd9a090c7227c" }, 
       {name: "沈啸", id: "f1d7dfc93e1e4a189ebb63985ee3bb80" }, 
       {name: "刘军", id: "acac12649ce647f18c53551c25f4a403" },
       {name: "潘惠斌", id: "893487681844413db5422dc0b55b94d5" },
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
     ],
-    6: [
+    4: [
       {name: "张辰磊", id: "7e8ad09a133646c18c56954c382fc8cf" }, 
     ],
-    3:[
+    6:[
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
       {name: "李晓伟", id: "e33d11668c5b4fb3981cebeb1df73ae1" }, 
       {name: "李明", id: "faaea1f9dd7645939e6fb7b04eec8f64" }, 

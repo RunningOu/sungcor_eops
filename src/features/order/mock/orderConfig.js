@@ -1,6 +1,6 @@
 import moment from 'moment'
 export default {
-  'a50f0654c8a7465291f17769d4b61fae':{
+  'e2fa1a08e5b54847b00fc614378703d8':{
   // '7ebd1cae5f4a46d6bee4e00464ccae90':{
     '开始': {
       required: ['telephone', "bxfs", "fxGzlx"],
