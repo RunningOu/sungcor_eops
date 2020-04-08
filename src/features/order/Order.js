@@ -27,7 +27,7 @@ const tabsConfig = userId => [
   [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }],
   [{ key: "participation", value: userId, operator: "IN" }],
   [{ key: "status", value: "3", operator: "IN" }],
-  [{ key: "overdue", value: userId, operator: "IN" }],
+  [{ key: "overdue", value: "1", operator: "IN" }],
   [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }],
 ]
 const Order = (props) => {
