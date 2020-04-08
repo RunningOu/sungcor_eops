@@ -24,7 +24,7 @@ const tabs = [
 ];
 const tabsConfig = userId => [
   [],
-  [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }],
+  [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
   [{ key: "participation", value: userId, operator: "IN" }],
   [{ key: "status", value: "3", operator: "IN" }],
   [{ key: "overdue", value: "1", operator: "IN" }],
