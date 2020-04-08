@@ -15,12 +15,12 @@ const { Option } = Select;
 const MESSAGE_KEY = 'messageKey'
 const ORDER_TYPE_ALL = ['视频报修']
 const tabs = [
-  { title: '全部', sub: 0 },
-  { title: '待办', sub: 1 },
-  { title: '参与', sub: 2 },
-  { title: '完成', sub: 3 },
-  { title: '逾期', sub: 4 },
   { title: '挂起', sub: 5 },
+  { title: '待办', sub: 1 },
+  { title: '逾期', sub: 4 },
+  { title: '完成', sub: 3 },
+  { title: '参与', sub: 2 },
+  { title: '全部', sub: 0 },
 ];
 const tabsConfig = userId => [
   [],
@@ -35,7 +35,7 @@ const Order = (props) => {
   const history = useHistory()
   const [orderList, setOrderList] = useState([]) // 工单列表
 
-  const [orderState, setOrderState] = useState( new URLSearchParams(search).get('state') ||"0")
+  const [orderState, setOrderState] = useState( new URLSearchParams(search).get('state') ||"1")//默认选中代办
   const [model, setModel] = useState({}) // 工单查询参数
   const [searchTitle, setSearchTitle] = useState('') // 搜索工单标题
   const [count, setCount] = useState(0) // 列表总数
