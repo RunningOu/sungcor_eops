@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { HeaderBar } from '../common'
+import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, message } from 'antd';
 import { connect } from 'react-redux'
+import { USER_INFO_ID } from '../../config'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
 import { passwordChange } from '../../common/request'
@@ -17,6 +19,7 @@ const formItemLayout = {
 };
 const key = "PASSWORDKEY"
 const Password = (props) => {
+  const history = useHistory()
   const {userAccountInfo} = props
   const { getFieldDecorator,getFieldsValue, } = props.form;
   
@@ -43,7 +46,12 @@ const Password = (props) => {
         if(d.code === 500) {
           message.error({ content: d.message, key })
         }else {
-          message.success({ content: d.message, key })
+          message.success({ content: d.data, key })
+          setTimeout(
+            () => {
+               localStorage.removeItem(USER_INFO_ID)
+               history.push('/user/login')
+            },1000)
         }
       }).catch((e) => {message.error({ content: '修改失败，访问出错。', key })})
     }else {
