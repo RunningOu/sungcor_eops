@@ -85,7 +85,6 @@ const Details = (props) => {
               setOrderModel(ld.field_list)
             })
           } else {
-            console.log(d)
             setOrderModel(d.field_list)
           }
         })
