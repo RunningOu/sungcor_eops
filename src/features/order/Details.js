@@ -74,7 +74,6 @@ const Details = (props) => {
       .then(d => {
         setOrderInfo(d)
         setOrder(d.form)
-        console.log(d)
         queryOrderModel({
           modelId: query.get('modelId'),
           actId: query.get('actId')
@@ -86,7 +85,6 @@ const Details = (props) => {
               setOrderModel(ld.field_list)
             })
           } else {
-            console.log(d)
             setOrderModel(d.field_list)
           }
         })
