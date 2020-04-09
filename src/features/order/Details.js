@@ -74,7 +74,6 @@ const Details = (props) => {
       .then(d => {
         setOrderInfo(d)
         setOrder(d.form)
-        console.log(d)
         queryOrderModel({
           modelId: query.get('modelId'),
           actId: query.get('actId')
