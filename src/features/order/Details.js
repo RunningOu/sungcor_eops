@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'antd'
+import { Button , message , Modal} from 'antd'
 import { connect } from 'react-redux'
 import {
   queryOrderModel,
@@ -23,6 +23,8 @@ import { HeaderBar } from '../common'
 import _ from 'lodash'
 import orderBefore from './mock/orderBefore'
 
+
+
 import './Details.less'
 
 const cr = {
@@ -42,12 +44,31 @@ const cr = {
 
 
 const Details = (props) => {
+  const state = {
+    ModalText: '沙发斯蒂芬',
+    visible: false,
+    confirmLoading: false,
+  }
   const { location: { search }, match: { params: { modal } }, history } = props
   const [orderModel, setOrderModel] = useState([])
   const [orderInfo, setOrderInfo] = useState([])
   const [order, setOrder] = useState([])
   const query = new URLSearchParams(search)
-  function orderReceiving(fn) {
+
+  //挂起标识 isgq
+  let isgq = false
+  try{
+    orderInfo.form.map(orderattrs => {
+        if(orderattrs.code === "sfbx"){
+          if(orderattrs.default_value === "gqsh"){
+            isgq=true
+          }
+        }
+    })
+  }catch(e){
+    console.log("")
+  }
+  function orderReceiving(fn) { 
     handleOrder({
       ticket_id: modal,//工单id
       model_id: query.get('modelId'),//模型id
@@ -66,6 +87,26 @@ const Details = (props) => {
         fn(d)
       }
     })
+  }
+  function orderHang(isHang){
+    message.error("12121")
+    // if(isHang==='ture'){
+    //   updateOrder({
+    //     ticket_id: modal,
+    //     form: {
+    //       'sfbx':'ygq'
+    //     }
+    //   })
+    // }else{
+    //   updateOrder({
+    //     ticket_id: modal,
+    //     form: {
+    //       'sfbx':'wgq'
+    //     }
+    //   })
+    // }
+    
+    // history.go(-1);
   }
 
   useEffect(() => {
@@ -137,6 +178,19 @@ const Details = (props) => {
                 </> :
               null
           }
+          {
+            isgq?
+            <>
+                  <Button type="primary" block onClick={() => {
+                    orderHang('ture')
+                  }}>同意挂起</Button>
+                  <Button type="primary" block onClick={() => {
+                    orderHang('false')
+                  }}>不同意挂起</Button>
+                </> :
+                null
+          }
+
         </div>
       </div>
 
