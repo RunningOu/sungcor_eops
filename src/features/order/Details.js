@@ -68,7 +68,6 @@ const Details = (props) => {
         }
     })
   }catch(e){
-    console.log("")
   }
   function orderReceiving(fn) { 
     handleOrder({
@@ -92,7 +91,6 @@ const Details = (props) => {
   }
   function orderHang(isHang){
     if(isHang){
-      console.log(code)
       if(code===0){
         updateOrder({
           ticket_id: modal,
