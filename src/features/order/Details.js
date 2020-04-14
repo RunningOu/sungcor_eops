@@ -54,7 +54,7 @@ const Details = (props) => {
   const [orderInfo, setOrderInfo] = useState([])
   const [order, setOrder] = useState([])
   const query = new URLSearchParams(search)
-
+ 
   //挂起标识 isgq
   let isgq = false
   try{
