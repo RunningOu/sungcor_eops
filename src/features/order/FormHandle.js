@@ -319,7 +319,7 @@ const HandleOrder = Form.create({
                     updateOrder({
                       ticket_id: modal,
                       form: {
-                        sfbx: 'ygq',
+                        sfbx: 'gqsh',
                         gqyy: putUpRemark
                       }
                     }).then(() => {

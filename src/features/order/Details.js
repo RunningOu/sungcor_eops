@@ -58,13 +58,11 @@ const Details = (props) => {
   const [title, setTitle] = useState();
   const [code, setCode] = useState(0);
   //挂起标识 isgq
-  let isgq = false
+  let isgq = 'wgq'
   try{
     orderInfo.form.map(orderattrs => {
         if(orderattrs.code === "sfbx"){
-          if(orderattrs.default_value === "gqsh"){
-            isgq=true
-          }
+          isgq = orderattrs.default_value
         }
     })
   }catch(e){
@@ -99,7 +97,7 @@ const Details = (props) => {
           }
         })
       }
-     else{
+    if(code===1||code===2){
       updateOrder({
         ticket_id: modal,
         form: {
@@ -117,6 +115,11 @@ const Details = (props) => {
     }else{
       setTitle("是否确认不同意挂起")
     }
+    setCode(code)
+    setVisible(true)
+  }
+  function orderHangOnqh(code){
+    setTitle("取回后工单将正常流转")
     setCode(code)
     setVisible(true)
   }
@@ -190,7 +193,7 @@ const Details = (props) => {
                 </> :
               null
           }
-          {isgq?
+          {isgq === "gqsh"?
             <>
                   <Button type="primary" block onClick={() => {
                     orderHangOnklin('ture',0)
@@ -201,6 +204,18 @@ const Details = (props) => {
                 </> :
                 null
           }
+          {
+            orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
+              isgq === "ygq"?
+                <>
+                  <Button type="primary" block onClick={() => {
+                    orderHangOnqh(2)
+                  }}>挂起工单取回</Button>
+                </> :
+                  null
+            :null
+            }
+          
          <Modal visible={visible} title="系统提示" onOk={()=>orderHang(true)} onCancel={()=>orderHang(false)}>{title}</Modal>
         </div>
       </div>
