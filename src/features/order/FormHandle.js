@@ -85,9 +85,23 @@ const HandleOrder = Form.create({
 
   const [showPutUp, setShowPutUp] = useState(false)
   const [putUpRemark, setPutUpRemark] = useState('')
+  const [sfgq, setSfgq] = useState(false)
 
   const query = new URLSearchParams(search)
 
+  try{
+    orderInfo.form.map(orderFindGq => {
+      if(orderFindGq.code === 'sfbx'){
+        if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
+          setSfgq(true)
+          message.info("工单已被挂起锁定，无法操作")
+        }
+      }
+    })
+  
+  }catch{
+    console.log('')
+  }
   function handleForm(handle_rules, name, extraForm = {}) {
     let pass = true
     let form = { ...props.order.form, ...extraForm }
@@ -218,7 +232,7 @@ const HandleOrder = Form.create({
 
   return (
     <div className='order-page-formhandle'>
-      <HeaderBar title='工单处理' />
+    <HeaderBar title='工单处理' />
       <div className='form'>
         <Form>
           <FormBuilder meta={meta} form={props.form} />
@@ -244,9 +258,15 @@ const HandleOrder = Form.create({
             </Upload>
           </div> : null}
         <div className="handle-button-group">
+<<<<<<< HEAD
           {orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm}>{d.name}</HandleButton>))}
           {[3,6,8].includes(orderModal.sequence) ?
           // {[3, 4, 6].includes(orderModal.sequence) ?
+=======
+          { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
+          {/* {[3,6,8].includes(orderModal.sequence) ? */}
+          {[3, 4, 6].includes(orderModal.sequence) ?
+>>>>>>> master
             <>
               <Button block onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
               <Modal
@@ -294,7 +314,7 @@ const HandleOrder = Form.create({
               </Modal>
             </>
             : null}
-          {orderInfo.activity_name === '内场接单' ?
+          {orderInfo.activity_name === '内场接单' && !sfgq?
             <>
               <Button block onClick={() => { setShowPutUp(true) }}>挂起</Button>
               <Modal
