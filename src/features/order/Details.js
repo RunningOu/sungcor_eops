@@ -54,7 +54,9 @@ const Details = (props) => {
   const [orderInfo, setOrderInfo] = useState([])
   const [order, setOrder] = useState([])
   const query = new URLSearchParams(search)
-
+  const [visible, setVisible] = useState(false);
+  const [title, setTitle] = useState();
+  const [code, setCode] = useState(0);
   //挂起标识 isgq
   let isgq = false
   try{
@@ -66,7 +68,6 @@ const Details = (props) => {
         }
     })
   }catch(e){
-    console.log("")
   }
   function orderReceiving(fn) { 
     handleOrder({
@@ -89,26 +90,36 @@ const Details = (props) => {
     })
   }
   function orderHang(isHang){
-    message.error("12121")
-    // if(isHang==='ture'){
-    //   updateOrder({
-    //     ticket_id: modal,
-    //     form: {
-    //       'sfbx':'ygq'
-    //     }
-    //   })
-    // }else{
-    //   updateOrder({
-    //     ticket_id: modal,
-    //     form: {
-    //       'sfbx':'wgq'
-    //     }
-    //   })
-    // }
-    
-    // history.go(-1);
+    if(isHang){
+      if(code===0){
+        updateOrder({
+          ticket_id: modal,
+          form: {
+            'sfbx':'ygq'
+          }
+        })
+      }
+     else{
+      updateOrder({
+        ticket_id: modal,
+        form: {
+          'sfbx':'wgq'
+        }
+      })
+     }
+     history.go(-1);
+    }
+    setVisible(false)
   }
-
+  function orderHangOnklin(isHang,code){
+    if(isHang==="ture"){
+      setTitle("是否确认同意挂起")
+    }else{
+      setTitle("是否确认不同意挂起")
+    }
+    setCode(code)
+    setVisible(true)
+  }
   useEffect(() => {
     const query = new URLSearchParams(search)
     queryOrderInfo(modal)
@@ -149,6 +160,7 @@ const Details = (props) => {
       })
     }
   }, [orderModel])
+  
   return (
     <div className='order-page-details'>
       <HeaderBar title="工单详情" />
@@ -178,19 +190,18 @@ const Details = (props) => {
                 </> :
               null
           }
-          {
-            isgq?
+          {isgq?
             <>
                   <Button type="primary" block onClick={() => {
-                    orderHang('ture')
+                    orderHangOnklin('ture',0)
                   }}>同意挂起</Button>
                   <Button type="primary" block onClick={() => {
-                    orderHang('false')
+                    orderHangOnklin('false',1)
                   }}>不同意挂起</Button>
                 </> :
                 null
           }
-
+         <Modal visible={visible} title="系统提示" onOk={()=>orderHang(true)} onCancel={()=>orderHang(false)}>{title}</Modal>
         </div>
       </div>
 

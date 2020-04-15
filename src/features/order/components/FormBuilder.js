@@ -4,7 +4,6 @@ import { Form} from 'antd'
 const { Item } = Form
 const FormBuilder = (props) => {
   const { meta, form } = props
-  // console.log(meta, form)
   const { getFieldDecorator } = form
   function render(item) {
     return (
