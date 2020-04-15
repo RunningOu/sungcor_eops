@@ -16,12 +16,8 @@ export default {
         telephone: 'mobile',
         urgentLevel: 2,
         bxfs: "1",
-<<<<<<< HEAD
-        bxsj:() => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
-=======
         sfbx: "wgq",
         bxsj: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
->>>>>>> master
       },
       userInfo: {fxpcs: 'realname'}
     },
