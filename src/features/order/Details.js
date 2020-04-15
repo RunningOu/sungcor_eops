@@ -189,8 +189,10 @@ const Details = (props) => {
                   }}>处理</Button>
                 </> :
               null
-          }
-          {isgq?
+              }
+          {
+            orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
+            isgq?
             <>
                   <Button type="primary" block onClick={() => {
                     orderHangOnklin('ture',0)
@@ -199,8 +201,10 @@ const Details = (props) => {
                     orderHangOnklin('false',1)
                   }}>不同意挂起</Button>
                 </> :
-                null
+                null:null
+              
           }
+          
          <Modal visible={visible} title="系统提示" onOk={()=>orderHang(true)} onCancel={()=>orderHang(false)}>{title}</Modal>
         </div>
       </div>
