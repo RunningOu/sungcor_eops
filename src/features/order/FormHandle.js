@@ -305,7 +305,7 @@ const HandleOrder = Form.create({
               </Modal>
             </>
             : null}
-          {orderInfo.activity_name === '内场接单' && !sfgq?
+          {(orderInfo.activity_name === '内场接单'||orderInfo.activity_name === '外场返单') && !sfgq?
             <>
               <Button block onClick={() => { setShowPutUp(true) }}>挂起</Button>
               <Modal
