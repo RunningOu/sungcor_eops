@@ -86,7 +86,7 @@ const Order = (props) => {
     if (searchTitle !== "") attrs.push({ key: "title", value: searchTitle, operator: "LIKE" })
     if (Object.keys(orderSearchInfo).length) attrs.push({ key: orderSearchInfo.key, value: orderSearchInfo.value, operator: "LIKE" })
     if (orderSearchFlow.length) attrs.push({ key: 'activityName', value: orderSearchFlow.join(','), operator: 'IN' })
-    if (orderState == 1 &&(local_get(USER_INFO_ID).userId=="15f4c33d6b47463ba3c32d2b4aaefd0c")) {
+    if (orderState == 1 &&(local_get(USER_INFO_ID).userId=="37dea9d684df4b3d947d677e12621611")) {
         attrs=[]
         attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
       }
