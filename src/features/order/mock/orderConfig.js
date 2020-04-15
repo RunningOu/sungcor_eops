@@ -10,12 +10,13 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj'],
+      'jdsj','sfbx','gqyy'],
       defaultValue: {
         fxBxr: 'realname',
         telephone: 'mobile',
         urgentLevel: 2,
         bxfs: "1",
+        sfbx: "wgq",
         bxsj: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       },
       userInfo: {fxpcs: 'realname'}
