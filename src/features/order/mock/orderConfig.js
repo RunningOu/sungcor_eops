@@ -27,7 +27,7 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj', 'file', 'xmmc', 'sfbx', 'gqyy'],
+      'jdsj', 'xmmc', 'sfbx', 'gqyy'],
       defaultValue: {
         receivedman: 'realname',
         jdphone: 'mobile',
