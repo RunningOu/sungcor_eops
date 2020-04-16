@@ -169,7 +169,7 @@ const Details = (props) => {
       <HeaderBar title="工单详情" />
       <div className='order'>
         <OrderBuilder meta={order} />
-        { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files}/> : null }
+        { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
         <div className="handle">
           {
             orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
