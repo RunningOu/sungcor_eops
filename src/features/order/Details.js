@@ -195,7 +195,7 @@ const Details = (props) => {
               null
           }
           {
-            isgq === "gqsh" && (local_get(USER_INFO_ID).userId==="15f4c33d6b47463ba3c32d2b4aaefd0c")?
+            isgq === "gqsh" && (local_get(USER_INFO_ID).userId==="37dea9d684df4b3d947d677e12621611")?
               <>
                 <Button type="primary" block onClick={() => {
                   orderHangOnklin('ture',0)
