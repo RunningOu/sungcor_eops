@@ -7,7 +7,7 @@ export default (props) => {
     <div className="order-component-file">
       { file.map( f => 
         <div className="file-box" key={f.name}>
-          <Zmage src={ <Zmage src={'https://fxtyyw.gaj.sh.gov.cn/wxPic?apikey=e10adc3949ba59abbe56e057f2gg88dd&file_id=' + f.id} /> } />
+          <Zmage src={ 'https://fxtyyw.gaj.sh.gov.cn/wxPic?apikey=e10adc3949ba59abbe56e057f2gg88dd&file_id=' + f.id} />
         </div>) }
     </div>
   )
