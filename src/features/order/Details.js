@@ -22,6 +22,7 @@ import {
 import { HeaderBar } from '../common'
 import _ from 'lodash'
 import orderBefore from './mock/orderBefore'
+import { USER_INFO_ID } from '../../config'
 
 
 
@@ -193,16 +194,17 @@ const Details = (props) => {
                 </> :
               null
           }
-          {isgq === "gqsh"?
-            <>
-                  <Button type="primary" block onClick={() => {
-                    orderHangOnklin('ture',0)
-                  }}>同意挂起</Button>
-                  <Button type="primary" block onClick={() => {
-                    orderHangOnklin('false',1)
-                  }}>不同意挂起</Button>
-                </> :
-                null
+          {
+            isgq === "gqsh" && (local_get(USER_INFO_ID).userId==="15f4c33d6b47463ba3c32d2b4aaefd0c")?
+              <>
+                <Button type="primary" block onClick={() => {
+                  orderHangOnklin('ture',0)
+                }}>同意挂起</Button>
+                <Button type="primary" block onClick={() => {
+                  orderHangOnklin('false',1)
+                }}>不同意挂起</Button>
+              </> :
+              null
           }
           {
             orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
