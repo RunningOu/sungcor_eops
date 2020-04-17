@@ -225,7 +225,13 @@ const Details = (props) => {
     </div>
   )
 }
-
+export const local_get = (key) => {
+  let value = localStorage.getItem(key)
+  if(/^\{|\[*\}\b|\]\b/.test(value)) {
+    value = JSON.parse(value)
+  }
+  return value
+}
 function mapStateToProps(state) {
   return {
     userAccountInfo: state.user.userAccountInfo
