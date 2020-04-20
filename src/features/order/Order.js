@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroller';
 import { queryOrderList } from '../../common/request'
 import { formatDate } from '../../utils'
+import { USER_INFO_ID } from '../../config'
 import orderSearch from './mock/orderSearch'
 import './Order.less'
 const { TabPane } = Tabs;
@@ -85,6 +86,11 @@ const Order = (props) => {
     if (searchTitle !== "") attrs.push({ key: "title", value: searchTitle, operator: "LIKE" })
     if (Object.keys(orderSearchInfo).length) attrs.push({ key: orderSearchInfo.key, value: orderSearchInfo.value, operator: "LIKE" })
     if (orderSearchFlow.length) attrs.push({ key: 'activityName', value: orderSearchFlow.join(','), operator: 'IN' })
+    if (orderState == 1 &&(local_get(USER_INFO_ID).userId=="37dea9d684df4b3d947d677e12621611")) {
+        attrs=[]
+        attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
+      }
+    console.log(attrs)
     setLoading(true)
     setModel(oldModel => {
       return {
@@ -107,7 +113,6 @@ const Order = (props) => {
         "pageSize": 10
       }).then((d) => {
         setCount(d.count)
-        console.log(d)
         if (d.hasOwnProperty('list')) {
           if (d.list.length !== 10) setHasMore(false)
           if(pageNum === 1) {
@@ -211,5 +216,11 @@ function mapStateToProps(state) {
     user: state.user,
   }
 }
-
+export const local_get = (key) => {
+  let value = localStorage.getItem(key)
+  if(/^\{|\[*\}\b|\]\b/.test(value)) {
+    value = JSON.parse(value)
+  }
+  return value
+}
 export default connect(mapStateToProps)(Order)

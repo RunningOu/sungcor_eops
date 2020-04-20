@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button } from 'antd'
+import { Button , message , Modal} from 'antd'
 import { connect } from 'react-redux'
 import {
   queryOrderModel,
@@ -22,6 +22,9 @@ import {
 import { HeaderBar } from '../common'
 import _ from 'lodash'
 import orderBefore from './mock/orderBefore'
+import { USER_INFO_ID } from '../../config'
+
+
 
 import './Details.less'
 
@@ -42,12 +45,30 @@ const cr = {
 
 
 const Details = (props) => {
+  const state = {
+    ModalText: '沙发斯蒂芬',
+    visible: false,
+    confirmLoading: false,
+  }
   const { location: { search }, match: { params: { modal } }, history } = props
   const [orderModel, setOrderModel] = useState([])
   const [orderInfo, setOrderInfo] = useState([])
   const [order, setOrder] = useState([])
   const query = new URLSearchParams(search)
-  function orderReceiving(fn) {
+  const [visible, setVisible] = useState(false);
+  const [title, setTitle] = useState();
+  const [code, setCode] = useState(0);
+  //挂起标识 isgq
+  let isgq = 'wgq'
+  try{
+    orderInfo.form.map(orderattrs => {
+        if(orderattrs.code === "sfbx"){
+          isgq = orderattrs.default_value
+        }
+    })
+  }catch(e){
+  }
+  function orderReceiving(fn) { 
     handleOrder({
       ticket_id: modal,//工单id
       model_id: query.get('modelId'),//模型id
@@ -67,7 +88,42 @@ const Details = (props) => {
       }
     })
   }
-
+  function orderHang(isHang){
+    if(isHang){
+      if(code===0){
+        updateOrder({
+          ticket_id: modal,
+          form: {
+            'sfbx':'ygq'
+          }
+        })
+      }
+    if(code===1||code===2){
+      updateOrder({
+        ticket_id: modal,
+        form: {
+          'sfbx':'wgq'
+        }
+      })
+     }
+     history.go(-1);
+    }
+    setVisible(false)
+  }
+  function orderHangOnklin(isHang,code){
+    if(isHang==="ture"){
+      setTitle("是否确认同意挂起")
+    }else{
+      setTitle("是否确认不同意挂起")
+    }
+    setCode(code)
+    setVisible(true)
+  }
+  function orderHangOnqh(code){
+    setTitle("取回后工单将正常流转")
+    setCode(code)
+    setVisible(true)
+  }
   useEffect(() => {
     const query = new URLSearchParams(search)
     queryOrderInfo(modal)
@@ -108,12 +164,13 @@ const Details = (props) => {
       })
     }
   }, [orderModel])
+  
   return (
     <div className='order-page-details'>
       <HeaderBar title="工单详情" />
       <div className='order'>
         <OrderBuilder meta={order} />
-        { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files}/> : null }
+        { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
         <div className="handle">
           {
             orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
@@ -137,13 +194,44 @@ const Details = (props) => {
                 </> :
               null
           }
+          {
+            isgq === "gqsh" && (local_get(USER_INFO_ID).userId==="37dea9d684df4b3d947d677e12621611")?
+              <>
+                <Button type="primary" block onClick={() => {
+                  orderHangOnklin('ture',0)
+                }}>同意挂起</Button>
+                <Button type="primary" block onClick={() => {
+                  orderHangOnklin('false',1)
+                }}>不同意挂起</Button>
+              </> :
+              null
+          }
+          {
+            orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
+              isgq === "ygq"?
+                <>
+                  <Button type="primary" block onClick={() => {
+                    orderHangOnqh(2)
+                  }}>挂起工单取回</Button>
+                </> :
+                  null
+            :null
+            }
+          
+         <Modal visible={visible} title="系统提示" onOk={()=>orderHang(true)} onCancel={()=>orderHang(false)}>{title}</Modal>
         </div>
       </div>
 
     </div>
   )
 }
-
+export const local_get = (key) => {
+  let value = localStorage.getItem(key)
+  if(/^\{|\[*\}\b|\]\b/.test(value)) {
+    value = JSON.parse(value)
+  }
+  return value
+}
 function mapStateToProps(state) {
   return {
     userAccountInfo: state.user.userAccountInfo

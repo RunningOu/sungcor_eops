@@ -10,13 +10,14 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj'],
+      'jdsj','sfbx','gqyy'],
       defaultValue: {
         fxBxr: 'realname',
         telephone: 'mobile',
         urgentLevel: 2,
         bxfs: "1",
-        bxsj:() => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+        sfbx: "wgq",
+        bxsj: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       },
       userInfo: {fxpcs: 'realname'}
     },
@@ -26,7 +27,7 @@ export default {
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
       "deviceIP",'bxfs', 'bxsj', 
-      'jdsj', 'file', 'xmmc', 'sfbx', 'gqyy'],
+      'jdsj', 'xmmc', 'sfbx', 'gqyy'],
       defaultValue: {
         receivedman: 'realname',
         jdphone: 'mobile',
