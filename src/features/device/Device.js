@@ -72,7 +72,7 @@ const Device = (props) => {
     queryDeviceList({
       needCount: true,
       conditions: [
-        { field: 'classCode', value: 'camera', operator: 'EQ' },
+        { field: 'classCode', value: 'Camera', operator: 'EQ' },
         ...conditions
       ],
       pageSize: 10,
