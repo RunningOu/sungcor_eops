@@ -13,11 +13,7 @@ import {
   resource,
   listSel
 } from './components'
-<<<<<<< HEAD
-import { queryOrderModel, createOrder, updateImage } from '../../common/request'
-=======
 import { queryOrderModel, createOrder, updateImage, wxMessage, getUserbyName } from '../../common/request'
->>>>>>> master
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
