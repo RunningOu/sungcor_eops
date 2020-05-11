@@ -1,0 +1,56 @@
+.alert-details {
+    .alert-scoll {
+        overflow-y: scroll;
+        height: calc(100vh - 27.5px - 60px - 45px);
+        .alert-critical {
+            color: #f00; 
+            border: 1px solid rgba(255, 0, 0);
+            background: rgba(255, 0, 0, 0.1);
+            margin-left: 8px;
+        }
+        .alert-warning {
+            color: rgb(255, 220, 29); 
+            border: 1px solid rgba(255, 220, 29);
+            background: rgba(255, 220, 29, 0.1);
+            margin-left: 8px;
+        }
+        .alert-error {
+            color: rgb(255, 155, 47); 
+            border: 1px solid rgb(255, 155, 47);
+            background: rgba(255, 155, 47, 0.1);
+            margin-left: 8px;
+        }
+    }
+    .alert-row {
+        padding: 5px 8px;
+    }
+    .ant-card {
+        border-radius: 10px;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+        .ant-card-body span {
+            color: #000;
+        }
+        .ant-card-head-wrapper {
+            background: #fff;
+        }
+        .ant-card-head-title {
+            padding: 10px 5px;
+        }
+        .ant-card-extra {
+            padding: 10px 10px;
+        }
+    }
+    p {
+        margin-bottom: 6px;
+    }
+    .arrow-left {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        border-bottom: 5px solid transparent; /* left arrow slant */
+        border-top: 5px solid transparent; /* right arrow slant */
+        border-right: 5px solid rgba(64, 169, 255, 0.3); /* bottom, add background color here */
+        font-size: 0;
+        line-height: 0;
+    }
+}

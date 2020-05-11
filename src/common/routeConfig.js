@@ -4,6 +4,7 @@ import orderRoute from '../features/order/router'
 import deviceRoute from '../features/device/router'
 import rmonRoute from '../features/rmon/router'
 import userRoute from '../features/user/router'
+import alertRoute from '../features/alert/router'
 
 import _ from 'lodash'
 
@@ -12,7 +13,8 @@ const childRoutes = [
   orderRoute,
   deviceRoute,
   rmonRoute,
-  userRoute
+  userRoute,
+  alertRoute
 ]
 
 const routes = [{

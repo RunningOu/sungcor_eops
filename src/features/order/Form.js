@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { Form, message, Upload, Button } from 'antd'
+import { MANAGE_ID } from '../../config'
 import _ from 'lodash'
 import {
   FormBuilder,
@@ -12,7 +13,11 @@ import {
   resource,
   listSel
 } from './components'
+<<<<<<< HEAD
 import { queryOrderModel, createOrder, updateImage } from '../../common/request'
+=======
+import { queryOrderModel, createOrder, updateImage, wxMessage, getUserbyName } from '../../common/request'
+>>>>>>> master
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -67,15 +72,14 @@ const CreateOrder = Form.create({
     return objToFields(props.order.form)
   }
 })((props) => {
-  const { user: { userAccountInfo } } = props
+  // const { user: { userAccountInfo } } = props
   const { modal } = useParams()
   const history = useHistory()
   const [orderModal, setOrderModal] = useState({})
   const [meta, setMeta] = useState([])
   const [needFile, setNeedFile] = useState(false)
-
+  const [pcsInfo, setPcsInfo] = useState({})
   const [files, setFiles] = useState([]) //图片
-  
   useEffect(() => {
     if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
       history.push(`${props.location.pathname}/selectdevice`)
@@ -150,9 +154,23 @@ const CreateOrder = Form.create({
         if(defaultForm.hasOwnProperty('fxBxr')) delete defaultForm.fxBxr
         if(defaultForm.hasOwnProperty('telephone')) delete defaultForm.telephone
       }
+      // console.log(defaultForm)
+      if(props.user.userAccountInfo.userId === MANAGE_ID) {
+        getUserbyName(props.order.form.fxpcs).then(data => {
+          console.log("data>>>",data)
+          setPcsInfo(data)
+          defaultForm.fxBxr = data.username
+          defaultForm.telephone = data.mobile
+          props.actions.setForm(defaultForm)
+        })
+        // console.log("data>>>",data)
+        // defaultForm.fxBxr = data.username
+        // defaultForm.telephone = data.mobile
+      }
+      console.log("defaultForm>>>",defaultForm)
       props.actions.setForm(defaultForm)
     }
-  }, [props.actions, props.user, orderModal, modal])
+  }, [props.actions, props.user, orderModal, modal, props.order])
   return (
     <div className='order-page-form'>
       <HeaderBar title='工单创建' />
@@ -206,6 +224,7 @@ const CreateOrder = Form.create({
               ticket_source: "wchart",
               urgent_level: 2,
               title: props.order.form.title,
+              user_id: pcsInfo.userId ? pcsInfo.userId : props.user.userAccountInfo.userId,
               description: props.order.form.ticketDesc || '',
               form: {
                 ...props.order.form

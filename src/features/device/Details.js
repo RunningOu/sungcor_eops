@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Descriptions, Badge, Icon } from 'antd'
+import { Descriptions, Badge } from 'antd'
 import { queryDeviceById } from '../../common/request'
 import { HeaderBar } from '../common'
 

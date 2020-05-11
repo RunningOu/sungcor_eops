@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+// import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Button, Input, Icon, List, Drawer, message, } from 'antd'
@@ -141,6 +141,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     return
                   }
                   if (item.whcs) {
+                    console.log(userAccountInfo.roleName)
                     if (['超级管理员'].includes(userAccountInfo.roleName)) {
                       queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
                         props.actions.setForm({

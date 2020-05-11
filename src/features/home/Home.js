@@ -7,9 +7,8 @@ import { FooterBar } from '../common'
 
 import { 
   Carousel,
-  Ribbon, 
-  Repairs,
-  Notice,
+  Ribbon,
+  Alert,
   Statistic,
   Charts
 } from './components'
@@ -26,6 +25,7 @@ const Home = (props) => {
       {/* <Notice /> */}
       <Statistic role={userInfo.role?.menus.StatisticsView}/>
       <Charts role={userInfo.role?.menus.ReportView}/>
+      <Alert />
       <FooterBar pathname={props.location.pathname}/>
     </div>
   )

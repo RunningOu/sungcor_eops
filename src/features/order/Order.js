@@ -5,8 +5,8 @@ import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroller';
 import { queryOrderList } from '../../common/request'
-import { formatDate } from '../../utils'
-import { USER_INFO_ID } from '../../config'
+// import { formatDate } from '../../utils'
+import { USER_INFO_ID, MANAGE_ID } from '../../config'
 import orderSearch from './mock/orderSearch'
 import './Order.less'
 const { TabPane } = Tabs;
@@ -86,10 +86,10 @@ const Order = (props) => {
     if (searchTitle !== "") attrs.push({ key: "title", value: searchTitle, operator: "LIKE" })
     if (Object.keys(orderSearchInfo).length) attrs.push({ key: orderSearchInfo.key, value: orderSearchInfo.value, operator: "LIKE" })
     if (orderSearchFlow.length) attrs.push({ key: 'activityName', value: orderSearchFlow.join(','), operator: 'IN' })
-    if (orderState == 1 &&(local_get(USER_INFO_ID).userId=="37dea9d684df4b3d947d677e12621611")) {
-        attrs=[]
+    if (orderState == 1 &&(local_get(USER_INFO_ID).userId==MANAGE_ID)) {
+        attrs.splice(2,3) // 将待办中原有的 formData.sfbx 参数剪切掉
         attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
-      }
+    }
     console.log(attrs)
     setLoading(true)
     setModel(oldModel => {
@@ -165,6 +165,7 @@ const Order = (props) => {
               onChange={checked => {
                 if (checked) {
                   setOrderSearchFlow(old => [...old, e])
+                  console.log(orderSearchFlow)
                 } else {
                   setOrderSearchFlow(old => old.filter(el => el !== e))
                 }

@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Button , message , Modal} from 'antd'
+// import { Button , message , Modal} from 'antd'
+import { Button , Modal} from 'antd'
 import { connect } from 'react-redux'
 import {
   queryOrderModel,
   queryLastOrderModel,
   queryOrderInfo,
   handleOrder,
-  updateOrder
+  updateOrder,
+  getUserbyName
 } from '../../common/request'
 import {
   singleRowTextShow,
@@ -22,7 +24,7 @@ import {
 import { HeaderBar } from '../common'
 import _ from 'lodash'
 import orderBefore from './mock/orderBefore'
-import { USER_INFO_ID } from '../../config'
+import { USER_INFO_ID, MANAGE_ID } from '../../config'
 
 
 
@@ -45,12 +47,12 @@ const cr = {
 
 
 const Details = (props) => {
-  const state = {
-    ModalText: '沙发斯蒂芬',
-    visible: false,
-    confirmLoading: false,
-  }
-  const { location: { search }, match: { params: { modal } }, history } = props
+  // const state = {
+  //   ModalText: '沙发斯蒂芬',
+  //   visible: false,
+  //   confirmLoading: false,
+  // }
+  const { location: { search }, match: { params: { modal } }, history, userAccountInfo } = props
   const [orderModel, setOrderModel] = useState([])
   const [orderInfo, setOrderInfo] = useState([])
   const [order, setOrder] = useState([])
@@ -58,10 +60,11 @@ const Details = (props) => {
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState();
   const [code, setCode] = useState(0);
+  const [pcsInfo, setPcsInfo] = useState({})
   //挂起标识 isgq
   let isgq = 'wgq'
   try{
-    orderInfo.form.map(orderattrs => {
+    orderInfo.form.forEach(orderattrs => {
         if(orderattrs.code === "sfbx"){
           isgq = orderattrs.default_value
         }
@@ -69,12 +72,16 @@ const Details = (props) => {
   }catch(e){
   }
   function orderReceiving(fn) { 
-    handleOrder({
+    var Commitdatas = {
       ticket_id: modal,//工单id
       model_id: query.get('modelId'),//模型id
       activity_id: query.get('actId'),//当前环节id
-      handle_type: "0", // 接单
-    }).then(d => {
+      handle_type: "0", // 接单 
+    }
+    if(pcsInfo.apiKeys && (orderInfo.executors[0] !== MANAGE_ID || orderInfo.executors?.indexOf(pcsInfo.userId))){
+      Commitdatas.apikey = pcsInfo.apiKeys[0].key
+    }
+    handleOrder(Commitdatas).then(d => {
       if(orderBefore[orderInfo.model_id] && orderBefore[orderInfo.model_id][orderInfo.activity_name]) {
         updateOrder({
           ticket_id: modal,
@@ -130,6 +137,18 @@ const Details = (props) => {
       .then(d => {
         setOrderInfo(d)
         setOrder(d.form)
+        if(userAccountInfo.userId === MANAGE_ID) {
+          console.log(d)
+          d.form.forEach(orderattrs => {
+            if(orderattrs.code === "fxpcs"){
+              // console.log(orderattrs.default_value)
+              getUserbyName(orderattrs.default_value).then(data => {
+                console.log("data>>>",data)
+                setPcsInfo(data)
+              })
+            }
+          })
+        }
         queryOrderModel({
           modelId: query.get('modelId'),
           actId: query.get('actId')
@@ -145,7 +164,7 @@ const Details = (props) => {
           }
         })
       })
-  }, [modal, search])
+  }, [modal, search, userAccountInfo])
   useEffect(() => {
     if (orderModel.length) {
       setOrder(oldOrder => {
@@ -173,7 +192,8 @@ const Details = (props) => {
         { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
         <div className="handle">
           {
-            orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
+            // 图像组管理员
+            (orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 || (props.userAccountInfo.userId === MANAGE_ID && orderInfo.activity_name === '用户确认')) && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
               orderInfo.isreceived === 1 ?
                 <>
                   <Button type="primary" block onClick={() => {
@@ -195,7 +215,7 @@ const Details = (props) => {
               null
           }
           {
-            isgq === "gqsh" && (local_get(USER_INFO_ID).userId==="37dea9d684df4b3d947d677e12621611")?
+            isgq === "gqsh" && (local_get(USER_INFO_ID).userId===MANAGE_ID)?
               <>
                 <Button type="primary" block onClick={() => {
                   orderHangOnklin('ture',0)

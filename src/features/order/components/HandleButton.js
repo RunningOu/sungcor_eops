@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Button, Modal, Tag, message, Input } from 'antd'
-import { updateOrder } from '../../../common/request'
+// import { updateOrder } from '../../../common/request'
 import _ from 'lodash'
 
 const { CheckableTag } = Tag
 export default (props) => {
-  const { handle, children, handleForm, modal } = props
+  // const { handle, children, handleForm, modal } = props
+  const { handle, children, handleForm } = props
 
   const [visible, setVisible] = useState(false)
   const [groups, setGroups] = useState(null)
