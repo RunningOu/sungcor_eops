@@ -1,5 +1,5 @@
 import React from 'react'
-import { Chart, Geom, Axis, Tooltip, Legend, Coord } from 'bizcharts'
+import { Chart, Geom, Axis, Tooltip } from 'bizcharts'
 
 const data = [
   { name: '监控设备', error: 25 },

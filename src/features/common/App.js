@@ -41,6 +41,10 @@ const App = props => {
                   history.push('/user/login')
                 } else {
                   local_set(USER_INFO_ID, userInfo)
+                  console.log(userInfo)
+                  // if(userInfo){
+
+                  // }
                   accountLogin(userInfo)
                   history.push('/')
                 }

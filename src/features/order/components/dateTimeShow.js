@@ -1,5 +1,5 @@
 import React from 'react'
-import moment from 'moment';
+// import moment from 'moment';
 import { Descriptions } from 'antd'
 const { Item } = Descriptions
 export default function(props) {

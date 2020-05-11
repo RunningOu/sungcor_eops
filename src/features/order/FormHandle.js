@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Form, message, Upload, Button, Modal, Tag, Input } from 'antd'
+import { MANAGE_ID } from '../../config'
 import moment from 'moment'
 import _ from 'lodash'
 import {
@@ -13,7 +14,7 @@ import {
   listSel,
   HandleButton
 } from './components'
-import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, wxMessage } from '../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, wxMessage, getUserbyName } from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -86,11 +87,12 @@ const HandleOrder = Form.create({
   const [showPutUp, setShowPutUp] = useState(false)
   const [putUpRemark, setPutUpRemark] = useState('')
   const [sfgq, setSfgq] = useState(false)
+  const [pcsInfo, setPcsInfo] = useState({})
 
   const query = new URLSearchParams(search)
 
   try{
-    orderInfo.form.map(orderFindGq => {
+    orderInfo.form.forEach(orderFindGq => {
       if(orderFindGq.code === 'sfbx'){
         if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
           setSfgq(true)
@@ -115,7 +117,7 @@ const HandleOrder = Form.create({
       message.warning('请填写完全工单信息！')
       return
     }
-    handleOrder({
+    var submitData = {
       ticket_id: modal,//工单id
       model_id: query.get('modelId'),//模型id
       activity_id: query.get('actId'),//当前环节id
@@ -126,7 +128,11 @@ const HandleOrder = Form.create({
       handle_rules: {
         ...handle_rules
       }
-    }).then(d => {
+    }
+    if(pcsInfo.apiKeys && orderInfo.executors[0] !== MANAGE_ID){
+      submitData.apikey = pcsInfo.apiKeys[0].key
+    }
+    handleOrder(submitData).then(d => {
       if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
       if (files.length) {
         message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
@@ -161,6 +167,13 @@ const HandleOrder = Form.create({
           if (f.hasOwnProperty('default_value')) {
             formData[f.code] = f.default_value
           }
+          if(userAccountInfo.userId === MANAGE_ID && f.code === "fxpcs"){
+            // console.log(orderattrs.default_value)
+            getUserbyName(f.default_value).then(data => {
+              console.log("data>>>",data)
+              setPcsInfo(data)
+            })
+          }
         })
         setOrderInfo(d)
         props.actions.setForm(formData)
@@ -172,7 +185,7 @@ const HandleOrder = Form.create({
         setOrderModal(d)
       })
     })
-  }, [modal, props.actions, search])
+  }, [modal, props.actions, search, userAccountInfo])
   useEffect(() => {
     // 给formBuilder提供meta
     const query = new URLSearchParams(search)

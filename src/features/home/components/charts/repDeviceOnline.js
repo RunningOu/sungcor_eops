@@ -1,5 +1,5 @@
 import React from 'react'
-import { Chart, Geom, Axis, Tooltip, Legend, Coord, Label } from 'bizcharts'
+import { Chart, Geom, Axis, Tooltip, Coord, Label } from 'bizcharts'
 import DataSet from '@antv/data-set'
 const data = [
   {

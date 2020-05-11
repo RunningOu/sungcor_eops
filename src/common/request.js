@@ -260,3 +260,35 @@ export const queryOrderCount = async (queryArr) => {
   })
   return data
 }
+
+// 查询告警列表
+export const queryAlertList = async (queryArr) => {
+  const { data } = await axios({
+    method: 'post',
+    url: '/alert/selectAlarmList',
+    data: queryArr
+  })
+  return data
+}
+
+//告警统计
+export const countAlert = async (queryArr) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/alert/cuntAlert',
+    params: queryArr
+  })
+  return data
+}
+
+// 通过用户名获取用户信息
+export const getUserbyName = async (userName) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/user/getUserByName',
+    params: {
+      userName: userName
+    }
+  })
+  return data
+}

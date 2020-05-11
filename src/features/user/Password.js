@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+// import React, { useState } from 'react'
+import React from 'react'
 import { HeaderBar } from '../common'
 import { useHistory } from 'react-router-dom'
 import { Form, Input, Button, message } from 'antd';
 import { connect } from 'react-redux'
 import { USER_INFO_ID } from '../../config'
-import { bindActionCreators } from 'redux'
-import * as actions from './redux/actions'
+// import { bindActionCreators } from 'redux'
+// import * as actions from './redux/actions'
 import { passwordChange } from '../../common/request'
 
 import './Password.less'

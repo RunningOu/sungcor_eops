@@ -1,5 +1,5 @@
 import React from 'react'
-import { DatePicker, Input } from 'antd'
+import { Input } from 'antd'
 export default function(props) {
   console.log(props)
   return (
