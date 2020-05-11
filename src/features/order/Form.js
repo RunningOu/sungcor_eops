@@ -13,7 +13,7 @@ import {
   resource,
   listSel
 } from './components'
-import { queryOrderModel, createOrder, updateImage, wxMessage, getUserbyName } from '../../common/request'
+import { queryOrderModel, createOrder, updateImage, getUserbyName } from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
