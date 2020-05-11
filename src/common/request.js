@@ -84,16 +84,16 @@ export const handleOrder = async (d) => {
   return data
 }
 // 微信通知接口
-export const wxMessage = async (d) => {
-  const {data} = await axios({
-    method: 'post',
-    url: '/ticket/sendMessageByTicketCreate',
-    data: {
-      ...d
-    }
-  })
-  return data
-}
+// export const wxMessage = async (d) => {
+//   const {data} = await axios({
+//     method: 'post',
+//     url: '/ticket/sendMessageByTicketCreate',
+//     data: {
+//       ...d
+//     }
+//   })
+//   return data
+// }
 // 更新工单form 
 export const updateOrder = async (d) => {
   const { data } = await axios({

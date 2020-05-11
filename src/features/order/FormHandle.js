@@ -14,7 +14,7 @@ import {
   listSel,
   HandleButton
 } from './components'
-import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, wxMessage, getUserbyName } from '../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName } from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -133,7 +133,7 @@ const HandleOrder = Form.create({
       submitData.apikey = pcsInfo.apiKeys[0].key
     }
     handleOrder(submitData).then(d => {
-      if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
+      // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
       if (files.length) {
         message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
         files.forEach((i) => {
