@@ -3,7 +3,7 @@ import { HeaderBar, FooterBar } from '../common'
 import { Tabs, Input, Icon, Drawer, Tag, List, message, Select } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
-import InfiniteScroll from 'react-infinite-scroller';
+import InfiniteScroll from 'react-infinite-scroller'
 import { queryOrderList } from '../../common/request'
 // import { formatDate } from '../../utils'
 import { USER_INFO_ID, MANAGE_ID } from '../../config'
@@ -29,7 +29,7 @@ const tabsConfig = userId => [
   [{ key: "participation", value: userId, operator: "IN" }],
   [{ key: "status", value: "3", operator: "IN" }],
   [{ key: "overdue", value: "1", operator: "IN" }],
-  [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }],
+  [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
 ]
 const Order = (props) => {
   const { user: { userAccountInfo }, location: { search } } = props
@@ -90,6 +90,11 @@ const Order = (props) => {
         attrs.splice(2,3) // 将待办中原有的 formData.sfbx 参数剪切掉
         attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
     }
+    // 挂起 图像组管理员特殊处理
+    if ((orderState === '5' || orderState === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+      attrs.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" }) // 挂起 / 不是图像组管理员 添加参数
+    }
+    console.log(orderState)
     console.log(attrs)
     setLoading(true)
     setModel(oldModel => {
