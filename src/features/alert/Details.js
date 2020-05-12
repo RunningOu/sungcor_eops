@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { HeaderBar, FooterBar } from '../common'
 // import { useHistory } from 'react-router-dom'
-import { Card, Tag, Row, message, List } from 'antd'
+import { Card, Tag, message, List } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import { formatDate } from '../../utils'
 import { queryAlertList } from '../../common/request'
@@ -75,7 +75,7 @@ const Details = (props) => {
                 // <Row  className="alert-row" key={i}>
                     <Card onClick={() => {
                         console.log(item)
-                    }} title={<span>{item.source} 
+                    }} title={<span style={{'color': '#0e6dfb'}}>{item.source} 
                     {/* <div className="arrow-left"></div> */}
                     <Tag className={item.severityCN === '警告' ? 'alert-warning' : item.severityCN === '错误' ? 'alert-error' : 'alert-critical'}>{item.severityCN}</Tag ></span>} 
                         extra={formatDate(new Date(item.lastOccurTime),'yyyy-MM-dd HH:mm')}
