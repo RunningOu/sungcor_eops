@@ -86,8 +86,8 @@ const Order = (props) => {
     if (searchTitle !== "") attrs.push({ key: "title", value: searchTitle, operator: "LIKE" })
     if (Object.keys(orderSearchInfo).length) attrs.push({ key: orderSearchInfo.key, value: orderSearchInfo.value, operator: "LIKE" })
     if (orderSearchFlow.length) attrs.push({ key: 'activityName', value: orderSearchFlow.join(','), operator: 'IN' })
-    if (orderState == 1 &&(local_get(USER_INFO_ID).userId==MANAGE_ID)) {
-        attrs.splice(2,3) // 将待办中原有的 formData.sfbx 参数剪切掉
+    if ((orderState === 1 || orderState === '1') &&(local_get(USER_INFO_ID).userId === MANAGE_ID)) {
+        attrs.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
         attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
     }
     // 挂起 图像组管理员特殊处理

@@ -76,9 +76,13 @@ const CreateOrder = Form.create({
   const [needFile, setNeedFile] = useState(false)
   const [pcsInfo, setPcsInfo] = useState({})
   const [files, setFiles] = useState([]) //图片
+  const [bxpcs, setBxpcs] = useState('') // pcs
   useEffect(() => {
     if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
       history.push(`${props.location.pathname}/selectdevice`)
+    }
+    if(props.order.form.fxpcs !== undefined) {
+      setBxpcs(props.order.form.fxpcs)
     }
   }, [orderModal,  history, props.order.form, props.location.pathname])
   useEffect(() => { 
@@ -151,22 +155,19 @@ const CreateOrder = Form.create({
         if(defaultForm.hasOwnProperty('telephone')) delete defaultForm.telephone
       }
       // console.log(defaultForm)
-      if(props.user.userAccountInfo.userId === MANAGE_ID) {
-        getUserbyName(props.order.form.fxpcs).then(data => {
+      if(props.user.userAccountInfo.userId === MANAGE_ID && bxpcs !== '') {
+        getUserbyName(bxpcs).then(data => {
           console.log("data>>>",data)
           setPcsInfo(data)
           defaultForm.fxBxr = data.username
           defaultForm.telephone = data.mobile
           props.actions.setForm(defaultForm)
         })
-        // console.log("data>>>",data)
-        // defaultForm.fxBxr = data.username
-        // defaultForm.telephone = data.mobile
       }
       console.log("defaultForm>>>",defaultForm)
       props.actions.setForm(defaultForm)
     }
-  }, [props.actions, props.user, orderModal, modal, props.order])
+  }, [props.actions, props.user, orderModal, modal, bxpcs])
   return (
     <div className='order-page-form'>
       <HeaderBar title='工单创建' />
@@ -230,6 +231,7 @@ const CreateOrder = Form.create({
               }
             }, params).then(da => {
               message.success({content:'创建成功', key:MESSAGE_KEY})
+              // wxMessage({id: da.data.id})
               if(files.length) {
                 message.loading({content:'开始上传图片……', key:MESSAGE_KEY})
                 files.forEach((i) => {

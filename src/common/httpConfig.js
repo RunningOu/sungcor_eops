@@ -19,7 +19,7 @@ Axios.interceptors.request.use(config => {
   if(local_get(USER_INFO_ID) && local_get(USER_INFO_ID).apiKey) {
     if(!config.params['apikey']) config.params['apikey'] = local_get(USER_INFO_ID).apiKey
     // p
-    console.log(config,local_get(USER_INFO_ID))
+    // console.log(config,local_get(USER_INFO_ID))
     // 判断工单提交接口 data里面是否有 apikey ，有就替换
     if(config.url === '/ticket/commitTicket' && MANAGE_ID === local_get(USER_INFO_ID).userId && config.data.apikey) {
       config.params['apikey'] = config.data.apikey
