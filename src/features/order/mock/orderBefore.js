@@ -17,13 +17,16 @@ export default {
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
     ],
     6: [
-      {name: "张辰磊", id: "7e8ad09a133646c18c56954c382fc8cf" }, 
+      {name: "张辰磊", id: "7e8ad09a133646c18c56954c382fc8cf" },
+      {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" }, // 新增用户
+      {name: "刘康", id: "95f4a7ccd4f64cd9b5af7e146bc0cf9d" }, // 新增用户
     ],
     3:[
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
       {name: "李晓伟", id: "e33d11668c5b4fb3981cebeb1df73ae1" }, 
       {name: "李明", id: "faaea1f9dd7645939e6fb7b04eec8f64" }, 
-      {name: "王卓越", id: "c6b0a1173d7b47b4bb8865231432a036" }, 
+      {name: "王卓越", id: "c6b0a1173d7b47b4bb8865231432a036" },
+      {name: "戴梦", id: "e58ca9b4c2234194b855882b3af2216a" }, // 新增用户
     ]
   }
   // changeExecutor: {

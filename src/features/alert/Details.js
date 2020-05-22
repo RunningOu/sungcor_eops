@@ -3,7 +3,7 @@ import { HeaderBar, FooterBar } from '../common'
 // import { useHistory } from 'react-router-dom'
 import { Card, Tag, message, List } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
-import { formatDate } from '../../utils'
+import { formatDate, TimeToHours } from '../../utils'
 import { queryAlertList } from '../../common/request'
 
 import './Details.less'
@@ -41,9 +41,11 @@ const Details = (props) => {
     if(source.length) {
       queryAlertList({
         "source": source,
-        'status':0,
         'pageNum': pageNum,
-        'pageSize': 10
+        'pageSize': 10,
+        'status': 0,
+        'start': new Date().getTime()-24*60*60*1000, // 近24小时
+        'end': new Date().getTime()
         }).then(d => { 
           setCount(d.data.total)
           // setAlertList(d.data.records)
@@ -78,11 +80,13 @@ const Details = (props) => {
                     }} title={<span style={{'color': '#0e6dfb'}}>{item.source} 
                     {/* <div className="arrow-left"></div> */}
                     <Tag className={item.severityCN === '警告' ? 'alert-warning' : item.severityCN === '错误' ? 'alert-error' : 'alert-critical'}>{item.severityCN}</Tag ></span>} 
-                        extra={formatDate(new Date(item.lastOccurTime),'yyyy-MM-dd HH:mm')}
+                        extra={TimeToHours(item.lastOccurTime - item.firstOccurTime)}
                         headStyle={{'padding': '0px 0px 0px 5px', 'background': '#40a9ff', 'borderRadius': '10px', 'minHeight': '44px'}}
                         className="alert-card" key="alert_processed" bodyStyle={{ 'borderRadius': '10px', 'padding': '8px 2px 5px 14px' }}>
                             <p>设备名称：<span>{item.entityName}</span></p>
                             <p>设备IP：<span>{item.entityAddr}</span></p>
+                            <p>首次发生时间：<span>{formatDate(new Date(item.firstOccurTime),'yyyy-MM-dd HH:mm')}</span></p>
+                            <p>最后发生时间：<span>{formatDate(new Date(item.lastOccurTime),'yyyy-MM-dd HH:mm')}</span></p>
                             <p>告警描述：<span>{item.description}</span></p>
                     </Card>
                 // </Row>

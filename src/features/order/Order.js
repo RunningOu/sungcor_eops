@@ -4,7 +4,7 @@ import { Tabs, Input, Icon, Drawer, Tag, List, message, Select } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import InfiniteScroll from 'react-infinite-scroller'
-import { queryOrderList } from '../../common/request'
+import { getFieldByCode, queryOrderList } from '../../common/request'
 // import { formatDate } from '../../utils'
 import { USER_INFO_ID, MANAGE_ID } from '../../config'
 import orderSearch from './mock/orderSearch'
@@ -50,6 +50,7 @@ const Order = (props) => {
   const [orderSearchFlow, setOrderSearchFlow] = useState([])
   const [orderSearchInfoKey, setOrderSearchInfoKey] = useState('')
   const [orderSearchInfo, setOrderSearchInfo] = useState({})
+  const [fxGzlxs, setFxGzlxs] = useState({})
 
   const callback = (key) => {
     setOrderState(key)
@@ -71,7 +72,20 @@ const Order = (props) => {
       setOrderSearchFlow([])
       setOrderSearchInfo({})
     }
+    getFieldByCode('fxGzlx').then(data => {
+      var fxGzlxs = {}
+      data.data.params.forEach(element => {
+        fxGzlxs[element.value] = element.label
+      })
+      console.log(fxGzlxs)
+      setFxGzlxs(fxGzlxs)
+    })
   }, [orderSearchType])
+  // useEffect(() => {
+  //   getFieldByCode('fxGzlx').then(data => {
+  //     console.log(data)
+  //   })
+  // })
   useEffect(() => {
     if (drawerConfig.form) setOrderSearchInfoKey(drawerConfig.form[0].code)
   }, [drawerConfig])
@@ -90,9 +104,13 @@ const Order = (props) => {
         attrs.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
         attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
     }
-    // 挂起 图像组管理员特殊处理
-    if ((orderState === '5' || orderState === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-      attrs.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" }) // 挂起 / 不是图像组管理员 添加参数
+    // 挂起  & 逾期 图像组管理员特殊处理
+    if ((orderState === '5' || orderState === 5 || orderState === '4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+      attrs.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+    }
+    // 完成工单 特殊处理
+    if ((orderState === '3' || orderState === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+      attrs.push({ key: "participation", value: userAccountInfo.userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
     }
     console.log(orderState)
     console.log(attrs)
@@ -206,6 +224,7 @@ const Order = (props) => {
             <div className='item' onClick={() => { history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}`) }}>
               <h2 className='title'>{item.title}</h2>
               <p className='description'>当前处理人：{item.executor.join('，')}</p>
+              <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p>
               <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
               <p className='orderstate'>{item.activityName}</p>
             </div>

@@ -23,6 +23,11 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({ ...actions }, dispatch),
   }
 }
+// function mapJwdProps() {
+//   return {
+//     jwd: {},
+//   }
+// }
 const IconText = ({ type, text }) => (
   <span>
     <Icon type={type} style={{ marginRight: 8 }} />
@@ -67,10 +72,24 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
       })
     }
     if (devcieSearch !== '') {
+      // conditions.push({
+      //   field: 'name',
+      //   value: devcieSearch,
+      //   operator: 'LIKE'
+      // })
       conditions.push({
-        field: 'name',
-        value: devcieSearch,
-        operator: 'LIKE'
+        "cjt": "OR",
+        "items": [
+          {
+            field: 'name',
+            value: devcieSearch,
+            operator: 'LIKE'
+          }, {
+            field: 'jpbh',
+            value: devcieSearch,
+            operator: 'LIKE'
+          }
+        ]
       })
     }
     if (['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
@@ -106,7 +125,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
     <div className='order-page-select-device'>
       <HeaderBar title="选择设备"/>
       <div className='search-bar'>
-        <Search className='search-input' placeholder={'请输入设备名称'} onSearch={value => { setDeviceSearch(value) }} />
+        <Search className='search-input' placeholder={'请输入关键字（设备名称、键盘编号）'} onSearch={value => { setDeviceSearch(value) }} />
         {/* <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div> */}
       </div>
       <div className='device-list'>
@@ -130,6 +149,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 ]}
               >
                 <List.Item.Meta title={item.name} description={item.managementUnit} />
+                <span>{item.jpbh}</span>
                 <Button className="btn" type="link" onClick={() => {
                   if (item.cameraState !== "using") {
                     if (item.cameraState === "maintenanceInfo") {
@@ -141,8 +161,9 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     return
                   }
                   if (item.whcs) {
-                    console.log(userAccountInfo.roleName)
+                    console.log(props)
                     if (['超级管理员'].includes(userAccountInfo.roleName)) {
+                      // props.staticContext({longitude: item.longitude})
                       queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
                         props.actions.setForm({
                           resource: [{

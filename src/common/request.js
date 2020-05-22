@@ -292,3 +292,15 @@ export const getUserbyName = async (userName) => {
   })
   return data
 }
+
+// 通过字段编码获取字段详细信息
+export const getFieldByCode = async (code) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/ticket/field',
+    params: {
+      code: code
+    }
+  })
+  return data
+}

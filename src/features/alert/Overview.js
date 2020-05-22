@@ -18,8 +18,16 @@ const Overview = (props) => {
   const { userAccountInfo } = props
   const history = useHistory()
   const [alertNums, setAlertNums] = useState(baseData)
-  useEffect(() => {
-    countAlert({apikey: 'e10adc3949ba59abbe56e057f2gg88dd', groupBy: 'source', status: 0}).then(d => { setAlertNums(d) })
+  useEffect(() => { // 近24小时
+    countAlert({apikey: 'e10adc3949ba59abbe56e057f2gg88dd', groupBy: 'source', 'status': 0, 'end': parseInt(new Date().getTime()), 'start': parseInt(new Date().getTime()-24*60*60*1000) }).then(d => { 
+      var ss = []
+      d.forEach(element => {
+        if (element.value === '网络资源监控' || element.value === '基础资源监控' || element.value === 'NVR存储告警') {
+          ss.push(element)
+        }
+      });
+      setAlertNums(ss) 
+    })
   },[userAccountInfo])
   return (
     <div className="alert-overview">

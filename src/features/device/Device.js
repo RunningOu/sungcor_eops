@@ -21,9 +21,9 @@ const tabs = [
 ];
 const tabsConfig = [
   [],
-  [{field: 'bxstatus', value: 'using', operator: 'EQ'}],
-  [{field: 'bxstatus', value: 'maintenanceInfo', operator: 'EQ'}],
-  [{field: 'bxstatus', value: 'demolish', operator: 'EQ'}],
+  [{field: 'cameraState', value: 'using', operator: 'EQ'}],
+  [{fieldName: 'cameraState', value: 'maintenanceInfo', operator: 'EQ'}],
+  [{field: 'cameraState', value: 'demolish', operator: 'EQ'}],
 ]
 const IconText = ({ type, text }) => (
   <span>
@@ -57,10 +57,24 @@ const Device = (props) => {
   useEffect(() => {
     let conditions = [ ...tabsConfig[orderState]]
     if (deviceSearch !== '') {
+      // conditions.push({
+      //   field: 'name',
+      //   value: deviceSearch,
+      //   operator: 'LIKE'
+      // })
       conditions.push({
-        field: 'name',
-        value: deviceSearch,
-        operator: 'LIKE'
+        "cjt": "OR",
+        "items": [
+          {
+            field: 'name',
+            value: deviceSearch,
+            operator: 'LIKE'
+          }, {
+            field: 'jpbh',
+            value: deviceSearch,
+            operator: 'LIKE'
+          }
+        ]
       })
     }
     if(['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
@@ -119,7 +133,7 @@ const Device = (props) => {
         {tabs.map((tab) => (<TabPane tab={tab.title} key={tab.sub} />))}
       </Tabs>
       <div className='search-bar'>
-        <Search className='search-input' placeholder={'请输入设备名称'} onSearch={value => { setDeviceSearch(value) }} />
+        <Search className='search-input' placeholder={'请输入关键字（设备名称、键盘编号）'} onSearch={value => { setDeviceSearch(value) }} />
         {/* <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div> */}
       </div>
       <Drawer
@@ -181,12 +195,13 @@ const Device = (props) => {
               onClick={() => { history.push('/device/' + item.id) }}
               key={item.id}
               actions={[
-                <IconText type="api" text={_.find(deviceState, (v) => v.code === item.bxstatus).name} />,
+                <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
                 // <IconText type="tool" text={item.changsce} />
               ]}
             >
-              <List.Item.Meta title={item.name} description={item.managementUnit} /></List.Item>)
-            } />
+              <List.Item.Meta title={item.name} description={item.managementUnit} /><span>{item.jpbh}</span></List.Item>
+              // <span>111</span>
+              )} />
         </InfiniteScroll>
       </div>
       <FooterBar pathname={props.location.pathname} />

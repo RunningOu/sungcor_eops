@@ -11,6 +11,7 @@ import {
   singleSel,
   dateTime,
   resource,
+  GisShow,
   listSel
 } from './components'
 import { queryOrderModel, createOrder, updateImage, getUserbyName } from '../../common/request'
@@ -69,6 +70,7 @@ const CreateOrder = Form.create({
   }
 })((props) => {
   // const { user: { userAccountInfo } } = props
+  // console.log(props)
   const { modal } = useParams()
   const history = useHistory()
   const [orderModal, setOrderModal] = useState({})
@@ -77,12 +79,16 @@ const CreateOrder = Form.create({
   const [pcsInfo, setPcsInfo] = useState({})
   const [files, setFiles] = useState([]) //图片
   const [bxpcs, setBxpcs] = useState('') // pcs
+  const [resourceId, setResourceId] = useState('') // 资产id
   useEffect(() => {
     if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
       history.push(`${props.location.pathname}/selectdevice`)
     }
     if(props.order.form.fxpcs !== undefined) {
       setBxpcs(props.order.form.fxpcs)
+    }
+    if (props.order.form.resource && props.order.form.resource[0].id) {
+      setResourceId(props.order.form.resource[0].id)
     }
   }, [orderModal,  history, props.order.form, props.location.pathname])
   useEffect(() => { 
@@ -195,7 +201,6 @@ const CreateOrder = Form.create({
               上传图片
             </Upload>
           </div> : null}
-
         <Button
           type="primary"
           style={{ backgroundColor: '#005da3' }}
@@ -253,6 +258,7 @@ const CreateOrder = Form.create({
               }
             })
           }}>提交</Button>
+          <GisShow resourceId={resourceId} />
       </div>
     </div>
   )

@@ -19,6 +19,7 @@ import {
   dateTimeShow,
   multiSelShow,
   OrderBuilder,
+  GisShow,
   FileShow
 } from './components'
 import { HeaderBar } from '../common'
@@ -61,12 +62,16 @@ const Details = (props) => {
   const [title, setTitle] = useState();
   const [code, setCode] = useState(0);
   const [pcsInfo, setPcsInfo] = useState({})
+  const [resourceId, setResourceId] = useState('') // 资产id
   //挂起标识 isgq
   let isgq = 'wgq'
   try{
     orderInfo.form.forEach(orderattrs => {
         if(orderattrs.code === "sfbx"){
           isgq = orderattrs.default_value
+        }
+        if(orderattrs.code === "resource"){
+          setResourceId(orderattrs.default_value[0].id)
         }
     })
   }catch(e){
@@ -237,9 +242,10 @@ const Details = (props) => {
                   null
             :null
             }
-          
+          {/* <GisShow resourceId={resourceId} /> */}
          <Modal visible={visible} title="系统提示" onOk={()=>orderHang(true)} onCancel={()=>orderHang(false)}>{title}</Modal>
         </div>
+        <GisShow resourceId={resourceId} />
       </div>
 
     </div>

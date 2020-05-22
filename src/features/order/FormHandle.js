@@ -12,6 +12,7 @@ import {
   dateTime,
   resource,
   listSel,
+  GisShow,
   HandleButton
 } from './components'
 import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName } from '../../common/request'
@@ -88,6 +89,7 @@ const HandleOrder = Form.create({
   const [putUpRemark, setPutUpRemark] = useState('')
   const [sfgq, setSfgq] = useState(false)
   const [pcsInfo, setPcsInfo] = useState({})
+  const [resourceId, setResourceId] = useState('') // 资产id
 
   const query = new URLSearchParams(search)
 
@@ -98,6 +100,9 @@ const HandleOrder = Form.create({
           setSfgq(true)
           message.info("工单已被挂起锁定，无法操作")
         }
+      }
+      if(orderFindGq.code === "resource"){
+        setResourceId(orderFindGq.default_value[0].id)
       }
     })
   
@@ -241,6 +246,7 @@ const HandleOrder = Form.create({
   }, [props.actions, props.user, orderModal, modal, search])
   useEffect(() => {
     console.log(orderInfo, orderModal)
+    console.log(orderBefore.changeExecutor[orderModal.sequence])
   }, [orderInfo, orderModal])
 
 
@@ -274,7 +280,7 @@ const HandleOrder = Form.create({
         <div className="handle-button-group">
           { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
           {/* {[3,6,8].includes(orderModal.sequence) ? */}
-          {[3, 4, 6].includes(orderModal.sequence) ?
+          {[3, 6, 8].includes(orderModal.sequence) ?
             <>
               <Button block onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
               <Modal
@@ -350,6 +356,7 @@ const HandleOrder = Form.create({
             </>
             : null}
         </div>
+        <GisShow resourceId={resourceId} />
       </div>
     </div>
   )
