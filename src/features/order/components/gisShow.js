@@ -6,13 +6,13 @@ import { queryDeviceById } from '../../../common/request'
 // var BMap = window.BMap || {}
 
 export default function(props) {
-    console.log(props)
+    // console.log(props)
     const {resourceId} = props
     const [deviseInfo, setDeviseInfo] = useState({}) // 设备信息
     useEffect(()=>{
         if (resourceId !== '') {
             queryDeviceById(resourceId).then((d) => {
-                console.log(d)
+                // console.log(d)
                 setDeviseInfo(d)
             })
         }
@@ -23,7 +23,7 @@ export default function(props) {
             this._point = point;
             this._marker = marker;
         }
-        console.log(BMap,"================")
+        // console.log(BMap,"================")
         ComplexCustomOverlay.prototype = new window.BMap.Overlay();
         ComplexCustomOverlay.prototype.initialize = function(map){
             this._map = map;

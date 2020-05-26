@@ -20,6 +20,8 @@ export default {
       {name: "张辰磊", id: "7e8ad09a133646c18c56954c382fc8cf" },
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" }, // 新增用户
       {name: "刘康", id: "95f4a7ccd4f64cd9b5af7e146bc0cf9d" }, // 新增用户
+      {name: "石玉冬", id: "f33a4c22727c42e79cdc4ba64517f1f4" }, // 新增用户
+      {name: "赵敬廷", id: "00e63d89599e425b840cb50bb78b85ff" }, // 新增用户
     ],
     3:[
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
