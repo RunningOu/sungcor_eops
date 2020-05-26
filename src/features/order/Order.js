@@ -26,7 +26,7 @@ const tabs = [
 const tabsConfig = userId => [
   [],
   [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
-  [{ key: "participation", value: userId, operator: "IN" }],
+  [{ key: "participation", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }],
   [{ key: "status", value: "3", operator: "IN" }],
   [{ key: "overdue", value: "1", operator: "IN" }],
   [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
