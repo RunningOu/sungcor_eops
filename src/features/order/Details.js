@@ -70,10 +70,12 @@ const Details = (props) => {
         if(orderattrs.code === "sfbx"){
           isgq = orderattrs.default_value
         }
-        if(orderattrs.code === "resource"){
-          setResourceId(orderattrs.default_value[0].id)
-        }
     })
+    orderInfo.form.forEach(orderattrs => {
+      if(orderattrs.code === "resource"){
+        setResourceId(orderattrs.default_value[0].id)
+      }
+  })
   }catch(e){
   }
   function orderReceiving(fn) { 
