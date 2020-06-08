@@ -17,4 +17,5 @@ export { default as listSelShow } from './listSelShow'
 export { default as HandleButton } from './HandleButton'
 export { default as FileShow } from './fileShow'
 export { default as GisShow } from './gisShow'
+export { default as pendingShow } from './pendingShow'
 

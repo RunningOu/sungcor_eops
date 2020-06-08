@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import { HeaderBar, FooterBar } from '../common'
 // import { useHistory } from 'react-router-dom'
-import { Card, Tag, message, List } from 'antd'
+import { Card, Tag, message, Input, List } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
 import { formatDate, TimeToHours } from '../../utils'
 import { queryAlertList } from '../../common/request'
 
 import './Details.less'
-
+const { Search } = Input;
 const Details = (props) => {
   const { location: { search } } = props
   console.log(search)
@@ -20,6 +20,7 @@ const Details = (props) => {
   const [pageNum, setPageNum] = useState(1) // 列表分页下标
   const [loading, setLoading] = useState(false) // 列表加载中状态
   const [hasMore, setHasMore] = useState(true) // 列表加载中状态
+  const [searchIp, setSearchIp] = useState('') // ip
 
   const handleInfiniteOnLoad = () => {
     setLoading(true)
@@ -38,15 +39,20 @@ const Details = (props) => {
   useEffect(() => {
     setTitle(new URLSearchParams(search).get('name')+"告警列表")
     const source = new URLSearchParams(search).get('name')
+    const status = new URLSearchParams(search).get('status')
     if(source.length) {
-      queryAlertList({
+      var queryParam = {
         "source": source,
-        'pageNum': pageNum,
+        'pageNo': pageNum,
         'pageSize': 10,
-        'status': 0,
+        'status': status,
         'start': new Date().getTime()-24*60*60*1000, // 近24小时
         'end': new Date().getTime()
-        }).then(d => { 
+      }
+      if(searchIp){
+        queryParam.entityAddr = searchIp
+      }
+      queryAlertList(queryParam).then(d => { 
           setCount(d.data.total)
           // setAlertList(d.data.records)
           if (d.data.hasOwnProperty('records')) {
@@ -61,10 +67,14 @@ const Details = (props) => {
       })
       .catch((e) => { })
     }
-  }, [search, pageNum])
+  }, [search, pageNum, searchIp])
   return (
     <div className="alert-details">
       <HeaderBar title={title} />
+      <div className='search-bar'>
+        <Search className='search-input' placeholder={'请输入设备ip'} onSearch={value => { setSearchIp(value); setPageNum(1) }} />
+        {/* <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div> */}
+      </div>
       <div className="alert-scoll">
       <InfiniteScroll
           initialLoad={false}
@@ -79,7 +89,7 @@ const Details = (props) => {
                         console.log(item)
                     }} title={<span style={{'color': '#0e6dfb'}}>{item.source} 
                     {/* <div className="arrow-left"></div> */}
-                    <Tag className={item.severityCN === '警告' ? 'alert-warning' : item.severityCN === '错误' ? 'alert-error' : 'alert-critical'}>{item.severityCN}</Tag ></span>} 
+                    <Tag className={item.severityCN === '警告' ? 'alert-warning' : item.severityCN === '错误' ? 'alert-error' : item.severityCN === '紧急' ? 'alert-critical' : 'alert-hf'}>{item.severityCN}</Tag ></span>} 
                         extra={TimeToHours(item.lastOccurTime - item.firstOccurTime)}
                         headStyle={{'padding': '0px 0px 0px 5px', 'background': '#40a9ff', 'borderRadius': '10px', 'minHeight': '44px'}}
                         className="alert-card" key="alert_processed" bodyStyle={{ 'borderRadius': '10px', 'padding': '8px 2px 5px 14px' }}>

@@ -336,11 +336,25 @@ const HandleOrder = Form.create({
                 title="填写挂起原因"
                 onOk={() => {
                   if(putUpRemark !== '') {
+                    var gqy = ''
+                    var gqjlArr = []
+                    orderInfo.form.forEach(orderattrs => {
+                      if(orderattrs.code === "gqyy"){
+                        gqy = orderattrs.default_value
+                      }
+                    })
+                    if (typeof(gqy) !== 'string' && gqy) {
+                      gqjlArr = gqy
+                      gqjlArr.push({'title': '挂起原因','reason': putUpRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+                    } else {
+                      gqjlArr.push({'title': '挂起原因','reason': putUpRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+                    }
+                    // var gqqq = []
                     updateOrder({
                       ticket_id: modal,
                       form: {
                         sfbx: 'gqsh',
-                        gqyy: putUpRemark
+                        gqyy: gqjlArr
                       }
                     }).then(() => {
                       history.push('/order')

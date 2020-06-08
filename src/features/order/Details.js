@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 // import { Button , message , Modal} from 'antd'
-import { Button , Modal} from 'antd'
+import { Button , Modal, Input, message} from 'antd'
+import moment from 'moment'
 import { connect } from 'react-redux'
 import {
   queryOrderModel,
@@ -20,6 +21,7 @@ import {
   multiSelShow,
   OrderBuilder,
   GisShow,
+  pendingShow,
   FileShow
 } from './components'
 import { HeaderBar } from '../common'
@@ -43,9 +45,9 @@ const cr = {
   "multiSel": multiSelShow,
   "cascader": singleRowTextShow,
   "treeSel": singleRowTextShow,
-  "double": singleRowTextShow
+  "double": singleRowTextShow,
+  "pendingShow": pendingShow
 }
-
 
 const Details = (props) => {
   // const state = {
@@ -59,10 +61,13 @@ const Details = (props) => {
   const [order, setOrder] = useState([])
   const query = new URLSearchParams(search)
   const [visible, setVisible] = useState(false);
+  const [disVisible, setDisVisible] = useState(false);
   const [title, setTitle] = useState();
   const [code, setCode] = useState(0);
   const [pcsInfo, setPcsInfo] = useState({})
   const [resourceId, setResourceId] = useState('') // 资产id
+  // const [gqyy, setGqyy] = useState('') // 挂起原因
+  const [disagreeRemark, setDisagreeRemark] = useState('')
   //挂起标识 isgq
   let isgq = 'wgq'
   try{
@@ -75,7 +80,12 @@ const Details = (props) => {
       if(orderattrs.code === "resource"){
         setResourceId(orderattrs.default_value[0].id)
       }
-  })
+    })
+    // orderInfo.form.forEach(orderattrs => {
+    //   if(orderattrs.code === "gqyy"){
+    //     setGqyy(orderattrs.default_value)
+    //   }
+    // })
   }catch(e){
   }
   function orderReceiving(fn) { 
@@ -102,7 +112,7 @@ const Details = (props) => {
       }
     })
   }
-  function orderHang(isHang){
+  function orderHang(isHang, gqyy){
     if(isHang){
       if(code===0){
         updateOrder({
@@ -124,14 +134,61 @@ const Details = (props) => {
     }
     setVisible(false)
   }
+
+  function orderHangD(isHang){
+    var gqyyy = ''
+    var gqyArr = []
+    orderInfo.form.forEach(orderattrs => {
+      if(orderattrs.code === "gqyy"){
+        gqyyy = orderattrs.default_value
+      }
+    })
+    if (typeof(gqyyy) != 'string') {
+      gqyArr = gqyyy
+      gqyArr.push({'title': '不同意挂起原因：','reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+    } else {
+      gqyArr.push({'title': '挂起原因：','reason': gqyyy, 'time': ''})
+      gqyArr.push({'title': '不同意挂起原因：','reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+    }
+    if(disagreeRemark){
+      console.log(disagreeRemark)
+      console.log(orderInfo.form)
+      if(isHang){
+        if(code===0){
+          updateOrder({
+            ticket_id: modal,
+            form: {
+              'sfbx':'ygq'
+            }
+          })
+        }
+      if(code===1||code===2){
+
+        updateOrder({
+          ticket_id: modal,
+          form: {
+            'sfbx':'wgq',
+            'gqyy': gqyArr
+          }
+        })
+      }
+      history.go(-1);
+      }
+      setDisVisible(false)
+    } else {
+      message.warning('请填写不同意挂起原因')
+    }
+  }
+
   function orderHangOnklin(isHang,code){
     if(isHang==="ture"){
       setTitle("是否确认同意挂起")
+      setVisible(true)
     }else{
       setTitle("是否确认不同意挂起")
+      setDisVisible(true)
     }
     setCode(code)
-    setVisible(true)
   }
   function orderHangOnqh(code){
     setTitle("取回后工单将正常流转")
@@ -150,7 +207,7 @@ const Details = (props) => {
             if(orderattrs.code === "fxpcs"){
               // console.log(orderattrs.default_value)
               getUserbyName(orderattrs.default_value).then(data => {
-                console.log("data>>>",data)
+                // console.log("data>>>",data)
                 setPcsInfo(data)
               })
             }
@@ -180,6 +237,10 @@ const Details = (props) => {
           if (selfModal.type !== 'singleRowText' && selfModal.params) {
             data.params = selfModal.params
           }
+          if (selfModal.code === 'gqyy') {
+            data.type = 'pendingShow'
+          }
+          // multiRowText
           data.widget = cr[data.type]
           if (!data.default_value) {
             data = null
@@ -245,7 +306,12 @@ const Details = (props) => {
             :null
             }
           {/* <GisShow resourceId={resourceId} /> */}
-         <Modal visible={visible} title="系统提示" onOk={()=>orderHang(true)} onCancel={()=>orderHang(false)}>{title}</Modal>
+         <Modal visible={disVisible} title="系统提示" onOk={()=>orderHangD(true)} onCancel={()=>orderHangD(false)}>
+            <Input.TextArea rows="3" placeholder="请填写不同意挂起原因" value={disagreeRemark} onChange={e => { setDisagreeRemark(e.target.value) }} />
+         </Modal>
+         <Modal visible={visible} title="系统提示" onOk={()=>orderHang(true)} onCancel={()=>orderHang(false)}>
+            {title}
+         </Modal>
         </div>
         <GisShow resourceId={resourceId} />
       </div>

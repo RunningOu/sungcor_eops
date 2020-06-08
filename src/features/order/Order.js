@@ -28,7 +28,7 @@ const tabsConfig = userId => [
   [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
   [{ key: "participation", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }],
   [{ key: "status", value: "3", operator: "IN" }],
-  [{ key: "overdue", value: "1", operator: "IN" }],
+  [{ key: "overdue", value: "1", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
   [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
 ]
 const Order = (props) => {
@@ -50,11 +50,14 @@ const Order = (props) => {
   const [orderSearchFlow, setOrderSearchFlow] = useState([])
   const [orderSearchInfoKey, setOrderSearchInfoKey] = useState('')
   const [orderSearchInfo, setOrderSearchInfo] = useState({})
+  const [searchInfo, setSearchInfoKey] = useState('formData.deviceKey')
   const [fxGzlxs, setFxGzlxs] = useState({})
 
   const callback = (key) => {
     setOrderState(key)
   }
+  // 查询条件
+  const searchList = [{code: 'formData.deviceKey', name: '键盘编号'}, {code: 'title', name: '工单标题'}, {code: 'formData.deviceIp', name: '设备IP'}]
   const handleInfiniteOnLoad = () => {
     setLoading(true)
     if (orderList.length < 10) {
@@ -88,6 +91,7 @@ const Order = (props) => {
   // })
   useEffect(() => {
     if (drawerConfig.form) setOrderSearchInfoKey(drawerConfig.form[0].code)
+    // setOrderSearchInfo()
   }, [drawerConfig])
 
   useEffect(() => {
@@ -97,7 +101,7 @@ const Order = (props) => {
   useEffect(() => {
     let attrs = [...tabsConfig(userAccountInfo.userId)[orderState]]
     if (Object.keys(drawerConfig).length) attrs.push({key: "modelId", value: drawerConfig.modelId, operator: "EQ"})
-    if (searchTitle !== "") attrs.push({ key: "title", value: searchTitle, operator: "LIKE" })
+    if (searchTitle !== "") attrs.push({ key: searchInfo, value: searchTitle, operator: "LIKE" })
     if (Object.keys(orderSearchInfo).length) attrs.push({ key: orderSearchInfo.key, value: orderSearchInfo.value, operator: "LIKE" })
     if (orderSearchFlow.length) attrs.push({ key: 'activityName', value: orderSearchFlow.join(','), operator: 'IN' })
     if ((orderState === 1 || orderState === '1') &&(local_get(USER_INFO_ID).userId === MANAGE_ID)) {
@@ -157,7 +161,11 @@ const Order = (props) => {
         {tabs.map((tab) => (<TabPane tab={tab.title} key={tab.sub} />))}
       </Tabs>
       <div className='search-bar'>
-        <Search className='search-input' placeholder={'请输入工单名称'} onSearch={value => { setSearchTitle(value) }} />
+        <Select value={searchInfo} onChange={v => { setSearchInfoKey(v);
+        setSearchTitle('') }}>
+          {searchList.map(e => <Option value={e.code}>{e.name}</Option>)}
+        </Select>
+        <Search className='search-input' placeholder={'请输入'} onSearch={value => { setSearchTitle(value) }} />
         <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div>
       </div>
       <Drawer
@@ -225,6 +233,7 @@ const Order = (props) => {
               <h2 className='title'>{item.title}</h2>
               <p className='description'>当前处理人：{item.executor.join('，')}</p>
               <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p>
+              <p className='description'>键盘编号：{item.formData.deviceKey}</p>
               <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
               <p className='orderstate'>{item.activityName}</p>
             </div>
