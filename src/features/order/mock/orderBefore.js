@@ -20,15 +20,18 @@ export default {
       {name: "张辰磊", id: "7e8ad09a133646c18c56954c382fc8cf" },
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" }, // 新增用户
       {name: "刘康", id: "95f4a7ccd4f64cd9b5af7e146bc0cf9d" }, // 新增用户
-      {name: "石玉冬", id: "f33a4c22727c42e79cdc4ba64517f1f4" }, // 新增用户
-      {name: "赵敬廷", id: "00e63d89599e425b840cb50bb78b85ff" }, // 新增用户
     ],
+    // 中海外返
     3:[
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
-      {name: "李晓伟", id: "e33d11668c5b4fb3981cebeb1df73ae1" }, 
+      // {name: "李晓伟", id: "e33d11668c5b4fb3981cebeb1df73ae1" }, // 删除
       {name: "李明", id: "faaea1f9dd7645939e6fb7b04eec8f64" }, 
       {name: "王卓越", id: "c6b0a1173d7b47b4bb8865231432a036" },
       {name: "戴梦", id: "e58ca9b4c2234194b855882b3af2216a" }, // 新增用户
+      {name: "韩忠惠", id: "e691c43ee8ef44549aa7a522fe1d2daf" }, // 新增用户
+      {name: "赵敬廷", id: "00e63d89599e425b840cb50bb78b85ff" }, // 新增用户
+      {name: "石玉东", id: "f33a4c22727c42e79cdc4ba64517f1f4" }, // 新增用户
+      {name: "顾杰", id: "7c2b298c3ba644829335dfc87f676180" }, // 新增用户
     ]
   }
   // changeExecutor: {
