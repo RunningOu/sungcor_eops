@@ -122,6 +122,9 @@ const HandleOrder = Form.create({
       message.warning('请填写完全工单信息！')
       return
     }
+    if (props.order.form.gqyy) {
+      form.gqyy = props.order.form.gqyy
+    }
     var submitData = {
       ticket_id: modal,//工单id
       model_id: query.get('modelId'),//模型id
@@ -137,6 +140,7 @@ const HandleOrder = Form.create({
     if(pcsInfo.apiKeys && orderInfo.executors[0] !== MANAGE_ID){
       submitData.apikey = pcsInfo.apiKeys[0].key
     }
+    console.log(submitData)
     handleOrder(submitData).then(d => {
       // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
       if (files.length) {
