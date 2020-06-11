@@ -22,7 +22,8 @@ import {
   OrderBuilder,
   GisShow,
   pendingShow,
-  FileShow
+  FileShow,
+  title
 } from './components'
 import { HeaderBar } from '../common'
 import _ from 'lodash'
@@ -46,7 +47,8 @@ const cr = {
   "cascader": singleRowTextShow,
   "treeSel": singleRowTextShow,
   "double": singleRowTextShow,
-  "pendingShow": pendingShow
+  "pendingShow": pendingShow,
+  "title": title
 }
 
 const Details = (props) => {
@@ -66,7 +68,10 @@ const Details = (props) => {
   const [code, setCode] = useState(0);
   const [pcsInfo, setPcsInfo] = useState({})
   const [resourceId, setResourceId] = useState('') // 资产id
+
+  const [orderOne, setOrderOne] = useState([])
   // const [gqyy, setGqyy] = useState('') // 挂起原因
+  
   const [disagreeRemark, setDisagreeRemark] = useState('')
   //挂起标识 isgq
   let isgq = 'wgq'
@@ -231,14 +236,61 @@ const Details = (props) => {
   }, [modal, search, userAccountInfo])
   useEffect(() => {
     if (orderModel.length) {
+      var ddd  = []
+      var iii = []
       setOrder(oldOrder => {
-        oldOrder = oldOrder.map(data => {
+        console.log(oldOrder)
+        oldOrder = oldOrder.map((data, index) => {
           let selfModal = _.find(orderModel, m => data.code === m.code)
           if (selfModal.type !== 'singleRowText' && selfModal.params) {
             data.params = selfModal.params
           }
           if (selfModal.code === 'gqyy') {
             data.type = 'pendingShow'
+          }
+          if(selfModal.code === 'receivedman'){
+            var dataa = {
+              'widget': cr['title'],
+              'id': 111122,
+              'color': '',
+              'type': 'title',
+              value: '内场接单'
+            }
+            ddd.push(dataa)
+            iii.push(index)
+          }
+          if(selfModal.code === 'solver'){
+            var dataa = {
+              'widget': cr['title'],
+              'id': 1333,
+              'color': '',
+              'type': 'title',
+              value: '外场返单'
+            }
+            ddd.push(dataa)
+            iii.push(index)
+          }
+          if(selfModal.code === 'score'){
+            var dataa = {
+              'widget': cr['title'],
+              'id': 6666,
+              'color': '',
+              'type': 'title',
+              value: '用户确认'
+            }
+            ddd.push(dataa)
+            iii.push(index)
+          }
+          if(selfModal.code === 'sfbx'){
+            var dataa = {
+              'widget': cr['title'],
+              'id': 6000,
+              'color': '',
+              'type': 'title',
+              value: '流程信息'
+            }
+            ddd.push(dataa)
+            iii.push(index)
           }
           // multiRowText
           data.widget = cr[data.type]
@@ -249,6 +301,23 @@ const Details = (props) => {
         });
         return [..._.compact(oldOrder)]
       })
+      setTimeout(() =>{
+        var dataOne1 = order
+        ddd.forEach((item,index) => {
+          var dataOne = dataOne1.slice(0,index)
+          console.log(index)
+          var dataOne = dataOne1.slice(0,iii[index]+index)
+          dataOne = dataOne.concat(item)
+          dataOne = dataOne.concat(dataOne1.slice(iii[index]+index,dataOne1.length))
+          console.log(dataOne)
+          dataOne1 = dataOne
+        })
+        if(ddd.length>0){
+          setOrder(dataOne1)
+          console.log(order)
+        }
+        
+      }, 10)
     }
   }, [orderModel])
   

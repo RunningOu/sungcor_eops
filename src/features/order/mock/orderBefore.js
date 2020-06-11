@@ -33,7 +33,7 @@ export default {
       {name: "石玉东", id: "f33a4c22727c42e79cdc4ba64517f1f4" }, // 新增用户
       {name: "顾杰", id: "7c2b298c3ba644829335dfc87f676180" }, // 新增用户
     ]
-  }
+  },
   // changeExecutor: {
   //   3: [
   //     {name: "梁栋", id: "30b4697a889b4592ba1a113c510fa451" }, 

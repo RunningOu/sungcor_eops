@@ -4,7 +4,7 @@ import { Descriptions } from 'antd'
 const { Item } = Descriptions
 export default function(props) {
   return (
-    <Item label={props.name} key={props.id}>
+    <Item label={props.name} key={props.id} span={3}>
         {moment(props.default_value).format('YYYY-MM-DD HH:mm:ss')} 
     </Item>
   )
