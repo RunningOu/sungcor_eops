@@ -1,13 +1,15 @@
 import React from 'react'
 // import { useHistory } from 'react-router-dom'
 import { Statistic, Card } from 'antd';
-
+import { useHistory } from 'react-router-dom'
 import './Statistic.less'
 export default (props) => {
   const { role } = props
+  const history = useHistory()
   const render = () => {
     const cp = {
       "overdue_myToDo": <Card onClick={() => {
+        history.push('/order?state=1')
       }}
         className='statistic-card' key="overdue_myToDo">
         <Statistic
@@ -30,6 +32,8 @@ export default (props) => {
         <img src={require('../../../assets/home/statistic02.png')} alt="图标"/>
       </Card>,
       "DeviceOnline": <Card onClick={() => {
+       //history.push('../../../features/deviceOnline/DeviceShow')
+       history.push('/deviceOnline/DeviceShow')
       }}
         className="statistic-card" key="DeviceOnline">
         <Statistic
@@ -42,6 +46,7 @@ export default (props) => {
         <img src={require('../../../assets/home/statistic03.png')} alt="图标"/>
       </Card>,
       "DeviceError": <Card onClick={() => {
+        history.push('/device?state=2')
       }}
         className="statistic-card" key="DeviceError">
         <Statistic

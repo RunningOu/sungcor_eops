@@ -35,10 +35,9 @@ const tagsFromDiviceType = ['设备种类1', '设备种类2', '设备种类3', '
 const tagsFromDiviceForm = ['旅顺公安所', '大庆公安所', '包头公安所', '上饶派出所', '象山派出所', '五道口派出所']
 
 const Device = (props) => {
-  const { history, userAccountInfo} = props
+  const { history, userAccountInfo, location: { search }} = props
   const [deviceList, setDeviceList] = useState([]) // 工单列表
 
-  const [orderState, setOrderState] = useState("0")
   const [deviceSearch, setDeviceSearch] = useState('')
   const [drawerOpen, setDrawerOpen] = useState(false) // 侧边抽屉开关
   const [selectedTags, setSelectedTags] = useState([]) // 侧边抽屉选中项
@@ -47,6 +46,9 @@ const Device = (props) => {
   const [pageNum, setPageNum] = useState(0) // 列表分页下标
   const [loading, setLoading] = useState(false) // 列表加载中状态
   const [hasMore, setHasMore] = useState(true) // 列表加载中状态
+
+  // const { user: { userAccountInfo } } = props
+  const [orderState, setOrderState] = useState( new URLSearchParams(search).get('state') ||"0")
 
   const callback = (key) => { setOrderState(key) }
 
@@ -129,7 +131,7 @@ const Device = (props) => {
   return (
     <div className='device-page-index'>
       <HeaderBar title='资产列表' />
-      <Tabs defaultActiveKey="0" onChange={callback} >
+      <Tabs defaultActiveKey={orderState} onChange={callback} >
         {tabs.map((tab) => (<TabPane tab={tab.title} key={tab.sub} />))}
       </Tabs>
       <div className='search-bar'>
