@@ -304,3 +304,67 @@ export const getFieldByCode = async (code) => {
   })
   return data
 }
+
+// 通过故障类型统计
+export const countByCode = async (code, type) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/ticket/countbygzlx',
+    params: {
+      code: code,
+      type: type
+    }
+  })
+  return data
+}
+
+// 总在线率
+export const countOnlienRate = async () => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/oss/app/portal/countOnlineRate'
+  })
+  return data
+}
+
+// 摄像机在线率
+export const countCameraOnlineRate = async () => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/oss/app/portal/countCameraOnlineRate'
+  })
+  return data
+}
+
+// 通过类型统计数量
+export const countOnlineGroupByType = async (type) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/oss/app/portal/countOnlineGroupByType',
+    params: {
+      type: type
+    }
+  })
+  return data
+}
+
+// 在线列表
+export const queryNetworkList = async (d, url) => {
+  const { data } = await axios({
+    method: 'post',
+    url: '/oss/oss' + url,
+    data: {
+      ...d
+    }
+  })
+  return data
+}
+
+// 项目工单总览
+export const countTicketByStatus = async (para) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/oss/app/portal/countTicketByStatus?interval='+para
+  })
+  return data
+}
