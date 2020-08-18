@@ -4,4 +4,4 @@ export { default as Form } from './Form'
 export { default as FormHandle } from './FormHandle'
 export { default as SelectDevice } from './SelectDevice'
 export { default as Details } from './Details'
-
+export { default as gisQpShow } from './components/gisQpShow'

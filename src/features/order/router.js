@@ -5,7 +5,8 @@ import {
   SelectDevice,
   Details,
   FormHandle} from './'
-import { SelectView,FormHandleBa } from './bacth'
+import { SelectView, FormHandleBa } from './bacth'
+import gisQpShow from './components/gisQpShow'
 
 export default {
   path: '/order',
@@ -24,6 +25,10 @@ export default {
       path: 'FormHandleBa',
       name: 'FormHandleBa',
       component: FormHandleBa
+    },{ 
+      path: 'gisqp',
+      name: 'gisqp',
+      component: gisQpShow
     },{ 
       path: 'Create',
       name: 'Create',
