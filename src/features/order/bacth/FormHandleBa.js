@@ -16,7 +16,7 @@ import {
   GisShow,
   HandleButton
 } from '../components'
-import { queryOrderModel, queryOrderInfo, handleOrderlist, updateImage, changeOrderExecutor, updateOrder, getUserbyName } from '../../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrderlist, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName } from '../../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from '../redux/actions'
@@ -26,7 +26,7 @@ import orderBefore from '../mock/orderBefore'
 import orderSearch from '../mock/orderSearch'
 import orderModelConfig from '../mock/orderModelConfig'
 
-// import '/Form.less'
+import './SelectView.less'
 
 const MESSAGE_KEY = 'messageKey'
 const { CheckableTag } = Tag
@@ -95,6 +95,7 @@ const HandleOrder = Form.create({
   const [putUpRemark, setPutUpRemark] = useState('')
   const [sfgq, setSfgq] = useState(false)
   const [pcsInfo, setPcsInfo] = useState({})
+  const [secuss, setSecuss] = useState(0)
 
   const query = new URLSearchParams(search)
 
@@ -136,13 +137,17 @@ const HandleOrder = Form.create({
       formdata[item.code] = form[item.code] === undefined ? '' : form[item.code]
     })
     var pldeal = []
-    if(userAccountInfo.userId === MANAGE_ID){
+    console.log(handle_rules)
+    var suuu = 0
+    if (userAccountInfo.userId === MANAGE_ID) {
       listSelect.forEach((item) => {
-      // setPcsInfo(data)
+        if (item.activityName == "用户确认") {
+          console.log(handle_rules)
+        }
         var submitDatat = {
           ticket_id: item.ticketId,//工单id
-          model_id: query.get('modelId'),//模型id
-          activity_id: query.get('actId'),//当前环节id
+          model_id: item.modelId,//模型id
+          activity_id: item.activityId,//当前环节id
           handle_type: "1",
           form: {
             ...formdata,
@@ -152,24 +157,50 @@ const HandleOrder = Form.create({
             ...handle_rules
           }
         }
-        var param = {
-          data: submitDatat,
-          apikey: item.apikey
-        }
-        console.log(param)
-        pldeal.push(param)
+        // var param = {
+        //   data: submitDatat,
+        //   apikey: item.apikey
+        // }
+        // console.log(param)
+        // pldeal.push(param)
+        submitDatat.apikey = item.apikey
+        handleOrder(submitDatat).then(d => {
+          if(d){
+            setSecuss(suuu+=1)
+            if(suuu === listSelect.length){
+              setPlVisible(false)
+              history.push('/order?modelId='+query.get('modelId'))
+            }
+          }
+        })
+        // var aaa = setInterval(() => {
+        //   setSecuss(suuu+=1)
+        //     if(suuu == listSelect.length){
+        //       setPlVisible(false)
+        //       clearInterval(aaa)
+        //       history.push('/order?modelId='+query.get('modelId'))
+        //     }
+        // },2000)
       })
-      handleOrderlist(pldeal).then(d => {
-        setPlVisible(false)
-        history.push('/order?modelId='+query.get('modelId'))
-      })
+      // handleOrderlist(pldeal).then(d => {
+      //   setPlVisible(false)
+      //   history.push('/order?modelId='+query.get('modelId'))
+      // })
+      // if(pldeal.length > 10){
+      //   setTimeout(() =>{
+      //     if(loading){
+      //       setPlVisible(false)
+      //       history.push('/order?modelId='+query.get('modelId'))
+      //     }
+      //   }, pldeal.length*2)
+      // }
     } else {
       listSelect.forEach((item) => {
-        var param1 = {
-          data: {
+        // var param1 = {
+         var data = {
             ticket_id: item.ticketId,//工单id
-            model_id: query.get('modelId'),//模型id
-            activity_id: query.get('actId'),//当前环节id
+            model_id: item.modelId,//模型id
+            activity_id: item.activityId,//当前环节id
             handle_type: "1",
             form: {
               ...formdata,
@@ -178,15 +209,32 @@ const HandleOrder = Form.create({
             handle_rules: {
               ...handle_rules
             }
-          },
-          apikey: userAccountInfo.apiKey
-        }
-        pldeal.push(param1)
+          }
+        //   apikey: userAccountInfo.apiKey
+        // }
+        // pldeal.push(param1)
+        handleOrder(data).then(d => {
+          if(d){
+            setSecuss(suuu+=1)
+            if(suuu === listSelect.length){
+              setPlVisible(false)
+              history.push('/order?modelId='+query.get('modelId'))
+            }
+          }
+        })
       })
-      handleOrderlist(pldeal).then(d => {
-        setPlVisible(false)
-        history.push('/order?modelId='+query.get('modelId'))
-      })
+      // handleOrderlist(pldeal).then(d => {
+      //   setPlVisible(false)
+      //   history.push('/order?modelId='+query.get('modelId'))
+      // })
+      // if(pldeal.length > 10){
+      //   setTimeout(() =>{
+      //     if(loading){
+      //       setPlVisible(false)
+      //       history.push('/order?modelId='+query.get('modelId'))
+      //     }
+      //   }, pldeal.length*2)
+      // }
     }
   }
 
@@ -286,15 +334,20 @@ const HandleOrder = Form.create({
 
 
   return (
-    <div className='order-page-formhandle'>
-    <HeaderBar title='工单批量处理' />
-      <Spin spinning={loading}>
-        <div className='form'>
+    <div className='order-page-formhandleBa'>
+      <Spin spinning={loading} tip={'正在提交工单，共'+listSelect.length+'个，成功：'+secuss} style={{padding: 0}}>
+      <HeaderBar title='工单批量处理' />
+        <div className='form' style={{padding: 15}}>
           <Form>
             <FormBuilder meta={meta} form={props.form} />
           </Form>
           <div className="handle-button-group">
-            { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
+            { sfgq?null:orderInfo.handle_rules?.map(
+              d => (
+                d.name !== '未修好回退'?
+                <HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>
+                : <></>
+              ))}
             {/* {[3,6,8].includes(orderModal.sequence) ? */}
             {[3, 6, 8].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
               <>

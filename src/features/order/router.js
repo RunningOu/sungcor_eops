@@ -5,6 +5,7 @@ import {
   SelectDevice,
   Details,
   FormHandle} from './'
+import { SelectView,FormHandleBa } from './bacth'
 
 export default {
   path: '/order',
@@ -15,6 +16,14 @@ export default {
       name: 'Order',
       component: Order,
       isIndex: true
+    },{ 
+      path: 'selectView',
+      name: 'selectView',
+      component: SelectView
+    },{ 
+      path: 'FormHandleBa',
+      name: 'FormHandleBa',
+      component: FormHandleBa
     },{ 
       path: 'Create',
       name: 'Create',

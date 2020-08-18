@@ -3,7 +3,7 @@ import { HeaderBar, FooterBar } from '../../common'
 import InfiniteScroll from 'react-infinite-scroller'
 import { USER_INFO_ID } from '../../../config'
 import { local_get,local_set } from '../../../utils/index'
-import { Table, Button } from 'antd'
+import { Table, Button, message } from 'antd'
 import { useHistory } from 'react-router-dom'
 import { getFieldByCode, queryOrderList } from '../../../common/request'
 import orderTab from '../mock/orderTab'
@@ -53,14 +53,20 @@ const SelectView = (props) => {
   ];
   
   const onSelectChange = selectedRowKeys => {
+    // return
     console.log('selectedRowKeys changed: ', selectedRowKeys);
     setState({ selectedRowKeys });
     state.selectedRows = []
     selectedRowKeys.forEach((item) => {
       state.selectedRows.push(orderList[item])
     })
-    if (selectedRowKeys.length > 0) {
+    if (selectedRowKeys.length > 0 && selectedRowKeys.length <= 15) {
+      message.info('已选'+selectedRowKeys.length+'个工单'+',预计处理时间:'+selectedRowKeys.length*2+'s')
       setPlVisible('unset')
+    } else if(selectedRowKeys.length > 15){
+      message.error('已选'+selectedRowKeys.length+'个工单'+'最多只能选15个，请重新选择')
+      // return selectedRowKeys.splice(0,14)
+      setPlVisible('none')
     } else {
       setPlVisible('none')
     }
@@ -68,10 +74,27 @@ const SelectView = (props) => {
     console.log(state.selectedRows)
   };
   const { selectedRowKeys } = state;
+  const rederSeell = (checked, record, index, originNode) => {
+    console.log(originNode)
+    // originNode.type=''
+    // index.remove(1)
+    index.splice(0,0)
+    if(index.length>10){
+      return false
+    }
+    return false;
+  }
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
+    renderCell: rederSeell
   };
+  const selection = {
+    onSelect: (changeableRowKeys) => {
+      console.log(changeableRowKeys)
+    }
+  }
+  
   useEffect(() => {
     getFieldByCode('fxGzlx').then(data => {
       var fxGzlxs = {}
@@ -119,7 +142,7 @@ const SelectView = (props) => {
           hasMore={!loading && hasMore}
           useWindow={false}
         >
-          <Table rowSelection={rowSelection} pagination={false} dataSource={orderList} columns={columns} />
+          <Table rowSelection={rowSelection} selection={selection} pagination={false} dataSource={orderList} columns={columns} />
         </InfiniteScroll>
       </div>
       <div className='pl-handle' style={{display: plVisible}} onClick={() => { 
