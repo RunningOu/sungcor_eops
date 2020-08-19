@@ -1,126 +1,93 @@
 import React, { useState, useEffect } from 'react'
-import { HeaderBar, FooterBar } from '../common'
+import { HeaderBar } from '../common'
 import { useHistory } from 'react-router-dom'
 import {Input,Tabs,Layout,Card,Col,Row} from 'antd'
-import InfiniteScroll from 'react-infinite-scroller'
-import { formatDate, TimeToHours } from '../../utils'
-import { queryAlertList } from '../../common/request'
+import { countOnlineGroupByType } from '../../common/request'
 
 import './DeviceShow.less'
-const { Header, Footer, Sider, Content } = Layout;
+const { Content } = Layout;
 const { TabPane } = Tabs;
-const { Search } = Input;
+const tabs = [
+    {title: "服务器", key: "serve"},
+    {title: "网络设备", key: "network"},
+    {title: "存储设备", key: "storage"},
+    {title: "摄像机", key: "camera"}
+   
+]
+// {title: "摄像机", key: "camera"}
 const DeviceShow = (props) => {
 const { location: { search } } = props
+const style = { padding: '0px 4px', boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.2)' };
 const history = useHistory()
-function callback(key) {
-    console.log(key);
+const [onlineState, setOnlineState] = useState( new URLSearchParams(search).get('state') || "serve")//默认选中代办
+const [cardList, setCardList] = useState([])
+// const camara = [
+//     {pcs: '公安分局', online: '21', nonline: '1'},
+//     {pcs: '教育局', online: '21', nonline: '1'},
+//     {pcs: '海事局', online: '21', nonline: '1'},
+//     {pcs: '社会面复接', online: '21', nonline: '1'},
+//     {pcs: '南桥镇', online: '21', nonline: '1'},
+//     {pcs: '奉城镇', online: '21', nonline: '1'},
+//     {pcs: '庄行镇', online: '21', nonline: '1'},
+//     {pcs: '金汇镇', online: '21', nonline: '1'},
+//     {pcs: '四团镇', online: '21', nonline: '1'},
+//     {pcs: '青村镇', online: '21', nonline: '1'},
+//     {pcs: '袥林镇', online: '21', nonline: '1'},
+//     {pcs: '海湾镇', online: '21', nonline: '1'},
+//     {pcs: '海湾旅游区', online: '21', nonline: '1'},
+//     {pcs: '金海街道', online: '21', nonline: '1'},
+//     {pcs: '西渡街道', online: '21', nonline: '1'},
+//     {pcs: '奉浦街道', online: '21', nonline: '1'},
+//     {pcs: '奉贤交警队', online: '21', nonline: '1'}
+// ]
+// const cc = [
+//     {pcs: 'DAS', online: '21', nonline: '1'},
+//     {pcs: 'SAN', online: '21', nonline: '1'},
+//     {pcs: 'NAS', online: '21', nonline: '1'}
+// ]
+// const network = [
+//     {pcs: 'Network', online: '21', nonline: '1'},
+//     {pcs: 'Bridge', online: '21', nonline: '1'},
+//     {pcs: 'Router', online: '21', nonline: '1'},
+//     {pcs: 'Gateway', online: '21', nonline: '1'}
+// ]
+// const service = [
+//     {pcs: 'PVG', online: '21', nonline: '1'},
+//     {pcs: 'M60', online: '21', nonline: '1'},
+//     {pcs: '宝康服务器', online: '21', nonline: '1'},
+//     {pcs: '东方网力服务器', online: '21', nonline: '1'}
+// ]
+  function callback(key) {
+    setOnlineState(key)
   }
+  useEffect(() => {
+    countOnlineGroupByType(onlineState).then((data) => {
+        console.log(data)
+        setCardList(data.result)
+    })
+  }, [onlineState])
   return (
     <div className="DeviceShow-details">
      <HeaderBar title="设备在线率" />
-     <Content class="device-headtab">
-            <Tabs onChange={callback} type="card">
-                <TabPane tab="服务器" key="1">
-                        <div class="device-content">
-                          <div class="device-content-body">
-                            <div className="site-card-wrapper">
-                                <Row gutter={6}>
-                                <Col span={12}  onClick={() => {history.push('/deviceOnline/ServerIP')}}>
-                                    <Card  bordered={true} >
-                                <div class="device-item-title">PVG</div>   <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                    </Card>
-                                </Col>
-                                <Col span={12} onClick={() => {history.push('/deviceOnline/ServerIP')}}>
-                                    <Card  bordered={true}>
-                                    <div>M60</div>   <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                    </Card>
-                                </Col>
-                                <Col span={12} onClick={() => {history.push('/deviceOnline/ServerIP')}}>
-                                    <Card  bordered={true}>
-                                    <div>宝康服务器</div>  <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                    </Card>
-                                </Col>
-                                <Col span={12} onClick={() => {history.push('/deviceOnline/ServerIP')}}>
-                                    <Card  bordered={true}>
-                                    <div>东方网力服务器</div>  <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                    </Card>
-                                </Col>
-                                </Row>
-                            </div>
-                          </div>
-                        </div>
-                </TabPane>
-                <TabPane tab="网络设备" key="2">
-                            <div class="device-content">
-                                    <div className="site-card-wrapper">
-                                        <Row gutter={6}>
-                                        <Col span={12}  onClick={() => {history.push('/deviceOnline/ServerIP')}}>
-                                            <Card  bordered={true} >
-                                        <div>Network</div>   <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                            </Card>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Card  bordered={true}>
-                                            <div>Bridge</div>   <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                            </Card>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Card  bordered={true}>
-                                            <div>Router</div>  <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                            </Card>
-                                        </Col>
-                                        <Col span={12}>
-                                            <Card  bordered={true}>
-                                            <div>Gateway</div>  <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                            </Card>
-                                        </Col>
-                                        </Row>
-                                    </div>
-                            </div>
-                </TabPane>
-                <TabPane tab="存储设备" key="3">
-                                <div class="device-content">
-                                    <div className="site-card-wrapper">
-                                            <Row gutter={6}>
-                                            <Col span={12}  onClick={() => {history.push('/deviceOnline/ServerIP')}}>
-                                                <Card  bordered={true} >
-                                            <div>DAS</div>   <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                                </Card>
-                                            </Col>
-                                            <Col span={12}>
-                                                <Card  bordered={true}>
-                                                <div>SAN</div>   <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                                </Card>
-                                            </Col>
-                                            <Col span={12}>
-                                                <Card  bordered={true}>
-                                                <div>NAS</div>  <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                                </Card>
-                                            </Col>
-                                            </Row>
-                                        </div>
-                                </div>
-                </TabPane>
-                <TabPane tab="摄像机" key="4">
-                <div class="device-content">
-                         <div className="site-card-wrapper">
-                                            <Row gutter={6}>
-                                            <Col span={12}  onClick={() => {history.push('/deviceOnline/ServerIP')}}>
-                                                <Card  bordered={true} >
-                                            <div>CCD</div>   <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                                </Card>
-                                            </Col>
-                                            <Col span={12}>
-                                                <Card  bordered={true}>
-                                                <div>CMOS</div>   <div><span class="online-text">在线:30</span>/<span class="outline-text">离线:2</span></div>
-                                                </Card>
-                                            </Col>
-                                            </Row>
-                                        </div>
-                                </div>
-                </TabPane>
+     <Content className="device-headtab">
+            <Tabs defaultActiveKey={onlineState} onChange={callback} type="card">
+                {tabs.map((tab) => (<TabPane tab={tab.title} key={tab.key} />))}
             </Tabs>
+            <div className="device-content">
+                {
+                    cardList.map((item, i) => (
+                    <Col span={12} key={i}  onClick={() => {
+                        history.push('/deviceOnline/ServerIP?code='+item.code+'&name='+item.name+'&type='+onlineState)
+                        }}>
+                        <Card style={style}  bordered={true} >
+                            <div>{item.name}</div>
+                            <div>总数：{item.total}</div>
+                            <div><span class="online-text">在线：{item.online}</span>/<span class="outline-text">离线：{item.fail}</span></div>
+                        </Card>
+                    </Col>
+                    ))
+                }
+            </div>
       </Content>
 
     </div>
