@@ -6,7 +6,7 @@ import _ from 'lodash'
 const { CheckableTag } = Tag
 export default (props) => {
   // const { handle, children, handleForm, modal } = props
-  const { handle, children, handleForm } = props
+  const { handle, children, handleForm, key } = props
 
   const [visible, setVisible] = useState(false)
   const [groups, setGroups] = useState(null)
@@ -15,6 +15,7 @@ export default (props) => {
   const [putUpRemark, setPutUpRemark] = useState('')
   const extraForm = useRef({})
   function handleClick() {
+    console.log(handle)
     if (children === '挂起') {
       setShowPutUp(true)
       return
@@ -45,8 +46,10 @@ export default (props) => {
   }
 
   useEffect(() => {
+    console.log(handle,children)
     let next = _.find(handle.handle_rules, r => r.name === children)
     if (handle && handle.policy === 3) {
+      if(next === undefined) return
       setGroups({
         key: Object.keys(next.executors_groups)[0],
         groups: {
@@ -58,12 +61,13 @@ export default (props) => {
   useEffect(() => { console.log(selectGroups) }, [selectGroups])
   return (
     <>
-      <Button block type="primary" onClick={handleClick}>{props.children}</Button>
+      <Button type="primary" onClick={handleClick} size="large">{props.children}</Button>
       <Modal
         visible={visible}
         title="选择下一节点处理人"
         onOk={() => {
           if (selectGroups.user.length || selectGroups.group.length) {
+            setVisible(false)
             handleForm({
               route_id: _.find(handle.handle_rules, r => r.name === children).route_id,
               executors_groups: {

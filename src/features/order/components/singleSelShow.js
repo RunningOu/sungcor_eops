@@ -13,7 +13,7 @@ export default function(props) {
     label = show.label
   }
   return (
-    <Descriptions.Item label={props.name} key={props.id} span={2}>
+    <Descriptions.Item label={props.name} key={props.id} span={3}>
       <span style={style}>{label}</span>
     </Descriptions.Item>
   )
