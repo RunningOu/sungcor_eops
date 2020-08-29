@@ -86,6 +86,7 @@ const HandleOrder = Form.create({
   const [needFile, setNeedFile] = useState(false)
   const [orderInfo, setOrderInfo] = useState([])
   const [loading, setPlVisible] = useState(false) //图片
+  const [handle, setHandle] = useState({}) //setHandle
 
   const [changeExecutor, setChangeExecutor] = useState(false)
   const [changeRemark, setChangeRemark] = useState('')
@@ -327,10 +328,13 @@ const HandleOrder = Form.create({
       props.actions.setForm(defaultForm)
     }
   }, [props.actions, props.user, orderModal, modal, search])
+  // useEffect(() => {
+  //   console.log(orderInfo, orderModal)
+  //   console.log(orderBefore.changeExecutor[orderModal.sequence])
+  // }, [orderInfo, orderModal])
   useEffect(() => {
-    console.log(orderInfo, orderModal)
-    console.log(orderBefore.changeExecutor[orderModal.sequence])
-  }, [orderInfo, orderModal])
+    setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
+  }, [orderInfo,orderModal])
 
 
   return (
@@ -345,7 +349,7 @@ const HandleOrder = Form.create({
             { sfgq?null:orderInfo.handle_rules?.map(
               d => (
                 d.name !== '未修好回退'?
-                <HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>
+                <HandleButton key={d.route_id} handle={handle} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>
                 : <></>
               ))}
             {/* {[3,6,8].includes(orderModal.sequence) ? */}

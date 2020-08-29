@@ -11,6 +11,10 @@ import orderTab from '../mock/orderTab'
 import './SelectView.less'
 
 const SelectView = (props) => {
+  const { location: { search } } = props
+  const searchValue = new URLSearchParams(search).get('search') || '' // 搜索内容
+  // console.log(searchValue)
+  const searchKey = new URLSearchParams(search).get('searchType') || '' // 搜索内容
   const userInfo = local_get(USER_INFO_ID)
   const history = useHistory()
   const tabsConfig = orderTab['a50f0654c8a7465291f17769d4b61fae'].tabsConfig // tab项配置
@@ -107,6 +111,7 @@ const SelectView = (props) => {
   },[])
   useEffect(() => {
     var attrs = [...tabsConfig(userInfo.userId)[1]]
+    if (searchValue !== '') attrs.push({ key: searchKey, value: searchValue, operator: "LIKE" })
     queryOrderList({
       'model': {
         attrs: attrs
