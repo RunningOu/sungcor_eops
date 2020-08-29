@@ -83,6 +83,17 @@ export const handleOrder = async (d) => {
   })
   return data
 }
+
+// 批量提交工单
+export const handleOrderlist = async (d) => {
+  const { data } = await axios({
+    method: 'post',
+    url: '/ticket/commitTicketList',
+    data: d
+  })
+  return data
+}
+
 // 微信通知接口
 // export const wxMessage = async (d) => {
 //   const {data} = await axios({
@@ -212,6 +223,17 @@ export const queryDeviceList = async (q) => {
     data: {
       ...q
     }
+  })
+  return data
+}
+
+// 修改单个设备
+export const updateDevice = async (q) => {
+  console.log(q)
+  const { data } = await axios({
+    method: 'post',
+    url: '/cmdb/update',
+    data: q
   })
   return data
 }
@@ -365,6 +387,15 @@ export const countTicketByStatus = async (para) => {
   const { data } = await axios({
     method: 'get',
     url: '/oss/oss/app/portal/countTicketByStatus?interval='+para
+  })
+  return data
+}
+
+// 内场工单总览
+export const countTicketByDevType = async (para) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/oss/app/portal/countTicketByDevType?interval='+para
   })
   return data
 }

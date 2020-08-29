@@ -197,16 +197,19 @@ const Device = (props) => {
               onClick={() => { history.push('/device/' + item.id) }}
               key={item.id}
               actions={[
-                <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
+                // <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
                 // <IconText type="tool" text={item.changsce} />
               ]}
             >
-              <List.Item.Meta title={item.name} description={item.managementUnit} /><span>{item.jpbh}</span></List.Item>
+              <List.Item.Meta 
+              title={<><span>{item.name}</span><span style={{verticalAlign: 'inherit',color: 'rgba(0, 0, 0, 0.45)',fontSize: '14px'}}>{item.managementUnit}</span></>} 
+              description={<><span>{item.jpbh}</span><IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} /></>} /></List.Item>
+              /* <List.Item.Meta title={item.name} description={item.managementUnit} /><span>{item.jpbh}</span></List.Item> */
               // <span>111</span>
               )} />
         </InfiniteScroll>
       </div>
-      <FooterBar pathname={props.location.pathname} />
+      <FooterBar pathname={props.location.pathname} userInfo={userAccountInfo} />
     </div>
   )
 }
