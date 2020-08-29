@@ -334,6 +334,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -573,16 +579,657 @@ export default {
             "user_and_groups": [],
             "description": "",
             "parallelism_activities": [],
-            "activiti_type": "EndNoneEvent",
-            "handle_rules": [],
+            "activiti_type": "UserTask",
+            "handle_rules": [
+                {
+                    "route_id": "a7542648988243edb8b6909ce46a4d34",
+                    "name": "维修完成",
+                    "executors_groups": {}
+                },
+                {
+                    "route_id": "03db575860ec437c9fcd5408c469c629",
+                    "name": "指派外场",
+                    "executors_groups": {
+                        "13ab9b92844f435c99021d7013aabc17": {
+                            "user": [
+                                {
+                                    "name": "李卫新",
+                                    "id": "6681ac876d624673ab627a6495b129f2"
+                                },
+                                {
+                                    "name": "潘慧斌",
+                                    "id": "893487681844413db5422dc0b55b94d5"
+                                }
+                            ],
+                            "group": []
+                        }
+                    }
+                }
+            ],
             "counter_sign": 0,
             "type": 0,
             "mode": 1,
             "sequence": 1,
-            "name": "结束",
-            "id": "89869a6345ee4fb4b0553e73b6894274",
-            "field_list": [],
-            "policy": 0
+            "name": "内场接单",
+            "id": "5e858086fbe14d34aadc5ee630895146",
+            "field_list": [
+                {
+                    "code": "title",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "工单标题",
+                    "tab_status": "0",
+                    "id": "92e430a6c44546c9a245d1295cc58b85",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "urgentLevel",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "优先级",
+                    "tab_status": "0",
+                    "id": "709117c0be68454fa358f98ae2950cbd",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "极低",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "低",
+                            "value": 2,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 1,
+                            "color": "#ef5350",
+                            "label": "中",
+                            "value": 3,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#9ccc65",
+                            "label": "高",
+                            "value": 4,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ffa726",
+                            "label": "极高",
+                            "value": 5,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "fxBxr",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修人",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "5d7982bb207a41bcb560110c23160dd0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "field_desc": "报修人默认中海",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "telephone",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "联系电话",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "b201e893daff4f89ad2e78d3cce04612",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bxsj",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "a3b88ba1f56c477fb9da73a50edbfb04",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bxfs",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修方式",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "d046f783672e465ab70a28051c8f3b87",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "label": "人工报修",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "自动报修",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "自动报修已拒收",
+                            "value": "3",
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "resource",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "关联配置",
+                    "tab_status": "0",
+                    "id": "72e1e05f9f5d4c68961dd8b8f6ba1077",
+                    "type_desc": "配置项",
+                    "type": "resource",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "text",
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "overdueNotify",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "label": "正常",
+                            "value": "normal",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "等待通知",
+                            "value": "wait",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "通知完成",
+                            "value": "done",
+                            "descEnable": 0
+                        }
+                    ],
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "逾期通知",
+                    "tab_status": "0",
+                    "id": "7edbfb3f248048888585e46f12831166",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "fxGzlx",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "label": "无图像",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "图像模糊",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "控制坏",
+                            "value": "3",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "绿化遮挡",
+                            "value": "4",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "补光灯故障",
+                            "value": "5",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "无字幕或字幕错",
+                            "value": "6",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "镜头异物",
+                            "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "其他故障",
+                            "value": "99",
+                            "descEnable": 0
+                        }
+                    ],
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "故障类型",
+                    "tab_status": "0",
+                    "id": "61c1d7be9f914acea254fc15c92d97e6",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "ticketDesc",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "工单描述",
+                    "tab_status": "0",
+                    "id": "564caa84bc7a488f9e703a97dd3ee418",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "fxpcs",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "派出所名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "3af865ca10024b19abf2351ee26a88b4",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "wxdwmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "维修单位名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "5bfa87b982dd47f69ed777a0d0a6e29f",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "xmmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "项目名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e6d8447ce56845af91b8e7ac0757a779",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "sbmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "设备名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "f90845afb35a4f1b9cfb22106407c8d2",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "deviceKey",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "键盘编码",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e5c21782e39840e0807538b42490ce10",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "deviceIP",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "设备IP",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "54327eb5b654434a88f9d84ea1f8a746",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "receivedman",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单人",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "62dc9cc4792b46029e9eb63370f89fd0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "jdphone",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单人手机号",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "76a4eb5756a74322a8c18fa2a8e6888f",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "jdsj",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "1394ea23eba7468d883cdd3d9242db8d",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "pdms",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "派单描述",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "48613b4bb3694651b8ee0192ea9947a6",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "sfbx",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "label": "未挂起",
+                            "value": "wgq",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "已挂起",
+                            "value": "ygq",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "挂起审核",
+                            "value": "gqsh",
+                            "descEnable": 0
+                        }
+                    ],
+                    "field_desc": "标识工单是否被挂起了",
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "是否挂起",
+                    "tab_status": "0",
+                    "id": "03fef3a1dade4fc6a79dc8b85c235e9b",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "gqyy",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "挂起备注",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "f8e1b365ad524744b4d8bd1a307d4287",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "field_desc": "用于保存挂起原因",
+                    "time_scope": 0
+                },
+                {
+                    "code": "file",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "附件",
+                    "tab_status": "0",
+                    "id": "16bc62db26854d10b7b3b5996314d755",
+                    "type_desc": "附件",
+                    "type": "attachfile",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                }
+            ],
+            "policy": 3
         },
         {
             "user_and_groups": [],
@@ -956,6 +1603,12 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
@@ -1527,6 +2180,12 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
@@ -2368,6 +3027,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -2987,10 +3652,6 @@ export default {
                                     "id": "d25ebb1d6c124737aa8dd1b2f3740eea"
                                 },
                                 {
-                                    "name": "admin",
-                                    "id": "e10adc3949ba59abbe56e057f20f88dd"
-                                },
-                                {
                                     "name": "顾佳",
                                     "id": "e1cbe2b99d8643b587f534d63a63bd7b"
                                 }
@@ -3322,6 +3983,12 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
@@ -3897,6 +4564,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -4460,10 +5133,6 @@ export default {
                                     "id": "d25ebb1d6c124737aa8dd1b2f3740eea"
                                 },
                                 {
-                                    "name": "admin",
-                                    "id": "e10adc3949ba59abbe56e057f20f88dd"
-                                },
-                                {
                                     "name": "顾佳",
                                     "id": "e1cbe2b99d8643b587f534d63a63bd7b"
                                 }
@@ -4730,6 +5399,12 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
@@ -5589,6 +6264,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -6402,6 +7083,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -6988,6 +7675,21 @@ export default {
             "user_and_groups": [],
             "description": "",
             "parallelism_activities": [],
+            "activiti_type": "EndNoneEvent",
+            "handle_rules": [],
+            "counter_sign": 0,
+            "type": 0,
+            "mode": 1,
+            "sequence": 10,
+            "name": "结束",
+            "id": "89869a6345ee4fb4b0553e73b6894274",
+            "field_list": [],
+            "policy": 0
+        },
+        {
+            "user_and_groups": [],
+            "description": "",
+            "parallelism_activities": [],
             "activiti_type": "ExclusiveGateway",
             "handle_rules": [
                 {
@@ -6997,6 +7699,11 @@ export default {
                 },
                 {
                     "route_id": "7ec47a8809e840ee95bf8615628c84a1",
+                    "name": "提交",
+                    "executors_groups": {}
+                },
+                {
+                    "route_id": "8fd0e94dfa064785a4ffa8360faf6cbb",
                     "name": "提交",
                     "executors_groups": {}
                 },
@@ -7029,661 +7736,11 @@ export default {
             "counter_sign": 0,
             "type": 0,
             "mode": 1,
-            "sequence": 10,
+            "sequence": 11,
             "name": "判断节点",
             "id": "ef61dedcca4743b687d7f899c7c88b38",
             "field_list": [],
             "policy": 0
-        },
-        {
-            "user_and_groups": [],
-            "description": "",
-            "parallelism_activities": [],
-            "activiti_type": "UserTask",
-            "handle_rules": [
-                {
-                    "route_id": "a7542648988243edb8b6909ce46a4d34",
-                    "name": "维修完成",
-                    "executors_groups": {}
-                },
-                {
-                    "route_id": "03db575860ec437c9fcd5408c469c629",
-                    "name": "指派外场",
-                    "executors_groups": {
-                        "13ab9b92844f435c99021d7013aabc17": {
-                            "user": [
-                                {
-                                    "name": "李卫新",
-                                    "id": "6681ac876d624673ab627a6495b129f2"
-                                },
-                                {
-                                    "name": "潘慧斌",
-                                    "id": "893487681844413db5422dc0b55b94d5"
-                                }
-                            ],
-                            "group": []
-                        }
-                    }
-                }
-            ],
-            "counter_sign": 0,
-            "type": 0,
-            "mode": 1,
-            "sequence": 11,
-            "name": "内场接单",
-            "id": "5e858086fbe14d34aadc5ee630895146",
-            "field_list": [
-                {
-                    "code": "title",
-                    "editable": 0,
-                    "builtin": 1,
-                    "name": "工单标题",
-                    "tab_status": "0",
-                    "id": "92e430a6c44546c9a245d1295cc58b85",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "params": [
-                        {
-                            "select": 0,
-                            "color": "#008ed2",
-                            "label": "",
-                            "value": 0,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#66bb6a",
-                            "label": "",
-                            "value": 1,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#ef5350",
-                            "label": "",
-                            "value": 2,
-                            "descEnable": 0
-                        }
-                    ],
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "urgentLevel",
-                    "editable": 0,
-                    "builtin": 1,
-                    "name": "优先级",
-                    "tab_status": "0",
-                    "id": "709117c0be68454fa358f98ae2950cbd",
-                    "type_desc": "单选",
-                    "type": "singleSel",
-                    "params": [
-                        {
-                            "select": 0,
-                            "color": "#008ed2",
-                            "label": "极低",
-                            "value": 1,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#66bb6a",
-                            "label": "低",
-                            "value": 2,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 1,
-                            "color": "#ef5350",
-                            "label": "中",
-                            "value": 3,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#9ccc65",
-                            "label": "高",
-                            "value": 4,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#ffa726",
-                            "label": "极高",
-                            "value": 5,
-                            "descEnable": 0
-                        }
-                    ],
-                    "time_scope": 0
-                },
-                {
-                    "code": "fxBxr",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "报修人",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "5d7982bb207a41bcb560110c23160dd0",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "field_desc": "报修人默认中海",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "telephone",
-                    "editable": 1,
-                    "builtin": 1,
-                    "name": "联系电话",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "b201e893daff4f89ad2e78d3cce04612",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "bxsj",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "报修时间",
-                    "default_value": "1",
-                    "tab_status": "0",
-                    "id": "a3b88ba1f56c477fb9da73a50edbfb04",
-                    "type_desc": "日期时间",
-                    "type": "dateTime",
-                    "time_scope": 0
-                },
-                {
-                    "code": "bxfs",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "报修方式",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "d046f783672e465ab70a28051c8f3b87",
-                    "type_desc": "单选",
-                    "type": "singleSel",
-                    "params": [
-                        {
-                            "select": 0,
-                            "label": "人工报修",
-                            "value": "1",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "自动报修",
-                            "value": "2",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "自动报修已拒收",
-                            "value": "3",
-                            "descEnable": 0
-                        }
-                    ],
-                    "time_scope": 0
-                },
-                {
-                    "code": "resource",
-                    "editable": 0,
-                    "builtin": 1,
-                    "name": "关联配置",
-                    "tab_status": "0",
-                    "id": "72e1e05f9f5d4c68961dd8b8f6ba1077",
-                    "type_desc": "配置项",
-                    "type": "resource",
-                    "params": [
-                        {
-                            "select": 0,
-                            "color": "#008ed2",
-                            "label": "",
-                            "value": 0,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#66bb6a",
-                            "label": "",
-                            "value": 1,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#ef5350",
-                            "label": "",
-                            "value": 2,
-                            "descEnable": 0
-                        }
-                    ],
-                    "validation": "text",
-                    "time_scope": 0
-                },
-                {
-                    "headers": [
-                        {
-                            "isRequired": 0,
-                            "isSelect": 0,
-                            "paramName": "",
-                            "paramValue": ""
-                        }
-                    ],
-                    "code": "overdueNotify",
-                    "request_type": "get",
-                    "editable": 1,
-                    "builtin": 0,
-                    "outside_url": "",
-                    "raw": {
-                        "data": "",
-                        "isSelect": 0
-                    },
-                    "default_value": "",
-                    "type": "listSel",
-                    "params": [
-                        {
-                            "select": 1,
-                            "label": "正常",
-                            "value": "normal",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "等待通知",
-                            "value": "wait",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "通知完成",
-                            "value": "done",
-                            "descEnable": 0
-                        }
-                    ],
-                    "value_sel": "",
-                    "time_scope": 0,
-                    "key_sel": "",
-                    "form_data": {
-                        "data": [
-                            {
-                                "paramDesc": "",
-                                "isRequired": 0,
-                                "isSelect": 0,
-                                "paramName": "",
-                                "paramValue": ""
-                            }
-                        ],
-                        "isSelect": 1
-                    },
-                    "name": "逾期通知",
-                    "tab_status": "0",
-                    "id": "7edbfb3f248048888585e46f12831166",
-                    "type_desc": "下拉菜单"
-                },
-                {
-                    "headers": [
-                        {
-                            "isRequired": 0,
-                            "isSelect": 0,
-                            "paramName": "",
-                            "paramValue": ""
-                        }
-                    ],
-                    "code": "fxGzlx",
-                    "request_type": "get",
-                    "editable": 1,
-                    "builtin": 0,
-                    "outside_url": "",
-                    "raw": {
-                        "data": "",
-                        "isSelect": 0
-                    },
-                    "default_value": "",
-                    "type": "listSel",
-                    "params": [
-                        {
-                            "select": 0,
-                            "label": "无图像",
-                            "value": "1",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "图像模糊",
-                            "value": "2",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "控制坏",
-                            "value": "3",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "绿化遮挡",
-                            "value": "4",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "补光灯故障",
-                            "value": "5",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "无字幕或字幕错",
-                            "value": "6",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "镜头异物",
-                            "value": "7",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "其他故障",
-                            "value": "99",
-                            "descEnable": 0
-                        }
-                    ],
-                    "value_sel": "",
-                    "time_scope": 0,
-                    "key_sel": "",
-                    "form_data": {
-                        "data": [
-                            {
-                                "paramDesc": "",
-                                "isRequired": 0,
-                                "isSelect": 0,
-                                "paramName": "",
-                                "paramValue": ""
-                            }
-                        ],
-                        "isSelect": 1
-                    },
-                    "name": "故障类型",
-                    "tab_status": "0",
-                    "id": "61c1d7be9f914acea254fc15c92d97e6",
-                    "type_desc": "下拉菜单"
-                },
-                {
-                    "code": "ticketDesc",
-                    "editable": 0,
-                    "builtin": 1,
-                    "name": "工单描述",
-                    "tab_status": "0",
-                    "id": "564caa84bc7a488f9e703a97dd3ee418",
-                    "type_desc": "多行文本",
-                    "type": "multiRowText",
-                    "params": [
-                        {
-                            "select": 0,
-                            "color": "#008ed2",
-                            "label": "",
-                            "value": 0,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#66bb6a",
-                            "label": "",
-                            "value": 1,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#ef5350",
-                            "label": "",
-                            "value": 2,
-                            "descEnable": 0
-                        }
-                    ],
-                    "time_scope": 0
-                },
-                {
-                    "code": "fxpcs",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "派出所名称",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "3af865ca10024b19abf2351ee26a88b4",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "wxdwmc",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "维修单位名称",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "5bfa87b982dd47f69ed777a0d0a6e29f",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "xmmc",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "项目名称",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "e6d8447ce56845af91b8e7ac0757a779",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "sbmc",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "设备名称",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "f90845afb35a4f1b9cfb22106407c8d2",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "deviceKey",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "键盘编码",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "e5c21782e39840e0807538b42490ce10",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "deviceIP",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "设备IP",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "54327eb5b654434a88f9d84ea1f8a746",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "receivedman",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "接单人",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "62dc9cc4792b46029e9eb63370f89fd0",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "jdphone",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "接单人手机号",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "76a4eb5756a74322a8c18fa2a8e6888f",
-                    "type_desc": "单行文本",
-                    "type": "singleRowText",
-                    "validation": "none",
-                    "time_scope": 0
-                },
-                {
-                    "code": "jdsj",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "接单时间",
-                    "default_value": "1",
-                    "tab_status": "0",
-                    "id": "1394ea23eba7468d883cdd3d9242db8d",
-                    "type_desc": "日期时间",
-                    "type": "dateTime",
-                    "time_scope": 0
-                },
-                {
-                    "code": "pdms",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "派单描述",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "48613b4bb3694651b8ee0192ea9947a6",
-                    "type_desc": "多行文本",
-                    "type": "multiRowText",
-                    "time_scope": 0
-                },
-                {
-                    "headers": [
-                        {
-                            "isRequired": 0,
-                            "isSelect": 0,
-                            "paramName": "",
-                            "paramValue": ""
-                        }
-                    ],
-                    "code": "sfbx",
-                    "request_type": "get",
-                    "editable": 1,
-                    "builtin": 0,
-                    "outside_url": "",
-                    "raw": {
-                        "data": "",
-                        "isSelect": 0
-                    },
-                    "default_value": "",
-                    "type": "listSel",
-                    "params": [
-                        {
-                            "select": 1,
-                            "label": "未挂起",
-                            "value": "wgq",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "已挂起",
-                            "value": "ygq",
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "label": "挂起审核",
-                            "value": "gqsh",
-                            "descEnable": 0
-                        }
-                    ],
-                    "field_desc": "标识工单是否被挂起了",
-                    "value_sel": "",
-                    "time_scope": 0,
-                    "key_sel": "",
-                    "form_data": {
-                        "data": [
-                            {
-                                "paramDesc": "",
-                                "isRequired": 0,
-                                "isSelect": 0,
-                                "paramName": "",
-                                "paramValue": ""
-                            }
-                        ],
-                        "isSelect": 1
-                    },
-                    "name": "是否挂起",
-                    "tab_status": "0",
-                    "id": "03fef3a1dade4fc6a79dc8b85c235e9b",
-                    "type_desc": "下拉菜单"
-                },
-                {
-                    "code": "gqyy",
-                    "editable": 1,
-                    "builtin": 0,
-                    "name": "挂起备注",
-                    "default_value": "",
-                    "tab_status": "0",
-                    "id": "f8e1b365ad524744b4d8bd1a307d4287",
-                    "type_desc": "多行文本",
-                    "type": "multiRowText",
-                    "field_desc": "用于保存挂起原因",
-                    "time_scope": 0
-                },
-                {
-                    "code": "file",
-                    "editable": 0,
-                    "builtin": 1,
-                    "name": "附件",
-                    "tab_status": "0",
-                    "id": "16bc62db26854d10b7b3b5996314d755",
-                    "type_desc": "附件",
-                    "type": "attachfile",
-                    "params": [
-                        {
-                            "select": 0,
-                            "color": "#008ed2",
-                            "label": "",
-                            "value": 0,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#66bb6a",
-                            "label": "",
-                            "value": 1,
-                            "descEnable": 0
-                        },
-                        {
-                            "select": 0,
-                            "color": "#ef5350",
-                            "label": "",
-                            "value": 2,
-                            "descEnable": 0
-                        }
-                    ],
-                    "time_scope": 0
-                }
-            ],
-            "policy": 3
         },
         {
             "user_and_groups": [],
@@ -8019,6 +8076,12 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
@@ -8595,6 +8658,12 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
@@ -9519,6 +9588,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -10091,6 +10166,12 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
@@ -11015,6 +11096,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -11587,6 +11674,12 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
@@ -12511,6 +12604,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -13083,6 +13182,2428 @@ export default {
                             "select": 0,
                             "label": "镜头异物",
                             "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "其他故障",
+                            "value": "99",
+                            "descEnable": 0
+                        }
+                    ],
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "故障类型",
+                    "tab_status": "0",
+                    "id": "61c1d7be9f914acea254fc15c92d97e6",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "ticketDesc",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "工单描述",
+                    "tab_status": "0",
+                    "id": "564caa84bc7a488f9e703a97dd3ee418",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "fxpcs",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "派出所名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "3af865ca10024b19abf2351ee26a88b4",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "wxdwmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "维修单位名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "5bfa87b982dd47f69ed777a0d0a6e29f",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "xmmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "项目名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e6d8447ce56845af91b8e7ac0757a779",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "sbmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "设备名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "f90845afb35a4f1b9cfb22106407c8d2",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "deviceKey",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "键盘编码",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e5c21782e39840e0807538b42490ce10",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "deviceIP",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "设备IP",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "54327eb5b654434a88f9d84ea1f8a746",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "receivedman",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单人",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "62dc9cc4792b46029e9eb63370f89fd0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "jdphone",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单人手机号",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "76a4eb5756a74322a8c18fa2a8e6888f",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "jdsj",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "1394ea23eba7468d883cdd3d9242db8d",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "pdms",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "派单描述",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "48613b4bb3694651b8ee0192ea9947a6",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "code": "gpsm",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "改派说明",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "c654c12be94540b787ba92b24a8490e5",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solver",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "解决人",
+                    "tab_status": "0",
+                    "id": "a26e40835289424cbb30cc7abb8ae8f0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solverphone",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "解决人手机号",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "42dc0468b7c44732b61d2fb27c37600a",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solvingTime",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "解决时间",
+                    "tab_status": "0",
+                    "id": "571aa418d06c49f8b3750fbac9c88d09",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solveResult",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "解决结果",
+                    "tab_status": "0",
+                    "id": "fe1c35dcc1364fb3af04409914e2b3a7",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "color": "#008ed2",
+                            "label": "彻底解决",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "部分解决",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "未解决",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "problemReason",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "问题原因",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "d21a7aa629ea4c5097d9b13d72a9140b",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solvent",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "解决方案",
+                    "tab_status": "0",
+                    "id": "7ebbc2cb39cb40b8834d8473553c4068",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "score",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "满意度",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e1b03f77279641a49e6da2314e3bfd06",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "非常满意",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 1,
+                            "color": "#66bb6a",
+                            "label": "满意",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "一般",
+                            "value": "3",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#9ccc65",
+                            "label": "不满意",
+                            "value": "4",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ffa726",
+                            "label": "非常不满意",
+                            "value": "5",
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "gqyy",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "挂起备注",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "f8e1b365ad524744b4d8bd1a307d4287",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "field_desc": "用于保存挂起原因",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bz",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "未修好备注",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "af5d5d8bba694b5094c2974a82ad78aa",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "overdueNotify",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "label": "正常",
+                            "value": "normal",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "等待通知",
+                            "value": "wait",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "通知完成",
+                            "value": "done",
+                            "descEnable": 0
+                        }
+                    ],
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "逾期通知",
+                    "tab_status": "0",
+                    "id": "7edbfb3f248048888585e46f12831166",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "sfbx",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "label": "未挂起",
+                            "value": "wgq",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "已挂起",
+                            "value": "ygq",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "挂起审核",
+                            "value": "gqsh",
+                            "descEnable": 0
+                        }
+                    ],
+                    "field_desc": "标识工单是否被挂起了",
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "是否挂起",
+                    "tab_status": "0",
+                    "id": "03fef3a1dade4fc6a79dc8b85c235e9b",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "acknowledgetime",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "确认时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "666ba9e06f4643c7b5f644f13087e2fe",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "file",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "附件",
+                    "tab_status": "0",
+                    "id": "16bc62db26854d10b7b3b5996314d755",
+                    "type_desc": "附件",
+                    "type": "attachfile",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                }
+            ],
+            "policy": 3
+        },
+        {
+            "user_and_groups": [],
+            "description": "",
+            "parallelism_activities": [],
+            "activiti_type": "UserTask",
+            "handle_rules": [
+                {
+                    "route_id": "7c79d4c44ed541e7bd0ba0a7e9c2afd5",
+                    "name": "维修完成",
+                    "executors_groups": {}
+                },
+                {
+                    "route_id": "3ae8658cc43048148f7b76792d9994f6",
+                    "name": "指派外场",
+                    "executors_groups": {
+                        "20ab4686d7a84c41bdba8e7c52f3dffb": {
+                            "user": [
+                                {
+                                    "name": "齐金国",
+                                    "id": "0747a5e0a0f541ac86dad6fa84e87576"
+                                },
+                                {
+                                    "name": "程子键",
+                                    "id": "4ece7833b0e5443681382a2001185097"
+                                },
+                                {
+                                    "name": "张林海",
+                                    "id": "5762994298ad4122aba2475d4876906a"
+                                },
+                                {
+                                    "name": "涂波",
+                                    "id": "68b9e0cd75b548a7b1b128acd3d1020c"
+                                },
+                                {
+                                    "name": "许光尚",
+                                    "id": "70df6d2a034d4d838343003a2f1b5cfb"
+                                },
+                                {
+                                    "name": "罗攀",
+                                    "id": "726e0ff5ccfd4d6cb28be623b37fc11a"
+                                },
+                                {
+                                    "name": "尹中裕",
+                                    "id": "7801999d06f04ede89d0e53ceadfcf24"
+                                },
+                                {
+                                    "name": "李振强",
+                                    "id": "a9756c4733114e149bf125f80773640b"
+                                },
+                                {
+                                    "name": "滕波",
+                                    "id": "c09bec1899564ad699e16914c275be78"
+                                },
+                                {
+                                    "name": "吉泓彪",
+                                    "id": "c9c2ceb06e5e4249affd70196f59ce64"
+                                },
+                                {
+                                    "name": "孙梦尧",
+                                    "id": "eeab5c085e0141f5ae9d0d20464d6bbb"
+                                },
+                                {
+                                    "name": "周强",
+                                    "id": "f5a0543f4fc842c280b963431bbbc6d3"
+                                }
+                            ],
+                            "group": []
+                        }
+                    }
+                }
+            ],
+            "counter_sign": 0,
+            "type": 0,
+            "mode": 1,
+            "sequence": 20,
+            "name": "内场接单",
+            "id": "1d40becf13ce41a786ce2ea3c232550e",
+            "field_list": [
+                {
+                    "code": "title",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "工单标题",
+                    "tab_status": "0",
+                    "id": "92e430a6c44546c9a245d1295cc58b85",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "urgentLevel",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "优先级",
+                    "tab_status": "0",
+                    "id": "709117c0be68454fa358f98ae2950cbd",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "极低",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "低",
+                            "value": 2,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 1,
+                            "color": "#ef5350",
+                            "label": "中",
+                            "value": 3,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#9ccc65",
+                            "label": "高",
+                            "value": 4,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ffa726",
+                            "label": "极高",
+                            "value": 5,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "fxBxr",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修人",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "5d7982bb207a41bcb560110c23160dd0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "field_desc": "报修人默认中海",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "telephone",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "联系电话",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "b201e893daff4f89ad2e78d3cce04612",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bxsj",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "a3b88ba1f56c477fb9da73a50edbfb04",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bxfs",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修方式",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "d046f783672e465ab70a28051c8f3b87",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "label": "人工报修",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "自动报修",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "自动报修已拒收",
+                            "value": "3",
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "resource",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "关联配置",
+                    "tab_status": "0",
+                    "id": "72e1e05f9f5d4c68961dd8b8f6ba1077",
+                    "type_desc": "配置项",
+                    "type": "resource",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "text",
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "overdueNotify",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "label": "正常",
+                            "value": "normal",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "等待通知",
+                            "value": "wait",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "通知完成",
+                            "value": "done",
+                            "descEnable": 0
+                        }
+                    ],
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "逾期通知",
+                    "tab_status": "0",
+                    "id": "7edbfb3f248048888585e46f12831166",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "fxGzlx",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "label": "无图像",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "图像模糊",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "控制坏",
+                            "value": "3",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "绿化遮挡",
+                            "value": "4",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "补光灯故障",
+                            "value": "5",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "无字幕或字幕错",
+                            "value": "6",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "镜头异物",
+                            "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "其他故障",
+                            "value": "99",
+                            "descEnable": 0
+                        }
+                    ],
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "故障类型",
+                    "tab_status": "0",
+                    "id": "61c1d7be9f914acea254fc15c92d97e6",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "ticketDesc",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "工单描述",
+                    "tab_status": "0",
+                    "id": "564caa84bc7a488f9e703a97dd3ee418",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "fxpcs",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "派出所名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "3af865ca10024b19abf2351ee26a88b4",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "wxdwmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "维修单位名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "5bfa87b982dd47f69ed777a0d0a6e29f",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "xmmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "项目名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e6d8447ce56845af91b8e7ac0757a779",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "sbmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "设备名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "f90845afb35a4f1b9cfb22106407c8d2",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "deviceKey",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "键盘编码",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e5c21782e39840e0807538b42490ce10",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "deviceIP",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "设备IP",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "54327eb5b654434a88f9d84ea1f8a746",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "receivedman",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单人",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "62dc9cc4792b46029e9eb63370f89fd0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "jdphone",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单人手机号",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "76a4eb5756a74322a8c18fa2a8e6888f",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "jdsj",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "1394ea23eba7468d883cdd3d9242db8d",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "pdms",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "派单描述",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "48613b4bb3694651b8ee0192ea9947a6",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "sfbx",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "label": "未挂起",
+                            "value": "wgq",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "已挂起",
+                            "value": "ygq",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "挂起审核",
+                            "value": "gqsh",
+                            "descEnable": 0
+                        }
+                    ],
+                    "field_desc": "标识工单是否被挂起了",
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "是否挂起",
+                    "tab_status": "0",
+                    "id": "03fef3a1dade4fc6a79dc8b85c235e9b",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "gqyy",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "挂起备注",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "f8e1b365ad524744b4d8bd1a307d4287",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "field_desc": "用于保存挂起原因",
+                    "time_scope": 0
+                },
+                {
+                    "code": "file",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "附件",
+                    "tab_status": "0",
+                    "id": "16bc62db26854d10b7b3b5996314d755",
+                    "type_desc": "附件",
+                    "type": "attachfile",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                }
+            ],
+            "policy": 3
+        },
+        {
+            "user_and_groups": [],
+            "description": "",
+            "parallelism_activities": [],
+            "activiti_type": "UserTask",
+            "handle_rules": [
+                {
+                    "route_id": "a01fd8836a2244fe8e3d4640d2a55fcf",
+                    "name": "维修完成",
+                    "executors_groups": {}
+                }
+            ],
+            "counter_sign": 0,
+            "type": 0,
+            "mode": 1,
+            "sequence": 21,
+            "name": "外场返单",
+            "id": "20ab4686d7a84c41bdba8e7c52f3dffb",
+            "field_list": [
+                {
+                    "code": "title",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "工单标题",
+                    "tab_status": "0",
+                    "id": "92e430a6c44546c9a245d1295cc58b85",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "urgentLevel",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "优先级",
+                    "tab_status": "0",
+                    "id": "709117c0be68454fa358f98ae2950cbd",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "极低",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "低",
+                            "value": 2,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 1,
+                            "color": "#ef5350",
+                            "label": "中",
+                            "value": 3,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#9ccc65",
+                            "label": "高",
+                            "value": 4,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ffa726",
+                            "label": "极高",
+                            "value": 5,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "fxBxr",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修人",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "5d7982bb207a41bcb560110c23160dd0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "field_desc": "报修人默认中海",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "telephone",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "联系电话",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "b201e893daff4f89ad2e78d3cce04612",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bxsj",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "a3b88ba1f56c477fb9da73a50edbfb04",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bxfs",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修方式",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "d046f783672e465ab70a28051c8f3b87",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "label": "人工报修",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "自动报修",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "自动报修已拒收",
+                            "value": "3",
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "resource",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "关联配置",
+                    "tab_status": "0",
+                    "id": "72e1e05f9f5d4c68961dd8b8f6ba1077",
+                    "type_desc": "配置项",
+                    "type": "resource",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "text",
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "fxGzlx",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "label": "无图像",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "图像模糊",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "控制坏",
+                            "value": "3",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "绿化遮挡",
+                            "value": "4",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "补光灯故障",
+                            "value": "5",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "无字幕或字幕错",
+                            "value": "6",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "镜头异物",
+                            "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "其他故障",
+                            "value": "99",
+                            "descEnable": 0
+                        }
+                    ],
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "故障类型",
+                    "tab_status": "0",
+                    "id": "61c1d7be9f914acea254fc15c92d97e6",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "ticketDesc",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "工单描述",
+                    "tab_status": "0",
+                    "id": "564caa84bc7a488f9e703a97dd3ee418",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "fxpcs",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "派出所名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "3af865ca10024b19abf2351ee26a88b4",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "wxdwmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "维修单位名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "5bfa87b982dd47f69ed777a0d0a6e29f",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "xmmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "项目名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e6d8447ce56845af91b8e7ac0757a779",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "sbmc",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "设备名称",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "f90845afb35a4f1b9cfb22106407c8d2",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "deviceKey",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "键盘编码",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "e5c21782e39840e0807538b42490ce10",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "deviceIP",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "设备IP",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "54327eb5b654434a88f9d84ea1f8a746",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "receivedman",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单人",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "62dc9cc4792b46029e9eb63370f89fd0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "jdphone",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单人手机号",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "76a4eb5756a74322a8c18fa2a8e6888f",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "jdsj",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "接单时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "1394ea23eba7468d883cdd3d9242db8d",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "pdms",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "派单描述",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "48613b4bb3694651b8ee0192ea9947a6",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "code": "gpsm",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "改派说明",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "c654c12be94540b787ba92b24a8490e5",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solver",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "解决人",
+                    "tab_status": "0",
+                    "id": "a26e40835289424cbb30cc7abb8ae8f0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solverphone",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "解决人手机号",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "42dc0468b7c44732b61d2fb27c37600a",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solvingTime",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "解决时间",
+                    "tab_status": "0",
+                    "id": "571aa418d06c49f8b3750fbac9c88d09",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solveResult",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "解决结果",
+                    "tab_status": "0",
+                    "id": "fe1c35dcc1364fb3af04409914e2b3a7",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "color": "#008ed2",
+                            "label": "彻底解决",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "部分解决",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "未解决",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "problemReason",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "问题原因",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "d21a7aa629ea4c5097d9b13d72a9140b",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "code": "solvent",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "解决方案",
+                    "tab_status": "0",
+                    "id": "7ebbc2cb39cb40b8834d8473553c4068",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "sfbx",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "label": "未挂起",
+                            "value": "wgq",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "已挂起",
+                            "value": "ygq",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "挂起审核",
+                            "value": "gqsh",
+                            "descEnable": 0
+                        }
+                    ],
+                    "field_desc": "标识工单是否被挂起了",
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "是否挂起",
+                    "tab_status": "0",
+                    "id": "03fef3a1dade4fc6a79dc8b85c235e9b",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "gqyy",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "挂起备注",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "f8e1b365ad524744b4d8bd1a307d4287",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "field_desc": "用于保存挂起原因",
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "overdueNotify",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 1,
+                            "label": "正常",
+                            "value": "normal",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "等待通知",
+                            "value": "wait",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "通知完成",
+                            "value": "done",
+                            "descEnable": 0
+                        }
+                    ],
+                    "value_sel": "",
+                    "time_scope": 0,
+                    "key_sel": "",
+                    "form_data": {
+                        "data": [
+                            {
+                                "paramDesc": "",
+                                "isRequired": 0,
+                                "isSelect": 0,
+                                "paramName": "",
+                                "paramValue": ""
+                            }
+                        ],
+                        "isSelect": 1
+                    },
+                    "name": "逾期通知",
+                    "tab_status": "0",
+                    "id": "7edbfb3f248048888585e46f12831166",
+                    "type_desc": "下拉菜单"
+                },
+                {
+                    "code": "bz",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "未修好备注",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "af5d5d8bba694b5094c2974a82ad78aa",
+                    "type_desc": "多行文本",
+                    "type": "multiRowText",
+                    "time_scope": 0
+                },
+                {
+                    "code": "file",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "附件",
+                    "tab_status": "0",
+                    "id": "16bc62db26854d10b7b3b5996314d755",
+                    "type_desc": "附件",
+                    "type": "attachfile",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                }
+            ],
+            "policy": 1
+        },
+        {
+            "user_and_groups": [],
+            "description": "",
+            "parallelism_activities": [],
+            "activiti_type": "UserTask",
+            "handle_rules": [
+                {
+                    "route_id": "c84f4c02248a4ea48792bf3100773574",
+                    "name": "维修完成关单",
+                    "executors_groups": {}
+                },
+                {
+                    "route_id": "5fa811ccc4d04411876956fe1c6b6377",
+                    "name": "未修好回退",
+                    "executors_groups": {
+                        "20ab4686d7a84c41bdba8e7c52f3dffb": {
+                            "user": [
+                                {
+                                    "name": "齐金国",
+                                    "id": "0747a5e0a0f541ac86dad6fa84e87576"
+                                },
+                                {
+                                    "name": "程子键",
+                                    "id": "4ece7833b0e5443681382a2001185097"
+                                },
+                                {
+                                    "name": "张林海",
+                                    "id": "5762994298ad4122aba2475d4876906a"
+                                },
+                                {
+                                    "name": "涂波",
+                                    "id": "68b9e0cd75b548a7b1b128acd3d1020c"
+                                },
+                                {
+                                    "name": "许光尚",
+                                    "id": "70df6d2a034d4d838343003a2f1b5cfb"
+                                },
+                                {
+                                    "name": "罗攀",
+                                    "id": "726e0ff5ccfd4d6cb28be623b37fc11a"
+                                },
+                                {
+                                    "name": "尹中裕",
+                                    "id": "7801999d06f04ede89d0e53ceadfcf24"
+                                },
+                                {
+                                    "name": "李振强",
+                                    "id": "a9756c4733114e149bf125f80773640b"
+                                },
+                                {
+                                    "name": "滕波",
+                                    "id": "c09bec1899564ad699e16914c275be78"
+                                },
+                                {
+                                    "name": "吉泓彪",
+                                    "id": "c9c2ceb06e5e4249affd70196f59ce64"
+                                },
+                                {
+                                    "name": "孙梦尧",
+                                    "id": "eeab5c085e0141f5ae9d0d20464d6bbb"
+                                },
+                                {
+                                    "name": "周强",
+                                    "id": "f5a0543f4fc842c280b963431bbbc6d3"
+                                }
+                            ],
+                            "group": []
+                        }
+                    }
+                }
+            ],
+            "counter_sign": 0,
+            "type": 0,
+            "mode": 1,
+            "sequence": 22,
+            "name": "用户确认",
+            "id": "4cfbd86011ff49ec80bcfdd23ed5bd51",
+            "field_list": [
+                {
+                    "code": "title",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "工单标题",
+                    "tab_status": "0",
+                    "id": "92e430a6c44546c9a245d1295cc58b85",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "urgentLevel",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "优先级",
+                    "tab_status": "0",
+                    "id": "709117c0be68454fa358f98ae2950cbd",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "极低",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "低",
+                            "value": 2,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 1,
+                            "color": "#ef5350",
+                            "label": "中",
+                            "value": 3,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#9ccc65",
+                            "label": "高",
+                            "value": 4,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ffa726",
+                            "label": "极高",
+                            "value": 5,
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "fxBxr",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修人",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "5d7982bb207a41bcb560110c23160dd0",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "field_desc": "报修人默认中海",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "telephone",
+                    "editable": 1,
+                    "builtin": 1,
+                    "name": "联系电话",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "b201e893daff4f89ad2e78d3cce04612",
+                    "type_desc": "单行文本",
+                    "type": "singleRowText",
+                    "validation": "none",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bxsj",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修时间",
+                    "default_value": "1",
+                    "tab_status": "0",
+                    "id": "a3b88ba1f56c477fb9da73a50edbfb04",
+                    "type_desc": "日期时间",
+                    "type": "dateTime",
+                    "time_scope": 0
+                },
+                {
+                    "code": "bxfs",
+                    "editable": 1,
+                    "builtin": 0,
+                    "name": "报修方式",
+                    "default_value": "",
+                    "tab_status": "0",
+                    "id": "d046f783672e465ab70a28051c8f3b87",
+                    "type_desc": "单选",
+                    "type": "singleSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "label": "人工报修",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "自动报修",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "自动报修已拒收",
+                            "value": "3",
+                            "descEnable": 0
+                        }
+                    ],
+                    "time_scope": 0
+                },
+                {
+                    "code": "resource",
+                    "editable": 0,
+                    "builtin": 1,
+                    "name": "关联配置",
+                    "tab_status": "0",
+                    "id": "72e1e05f9f5d4c68961dd8b8f6ba1077",
+                    "type_desc": "配置项",
+                    "type": "resource",
+                    "params": [
+                        {
+                            "select": 0,
+                            "color": "#008ed2",
+                            "label": "",
+                            "value": 0,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#66bb6a",
+                            "label": "",
+                            "value": 1,
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "color": "#ef5350",
+                            "label": "",
+                            "value": 2,
+                            "descEnable": 0
+                        }
+                    ],
+                    "validation": "text",
+                    "time_scope": 0
+                },
+                {
+                    "headers": [
+                        {
+                            "isRequired": 0,
+                            "isSelect": 0,
+                            "paramName": "",
+                            "paramValue": ""
+                        }
+                    ],
+                    "code": "fxGzlx",
+                    "request_type": "get",
+                    "editable": 1,
+                    "builtin": 0,
+                    "outside_url": "",
+                    "raw": {
+                        "data": "",
+                        "isSelect": 0
+                    },
+                    "default_value": "",
+                    "type": "listSel",
+                    "params": [
+                        {
+                            "select": 0,
+                            "label": "无图像",
+                            "value": "1",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "图像模糊",
+                            "value": "2",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "控制坏",
+                            "value": "3",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "绿化遮挡",
+                            "value": "4",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "补光灯故障",
+                            "value": "5",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "无字幕或字幕错",
+                            "value": "6",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "镜头异物",
+                            "value": "7",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "相机照偏",
+                            "value": "8",
                             "descEnable": 0
                         },
                         {
