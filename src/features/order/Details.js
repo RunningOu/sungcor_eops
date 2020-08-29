@@ -386,19 +386,19 @@ const Details = (props) => {
               (orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 || (props.userAccountInfo.userId === MANAGE_ID && orderInfo.activity_name === '用户确认')) && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
                 orderInfo.isreceived === 1 ?
                   <>
-                    <Button type="primary" onClick={() => {
+                    <Button type="primary" size="large" onClick={() => {
                       orderReceiving(() => {
                         history.go(-1)
                       })
                     }}>接单</Button>
-                    <Button type="primary" onClick={() => {
+                    <Button size="large" type="primary" onClick={() => {
                       orderReceiving(() => {
                         history.push(`${props.location.pathname}/handle${search}`)
                       })
                     }}>接单并处理</Button>
                   </> :
                   <>
-                    <Button type="primary" onClick={() => {
+                    <Button type="primary" size="large" onClick={() => {
                       history.push(`${props.location.pathname}/handle${search}`)
                     }}>处理</Button>
                   </> :

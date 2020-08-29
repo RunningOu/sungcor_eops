@@ -82,10 +82,10 @@ const HandleOrder = Form.create({
   const [needFile, setNeedFile] = useState(false)
   const [orderInfo, setOrderInfo] = useState([])
   const [files, setFiles] = useState([]) //图片
-
+  const [handle, setHandle] = useState({}) //setHandle
   const [visible, setVisible] = useState('none') // gis显示隐藏
   const [loading, setPlVisible] = useState(true)
-  
+  const query = new URLSearchParams(search)
 
   const [changeExecutor, setChangeExecutor] = useState(false)
   const [changeRemark, setChangeRemark] = useState('')
@@ -97,29 +97,27 @@ const HandleOrder = Form.create({
   const [pcsInfo, setPcsInfo] = useState({})
   const [resourceId, setResourceId] = useState('') // 资产id
 
-  const query = new URLSearchParams(search)
+  // try{
+  //   if(orderInfo) return
+  //   orderInfo.form.forEach(orderFindGq => {
+  //     if(orderFindGq.code === 'sfbx'){
+  //       if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
+  //         setSfgq(true)
+  //         message.info("工单已被挂起锁定，无法操作")
+  //       }
+  //     }
+  //   })
 
-  try{
-    orderInfo.form.forEach(orderFindGq => {
-      if(orderFindGq.code === 'sfbx'){
-        if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
-          setSfgq(true)
-          message.info("工单已被挂起锁定，无法操作")
-        }
-      }
-    })
-
-    orderInfo.form.forEach(orderFindGq => {
-      if(orderFindGq.code === "resource"){
-        setResourceId(orderFindGq.default_value[0].id)
-      }
-    })
+  //   orderInfo.form.forEach(orderFindGq => {
+  //     if(orderFindGq.code === "resource"){
+  //       setResourceId(orderFindGq.default_value[0].id)
+  //     }
+  //   })
   
-  }catch{
-    console.log('')
-  }
+  // }catch{
+  //   console.log('')
+  // }
   function handleForm(handle_rules, name, extraForm = {}) {
-    const query = new URLSearchParams(search)
     let pass = true
     let form = { ...props.order.form }
     if (query.get('modelId') === orderSearch['视频报修'].modelId) {
@@ -184,9 +182,6 @@ const HandleOrder = Form.create({
   }
 
   useEffect(() => {
-    const query = new URLSearchParams(search)
-    console.log(query.get('search'))
-    console.log(query.get('searchType'))
     queryOrderInfo(modal).then(d => {
       let formData = {}
       props.actions.clearForm()
@@ -198,7 +193,6 @@ const HandleOrder = Form.create({
           if(userAccountInfo.userId === MANAGE_ID && f.code === "fxpcs"){
             // console.log(orderattrs.default_value)
             getUserbyName(f.default_value).then(data => {
-              console.log("data>>>",data)
               setPcsInfo(data)
             })
           }
@@ -225,10 +219,9 @@ const HandleOrder = Form.create({
         })
       }
     })
-  }, [modal, props.actions, search, userAccountInfo])
+  }, [modal, search, userAccountInfo])
   useEffect(() => {
     // 给formBuilder提供meta
-    const query = new URLSearchParams(search)
     let newMeta = []
     if (orderModal.hasOwnProperty('field_list')) {
       let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
@@ -264,9 +257,9 @@ const HandleOrder = Form.create({
     if(orderSearch['视频报修'].modelId === query.get('modelId')){
       setVisible('unset');
     }
-  }, [orderModal, props.order, modal, search])
+    
+  }, [orderModal, search])
   useEffect(() => {
-    const query = new URLSearchParams(search)
     let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
     if (orderRule && orderRule.hasOwnProperty('defaultValue')) {
       let defaultForm = {}
@@ -283,11 +276,28 @@ const HandleOrder = Form.create({
       }
       props.actions.setForm(defaultForm)
     }
-  }, [props.actions, props.user, orderModal, modal, search])
+  }, [orderModal, search])
   useEffect(() => {
-    console.log(orderInfo, orderModal)
-    console.log(orderBefore.changeExecutor[orderModal.sequence])
-  }, [orderInfo, orderModal])
+    if(!orderInfo){
+      orderInfo.form.forEach(orderFindGq => {
+        if(orderFindGq.code === 'sfbx'){
+          if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
+            setSfgq(true)
+            message.info("工单已被挂起锁定，无法操作")
+          }
+        }
+      })
+
+      orderInfo.form.forEach(orderFindGq => {
+        if(orderFindGq.code === "resource"){
+          setResourceId(orderFindGq.default_value[0].id)
+        }
+      })
+    }
+  }, [orderInfo])
+  useEffect(() => {
+    setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
+  }, [orderInfo,orderModal])
 
 
   return (
@@ -320,7 +330,7 @@ const HandleOrder = Form.create({
           </div> : null}
           </>
         <div className="handle-button-group">
-          { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
+          { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton route={d.route_id} handle={handle} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
           {/* {[3,6,8].includes(orderModal.sequence) ? */}
           {[3, 6, 8, 21].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
             <>
@@ -371,7 +381,7 @@ const HandleOrder = Form.create({
             : null}
           {(orderInfo.activity_name === '内场接单'||orderInfo.activity_name === '外场返单') && !sfgq?
             <>
-              <Button onClick={() => { setShowPutUp(true) }}>挂起</Button>
+              <Button onClick={() => { setShowPutUp(true) }} size="large">挂起</Button>
               <Modal
                 visible={showPutUp}
                 title="填写挂起原因"

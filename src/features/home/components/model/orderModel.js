@@ -1,10 +1,13 @@
 import React, { useState, useEffect }  from 'react'
-import { Modal, List } from 'antd'
+import { Modal, List, message } from 'antd'
 import { useHistory } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroller'
+import moment from 'moment'
 import { queryOrderList, getFieldByCode } from '../../../../common/request'
 import './orderModel.less'
+import { formatDate } from '../../../../utils'
 export default (props) => {
+  let { visible, title, type, tabs, onVisible, status } = props
     const [orderList, setOrderList] = useState([])
     const [fxGzlxs, setFxGzlxs] = useState([])
     const [count, setCount] = useState(0) // 列表总数
@@ -21,13 +24,31 @@ export default (props) => {
       }
       setPageNum(current => current + 1)
     }
-    let { visible, title, pnum, onVisible } = props
-    var oAttrs= [{ key: "overdue", value: "1", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }]
+    // var oAttrs= [{ key: "overdue", value: "1", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }]
+    var AllAttrs= {
+      'xmmc': {
+        '逾期': [{ key: "overdue", value: "1", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+        '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }]
+      },
+      'nc': {
+        '逾期': [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+        '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }]
+      }
+    }
+    
     useEffect(() => {
-        if(visible === true){   
+        if(visible === true){
+          var oAttrs = AllAttrs[tabs][type]
           console.log(pageNum)
-          if (title !== '总计') {
+          if (tabs === 'xmmc') {
             oAttrs.push({ key: 'formData.xmmc', value: title, operator: "EQ" })
+          }
+          if (tabs === 'nc') {
+            oAttrs.push({ key: 'title', value: title, operator: "LIKE" })
+          }
+          if ( status === 'today' ) {
+            console.log(formatDate(new Date(), 'yyyy-MM-dd') + ' 00:00:00')
+            oAttrs.push({ key: 'createTime', value: formatDate(new Date(), 'yyyy-MM-dd') + ' 00:00:00' , operator: "GT" })
           }
           getFieldByCode('fxGzlx').then(data => {
             var fxGzlxs = {}
@@ -51,6 +72,7 @@ export default (props) => {
               } 
               setLoading(false)
             }
+            setCount(d.count)
           })
             .catch((e) => { })
         } else {
@@ -61,9 +83,14 @@ export default (props) => {
     function handleCancel(e) {
       onVisible(false)
     }
+    useEffect(() => {
+      if (count > 0) {
+        message.success({ content: `共有${count}条记录`})
+      }
+    }, [count])
   return (
     <div className='order-modal'>
-      <Modal title={title+'__逾期'} centered footer={null} bodyStyle={{height: 'calc(100vh - 127.5px - 76px)', padding: '0px'}}  visible={visible} onCancel={handleCancel}>
+      <Modal title={title+'_'+type} centered footer={null} bodyStyle={{height: 'calc(100vh - 127.5px - 76px)', padding: '0px'}}  visible={visible} onCancel={handleCancel}>
           <div className='order-list'>
             <InfiniteScroll
               initialLoad={false}
@@ -76,12 +103,24 @@ export default (props) => {
                   <div className='item' onClick={() => { 
                     history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}`) 
                     }}>
-                    <h2 className='title'>{item.title}</h2>
-                    <p className='description'>当前处理人：{item.executor.join('，')}</p>
-                    <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p>
-                    <p className='description'>键盘编号：{item.formData.deviceKey}</p>
-                    <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
-                    <p className='orderstate'>{item.activityName}</p>
+                    {
+                       tabs === 'xmmc' ? 
+                       <>
+                        <h2 className='title'>{item.title}</h2>
+                        <p className='description'>当前处理人：{item.executor.join('，')}</p>
+                        <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p>
+                        <p className='description'>键盘编号：{item.formData.deviceKey}</p>
+                        <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
+                        <p className='orderstate'>{item.activityName}</p>
+                       </>
+                        :
+                        <>
+                        <h2 className='title'>{item.title}</h2>
+                        <p className='description'>当前处理人：{item.executor.join('，')}</p>
+                        <p className='date'>报修时间： <span>{item.formData.bxsj === undefined ? moment(item.createTime).format("YYYY-MM-DD HH:mm:ss") : item.formData.bxsj}</span></p>
+                        <p className='orderstate'>{item.activityName}</p>
+                       </>
+                    }
                   </div>
                 )} />
               </InfiniteScroll>

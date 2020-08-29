@@ -99,7 +99,7 @@ const Order = (props) => {
   useEffect(() => {
     setPageNum(1)
     setHasMore(true)
-  }, [orderState, userAccountInfo, searchTitle, orderSearchInfo, orderSearchFlow, drawerConfig, search])
+  }, [orderState, searchTitle, orderSearchInfo, orderSearchFlow, drawerConfig, search])
   useEffect(() => {
     let attrs = [...tabsConfig(userAccountInfo.userId)[orderState]]
     if (Object.keys(drawerConfig).length) attrs.push({key: "modelId", value: drawerConfig.modelId, operator: "EQ"})
@@ -295,7 +295,7 @@ const Order = (props) => {
           )} />
         </InfiniteScroll>
       </div>
-      <div className='home-components-alert' style={{display: plVisible}} onClick={() => { history.push('/order/selectView') }}>
+      <div className='home-components-alert' style={{display: plVisible}} onClick={() => { history.push('/order/selectView'+'?search='+searchTitle+'&searchType='+searchInfo) }}>
         <button style={{fontSize: '16px'}}>批量</button>
         {/* {<IconFontl type="iconjurassic_batch-work" /> || '/'} */}
       </div>
