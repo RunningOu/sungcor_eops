@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from 'react'
-import { Chart, Geom, Axis, Tooltip } from 'bizcharts'
+import { Chart, Geom, Coord, Label, Axis, Tooltip } from 'bizcharts'
 import { Card, Statistic, Col, Radio } from 'antd'
 import { countByCode } from '../../../../common/request'
 // const data = [
@@ -34,11 +34,14 @@ export default () => {
         <Radio.Button value={statusR[1]}>近一个月</Radio.Button>
         {/* <Radio.Button value="small">新告警</Radio.Button> */}
       </Radio.Group>
-      <Chart height={250} data={cdata} scale={cols} forceFit padding="auto">
-        <Axis name="genre" title />
-        <Axis name="sold" title />
+      <Chart height={250} data={cdata} scale={cols} forceFit padding={['auto',30,'auto','auto']}>
+        <Coord transpose />
+        <Axis name="name" />
+        <Axis name="error" />
         <Tooltip />
-        <Geom type="interval" position="name*error" />
+        <Geom type="interval" position="name*error" >
+          <Label content='error' offset={2}/>
+        </Geom>
         {/* <Geom type="interval" position="name*error" color="name" /> */}
       </Chart>
     </div>
