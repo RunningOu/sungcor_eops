@@ -344,7 +344,7 @@ export const countByCode = async (code, type) => {
 export const countOnlienRate = async () => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss/oss/app/portal/countOnlineRate'
+    url: '/oss/app/portal/countOnlineRate'
   })
   return data
 }
@@ -353,7 +353,7 @@ export const countOnlienRate = async () => {
 export const countCameraOnlineRate = async () => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss/oss/app/portal/countCameraOnlineRate'
+    url: '/oss/app/portal/countCameraOnlineRate'
   })
   return data
 }
@@ -362,7 +362,7 @@ export const countCameraOnlineRate = async () => {
 export const countOnlineGroupByType = async (type) => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss/oss/app/portal/countOnlineGroupByType',
+    url: '/oss/app/portal/countOnlineGroupByType',
     params: {
       type: type
     }
@@ -374,7 +374,7 @@ export const countOnlineGroupByType = async (type) => {
 export const queryNetworkList = async (d, url) => {
   const { data } = await axios({
     method: 'post',
-    url: '/oss/oss' + url,
+    url: '/oss' + url,
     data: {
       ...d
     }
@@ -386,7 +386,7 @@ export const queryNetworkList = async (d, url) => {
 export const countTicketByStatus = async (para) => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss/oss/app/portal/countTicketByStatus?interval='+para
+    url: '/oss/app/portal/countTicketByStatus?interval='+para
   })
   return data
 }
@@ -395,7 +395,7 @@ export const countTicketByStatus = async (para) => {
 export const countTicketByDevType = async (para) => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss/oss/app/portal/countTicketByDevType?interval='+para
+    url: '/oss/app/portal/countTicketByDevType?interval='+para
   })
   return data
 }
