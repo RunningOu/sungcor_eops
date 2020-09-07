@@ -56,8 +56,11 @@ const Details = (props) => {
         queryParam.status =0 
       }
       if(status == 0 && source !="政务网内场告警"){
-        // queryParam.alias = '主机上下线'
-        queryParam.name = 'host.up/down' 
+        queryParam.name = 'host.connected/unreachable'
+        // queryParam.name = 'host.up/down' 
+      }
+      if(status != 0 && source !="政务网内场告警"){
+        queryParam.name = 'host.up/down'
       }
       queryAlertList(queryParam).then(d => { 
           setCount(d.data.total)
@@ -110,7 +113,7 @@ const Details = (props) => {
           )} />
         </InfiniteScroll>
       </div>
-      <FooterBar pathname={props.location.pathname} />
+      {/* <FooterBar pathname={props.location.pathname} /> */}
     </div>
   )
 }

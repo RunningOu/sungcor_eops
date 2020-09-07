@@ -47,6 +47,10 @@ const Overview = (props) => {
     }
     if(severity == 0 && type !='zpt'){
       // params.alias = '主机上下线'
+      params.name = 'host.connected/unreachable' 
+    }
+    if(severity !== 0 && type !='zpt'){
+      // params.alias = '主机上下线'
       params.name = 'host.up/down' 
     }
     countAlert(params).then(d => { 
