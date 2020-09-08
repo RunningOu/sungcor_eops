@@ -109,7 +109,7 @@ const Overview = (props) => {
             ))
         }
       </div>
-      <FooterBar pathname={props.location.pathname} />
+      {/* <FooterBar pathname={props.location.pathname} /> */}
     </div>
   )
 }
