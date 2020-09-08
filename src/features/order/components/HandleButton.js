@@ -1,18 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Button, Modal, Tag, message, Input } from 'antd'
+import moment from 'moment'
 // import { updateOrder } from '../../../common/request'
 import _ from 'lodash'
 
 const { CheckableTag } = Tag
 export default (props) => {
   // const { handle, children, handleForm, modal } = props
-  const { handle, children, handleForm, key } = props
+  const { handle, children, handleForm, orderInfo } = props
 
   const [visible, setVisible] = useState(false)
   const [groups, setGroups] = useState(null)
   const [selectGroups, setSelectGroups] = useState({ user: [], group: [] })
   const [showPutUp, setShowPutUp] = useState(false)
   const [putUpRemark, setPutUpRemark] = useState('')
+  const [solventViseble, setSolventViseble] = useState(false)
+  const [solvent, setSolvent] = useState('')
   const extraForm = useRef({})
   function handleClick() {
     console.log(handle)
@@ -20,6 +23,10 @@ export default (props) => {
       setShowPutUp(true)
       return
     }
+    // if (children === '维修完成') {
+    //   setSolventViseble(true)
+    //   return
+    // }
     if (handle.name === '内场审核') {
       if (children === '同意') {
         extraForm.current = {
@@ -131,6 +138,35 @@ export default (props) => {
         onCancel={() => { setShowPutUp(false) }}
       >
         <Input.TextArea rows="3" placeholder="挂起原因" value={putUpRemark} onChange={e => { setPutUpRemark(e.target.value) }} />
+      </Modal>
+      <Modal
+        visible={solventViseble}
+        title="填写解决方案"
+        onOk={() => {
+          if (solvent !== '') {
+            var gqy = ''
+            var gqjlArr = []
+            orderInfo.form.forEach(orderattrs => {
+              if(orderattrs.code === "gqyy"){
+                gqy = orderattrs.default_value
+              }
+            })
+            if (typeof(gqy) !== 'string' && gqy) {
+              gqjlArr = gqy
+              gqjlArr.push({'title': '解决方案','reason': solvent, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+            } else {
+              gqjlArr.push({'title': '解决方案','reason': solvent, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+            }
+            handleForm({ route_id: _.find(handle.handle_rules, r => r.name === children).route_id }, children, {
+              solvent: gqjlArr
+            })
+          } else {
+            message.warning('请填写解决方案')
+          }
+        }}
+        onCancel={() => { setSolventViseble(false) }}
+      >
+        <Input.TextArea rows="3" placeholder="解决方案" value={solvent} onChange={e => { setSolvent(e.target.value) }} />
       </Modal>
     </>
   )

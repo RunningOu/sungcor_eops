@@ -19,11 +19,11 @@ export default () => {
           data.result.forEach(element => {
             sumTotal += element.total
             sumUndone += element.undone
-            sumOverdue += element.overdue
+            sumOverdue += element.wcOverdue
             sumWwcOverdue += element.wwcOverdue
             sumGq += element.gq
           })
-          setCdata([{'name': '总计', 'total': sumTotal, 'undone': sumUndone, 'gq': sumGq, 'wwcOverdue': sumWwcOverdue, 'overdue': sumOverdue}, ...data.result])
+          setCdata([{'name': '总计', 'total': sumTotal, 'undone': sumUndone, 'gq': sumGq, 'wwcOverdue': sumWwcOverdue, 'wcOverdue': sumOverdue}, ...data.result])
         })
     },[status])
     var columns = [
@@ -95,8 +95,8 @@ export default () => {
             )
           },{
             title: '逾期已完成',
-            dataIndex: 'overdue',
-            key: 'overdue',
+            dataIndex: 'wcOverdue',
+            key: 'wcOverdue',
             width: 90,
             render: (overdue, record, index) => (
                 <Tag color='red' key={overdue} onClick = {() => {

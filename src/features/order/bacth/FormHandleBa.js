@@ -152,7 +152,8 @@ const HandleOrder = Form.create({
           handle_type: "1",
           form: {
             ...formdata,
-            ...item.formData
+            ...item.formData,
+            jdsj: moment(new Date()).format('YYYY-MM-DD HH:mm:ss') // 接单时间
           },
           handle_rules: {
             ...handle_rules

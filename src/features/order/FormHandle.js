@@ -330,7 +330,7 @@ const HandleOrder = Form.create({
           </div> : null}
           </>
         <div className="handle-button-group">
-          { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton route={d.route_id} handle={handle} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
+          { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton route={d.route_id} handle={handle} orderInfo={orderInfo} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
           {/* {[3,6,8].includes(orderModal.sequence) ? */}
           {[3, 6, 8, 21].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
             <>
