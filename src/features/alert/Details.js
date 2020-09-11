@@ -55,11 +55,14 @@ const Details = (props) => {
       if(status == 3){
         queryParam.status =0 
       }
-      if(status == 0 && source !="政务网内场告警"){
+      // if(status == 0 && source !="政务网内场告警"){
+      //   queryParam.name = 'host.connected/unreachable'
+      //   // queryParam.name = 'host.up/down' 
+      // }
+      if(source =="网络资源监控"){
         queryParam.name = 'host.connected/unreachable'
-        // queryParam.name = 'host.up/down' 
       }
-      if(status != 0 && source !="政务网内场告警"){
+      if(source =="基础资源监控"){
         queryParam.name = 'host.up/down'
       }
       queryAlertList(queryParam).then(d => { 

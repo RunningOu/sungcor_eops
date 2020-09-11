@@ -3,17 +3,17 @@ import { HeaderBar, FooterBar } from '../common'
 import { useHistory } from 'react-router-dom'
 import { Card, Statistic, Col, Radio, Tabs, message } from 'antd'
 import { connect } from 'react-redux'
-import { countAlert } from '../../common/request'
+import { countAlert, queryAlertList } from '../../common/request'
 
 import './Overview.less'
 const { TabPane } = Tabs;
 
 const Overview = (props) => {
-  // var baseData = [
-  //   { name: '网络监控报警', alertNum: 0},
-  //   { name: '基础资源监控', alertNum: 0},
-  //   { name: 'NVR存储告警', alertNum: 0}
-  // ]
+  var paramData = [
+    { name: '网络资源监控', params: {name: 'host.connected/unreachable'}},
+    { name: '基础资源监控', params: {name: 'host.up/down'}},
+    { name: '政务网内场告警', params: {source: "政务网内场告警"}}
+  ]
   function callback(key) {
     setType(key)
   }
@@ -32,40 +32,34 @@ const Overview = (props) => {
   const { userAccountInfo } = props
   const history = useHistory()
   const [alertNums, setAlertNums] = useState([])
+
   useEffect(() => { // 近24小时 7tian
     console.log(severity)
-    var params = {
-      'apikey': 'e10adc3949ba59abbe56e057f2gg88dd',
-      'groupBy': 'source',
-      // 'status': 0,
-      'severity': severity,
-      'end': parseInt(new Date().getTime()),
-      'begin': parseInt(new Date().getTime()-7*24*60*60*1000)
-    }
-    if(severity == 3){
-      params.status =0 
-    }
-    if(severity == 0 && type !='zpt'){
-      // params.alias = '主机上下线'
-      params.name = 'host.connected/unreachable' 
-    }
-    if(severity !== 0 && type !='zpt'){
-      // params.alias = '主机上下线'
-      params.name = 'host.up/down' 
-    }
-    countAlert(params).then(d => { 
-      var ss = []
-      d.forEach(element => {
-        if (baseData[element.value]) {
-          baseData[element.value].count = element.count
-        }
-      });
-      for(var item in baseData){
-        ss.push(baseData[item])
+    var ss =[]
+    paramData.forEach((item) => {
+      var params = {
+        'apikey': 'e10adc3949ba59abbe56e057f2gg88dd',
+        'severity': severity,
+        'end': parseInt(new Date().getTime()),
+        'begin': parseInt(new Date().getTime()-7*24*60*60*1000)
       }
-      setAlertNums(ss) 
+      if(severity == 3){
+        params.status =0 
+      }
+      params = {...params,...item.params}
+      queryAlertList(params).then(d => { 
+        baseData[item.name].count = d.data.total
+        ss.push(baseData[item.name])
+        if(ss.length == paramData.length){
+          setAlertNums(ss)
+        }
+      })
     })
   },[userAccountInfo, severity])
+
+  useEffect(() => {
+    console.log(alertNums)
+  },[alertNums])
 
   return (
     <div className="alert-overview">
@@ -80,8 +74,8 @@ const Overview = (props) => {
             setSeverity(e.target.value)
           }
         }>
-          <Radio.Button value={severityR[0]}>新告警</Radio.Button>
-          <Radio.Button value={severityR[1]}>已恢复</Radio.Button>
+          <Radio.Button value={severityR[0]} key={0}>新告警</Radio.Button>
+          <Radio.Button value={severityR[1]} key={1}>已恢复</Radio.Button>
           {/* <Radio.Button value="small">新告警</Radio.Button> */}
         </Radio.Group>
       </div>
