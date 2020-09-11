@@ -53,6 +53,12 @@ const SelectView = (props) => {
       render: fxGzlx => {
         return fxGzlxs[fxGzlx]
       }
+    },
+    {
+      title: '键盘编号',
+      dataIndex: 'formData.deviceKey',
+      key: 'formData.deviceKey',
+      align: 'center'
     }
   ];
   
