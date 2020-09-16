@@ -23,6 +23,11 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({ ...actions }, dispatch),
   }
 }
+// function mapJwdProps() {
+//   return {
+//     jwd: {},
+//   }
+// }
 const IconText = ({ type, text }) => (
   <span>
     <Icon type={type} style={{ marginRight: 8 }} />
@@ -30,7 +35,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 export default connect(mapStateToProps, mapDispatchToProps)((props) => {
-  const { history, userAccountInfo } = props
+  const { history, userAccountInfo, match:{params: {modal}} } = props
   const [deviceList, setDeviceList] = useState([]) // 设备列表
   // const [classType, setClassType] = useState([])
   // const [selectedClass, setSelectedClass] = useState([{ code: "Camera", name: "摄像机" }])
@@ -67,10 +72,24 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
       })
     }
     if (devcieSearch !== '') {
+      // conditions.push({
+      //   field: 'name',
+      //   value: devcieSearch,
+      //   operator: 'LIKE'
+      // })
       conditions.push({
-        field: 'name',
-        value: devcieSearch,
-        operator: 'LIKE'
+        "cjt": "OR",
+        "items": [
+          {
+            field: 'name',
+            value: devcieSearch,
+            operator: 'LIKE'
+          }, {
+            field: 'jpbh',
+            value: devcieSearch,
+            operator: 'LIKE'
+          }
+        ]
       })
     }
     if (['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
@@ -104,9 +123,9 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
 
   return (
     <div className='order-page-select-device'>
-      <HeaderBar title="选择设备" rightContent={<Button type='link' style={{ color: '#fff', position: 'relative', left: '14px' }} onClick={() => { history.go(-1) }}>确定</Button>} />
+      <HeaderBar title="选择设备"/>
       <div className='search-bar'>
-        <Search className='search-input' placeholder={'请输入设备名称'} onSearch={value => { setDeviceSearch(value) }} />
+        <Search className='search-input' placeholder={'请输入关键字（设备名称、键盘编号）'} onSearch={value => { setDeviceSearch(value) }} />
         {/* <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div> */}
       </div>
       <div className='device-list'>
@@ -126,10 +145,11 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 key={item.id}
                 actions={[
                   <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
-                  <IconText type="tool" text={item.whcs[0].name} />
+                  <IconText type="tool" text={item.whcs ? item.whcs[0].name : item.whcs} />
                 ]}
               >
                 <List.Item.Meta title={item.name} description={item.managementUnit} />
+                <span>{item.jpbh}</span>
                 <Button className="btn" type="link" onClick={() => {
                   if (item.cameraState !== "using") {
                     if (item.cameraState === "maintenanceInfo") {
@@ -141,8 +161,9 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     return
                   }
                   if (item.whcs) {
-                    console.log(userAccountInfo.roleName)
+                    console.log(props)
                     if (['超级管理员'].includes(userAccountInfo.roleName)) {
+                      // props.staticContext({longitude: item.longitude})
                       queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
                         props.actions.setForm({
                           resource: [{

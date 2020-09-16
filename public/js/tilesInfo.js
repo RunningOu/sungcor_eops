@@ -1,0 +1,11 @@
+// var outputPath='http://192.168.3.244:8080/tiles/';
+var outputPath='https://fxtyyw.gaj.sh.gov.cn/app/maptile/'
+var urlType='4';
+var minZoom=12;
+var maxZoom=18;
+var centX=121.655536;
+var centY=30.92051;
+var format='.png';
+var epsgCode='3857';
+var tileSize=256;
+var pointsStr='';

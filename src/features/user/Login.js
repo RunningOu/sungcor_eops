@@ -66,7 +66,7 @@ const Login = (props) => {
                     const userInfo = {
                       userId: d.userId,
                       username: d.username,
-                      apiKey: d.apiKeys[0].key,
+                      apiKey: d.apiKeys ? d.apiKeys[0].key : '',
                       role: d.role,
                       roleName: d.roleName,
                       realname: d.realname,

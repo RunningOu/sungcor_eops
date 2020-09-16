@@ -7,9 +7,11 @@ import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
 import { useHistory } from 'react-router-dom'
 import './Create.less'
+import orderSearch from './mock/orderSearch'
 
 
 const Create = (props) => {
+  // console.log(111, props)
   const history = useHistory()
   const [orderModal, setOrderModal] = useState([])
   const [selectedModal, setSelectedModal] = useState('')
@@ -31,6 +33,7 @@ const Create = (props) => {
       </p>
       <div className="select-main">
         {orderModal.map(modal => (
+          orderSearch['奉贤基础资源报修'].modelId === modal.id ? '' :
           <div className={`order-modal${selectedModal === modal.id ? ' selected' : ''}`} key={modal.id} onClick={() => { setSelectedModal(modal.id) }}>
             <div className="order-modal-icon">
               <img className="img" src={require('../../assets/imgs/modal.png')} alt='工单模型' />

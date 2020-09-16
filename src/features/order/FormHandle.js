@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, message, Upload, Button, Modal, Tag, Input } from 'antd'
+import { Form, message, Upload, Button, Modal, Tag, Input, Spin } from 'antd'
 import { MANAGE_ID } from '../../config'
 import moment from 'moment'
 import _ from 'lodash'
@@ -12,6 +12,7 @@ import {
   dateTime,
   resource,
   listSel,
+  GisShow,
   HandleButton
 } from './components'
 import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName } from '../../common/request'
@@ -21,6 +22,8 @@ import * as actions from './redux/actions'
 import { HeaderBar } from '../common'
 import orderConfig from './mock/orderConfig'
 import orderBefore from './mock/orderBefore'
+import orderSearch from './mock/orderSearch'
+import orderModelConfig from './mock/orderModelConfig'
 
 import './Form.less'
 
@@ -79,6 +82,10 @@ const HandleOrder = Form.create({
   const [needFile, setNeedFile] = useState(false)
   const [orderInfo, setOrderInfo] = useState([])
   const [files, setFiles] = useState([]) //图片
+  const [handle, setHandle] = useState({}) //setHandle
+  const [visible, setVisible] = useState('none') // gis显示隐藏
+  const [loading, setPlVisible] = useState(true)
+  const query = new URLSearchParams(search)
 
   const [changeExecutor, setChangeExecutor] = useState(false)
   const [changeRemark, setChangeRemark] = useState('')
@@ -88,26 +95,34 @@ const HandleOrder = Form.create({
   const [putUpRemark, setPutUpRemark] = useState('')
   const [sfgq, setSfgq] = useState(false)
   const [pcsInfo, setPcsInfo] = useState({})
+  const [resourceId, setResourceId] = useState('') // 资产id
 
-  const query = new URLSearchParams(search)
+  // try{
+  //   if(orderInfo) return
+  //   orderInfo.form.forEach(orderFindGq => {
+  //     if(orderFindGq.code === 'sfbx'){
+  //       if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
+  //         setSfgq(true)
+  //         message.info("工单已被挂起锁定，无法操作")
+  //       }
+  //     }
+  //   })
 
-  try{
-    orderInfo.form.forEach(orderFindGq => {
-      if(orderFindGq.code === 'sfbx'){
-        if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
-          setSfgq(true)
-          message.info("工单已被挂起锁定，无法操作")
-        }
-      }
-    })
+  //   orderInfo.form.forEach(orderFindGq => {
+  //     if(orderFindGq.code === "resource"){
+  //       setResourceId(orderFindGq.default_value[0].id)
+  //     }
+  //   })
   
-  }catch{
-    console.log('')
-  }
+  // }catch{
+  //   console.log('')
+  // }
   function handleForm(handle_rules, name, extraForm = {}) {
     let pass = true
-    let form = { ...props.order.form, ...extraForm }
-    const query = new URLSearchParams(search)
+    let form = { ...props.order.form }
+    if (query.get('modelId') === orderSearch['视频报修'].modelId) {
+      form = { ...props.order.form, ...extraForm }
+    }
     props.form.validateFieldsAndScroll((err, value) => {
       if (err) {
         pass = false
@@ -116,6 +131,14 @@ const HandleOrder = Form.create({
     if (!pass) {
       message.warning('请填写完全工单信息！')
       return
+    }
+    if (props.order.form.gqyy) {
+      form.gqyy = props.order.form.gqyy
+    }
+    console.log(form)
+    if(form.overdueNotify){
+      delete form.overdueNotify
+      console.log(form)
     }
     var submitData = {
       ticket_id: modal,//工单id
@@ -132,6 +155,7 @@ const HandleOrder = Form.create({
     if(pcsInfo.apiKeys && orderInfo.executors[0] !== MANAGE_ID){
       submitData.apikey = pcsInfo.apiKeys[0].key
     }
+    console.log(submitData)
     handleOrder(submitData).then(d => {
       // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
       if (files.length) {
@@ -150,15 +174,14 @@ const HandleOrder = Form.create({
           }
         })
 
-        history.push('/order')
+        history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
       } else {
-        history.push('/order')
+        history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
       }
     })
   }
 
   useEffect(() => {
-    const query = new URLSearchParams(search)
     queryOrderInfo(modal).then(d => {
       let formData = {}
       props.actions.clearForm()
@@ -170,7 +193,6 @@ const HandleOrder = Form.create({
           if(userAccountInfo.userId === MANAGE_ID && f.code === "fxpcs"){
             // console.log(orderattrs.default_value)
             getUserbyName(f.default_value).then(data => {
-              console.log("data>>>",data)
               setPcsInfo(data)
             })
           }
@@ -178,17 +200,28 @@ const HandleOrder = Form.create({
         setOrderInfo(d)
         props.actions.setForm(formData)
       }
-      queryOrderModel({
-        modelId: query.get('modelId'),
-        actId: query.get('actId')
-      }).then(d => {
-        setOrderModal(d)
-      })
+      // 判断如果是视频报修
+      if(orderSearch['视频报修'].modelId === query.get('modelId')){
+        orderModelConfig[query.get('modelId')].forEach((item) => {
+          if (item.id === query.get('actId')) {
+            setOrderModal(item)
+            setPlVisible(false)
+            return
+          }
+        })
+      }else{
+        queryOrderModel({
+          modelId: query.get('modelId'),
+          actId: query.get('actId')
+        }).then(d => {
+          setOrderModal(d)
+          setPlVisible(false)
+        })
+      }
     })
-  }, [modal, props.actions, search, userAccountInfo])
+  }, [modal, search, userAccountInfo])
   useEffect(() => {
     // 给formBuilder提供meta
-    const query = new URLSearchParams(search)
     let newMeta = []
     if (orderModal.hasOwnProperty('field_list')) {
       let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
@@ -218,10 +251,15 @@ const HandleOrder = Form.create({
         newMeta.push(element)
       })
       setMeta(newMeta)
+      console.log(orderModal.field_list)
     }
-  }, [orderModal, props.order, modal, search])
+    // 判断是否显示gis
+    if(orderSearch['视频报修'].modelId === query.get('modelId')){
+      setVisible('unset');
+    }
+    
+  }, [orderModal, search])
   useEffect(() => {
-    const query = new URLSearchParams(search)
     let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
     if (orderRule && orderRule.hasOwnProperty('defaultValue')) {
       let defaultForm = {}
@@ -229,24 +267,47 @@ const HandleOrder = Form.create({
         if (props.user.userAccountInfo.hasOwnProperty(value)) {
           defaultForm[key] = props.user.userAccountInfo[value]
         } else {
-          defaultForm[key] = value
+          if(typeof value === "function") {
+            defaultForm[key] = value()
+          }else {
+            defaultForm[key] = value
+          }
         }
       }
       props.actions.setForm(defaultForm)
     }
-  }, [props.actions, props.user, orderModal, modal, search])
+  }, [orderModal, search])
   useEffect(() => {
-    console.log(orderInfo, orderModal)
-  }, [orderInfo, orderModal])
+    if(!orderInfo){
+      orderInfo.form.forEach(orderFindGq => {
+        if(orderFindGq.code === 'sfbx'){
+          if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
+            setSfgq(true)
+            message.info("工单已被挂起锁定，无法操作")
+          }
+        }
+      })
+
+      orderInfo.form.forEach(orderFindGq => {
+        if(orderFindGq.code === "resource"){
+          setResourceId(orderFindGq.default_value[0].id)
+        }
+      })
+    }
+  }, [orderInfo])
+  useEffect(() => {
+    setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
+  }, [orderInfo,orderModal])
 
 
   return (
     <div className='order-page-formhandle'>
     <HeaderBar title='工单处理' />
-      <div className='form'>
+      <Spin spinning={loading}>
         <Form>
           <FormBuilder meta={meta} form={props.form} />
         </Form>
+        <>
         {needFile ?
           <div>
             <h4>上传图片附件</h4>
@@ -267,12 +328,13 @@ const HandleOrder = Form.create({
               上传图片
             </Upload>
           </div> : null}
+          </>
         <div className="handle-button-group">
-          { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton key={d.route_id} handle={orderModal} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
+          { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton route={d.route_id} handle={handle} orderInfo={orderInfo} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
           {/* {[3,6,8].includes(orderModal.sequence) ? */}
-          {[3, 4, 6].includes(orderModal.sequence) ?
+          {[3, 6, 8, 21].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
             <>
-              <Button block onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
+              <Button onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
               <Modal
                 visible={changeExecutor}
                 title="选择改派人"
@@ -295,11 +357,10 @@ const HandleOrder = Form.create({
                   } else {
                     message.warning('请选择一个改派人')
                   }
-
                 }}
                 onCancel={() => { setChangeExecutor(false) }}>
                 <div style={{ padding: "10px 0" }}>
-                  <span>选择改派人:</span>
+                  <span>选择改派人: </span>
                   {
                     orderBefore.changeExecutor[orderModal.sequence].map(e =>
                       <CheckableTag
@@ -320,17 +381,31 @@ const HandleOrder = Form.create({
             : null}
           {(orderInfo.activity_name === '内场接单'||orderInfo.activity_name === '外场返单') && !sfgq?
             <>
-              <Button block onClick={() => { setShowPutUp(true) }}>挂起</Button>
+              <Button onClick={() => { setShowPutUp(true) }} size="large">挂起</Button>
               <Modal
                 visible={showPutUp}
                 title="填写挂起原因"
                 onOk={() => {
                   if(putUpRemark !== '') {
+                    var gqy = ''
+                    var gqjlArr = []
+                    orderInfo.form.forEach(orderattrs => {
+                      if(orderattrs.code === "gqyy"){
+                        gqy = orderattrs.default_value
+                      }
+                    })
+                    if (typeof(gqy) !== 'string' && gqy) {
+                      gqjlArr = gqy
+                      gqjlArr.push({'title': '挂起原因','reason': putUpRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+                    } else {
+                      gqjlArr.push({'title': '挂起原因','reason': putUpRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+                    }
+                    // var gqqq = []
                     updateOrder({
                       ticket_id: modal,
                       form: {
                         sfbx: 'gqsh',
-                        gqyy: putUpRemark
+                        gqyy: gqjlArr
                       }
                     }).then(() => {
                       history.push('/order')
@@ -346,7 +421,8 @@ const HandleOrder = Form.create({
             </>
             : null}
         </div>
-      </div>
+        <GisShow resourceId={resourceId} visible={visible} />
+      </Spin>
     </div>
   )
 })

@@ -83,6 +83,17 @@ export const handleOrder = async (d) => {
   })
   return data
 }
+
+// 批量提交工单
+export const handleOrderlist = async (d) => {
+  const { data } = await axios({
+    method: 'post',
+    url: '/ticket/commitTicketList',
+    data: d
+  })
+  return data
+}
+
 // 微信通知接口
 // export const wxMessage = async (d) => {
 //   const {data} = await axios({
@@ -216,6 +227,17 @@ export const queryDeviceList = async (q) => {
   return data
 }
 
+// 修改单个设备
+export const updateDevice = async (q) => {
+  console.log(q)
+  const { data } = await axios({
+    method: 'post',
+    url: '/cmdb/update',
+    data: q
+  })
+  return data
+}
+
 // 查询单个设备
 export const queryDeviceById = async (id) => {
   const { data } = await axios({
@@ -289,6 +311,91 @@ export const getUserbyName = async (userName) => {
     params: {
       userName: userName
     }
+  })
+  return data
+}
+
+// 通过字段编码获取字段详细信息
+export const getFieldByCode = async (code) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/ticket/field',
+    params: {
+      code: code
+    }
+  })
+  return data
+}
+
+// 通过故障类型统计
+export const countByCode = async (code, type) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/ticket/countbygzlx',
+    params: {
+      code: code,
+      type: type
+    }
+  })
+  return data
+}
+
+// 总在线率
+export const countOnlienRate = async () => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/app/portal/countOnlineRate'
+  })
+  return data
+}
+
+// 摄像机在线率
+export const countCameraOnlineRate = async () => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/app/portal/countCameraOnlineRate'
+  })
+  return data
+}
+
+// 通过类型统计数量
+export const countOnlineGroupByType = async (type) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/app/portal/countOnlineGroupByType',
+    params: {
+      type: type
+    }
+  })
+  return data
+}
+
+// 在线列表
+export const queryNetworkList = async (d, url) => {
+  const { data } = await axios({
+    method: 'post',
+    url: '/oss' + url,
+    data: {
+      ...d
+    }
+  })
+  return data
+}
+
+// 项目工单总览
+export const countTicketByStatus = async (para) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/app/portal/countTicketByStatus?interval='+para
+  })
+  return data
+}
+
+// 内场工单总览
+export const countTicketByDevType = async (para) => {
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/app/portal/countTicketByDevType?interval='+para
   })
   return data
 }

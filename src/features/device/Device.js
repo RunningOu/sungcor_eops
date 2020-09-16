@@ -21,9 +21,9 @@ const tabs = [
 ];
 const tabsConfig = [
   [],
-  [{field: 'bxstatus', value: 'using', operator: 'EQ'}],
-  [{field: 'bxstatus', value: 'maintenanceInfo', operator: 'EQ'}],
-  [{field: 'bxstatus', value: 'demolish', operator: 'EQ'}],
+  [{field: 'cameraState', value: 'using', operator: 'EQ'}],
+  [{fieldName: 'cameraState', value: 'maintenanceInfo', operator: 'EQ'}],
+  [{field: 'cameraState', value: 'demolish', operator: 'EQ'}],
 ]
 const IconText = ({ type, text }) => (
   <span>
@@ -35,10 +35,9 @@ const tagsFromDiviceType = ['设备种类1', '设备种类2', '设备种类3', '
 const tagsFromDiviceForm = ['旅顺公安所', '大庆公安所', '包头公安所', '上饶派出所', '象山派出所', '五道口派出所']
 
 const Device = (props) => {
-  const { history, userAccountInfo} = props
+  const { history, userAccountInfo, location: { search }} = props
   const [deviceList, setDeviceList] = useState([]) // 工单列表
 
-  const [orderState, setOrderState] = useState("0")
   const [deviceSearch, setDeviceSearch] = useState('')
   const [drawerOpen, setDrawerOpen] = useState(false) // 侧边抽屉开关
   const [selectedTags, setSelectedTags] = useState([]) // 侧边抽屉选中项
@@ -47,6 +46,9 @@ const Device = (props) => {
   const [pageNum, setPageNum] = useState(0) // 列表分页下标
   const [loading, setLoading] = useState(false) // 列表加载中状态
   const [hasMore, setHasMore] = useState(true) // 列表加载中状态
+
+  // const { user: { userAccountInfo } } = props
+  const [orderState, setOrderState] = useState( new URLSearchParams(search).get('state') ||"0")
 
   const callback = (key) => { setOrderState(key) }
 
@@ -57,10 +59,24 @@ const Device = (props) => {
   useEffect(() => {
     let conditions = [ ...tabsConfig[orderState]]
     if (deviceSearch !== '') {
+      // conditions.push({
+      //   field: 'name',
+      //   value: deviceSearch,
+      //   operator: 'LIKE'
+      // })
       conditions.push({
-        field: 'name',
-        value: deviceSearch,
-        operator: 'LIKE'
+        "cjt": "OR",
+        "items": [
+          {
+            field: 'name',
+            value: deviceSearch,
+            operator: 'LIKE'
+          }, {
+            field: 'jpbh',
+            value: deviceSearch,
+            operator: 'LIKE'
+          }
+        ]
       })
     }
     if(['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
@@ -115,11 +131,11 @@ const Device = (props) => {
   return (
     <div className='device-page-index'>
       <HeaderBar title='资产列表' />
-      <Tabs defaultActiveKey="0" onChange={callback} >
+      <Tabs defaultActiveKey={orderState} onChange={callback} >
         {tabs.map((tab) => (<TabPane tab={tab.title} key={tab.sub} />))}
       </Tabs>
       <div className='search-bar'>
-        <Search className='search-input' placeholder={'请输入设备名称'} onSearch={value => { setDeviceSearch(value) }} />
+        <Search className='search-input' placeholder={'请输入关键字（设备名称、键盘编号）'} onSearch={value => { setDeviceSearch(value) }} />
         {/* <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div> */}
       </div>
       <Drawer
@@ -181,15 +197,19 @@ const Device = (props) => {
               onClick={() => { history.push('/device/' + item.id) }}
               key={item.id}
               actions={[
-                <IconText type="api" text={_.find(deviceState, (v) => v.code === item.bxstatus).name} />,
+                // <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
                 // <IconText type="tool" text={item.changsce} />
               ]}
             >
-              <List.Item.Meta title={item.name} description={item.managementUnit} /></List.Item>)
-            } />
+              <List.Item.Meta 
+              title={<><span>{item.name}</span><span style={{verticalAlign: 'inherit',color: 'rgba(0, 0, 0, 0.45)',fontSize: '14px'}}>{item.managementUnit}</span></>} 
+              description={<><span>{item.jpbh}</span><IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} /></>} /></List.Item>
+              /* <List.Item.Meta title={item.name} description={item.managementUnit} /><span>{item.jpbh}</span></List.Item> */
+              // <span>111</span>
+              )} />
         </InfiniteScroll>
       </div>
-      <FooterBar pathname={props.location.pathname} />
+      <FooterBar pathname={props.location.pathname} userInfo={userAccountInfo} />
     </div>
   )
 }

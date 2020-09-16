@@ -1,0 +1,80 @@
+.DeviceShow-details{
+    .isno_online_text_green{
+        width: 80px;
+        height: 30px;
+        color:green
+    }
+    .header {
+      height: 31px;
+      padding: 0 0.1rem;
+      font-size: 16px;
+      color: #000;
+      p {
+        margin-bottom: 0.1em;
+        padding: 0 0.1rem;
+      }
+    }
+    .data-list {
+        height: calc(100vh - 27.5px - 76px);
+        overflow-y: scroll;
+        position: absolute;
+        width: 100%;
+    }
+    .isno_online_text_red{
+        color: red;
+        width: 80px;
+        height: 30px;
+    }
+    .state-content{
+        width: 80px;
+        height: 30px;
+    }
+    .item {
+        // display: grid;
+        // grid-template-columns: repeat(2, 1fr);
+        display: flex;
+        position: relative;
+        background-color: #fff;
+        box-shadow: 0 3px 5px #ebeff2;
+        padding: 0.2rem 0.1rem;
+        margin-bottom: 8px;
+        .title,
+        .flowcode,
+        .description,
+        .date {
+          margin: 0;
+        }
+        p {
+          padding: 0 0.1rem;
+        }
+        .title {
+          color: #0e6dfb;
+          font-weight: bold;
+          font-size: 14px;
+          width: 80%;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
+        .flowcode {
+          color: #969696;
+        }
+        .description {
+          color: #969696;
+        }
+        .date {
+          padding-top: 0.1rem;
+          color: #969696;
+          span {
+            color: #0e6dfb;
+          }
+        }
+        .orderstate {
+          position: absolute;
+          right: 0.3rem;
+          top: 0.3rem;
+          color: #0e6dfb;
+          font-size: 12px;
+        }
+      }
+}

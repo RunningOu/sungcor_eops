@@ -23,10 +23,10 @@ const Home = (props) => {
       <Ribbon role={userInfo.role?.menus.ConvenientMenu}/>
       {/* <Repairs /> */}
       {/* <Notice /> */}
-      <Statistic role={userInfo.role?.menus.StatisticsView}/>
-      <Charts role={userInfo.role?.menus.ReportView}/>
+      <Statistic role={userInfo.role?.menus.StatisticsView} userInfo={userInfo}/>
+      <Charts role={userInfo.role?.menus.ReportView} />
       <Alert />
-      <FooterBar pathname={props.location.pathname}/>
+      <FooterBar pathname={props.location.pathname} userInfo={userInfo}/>
     </div>
   )
 }

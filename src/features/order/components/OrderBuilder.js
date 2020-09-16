@@ -3,11 +3,20 @@ import { Descriptions } from 'antd'
 const OrderBuilder = (props) => {
   const { meta } = props
   function render(item) {
+    if (item.code === 'overdueNotify') {
+      return null
+    }
     return item.widget ? item.widget(item) : null
   }
   return (
-    <Descriptions title="工单详情" size="middle">
-      {meta.map(render)}
+    <Descriptions size="middle">
+      <Descriptions.Item label='' key={props.id} >
+        <h3 style={{color: "#0e6dfb"}}>{'基础信息'}</h3>
+      </Descriptions.Item>
+      {(meta || []).map(render)}
+      <Descriptions.Item label='' key={22} >
+        {/* <h3 style={{color: "#0e6dfb"}}>{props.value}</h3> */}
+      </Descriptions.Item>
     </Descriptions>
   )
 }

@@ -60,7 +60,7 @@ const User = (props) => {
           </Item>
         </List>
       </div>
-      <FooterBar pathname={props.location.pathname} />
+      <FooterBar pathname={props.location.pathname} userInfo={userAccountInfo} />
     </div>
   )
 }

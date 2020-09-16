@@ -1,0 +1,52 @@
+// .order-modal{
+    .order-list {
+        position: absolute;
+        top: 55px;
+        bottom: 2px;
+        width: 100%;
+        background-color: #f5f5f9;
+        overflow-y: scroll;
+        padding: 8px;
+        .item {
+          position: relative;
+          background-color: #fff;
+          box-shadow: 0 3px 5px #ebeff2;
+          padding: 0.2rem;
+          margin-bottom: 8px;
+          .title,
+          .flowcode,
+          .description,
+          .date {
+            margin: 0;
+          }
+          .title {
+            color: #0e6dfb;
+            font-weight: bold;
+            font-size: 14px;
+            width: 80%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+          .flowcode {
+            color: #969696;
+          }
+          .description {
+            color: #969696;
+          }
+          .date {
+            padding-top: 0.1rem;
+            color: #969696;
+            span {
+              color: #0e6dfb;
+            }
+          }
+          .orderstate {
+            position: absolute;
+            right: 0.3rem;
+            top: 0.3rem;
+            color: #0e6dfb;
+            font-size: 12px;
+          }
+        }
+    }

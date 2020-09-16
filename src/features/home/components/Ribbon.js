@@ -10,7 +10,7 @@ const base = {
   "MyFlow": { name: '参与工单', icon: (<IconFont type="iconcanyu" />), path: { pathname: '/order?state=2'} },
   "Overdue": { name: '逾期工单', icon: (<IconFont type="iconyiyuqi" />), path: { pathname: '/order?state=4'} },
   "Finish": { name: '完成工单', icon: (<IconFont type="iconwancheng" />), path: { pathname: '/order?state=3'} },
-  "FaultyEquipment": { name: '故障设备', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device' } },
+  "FaultyEquipment": { name: '故障设备', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device' } }, "FaultyEquipment": { name: '设备在线率', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device' } },
   "Overview": { name: '总览报表', icon: (<IconFont type="iconbaobiaobiaoweiguanli" />)},
   "Alert": { name: '告警列表', icon: (<IconFont type="iconweichuligaojing" />)}
 }

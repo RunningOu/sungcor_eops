@@ -69,3 +69,9 @@ export function formatDate(date, formatStr) {
 
   return str
 }
+
+// 毫秒转小时
+export function TimeToHours (time) {
+  var hours = time / 1000 / 60 / 60 
+  return hours.toFixed(1) + 'h'
+}

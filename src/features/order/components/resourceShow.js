@@ -13,7 +13,7 @@ const columns = [
 ]
 export default function(props) {
   return (
-    <Descriptions.Item label={props.name} key={props.id}>
+    <Descriptions.Item label={props.name} key={props.id} span={3}>
       <br/>
       <Table columns={columns} dataSource={props.default_value} size="small" rowKey="id" pagination={false}/> 
     </Descriptions.Item>

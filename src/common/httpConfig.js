@@ -2,7 +2,7 @@ import Axios from 'axios';
 import { local_get } from '../utils/index'
 import { BASEURL, USER_INFO_ID, MANAGE_ID } from '../config';
 Axios.defaults.baseURL = `${BASEURL}`; 
-Axios.defaults.timeout = 15000;
+Axios.defaults.timeout = 18000;
 Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 // Axios.defaults.withCredentials = true;
 Axios.interceptors.request.use(config => {
