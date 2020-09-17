@@ -340,6 +340,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -929,6 +947,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -1613,6 +1649,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -2186,6 +2240,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -3029,6 +3101,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -3993,6 +4083,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -4566,6 +4674,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -5405,6 +5531,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -6270,6 +6414,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -7085,6 +7247,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -8086,6 +8266,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -8664,6 +8862,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -9594,6 +9810,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -10172,6 +10406,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -11102,6 +11354,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -11680,6 +11950,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -12610,6 +12898,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -13188,6 +13494,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -14176,6 +14500,24 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -14749,6 +15091,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
@@ -15612,6 +15972,24 @@ export default {
                             "select": 0,
                             "label": "相机照偏",
                             "value": "8",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "网络不通",
+                            "value": "9",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "上云无数据",
+                            "value": "10",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "传输设备异常",
+                            "value": "11",
                             "descEnable": 0
                         },
                         {
