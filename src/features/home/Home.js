@@ -17,6 +17,7 @@ import './Home.less'
 
 const Home = (props) => {
   const { userInfo } = props
+  console.log(props);
   return (
     <div className="home-page-home">
       <Carousel /> 

@@ -36,6 +36,21 @@ export const local_get = (key) => {
   return value
 }
 
+export const local_get2JSON = (key) => {
+  const data = localStorage.getItem(key)
+  let value = null
+  if(data) {
+    try {
+      value = JSON.parse(data)
+      return value
+    }catch (e) {
+      console.log(e);
+    }
+  } else {
+    return value
+  }
+}
+
 export function formatDate(date, formatStr) {
   var str = formatStr
   var Week = ['日', '一', '二', '三', '四', '五', '六']

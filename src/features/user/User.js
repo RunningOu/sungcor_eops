@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { HeaderBar, FooterBar } from '../common'
-import * as actions from './redux/actions'
 import { useHistory } from 'react-router-dom'
-import { USER_INFO_ID } from '../../config'
 import { List, Icon, Tag } from 'antd'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+
+import { HeaderBar, FooterBar } from '../common'
+import * as actions from './redux/actions'
 import { queryOrderCount } from '../../common/request'
+import { USER_INFO_ID } from '../../config'
 
 import './User.less'
 
@@ -16,10 +17,12 @@ const User = (props) => {
   const history = useHistory()
   const [myToDo, setMyToDo] = useState(0)
   const [participation, setParticipation] = useState(0)
+
   useEffect(() => {
     queryOrderCount([{ key: "executor", value: userAccountInfo.userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }]).then(d => { setMyToDo(d.count) })
     queryOrderCount([{ key: "participation", value: userAccountInfo.userId, operator: "IN" }]).then(d => { setParticipation(d.count) })
   }, [userAccountInfo])
+
   return (
     <div className='user-page-index'>
       <HeaderBar title="个人" />

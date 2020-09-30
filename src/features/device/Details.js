@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Descriptions, Badge } from 'antd'
+import { Descriptions } from 'antd'
 import { queryDeviceById } from '../../common/request'
 import { HeaderBar } from '../common'
+import Circle from '../../features/common/Circle'
 
 import './Details.less'
 export default (props) => {
@@ -22,9 +23,9 @@ export default (props) => {
           <Descriptions.Item label="状态">
             {
               {
-                "using": <Badge status="success" text="在用" />,
-                "maintenanceInfo": <Badge status="Warning" text="维修" />,
-                "demolish": <Badge status="Default" text="拆除" />
+                "using": <Circle status="success" text="在用" />,
+                "maintenanceInfo": <Circle status="warning" text="维修" />,
+                "demolish": <Circle status="default" text="拆除" />
               }[device.cameraState] || null
             }
 

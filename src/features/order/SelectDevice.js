@@ -204,7 +204,9 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                         title: `${item.managementUnit} - ${item.name}`,
                         xmmc: item.projectName
                       })
-                      history.go(-1);
+                      history.push({
+                        pathname: history.location.pathname.replace('/selectdevice', '')
+                      })
                     }
                   } else {
                     message.error("设备信息不完善，报修失败。", () => { history.push("/") })

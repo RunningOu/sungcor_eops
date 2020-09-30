@@ -11,10 +11,10 @@ var paramData = [
 ]
 
 const Alert = function (props) {
-  const [badge, setBadge] = useState(2)
+  const [badge, setBadge] = useState(0)
   const history = useHistory()
   useEffect(() => {
-    var num=0
+    var num = 0
     paramData.forEach((item, index) => {
       var params = {
         'apikey': 'e10adc3949ba59abbe56e057f2gg88dd',
@@ -35,8 +35,8 @@ const Alert = function (props) {
   })
   return (
     <div className='home-components-alert' onClick={() => { history.push('/alert/overview') }}>
-        <Badge count={badge} corner>
-            <button >{<IconFontl type="iconalert-copy" /> || '/'}</button>
+        <Badge count={badge}>
+            <button>{<IconFontl type="iconalert-copy" /> || '/'}</button>
         </Badge>
       {/* <button >{<IconFontl type="iconalert-copy" /> || '/'}<span>4</span></button> */}
     </div>

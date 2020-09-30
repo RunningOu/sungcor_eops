@@ -8,19 +8,27 @@ import * as actions from './redux/actions'
 import { useHistory } from 'react-router-dom'
 import './Create.less'
 import orderSearch from './mock/orderSearch'
+import { local_get2JSON , local_set} from '../../utils'
 
 
 const Create = (props) => {
-  // console.log(111, props)
-  const history = useHistory()
+  const history = useHistory()  
   const [orderModal, setOrderModal] = useState([])
-  const [selectedModal, setSelectedModal] = useState('')
+  const [selectedModal, setSelectedModal] = useState("a50f0654c8a7465291f17769d4b61fae")
+
   useEffect(() => {
-    queryOrderTicketModel().then(d => {
-      if (d.length) {
-        setOrderModal(d)
-      }
-    })
+    const orderModalCache = local_get2JSON('orderModal')
+
+    if(orderModalCache) {
+      setOrderModal(orderModalCache)
+    } else {
+      queryOrderTicketModel().then(d => {
+        if (d && d.length) 
+          console.log(d);
+          setOrderModal(d)
+          local_set('orderModal',d)
+      })
+    }
   }, [])
   return (
     <div className='order-page-create'>
@@ -57,7 +65,9 @@ const Create = (props) => {
                 urgent_level: 2
               })
               props.actions.clearForm()
-              history.push('create/form/' + selectedModal) 
+              if(selectedModal === orderSearch['视频报修'].modelId) history.push(`create/form/${selectedModal}/selectdevice`) 
+              
+              if(selectedModal === orderSearch['综合设备报修'].modelId)  history.push(`create/form/${selectedModal}`) 
             }
           }}>
             下一步<Icon type="right" />

@@ -11974,7 +11974,7 @@ export default {
                             "descEnable": 0
                         }
                     ],
-                    "time_scope": 0
+                  "time_scope": 0
                 },
                 {
                     "code": "problemReason",

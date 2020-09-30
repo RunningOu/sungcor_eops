@@ -1,26 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { Icon, Card, Col, Modal } from 'antd';
+
 import { queryOrderTicketModel, queryOrderList } from '../../common/request'
 import orderSearch from '../order/mock/orderSearch'
 import { USER_INFO_ID, MANAGE_ID } from '../../config'
+import { local_get } from '../../utils'
+
 import './FooterBar.less'
+
+const footerBar = [
+  {name: '首页', route: '/', icon: (<Icon style={{ fontSize: '22px' }} type="home" />)},
+  {name: '工单', route: '/order', icon: (<Icon style={{ fontSize: '22px' }} type="snippets" />)},
+  {name: '资产', route: '/device', icon: (<Icon style={{ fontSize: '22px' }} type="codepen" />)},
+  // {name: '监控', route: '/rmon', icon: (<Icon style={{ fontSize: '22px' }} type="monitor" />)},
+  {name: '个人', route: '/user', icon: (<Icon style={{ fontSize: '22px' }} type="user" />)},    
+]
+
+const localCache = local_get(USER_INFO_ID) || ''
+
 
 export default (props) => {
   const { userInfo, pathname } = props
-  const userInfoL = local_get(USER_INFO_ID)
+  const userInfoL = useState(local_get(USER_INFO_ID) || '')
   let history = useHistory()
   const style = { padding: '5px 8px' };
   const [orderModal, setOrderModal] = useState([{todo:0},{todo:0},{todo:0}])
-  const footerBar = [
-    {name: '首页', route: '/', icon: (<Icon style={{ fontSize: '22px' }} type="home" />)},
-    {name: '工单', route: '/order', icon: (<Icon style={{ fontSize: '22px' }} type="snippets" />)},
-    {name: '资产', route: '/device', icon: (<Icon style={{ fontSize: '22px' }} type="codepen" />)},
-    // {name: '监控', route: '/rmon', icon: (<Icon style={{ fontSize: '22px' }} type="monitor" />)},
-    {name: '个人', route: '/user', icon: (<Icon style={{ fontSize: '22px' }} type="user" />)},    
-  ]
   const [visible, setVisible] = useState(false)
+
   // const modelList= [{id:"7ebd1cae5f4a46d6bee4e00464ccae90",name:"视频设备报修"},{id:"23e70ac88cc64189bb8129a9bd1ada10",name:"综合设备报修"}] // 公司
+
   const selectList = {
     'todo': (modelId) => [
       { key: "executor", value: userInfo ? userInfo.userId : userInfoL.userId, operator: "IN" },
@@ -32,6 +41,7 @@ export default (props) => {
       { key: "modelId", value: modelId, operator: "EQ" }
     ]
   } // 查询条件
+
   function handleCancel(e) {
     setVisible(false)
   }
@@ -40,6 +50,7 @@ export default (props) => {
     // if (visible) {
       var mo = []
       queryOrderTicketModel().then(d => {
+        console.log(d);
         if (d.length) {
           // setOrderModal(d)
           mo = d
@@ -47,14 +58,14 @@ export default (props) => {
             let todoo = selectList.todo(item.id)
             let overdue = selectList.overdue(item.id)
             if (orderSearch['视频报修'].modelId === item.id) {
-              if(local_get(USER_INFO_ID).userId === MANAGE_ID){
+              if(localCache.userId) {
                 todoo.push({key: "formData.sfbx", value: "gqsh", operator: "EQ"}) // 视频报修 图像组管理员特殊处理
               } else {
                 todoo.push({key: "formData.sfbx", value: "wgq", operator: "EQ"})
               }
               overdue.push({key: "formData.sfbx", value: "wgq", operator: "EQ"})
             }
-            if (local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+            if (localCache.userId !== MANAGE_ID) {
               overdue.push({ key: "executor", value: userInfoL.userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
             }
             // 待办个数
@@ -127,12 +138,4 @@ export default (props) => {
       </footer>
     </div>
   )
-}
-
-export const local_get = (key) => {
-  let value = localStorage.getItem(key)
-  if(/^\{|\[*\}\b|\]\b/.test(value)) {
-    value = JSON.parse(value)
-  }
-  return value
 }

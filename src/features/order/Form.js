@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import { Form, message, Upload, Button } from 'antd'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+
 import { MANAGE_ID } from '../../config'
 import _ from 'lodash'
 import {
@@ -16,8 +19,6 @@ import {
   cascader
 } from './components'
 import { queryOrderModel, createOrder, updateImage, getUserbyName } from '../../common/request'
-import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
 import { HeaderBar } from '../common'
 import orderConfig from './mock/orderConfig'
@@ -33,6 +34,7 @@ function pickProps(source, props) {
   });
   return target;
 }
+
 const objToFields = (obj) => {
   let target = {}
   for (let [key, value] of Object.entries(obj)) {
@@ -64,6 +66,7 @@ const cr = {
   "double": singleRowText,
   'cascader': cascader
 }
+
 const MESSAGE_KEY = 'messageKey'
 const CreateOrder = Form.create({
   onFieldsChange: (props, changeFields, allFields) => {
@@ -86,9 +89,9 @@ const CreateOrder = Form.create({
   const [bxpcs, setBxpcs] = useState('') // pcs
   const [resourceId, setResourceId] = useState('') // 资产id
   useEffect(() => {
-    if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
-      history.push(`${props.location.pathname}/selectdevice`)
-    }
+    // if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
+    //   history.push(`${props.location.pathname}/selectdevice`)
+    // }
     if(props.order.form.fxpcs !== undefined) {
       setBxpcs(props.order.form.fxpcs)
     }

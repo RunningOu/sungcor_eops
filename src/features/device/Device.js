@@ -35,6 +35,7 @@ const tagsFromDiviceType = ['设备种类1', '设备种类2', '设备种类3', '
 const tagsFromDiviceForm = ['旅顺公安所', '大庆公安所', '包头公安所', '上饶派出所', '象山派出所', '五道口派出所']
 
 const Device = (props) => {
+  const deviceListRef = document.getElementsByClassName('device-list')[0]
   const { history, userAccountInfo, location: { search }} = props
   const [deviceList, setDeviceList] = useState([]) // 工单列表
 
@@ -50,7 +51,10 @@ const Device = (props) => {
   // const { user: { userAccountInfo } } = props
   const [orderState, setOrderState] = useState( new URLSearchParams(search).get('state') ||"0")
 
-  const callback = (key) => { setOrderState(key) }
+  const callback = (key) => {
+    deviceListRef.scrollTo(0,0)
+    setOrderState(key)
+  }
 
   useEffect(() => {
     setPageNum(0)

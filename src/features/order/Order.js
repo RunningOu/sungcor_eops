@@ -35,6 +35,7 @@ const ORDER_TYPE_ALL = ['视频报修']
 // ]
 const Order = (props) => {
   const { user: { userAccountInfo }, location: { search } } = props
+  const orderListRef = document.getElementsByClassName('order-list')[0]
   const history = useHistory()
   const tabs = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabs // 默认取视频的
   const tabsConfig = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabsConfig // tab项配置
@@ -63,6 +64,7 @@ const Order = (props) => {
   const [plVisible, setPlVisible] = useState('none')
 
   const callback = (key) => {
+    orderListRef.scrollTo(0,0)
     setOrderState(key)
   }
   const handleInfiniteOnLoad = () => {
@@ -203,7 +205,10 @@ const Order = (props) => {
       <div className='search-bar'>
         <Select value={searchInfo} onChange={v => { setSearchInfoKey(v);
         setSearchTitle('') }}>
-          {searchList.map(e => <Option value={e.code}>{e.name}</Option>)}
+          {searchList.map(e => <Option
+          //这里增加了一个key 如有报错或者页面展示错误请删除
+            key={e.name}
+            value={e.code}>{e.name}</Option>)}
         </Select>
         <Search defaultValue={searchTitle} className='search-input' placeholder={'请输入'} onSearch={value => { setSearchTitle(value) }} />
         {/* <div className='search-bar-right' onClick={() => { setDrawerOpen(true) }}><Icon type="menu" /></div> */}
@@ -270,7 +275,7 @@ const Order = (props) => {
         >
           <List dataSource={orderList} renderItem={item => (
             <div className='item' onClick={() => { 
-              history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}`+'&search='+searchTitle+'&searchType='+searchInfo) 
+              history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}` + '&search=' + searchTitle + '&searchType=' + searchInfo)
               }}>
                 {
                   item.modelId === orderSearch['视频报修'].modelId ? 

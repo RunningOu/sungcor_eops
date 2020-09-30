@@ -138,7 +138,8 @@ export default (props) => {
       //   />
       //   <img src={require('../../../assets/home/statistic04.png')} alt="图标"/>
       // </Card>,
-      "DeviceError": <Card onClick={() => {
+      "DeviceError": 
+      <Card onClick={() => {
         history.push('/deviceOnline/DeviceShow?state=camera')
       }}
         className="statistic-card" key="DeviceError">

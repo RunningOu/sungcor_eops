@@ -1,0 +1,79 @@
+//小球模板
+.circle-dot {
+    position: relative;
+    top: -1px;
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    vertical-align: middle;
+    border-radius: 50%;
+  }
+  .circle-text {
+    margin-left: 8px;
+  }
+  
+  //不同的状态展示不同的颜色  success 在用 || warning 维修|| default 废弃
+  .circle-dot-processing-success {
+    position: relative;
+    background: rgb(0, 255, 127)
+  }
+  
+  .circle-dot-processing-warning {
+    position: relative;
+    background-color: rgb(250, 219, 20);
+  }
+  
+  .circle-dot-processing-default {
+    position: relative;
+    background-color: rgb(245, 34, 25);
+  }
+  
+  //小球状态为在用时的动画效果
+  .circle-dot-processing-success::after {
+    content: " ";
+    position: absolute;
+    top: -1;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(0, 255,127);
+    border-radius: 50%;
+    animation: circleDotProcessing 1.2s ease-in-out infinite;
+  }
+  
+  //小球状态为维修时的动画效果
+  .circle-dot-processing-warning::after {
+    content: " ";
+    position: absolute;
+    top: -1;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(250, 219, 20);
+    border-radius: 50%;
+    animation: circleDotProcessing 1.2s ease-in-out infinite;
+  }
+  
+  //小球状态为废弃时的动画效果
+  .circle-dot-processing-default::after {
+    content: " ";
+    position: absolute;
+    top: -1;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 1px solid rgb(245, 34, 25);
+    border-radius: 50%;
+    animation: circleDotProcessing 1.2s ease-in-out infinite;
+  }
+  
+  @keyframes circleDotProcessing {
+    0% {
+      opacity: .5;
+      transform: scale(.8)
+    }
+    to {
+      opacity: 0;
+      transform: scale(2.4)
+    }
+  }

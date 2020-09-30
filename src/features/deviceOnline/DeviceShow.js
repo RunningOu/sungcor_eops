@@ -63,7 +63,10 @@ const [cardList, setCardList] = useState([])
   useEffect(() => {
     countOnlineGroupByType(onlineState).then((data) => {
         console.log(data)
-        setCardList(data.result)
+        if(data) {
+          const { result } = data
+          setCardList(result)
+        }
     })
   }, [onlineState])
   return (
@@ -82,7 +85,7 @@ const [cardList, setCardList] = useState([])
                         <Card style={style}  bordered={true} >
                             <div>{item.name}</div>
                             <div>总数：{item.total}</div>
-                            <div><span class="online-text">在线：{item.online}</span>/<span class="outline-text">离线：{item.fail}</span></div>
+                            <div><span className="online-text">在线：{item.online}</span>/<span className="outline-text">离线：{item.fail}</span></div>
                         </Card>
                     </Col>
                     ))

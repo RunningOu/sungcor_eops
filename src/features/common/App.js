@@ -16,6 +16,7 @@ const App = props => {
   const { history, actions: { accountLogin } } = props
   useEffect(() => {
     const userInfo = local_get(USER_INFO_ID)
+    //如果有用户信息缓存
     if (userInfo) {
       accountLogin(local_get(USER_INFO_ID))
     } else {
@@ -25,17 +26,18 @@ const App = props => {
           if (openId) {
             wxQuickLogin({ openId }).then(d => {
               if (Object.keys(d).length) {
-                const userInfo = {
-                  userId: d.userId,
-                  username: d.username,
-                  apiKey: d.apiKeys[0].key,
-                  role: d.role,
-                  roleName: d.roleName,
-                  realname: d.realname,
-                  mobile: d.mobile,
-                  depts: d.depts,
-                  openId: d.openId
-                }
+                // const userInfo = {
+                //   userId: d.userId,
+                //   username: d.username,
+                //   apiKey: d.apiKeys[0].key,
+                //   role: d.role,
+                //   roleName: d.roleName,
+                //   realname: d.realname,
+                //   mobile: d.mobile,
+                //   depts: d.depts,
+                //   openId: d.openId
+                // }
+                const userInfo = {...d,apiKey:d.apiKeys[0].key}
                 if (!Object.keys(d.role.menus).length) {
                   message.warning('该用户没有被授权,请联系管理人员。')
                   history.push('/user/login')
