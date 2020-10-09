@@ -85,6 +85,7 @@ const Order = (props) => {
       setOrderSearchInfo({})
     }
     getFieldByCode('fxGzlx').then(data => {
+      console.log('getFieldbyCode',data)
       var fxGzlxs = {}
       data.data.params.forEach(element => {
         fxGzlxs[element.value] = element.label
@@ -142,6 +143,7 @@ const Order = (props) => {
       setPlVisible('none')
     }
   }, [count])
+
   useEffect(() => {
     if(tabs && tabsConfig){
       tabs.forEach((item) => {
@@ -167,6 +169,7 @@ const Order = (props) => {
             "pageNum": pageNum,
             "pageSize": 1
           }).then((d) => {
+            console.log('queryOrderList',d)
             item.sum = d.count
             console.log(d.count)
           })
@@ -181,6 +184,21 @@ const Order = (props) => {
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
+        if(Number(orderState) === 4) {
+          const filteredOrderList = d.list.filter((item) => item.status !== 4)
+          if (d.hasOwnProperty('list')) {
+            if (d.list.length !== 10) setHasMore(false)
+            if(pageNum === 1) {
+              setOrderList([...filteredOrderList])
+            }else {
+              setOrderList((oldList) => [...oldList, ...filteredOrderList])
+            } 
+            setLoading(false)
+          }
+          setCount(d.count)
+          return
+        }
+        console.log('请求orderList',d)
         if (d.hasOwnProperty('list')) {
           if (d.list.length !== 10) setHasMore(false)
           if(pageNum === 1) {
@@ -274,7 +292,7 @@ const Order = (props) => {
           useWindow={false}
         >
           <List dataSource={orderList} renderItem={item => (
-            <div className='item' onClick={() => { 
+            <div className='item' onClick={() => {
               history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}` + '&search=' + searchTitle + '&searchType=' + searchInfo)
               }}>
                 {
