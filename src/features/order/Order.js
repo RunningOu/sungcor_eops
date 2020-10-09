@@ -157,7 +157,6 @@ const Order = (props) => {
           // 挂起 & 逾期 图像组管理员特殊处理
           if ((item.sub === '5' || item.sub === 5 || item.sub === '4' || item.sub === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
             attt.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" }) 
-            attt.push({ key: "status", value: "4", operator: "NE"})
             // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
           // 完成工单 特殊处理
@@ -186,6 +185,11 @@ const Order = (props) => {
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
+        if(Number(orderState) === 4) {
+          const filteredOrderList = d.list.filter((item) => item.status !== 7 )
+          setOrderList([...filteredOrderList])
+          return 
+        }
         console.log('请求orderList',d)
         if (d.hasOwnProperty('list')) {
           if (d.list.length !== 10) setHasMore(false)
