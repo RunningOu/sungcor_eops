@@ -51,25 +51,11 @@ export default {
         ],
         tabsConfig: userId => [
             [{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [
-                { key: "executor", value: userId, operator: "IN" },
-                { key: "status", value: "1,2", operator: "IN" },
-                { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-                { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [
-                { key: "participation", value: userId, operator: "IN" },
-                { key: "status", value: "1,2", operator: "IN" },
-                { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [
-                { key: "status", value: "3", operator: "IN" },
-                { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [
-                { key: "overdue", value: "1", operator: "IN" },
-                { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-                { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [
-                { key: "formData.sfbx", value: "ygq", operator: "EQ" }
-            ] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+            [{ key: "executor", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+            [{ key: "participation", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+            [{ key: "status", value: "3", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+            [{ key: "overdue", value: "1", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+            [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
         ],
         searchList: [
             {code: 'formData.deviceKey', name: '键盘编号'},

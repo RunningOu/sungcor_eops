@@ -25,8 +25,12 @@ const Alert = function (props) {
         'begin': parseInt(new Date().getTime()-7*24*60*60*1000)
       }
       params = {...params,...item.params}
-      queryAlertList(params).then(d => { 
-        num += d.data.total
+      queryAlertList(params).then(d => {
+        if(d.data) {
+          num += d.data.total
+        }else {
+          return
+        }
         if(index == paramData.length-1){
           setBadge(num) 
         }

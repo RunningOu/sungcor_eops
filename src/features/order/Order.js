@@ -27,14 +27,14 @@ const ORDER_TYPE_ALL = ['视频报修']
 // ];
 // const tabsConfig = userId => [
 //   [],
-//   [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
+//   [{ key: "executor", value: userId, operator: "IN" }, { key:   "status", value: "1,2", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
 //   [{ key: "participation", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }],
 //   [{ key: "status", value: "3", operator: "IN" }],
 //   [{ key: "overdue", value: "1", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
 //   [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
 // ]
 const Order = (props) => {
-  const { user: { userAccountInfo }, location: { search } } = props
+  const { user: { userAccountInfo  }, location: { search } } = props
   const orderListRef = document.getElementsByClassName('order-list')[0]
   const history = useHistory()
   const tabs = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabs // 默认取视频的
@@ -63,6 +63,10 @@ const Order = (props) => {
   const [fxGzlxs, setFxGzlxs] = useState({})
   const [plVisible, setPlVisible] = useState('none')
 
+
+  console.log('user',userAccountInfo);
+  console.log('search', search)
+
   const callback = (key) => {
     setOrderState(key)
     orderListRef.scrollTo(0,0)
@@ -84,8 +88,8 @@ const Order = (props) => {
       setOrderSearchFlow([])
       setOrderSearchInfo({})
     }
+
     getFieldByCode('fxGzlx').then(data => {
-      console.log('getFieldbyCode',data)
       var fxGzlxs = {}
       data.data.params.forEach(element => {
         fxGzlxs[element.value] = element.label
@@ -104,6 +108,7 @@ const Order = (props) => {
     setHasMore(true)
   }, [orderState, searchTitle, orderSearchInfo, orderSearchFlow, drawerConfig, search])
   useEffect(() => {
+    console.log('当前状态tab',orderState);
     let attrs = [...tabsConfig(userAccountInfo.userId)[orderState]]
     if (Object.keys(drawerConfig).length) attrs.push({key: "modelId", value: drawerConfig.modelId, operator: "EQ"})
     if (searchTitle !== "") attrs.push({ key: searchInfo, value: searchTitle, operator: "LIKE" })
@@ -115,8 +120,15 @@ const Order = (props) => {
         attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
     }
     // 挂起 & 逾期 图像组管理员特殊处理
-    if ((orderState === '5' || orderState === 5 || orderState === '4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-      attrs.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+    // if ((orderState === '5' || orderState === 5 || orderState === '4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+    //   attrs.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" })
+    //   // 挂起 & 逾期 / 不是图像组管理员 添加参数
+    // }
+    if(orderState==='5' || orderState === 5 && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+      attrs.push({key: "executor",value: userAccountInfo.userId, operator: "IN" })
+    }
+    if(orderState==='4' || orderState === 4 && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+      attrs.push({key: "executor",value: userAccountInfo.userId, operator: "IN" })
     }
     // 完成工单 特殊处理
     if ((orderState === '3' || orderState === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
@@ -128,7 +140,7 @@ const Order = (props) => {
     setModel(oldModel => {
       return {
         ...oldModel,
-        attrs: attrs
+        attrs
       }
     })
   }, [orderState, userAccountInfo, searchTitle, orderSearchInfo, orderSearchFlow, drawerConfig, search])
@@ -146,20 +158,35 @@ const Order = (props) => {
 
   useEffect(() => {
     if(tabs && tabsConfig){
+      // tabs: [
+      //   { title: '挂起', sub: 5 , sum: 0},
+      //   { title: '待办', sub: 1 , sum: 0},
+      //   { title: '逾期', sub: 4 , sum: 0},
+      //   { title: '完成', sub: 3 },
+      //   { title: '参与', sub: 2 , sum: 0},
+      //   { title: '全部', sub: 0 },
+      // ]
       tabs.forEach((item) => {
         if(item.sum !== undefined){
           var attt = [...tabsConfig(userAccountInfo.userId)[item.sub]]
             // 视频报修 图像组管理员特殊处理
+            // 命中代办
           if ((item.sub === 1 || item.sub === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
             attt.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
             attt.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
           }
           // 挂起 & 逾期 图像组管理员特殊处理
-          if ((item.sub === '5' || item.sub === 5 || item.sub === '4' || item.sub === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-            attt.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" }) 
+          if ((item.sub === '5' || item.sub === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+            attt.push({ key: "executor", value: userAccountInfo.userId  , operator: "IN" })
             // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
+          if(( item.sub === '4' || item.sub === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+            attt.push({ key: "executor", value: userAccountInfo.userId  , operator: "IN" })
+            attt.push({ key: "value", status: 7, operator: "NE"})
+          }
+
           // 完成工单 特殊处理
+          // 命中完成
           if ((item.sub === '3' || item.sub === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
             attt.push({ key: "participation", value: userAccountInfo.userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
@@ -170,14 +197,14 @@ const Order = (props) => {
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
-            console.log('queryOrderList',d)
             item.sum = d.count
-            console.log(d.count)
           })
         }
       })
     }
   }, [tabs, tabsConfig])
+  
+
   useEffect(() => {
     if(Object.keys(model).length) {
       queryOrderList({
@@ -211,7 +238,8 @@ const Order = (props) => {
       <HeaderBar title={modelName+'-工单列表'} />
       <Tabs defaultActiveKey={orderState} onChange={callback} >
         {tabs.map((tab) =>
-        (<TabPane tab={tab.sum === undefined ? tab.title : tab.title + '('+tab.sum+')' } key={tab.sub} />))}
+        (<TabPane tab={tab.sum === undefined ? tab.title : tab.title + '('+tab.sum+')' }  key={tab.sub} />))
+        }
       </Tabs>
       <div className='search-bar'>
         <Select value={searchInfo} onChange={v => { setSearchInfoKey(v);

@@ -103,7 +103,7 @@ export default () => {
                 <Tag color='red' key={overdue} onClick = {() => {
                   console.log(record, index)
                   if(record.name === '总计') return
-                  setTitle(record.name)
+                  setTitle(record.xmmc)
                   setType('逾期已完成')
                   setVisible(true)
                 }}>
