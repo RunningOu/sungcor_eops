@@ -16,6 +16,7 @@ export default () => {
           let sumGq = 0
           let sumOverdue = 0
           let sumWwcOverdue = 0
+          console.log("项目总览",data)
           data.result.forEach(element => {
             sumTotal += element.total
             sumUndone += element.undone
@@ -52,7 +53,7 @@ export default () => {
                 <Tag color='green' key={overdue} onClick = {() => {
                   console.log(record, index)
                   if(record.name === '总计') return
-                  setTitle(record.name)
+                  setTitle(record.xmmc)
                   setType('未完成')
                   setVisible(true)
                 }}>
@@ -68,7 +69,7 @@ export default () => {
                 <Tag color='green' key={overdue} onClick = {() => {
                   console.log(record, index)
                   if(record.name === '总计') return
-                  setTitle(record.name)
+                  setTitle(record.xmmc)
                   setType('挂起')
                   setVisible(true)
                 }}>
@@ -84,7 +85,7 @@ export default () => {
                 <Tag color='red' key={overdue} onClick = {() => {
                   console.log(record, index)
                   if(record.name === '总计') return
-                  setTitle(record.name)
+                  setTitle(record.xmmc)
                   setType('逾期未完成')
                   setVisible(true)
                 }}>

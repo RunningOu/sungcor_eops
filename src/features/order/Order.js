@@ -64,8 +64,8 @@ const Order = (props) => {
   const [plVisible, setPlVisible] = useState('none')
 
   const callback = (key) => {
-    orderListRef.scrollTo(0,0)
     setOrderState(key)
+    orderListRef.scrollTo(0,0)
   }
   const handleInfiniteOnLoad = () => {
     setLoading(true)
@@ -168,7 +168,7 @@ const Order = (props) => {
               attrs: attt
             },
             "pageNum": pageNum,
-            "pageSize": 1
+            "pageSize": 10
           }).then((d) => {
             console.log('queryOrderList',d)
             item.sum = d.count
@@ -210,7 +210,8 @@ const Order = (props) => {
     <div className='order-page-index'>
       <HeaderBar title={modelName+'-工单列表'} />
       <Tabs defaultActiveKey={orderState} onChange={callback} >
-        {tabs.map((tab) => (<TabPane tab={tab.sum === undefined ? tab.title : tab.title+'('+tab.sum+')'} key={tab.sub} />))}
+        {tabs.map((tab) =>
+        (<TabPane tab={tab.sum === undefined ? tab.title : tab.title + '('+tab.sum+')' } key={tab.sub} />))}
       </Tabs>
       <div className='search-bar'>
         <Select value={searchInfo} onChange={v => { setSearchInfoKey(v);
