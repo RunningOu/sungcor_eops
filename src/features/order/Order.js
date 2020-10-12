@@ -10,7 +10,10 @@ import { getFieldByCode, queryOrderList } from '../../common/request'
 import { USER_INFO_ID, MANAGE_ID } from '../../config'
 import orderSearch from './mock/orderSearch'
 import orderTab from './mock/orderTab'
+import {local_get} from '../../utils'
+
 import './Order.less'
+
 const { TabPane } = Tabs;
 const { Search } = Input;
 const { CheckableTag } = Tag;
@@ -37,12 +40,11 @@ const Order = (props) => {
   const { user: { userAccountInfo  }, location: { search } } = props
   const orderListRef = document.getElementsByClassName('order-list')[0]
   const history = useHistory()
-  const tabs = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabs // 默认取视频的
+  const [userId,setUserId] = useState(local_get(USER_INFO_ID).userId)
+  const [tabs,setTabs] = useState(orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabs) // 默认取视频的
   const tabsConfig = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabsConfig // tab项配置
-  // 查询条件
-  const searchList = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].searchList
+  const searchList = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].searchList//查询条件
   const [orderList, setOrderList] = useState([]) // 工单列表
-
   const [modelId, setModelId] = useState(new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae') // 工单模型id
   const modelName = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].modelName// 工单模型名称
   const [orderState, setOrderState] = useState( new URLSearchParams(search).get('state') || "1")//默认选中代办
@@ -52,7 +54,6 @@ const Order = (props) => {
   const [pageNum, setPageNum] = useState(1) // 列表分页下标
   const [loading, setLoading] = useState(false) // 列表加载中状态
   const [hasMore, setHasMore] = useState(true) // 列表加载中状态
-
   const [drawerOpen, setDrawerOpen] = useState(false) // 侧边抽屉开关
   const [orderSearchType, setOrderSearchType] = useState('')
   const [drawerConfig, setDrawerConfig] = useState({})
@@ -62,10 +63,6 @@ const Order = (props) => {
   const [searchInfo, setSearchInfoKey] = useState(new URLSearchParams(search).get('searchType') || searchList[0].code)
   const [fxGzlxs, setFxGzlxs] = useState({})
   const [plVisible, setPlVisible] = useState('none')
-
-
-  console.log('user',userAccountInfo);
-  console.log('search', search)
 
   const callback = (key) => {
     setOrderState(key)
@@ -80,6 +77,7 @@ const Order = (props) => {
     }
     setPageNum(current => current + 1)
   }
+  //
   useEffect(() => {
     if (orderSearch !== '' && orderSearch[orderSearchType]) {
       setDrawerConfig(orderSearch[orderSearchType])
@@ -109,7 +107,7 @@ const Order = (props) => {
   }, [orderState, searchTitle, orderSearchInfo, orderSearchFlow, drawerConfig, search])
   useEffect(() => {
     console.log('当前状态tab',orderState);
-    let attrs = [...tabsConfig(userAccountInfo.userId)[orderState]]
+    let attrs = [...tabsConfig(userId)[orderState]]
     if (Object.keys(drawerConfig).length) attrs.push({key: "modelId", value: drawerConfig.modelId, operator: "EQ"})
     if (searchTitle !== "") attrs.push({ key: searchInfo, value: searchTitle, operator: "LIKE" })
     if (Object.keys(orderSearchInfo).length) attrs.push({ key: orderSearchInfo.key, value: orderSearchInfo.value, operator: "LIKE" })
@@ -124,15 +122,16 @@ const Order = (props) => {
     //   attrs.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" })
     //   // 挂起 & 逾期 / 不是图像组管理员 添加参数
     // }
-    if(orderState==='5' || orderState === 5 && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-      attrs.push({key: "executor",value: userAccountInfo.userId, operator: "IN" })
+    if((orderState==='5' || orderState === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+      attrs.push({key: "executor",value: userId, operator: "IN" })
     }
-    if(orderState==='4' || orderState === 4 && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-      attrs.push({key: "executor",value: userAccountInfo.userId, operator: "IN" })
+    if((orderState==='4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+      attrs.push({key: "status", value: "1,2,3", operator: "IN"})
+      attrs.push({key: "executor",value: userId, operator: "IN" })
     }
     // 完成工单 特殊处理
     if ((orderState === '3' || orderState === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-      attrs.push({ key: "participation", value: userAccountInfo.userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+      attrs.push({ key: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
     }
     // console.log(orderState)
     // console.log(attrs)
@@ -147,7 +146,7 @@ const Order = (props) => {
 
   useEffect(() => {
     if (count > 0) {
-      message.success({ content: `共有${count}条记录`, key: MESSAGE_KEY})
+      message.success({ content: `共有${count}条记录`},1)
     }
     if ((orderState === 1 || orderState === "1" ) && count > 0 && modelId === 'a50f0654c8a7465291f17769d4b61fae' && orderList[0].activityName !== '外场返单') {
       setPlVisible('unset')
@@ -158,6 +157,7 @@ const Order = (props) => {
 
   useEffect(() => {
     if(tabs && tabsConfig){
+      console.log('tab页更新');
       // tabs: [
       //   { title: '挂起', sub: 5 , sum: 0},
       //   { title: '待办', sub: 1 , sum: 0},
@@ -166,9 +166,18 @@ const Order = (props) => {
       //   { title: '参与', sub: 2 , sum: 0},
       //   { title: '全部', sub: 0 },
       // ]
-      tabs.forEach((item) => {
+      // tabsConfig: userId => [
+      //   [{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+      //   [{ key: "executor", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+      //   [{ key: "participation", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+      //   [{ key: "status", value: "3", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+      //   [{ key: "overdue", value: "1", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+      //   [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+      // ],
+      tabs.forEach((item,index) => {
+        console.log('用户信息之userId',userId);
         if(item.sum !== undefined){
-          var attt = [...tabsConfig(userAccountInfo.userId)[item.sub]]
+          let attt = [...tabsConfig(userId)[item.sub]]
             // 视频报修 图像组管理员特殊处理
             // 命中代办
           if ((item.sub === 1 || item.sub === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
@@ -177,18 +186,18 @@ const Order = (props) => {
           }
           // 挂起 & 逾期 图像组管理员特殊处理
           if ((item.sub === '5' || item.sub === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-            attt.push({ key: "executor", value: userAccountInfo.userId  , operator: "IN" })
+            attt.push({ key: "executor", value: userId  , operator: "IN" })
             // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
           if(( item.sub === '4' || item.sub === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-            attt.push({ key: "executor", value: userAccountInfo.userId  , operator: "IN" })
-            attt.push({ key: "value", status: 7, operator: "NE"})
+            attt.push({ key: "executor", value: userId  , operator: "IN" })
+            attt.push({key: "status", value: "1,2,3", operator: "IN"})
           }
 
           // 完成工单 特殊处理
           // 命中完成
           if ((item.sub === '3' || item.sub === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-            attt.push({ key: "participation", value: userAccountInfo.userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+            attt.push({ key: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
           queryOrderList({
             'model': {
@@ -197,14 +206,14 @@ const Order = (props) => {
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
+            console.log('attt请求参数,',attt,'tab状态',item.title,'tab值',d)
             item.sum = d.count
           })
         }
       })
     }
-  }, [tabs, tabsConfig])
+  }, [tabs,tabsConfig])
   
-
   useEffect(() => {
     if(Object.keys(model).length) {
       queryOrderList({
@@ -212,11 +221,6 @@ const Order = (props) => {
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
-        if(Number(orderState) === 4) {
-          const filteredOrderList = d.list.filter((item) => item.status !== 7 )
-          setOrderList([...filteredOrderList])
-          return 
-        }
         console.log('请求orderList',d)
         if (d.hasOwnProperty('list')) {
           if (d.list.length !== 10) setHasMore(false)
@@ -232,6 +236,7 @@ const Order = (props) => {
         .catch((e) => { })
     }
   }, [model, pageNum])
+
 
   return (
     <div className='order-page-index'>
@@ -280,7 +285,6 @@ const Order = (props) => {
               onChange={checked => {
                 if (checked) {
                   setOrderSearchFlow(old => [...old, e])
-                  console.log(orderSearchFlow)
                 } else {
                   setOrderSearchFlow(old => old.filter(el => el !== e))
                 }
@@ -353,11 +357,5 @@ function mapStateToProps(state) {
     user: state.user,
   }
 }
-export const local_get = (key) => {
-  let value = localStorage.getItem(key)
-  if(/^\{|\[*\}\b|\]\b/.test(value)) {
-    value = JSON.parse(value)
-  }
-  return value
-}
+
 export default connect(mapStateToProps)(Order)

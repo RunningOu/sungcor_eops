@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -14,10 +14,14 @@ import {
 } from './components'
 
 import './Home.less'
+import { local_set } from '../../utils'
 
 const Home = (props) => {
   const { userInfo } = props
-  console.log(props);
+  useEffect(() =>{
+    console.log(props);
+    local_set('userId',userInfo.userId)
+  },[])
   return (
     <div className="home-page-home">
       <Carousel /> 
@@ -33,6 +37,7 @@ const Home = (props) => {
 }
 
 function mapStateToProps(state) {
+  console.log(state);
   return {
     home: state.home,
     userInfo: state.user.userAccountInfo,
