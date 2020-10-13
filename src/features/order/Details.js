@@ -113,6 +113,7 @@ const Details = (props) => {
       Commitdatas.apikey = pcsInfo.apiKeys[0].key
     }
     handleOrder(Commitdatas).then(d => {
+      console.log('handleOrder',d);
       if(orderBefore[orderInfo.model_id] && orderBefore[orderInfo.model_id][orderInfo.activity_name]) {
         updateOrder({
           ticket_id: modal,
@@ -128,7 +129,7 @@ const Details = (props) => {
   }
   function orderHang(isHang, gqyy){
     if(isHang){
-      if(code===0){
+      if(code === 0){
         updateOrder({
           ticket_id: modal,
           form: {
@@ -213,6 +214,7 @@ const Details = (props) => {
     const query = new URLSearchParams(search)
     queryOrderInfo(modal)
       .then(d => {
+        console.log('queryOrderInfo',d)
         setOrderInfo(d)
         setOrder(d.form)
         if(userAccountInfo.userId === MANAGE_ID) {
@@ -221,6 +223,7 @@ const Details = (props) => {
             if(orderattrs.code === "fxpcs"){
               // console.log(orderattrs.default_value)
               getUserbyName(orderattrs.default_value).then(data => {
+                console.log('getUserbyName',data);
                 // console.log("data>>>",data)
                 setPcsInfo(data)
               })
@@ -235,6 +238,7 @@ const Details = (props) => {
               queryLastOrderModel({
                 id: modal
               }).then((ld) => {
+                console.log('queryLastOrderModel',ld);
                 setOrderModel(ld.field_list)
                 setPlVisible(false)
               })
@@ -249,10 +253,12 @@ const Details = (props) => {
           modelId: query.get('modelId'),
           actId: query.get('actId')
         }).then(d => {
+          console.log('queryOrderModel',d);
           if (d.activiti_type === 'EndNoneEvent') {
             queryLastOrderModel({
               id: modal
             }).then((ld) => {
+              console.log('queryLastOrderModel',ld);
               setOrderModel(ld.field_list)
               setPlVisible(false)
             })

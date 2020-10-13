@@ -21,6 +21,7 @@ import {
 import { queryOrderModel, createOrder, updateImage, getUserbyName } from '../../common/request'
 import * as actions from './redux/actions'
 import { HeaderBar } from '../common'
+
 import orderConfig from './mock/orderConfig'
 import orderSearch from './mock/orderSearch'
 import orderModelConfig from './mock/orderModelConfig'
@@ -117,7 +118,7 @@ const CreateOrder = Form.create({
     }else{
       // 加载工单模板
       queryOrderModel({ modelId: modal }).then(d => {
-        console.log(d)
+        console.log('加载工单模板',d)
         setOrderModal(d)
       }).catch(e => {
         message.error('从远程加载模板失败' + e)
@@ -157,6 +158,25 @@ const CreateOrder = Form.create({
             message: '必填项'
           })
         }
+        if(element.code === 'fxGzlx') {
+          console.log(element)
+          element.params = [...element.params,{
+            select: 0,
+            label: "传输设备异常",
+            value: '11',
+            descEnable: 0
+          },{
+            select: 0,
+            label: "上云无数据",
+            value: '10',
+            descEnable: 0
+          },{
+            select: 0,
+            label: "网络不通",
+            value: "9",
+            descEnable: 0
+          }]
+        }
         newMeta.push(element)
       })
       setMeta(newMeta)
@@ -181,7 +201,6 @@ const CreateOrder = Form.create({
         if(defaultForm.hasOwnProperty('fxBxr')) delete defaultForm.fxBxr
         if(defaultForm.hasOwnProperty('telephone')) delete defaultForm.telephone
       }
-      // console.log(defaultForm)
       if(props.user.userAccountInfo.userId === MANAGE_ID && bxpcs !== '') {
         getUserbyName(bxpcs).then(data => {
           console.log("data>>>",data)
@@ -195,6 +214,7 @@ const CreateOrder = Form.create({
       props.actions.setForm(defaultForm)
     }
   }, [props.actions, props.user, orderModal, modal, bxpcs])
+  
   return (
     <div className='order-page-form'>
       <HeaderBar title='工单创建' />

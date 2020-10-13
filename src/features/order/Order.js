@@ -243,7 +243,7 @@ const Order = (props) => {
       <HeaderBar title={modelName+'-工单列表'} />
       <Tabs defaultActiveKey={orderState} onChange={callback} >
         {tabs.map((tab) =>
-        (<TabPane tab={tab.sum === undefined ? tab.title : tab.title + '('+tab.sum+')' }  key={tab.sub} />))
+        (<TabPane tab={!tab.sum ? tab.title : tab.title + '('+tab.sum+')' }  key={tab.sub} />))
         }
       </Tabs>
       <div className='search-bar'>

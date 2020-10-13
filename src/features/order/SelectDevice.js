@@ -104,6 +104,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
       pageSize: 10,
       conditions
     }).then(d => {
+      console.log('queryDeviceList',d)
       setLoading(false)
       if (d.hasOwnProperty('dataList') && userAccountInfo.roleName) {
         if (d.dataList.length !== 10) setHasMore(false)
@@ -199,8 +200,8 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                         fxpcs: item.managementUnit,
                         wxdwmc: item.whcs[0].name,
                         sbmc: item.name,
-                        deviceKey: item.serialNumber,
-                        deviceIP: item.ip,
+                        deviceKey: item.jpbh,
+                        deviceIP: item.DYCCSBIP,
                         title: `${item.managementUnit} - ${item.name}`,
                         xmmc: item.projectName
                       })
