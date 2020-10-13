@@ -258,7 +258,7 @@ let PI = 3.1415926535897932384626;
         };
         var tileMapType = new BMap.MapType('tileMapType', tileLayer, {minZoom: window.minZoom, maxZoom: window.maxZoom});
         var map = new BMap.Map('allmap', {mapType: tileMapType});
-    
+        
         // 百度地图API功能
         if (deviseInfo.longitude) {
             var DBD09 = wgs2bd(parseFloat(deviseInfo.latitude), parseFloat(deviseInfo.longitude))

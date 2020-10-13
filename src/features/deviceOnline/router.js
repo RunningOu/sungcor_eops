@@ -1,4 +1,4 @@
-import { DeviceShow,ServerIP} from './'
+import { DeviceShow,ServerIP,CameraShow} from './'
 
 export default {
   path: '/deviceOnline',
@@ -13,6 +13,11 @@ export default {
       path: 'ServerIP',
       name: 'ServerIP',
       component: ServerIP
+    },
+    {
+      path: 'CameraShow',
+      name: 'CameraShow',
+      component: CameraShow
     }
   ],
 

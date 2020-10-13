@@ -97,6 +97,7 @@ const HandleOrder = Form.create({
   const [pcsInfo, setPcsInfo] = useState({})
   const [resourceId, setResourceId] = useState('') // 资产id
 
+  console.log('resourceId',resourceId,'visible',visible);
   // try{
   //   if(orderInfo) return
   //   orderInfo.form.forEach(orderFindGq => {
@@ -180,7 +181,7 @@ const HandleOrder = Form.create({
       }
     })
   }
-
+  
   useEffect(() => {
     queryOrderInfo(modal).then(d => {
       let formData = {}

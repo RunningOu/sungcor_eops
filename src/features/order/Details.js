@@ -177,7 +177,7 @@ const Details = (props) => {
           })
         }
       if(code===1||code===2){
-
+        
         updateOrder({
           ticket_id: modal,
           form: {

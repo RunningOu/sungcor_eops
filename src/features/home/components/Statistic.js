@@ -4,19 +4,14 @@ import { Statistic, Card } from 'antd';
 import { useHistory } from 'react-router-dom'
 import { USER_INFO_ID, MANAGE_ID } from '../../../config'
 import { queryDeviceList, queryOrderList, countOnlienRate, countCameraOnlineRate } from '../../../common/request'
+import {local_get} from '../../../utils'
 import './Statistic.less'
+
 export default (props) => {
   const { role, userInfo } = props
   const history = useHistory()
   const [overdue, setOverdue] = useState(0)
   const [todo, setTodo] = useState(0)
-  const local_get = (key) => {
-    let value = localStorage.getItem(key)
-    if(/^\{|\[*\}\b|\]\b/.test(value)) {
-      value = JSON.parse(value)
-    }
-    return value
-  }
   // const [deviceError, setDeviceError] = useState(0)
   const [onlineRate, setOnlineRate] = useState(0)
   const [cameraOnlineRate, setCameraOnlineRate] = useState(0)
@@ -140,7 +135,8 @@ export default (props) => {
       // </Card>,
       "DeviceError": 
       <Card onClick={() => {
-        history.push('/deviceOnline/DeviceShow?state=camera')
+        // history.push('/deviceOnline/DeviceShow?state=camera')
+        history.push('./deviceOnline/CameraShow')
       }}
         className="statistic-card" key="DeviceError">
         <Statistic

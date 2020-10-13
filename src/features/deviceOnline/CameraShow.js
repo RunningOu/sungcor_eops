@@ -4,22 +4,19 @@ import { useHistory } from 'react-router-dom'
 import {Input,Tabs,Layout,Card,Col,Row} from 'antd'
 import { countOnlineGroupByType } from '../../common/request'
 
-import './DeviceShow.less'
+import './CameraShow.less'
 const { Content } = Layout;
 const { TabPane } = Tabs;
 const tabs = [
-    {title: "服务器", key: "serve"},
-    {title: "网络设备", key: "network"},
-    {title: "存储设备", key: "storage"},
-    // {title: "摄像机", key: "camera"}
+    {title: "摄像机", key: "camera"}
    
 ]
 // {title: "摄像机", key: "camera"}
-const DeviceShow = (props) => {
+const CameraShow = (props) => {
 const { location: { search } } = props
 const style = { padding: '0px 4px', boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.2)' };
 const history = useHistory()
-const [onlineState, setOnlineState] = useState(new URLSearchParams(search).get('state') || "serve")//默认选中代办
+const [onlineState, setOnlineState] = useState(new URLSearchParams(search).get('state') || "camera")//默认选中代办
 const [cardList, setCardList] = useState([])
 // const camara = [
 //     {pcs: '公安分局', online: '21', nonline: '1'},
@@ -70,18 +67,18 @@ const [cardList, setCardList] = useState([])
     })
   }, [onlineState])
   return (
-    <div className="DeviceShow-details">
-     <HeaderBar title="设备在线率" />
-     <Content className="device-headtab">
+    <div className="CameraShow-details">
+     <HeaderBar title="摄像机在线率" />
+     <Content className="CameraShow-headtab">
             <Tabs defaultActiveKey={onlineState} onChange={callback} type="card">
                 {tabs.map((tab) => (<TabPane tab={tab.title} key={tab.key} />))}
             </Tabs>
-            <div className="device-content">
+            <div className="CameraShow-content">
                 {
                     cardList.map((item, i) => (
                     <Col span={12} key={i}  onClick={() => {
                         history.push('/deviceOnline/ServerIP?code='+item.code+'&name='+item.name+'&type='+onlineState)
-                        }}>
+                    }}>
                         <Card style={style}  bordered={true} >
                             <div>{item.name}</div>
                             <div>总数：{item.total}</div>
@@ -98,4 +95,4 @@ const [cardList, setCardList] = useState([])
 }
 
 
-export default DeviceShow
+export default CameraShow
