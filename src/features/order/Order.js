@@ -106,7 +106,6 @@ const Order = (props) => {
     setHasMore(true)
   }, [orderState, searchTitle, orderSearchInfo, orderSearchFlow, drawerConfig, search])
   useEffect(() => {
-    console.log('当前状态tab',orderState);
     let attrs = [...tabsConfig(userId)[orderState]]
     if (Object.keys(drawerConfig).length) attrs.push({key: "modelId", value: drawerConfig.modelId, operator: "EQ"})
     if (searchTitle !== "") attrs.push({ key: searchInfo, value: searchTitle, operator: "LIKE" })
@@ -157,7 +156,6 @@ const Order = (props) => {
 
   useEffect(() => {
     if(tabs && tabsConfig){
-      console.log('tab页更新');
       // tabs: [
       //   { title: '挂起', sub: 5 , sum: 0},
       //   { title: '待办', sub: 1 , sum: 0},
@@ -175,7 +173,6 @@ const Order = (props) => {
       //   [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
       // ],
       tabs.forEach((item,index) => {
-        console.log('用户信息之userId',userId);
         if(item.sum !== undefined){
           let attt = [...tabsConfig(userId)[item.sub]]
             // 视频报修 图像组管理员特殊处理
@@ -206,7 +203,7 @@ const Order = (props) => {
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
-            console.log('attt请求参数,',attt,'tab状态',item.title,'tab值',d)
+            // console.log('attt请求参数,',attt,'tab状态',item.title,'tab值',d)
             item.sum = d.count
           })
         }
@@ -221,7 +218,6 @@ const Order = (props) => {
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
-        console.log('请求orderList',d)
         if (d.hasOwnProperty('list')) {
           if (d.list.length !== 10) setHasMore(false)
           if(pageNum === 1) {

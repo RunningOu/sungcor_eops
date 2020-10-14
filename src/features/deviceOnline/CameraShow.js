@@ -16,7 +16,7 @@ const CameraShow = (props) => {
 const { location: { search } } = props
 const style = { padding: '0px 4px', boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.2)' };
 const history = useHistory()
-const [onlineState, setOnlineState] = useState(new URLSearchParams(search).get('state') || "camera")//默认选中代办
+const [onlineState, setOnlineState] = useState(new URLSearchParams(search).get('state') || "camera")//默认选中摄像机
 const [cardList, setCardList] = useState([])
 // const camara = [
 //     {pcs: '公安分局', online: '21', nonline: '1'},
@@ -59,8 +59,8 @@ const [cardList, setCardList] = useState([])
   }
   useEffect(() => {
     countOnlineGroupByType(onlineState).then((data) => {
-        console.log(data)
         if(data) {
+          console.log('camera',data)
           const { result } = data
           setCardList(result)
         }

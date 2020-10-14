@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 // import { Button , message , Modal} from 'antd'
-import { Button , Modal, Input, message, Spin} from 'antd'
+import { Button , Modal, Input, message, Spin , Menu} from 'antd'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import {
@@ -382,6 +382,7 @@ const Details = (props) => {
   return (
     <div className='order-page-details'>
       <HeaderBar title="工单详情" />
+
       <Spin spinning={loading} tip="Loading...">
         <div className='order'>
           <OrderBuilder meta={order} />

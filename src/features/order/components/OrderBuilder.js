@@ -2,6 +2,7 @@ import React from 'react'
 import { Descriptions } from 'antd'
 const OrderBuilder = (props) => {
   const { meta } = props
+  console.log('OrderBuilder',meta)
   function render(item) {
     if (item.code === 'overdueNotify') {
       return null
