@@ -9,7 +9,8 @@ const { Content } = Layout;
 const { TabPane } = Tabs;
 const tabs = [
     {title: "摄像机", key: "camera"}
-   
+    // {title: "公安分局",key:"公安分局"},
+    // {title: "社会面",key:"shehuimian"},
 ]
 // {title: "摄像机", key: "camera"}
 const CameraShow = (props) => {
@@ -60,8 +61,38 @@ const [cardList, setCardList] = useState([])
   useEffect(() => {
     countOnlineGroupByType(onlineState).then((data) => {
         if(data) {
-          console.log('camera',data)
           const { result } = data
+          console.log('camera',result)
+          // const result = [
+          //   {
+          //     code: "ffff",
+          //     fail: 1,
+          //     online: 3929,
+          //     total: 3929-1,
+          //     name: "南桥派出所"
+          //   },
+          //   {
+          //     code: "fdfff",
+          //     fail: 2,
+          //     online: 3219,
+          //     total: 3219-2,
+          //     name: "星火派出所"
+          //   },
+          //   {
+          //    code: "fffsf",
+          //     fail: 1,
+          //     online: 2389,
+          //     total: 2389-1,
+          //     name: "金海派出所"
+          //   },
+          //   {
+          //     code: "ffzff",
+          //     fail: 1,
+          //     online: 785,
+          //     total: 785-1,
+          //     name: "江海派出所"
+          //   }
+          // ]
           setCardList(result)
         }
     })

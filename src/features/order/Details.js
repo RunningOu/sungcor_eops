@@ -55,7 +55,7 @@ const cr = {
   "title": title
 }
 
-const Details = (props) => {
+const Details = (props) => {  
   // const state = {
   //   ModalText: '沙发斯蒂芬',
   //   visible: false,
@@ -66,10 +66,10 @@ const Details = (props) => {
   const [orderInfo, setOrderInfo] = useState([])
   const [order, setOrder] = useState([])
   const query = new URLSearchParams(search)
-  const [visible, setVisible] = useState(false);
   const [modalId, setModalId] = useState( new URLSearchParams(search).get('modelId'))//模型id
   const [gisvisible, setGisVisible] = useState('none')
   // const [plVisible, setPlVisible] = useState('none')
+  const [visible, setVisible] = useState(false);
   const [disVisible, setDisVisible] = useState(false);
   const [title, setTitle] = useState();
   const [code, setCode] = useState(0);
@@ -151,13 +151,16 @@ const Details = (props) => {
   }
 
   function orderHangD(isHang){
+    //ishang = false
     var gqyyy = ''
     var gqyArr = []
+    console.log('orderInfo.form',orderInfo.form)
     orderInfo.form.forEach(orderattrs => {
       if(orderattrs.code === "gqyy"){
         gqyyy = orderattrs.default_value
       }
     })
+    console.log(gqyyy)
     if (typeof(gqyyy) != 'string') {
       gqyArr = gqyyy
       gqyArr.push({'title': '不同意挂起原因：','reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
@@ -165,9 +168,8 @@ const Details = (props) => {
       gqyArr.push({'title': '挂起原因：','reason': gqyyy, 'time': ''})
       gqyArr.push({'title': '不同意挂起原因：','reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
     }
+    console.log(disagreeRemark)
     if(disagreeRemark){
-      console.log(disagreeRemark)
-      console.log(orderInfo.form)
       if(isHang){
         if(code===0){
           updateOrder({
@@ -178,7 +180,6 @@ const Details = (props) => {
           })
         }
       if(code===1||code===2){
-        
         updateOrder({
           ticket_id: modal,
           form: {
@@ -351,6 +352,7 @@ const Details = (props) => {
             }
             // multiRowText
             data.widget = cr[data.type]
+            data.orderInfo = orderInfo
             if (!data.default_value) {
               data = null
             }
@@ -361,20 +363,19 @@ const Details = (props) => {
       }
       
       setTimeout(() =>{
+        console.log("order start",order)
         var dataOne1 = order
         if (orderSearch['奉贤基础资源报修'].modelId !== modalId) {
           ddd.forEach((item,index) => {
             var dataOne = dataOne1.slice(0,index)
-            console.log(index)
             var dataOne = dataOne1.slice(0,iii[index]+index)
             dataOne = dataOne.concat(item)
             dataOne = dataOne.concat(dataOne1.slice(iii[index]+index,dataOne1.length))
-            console.log(dataOne)
             dataOne1 = dataOne
           })
         }
         setOrder(dataOne1)
-        console.log(order) 
+        console.log('order end',dataOne1) 
       }, 40)
     }
   }, [orderModel])
@@ -385,7 +386,7 @@ const Details = (props) => {
 
       <Spin spinning={loading} tip="Loading...">
         <div className='order'>
-          <OrderBuilder meta={order} />
+          <OrderBuilder meta={order} order={orderInfo}/>
           { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
           <div className="handle">
             {
@@ -412,7 +413,7 @@ const Details = (props) => {
                 null
             }
             {
-              isgq === "gqsh" && (local_get(USER_INFO_ID).userId===MANAGE_ID)?
+              isgq === "gqsh" && (local_get(USER_INFO_ID).userId=== MANAGE_ID) ?
                 <>
                   <Button type="primary" onClick={() => {
                     orderHangOnklin('ture',0)
@@ -435,10 +436,16 @@ const Details = (props) => {
               :null
               }
             {/* <GisShow resourceId={resourceId} /> */}
-          <Modal visible={disVisible} title="系统提示" onOk={()=>orderHangD(true)} onCancel={()=>orderHangD(false)}>
+          <Modal
+          visible={disVisible}
+          title="系统提示"
+          onOk={()=> orderHangD(true)}
+          onCancel={()=> setDisVisible(false)}
+          >
               <Input.TextArea rows="3" placeholder="请填写不同意挂起原因" value={disagreeRemark} onChange={e => { setDisagreeRemark(e.target.value) }} />
           </Modal>
-          <Modal visible={visible} title="系统提示" onOk={()=>orderHang(true)} onCancel={()=>orderHang(false)}>
+          <Modal
+          visible={visible} title="系统提示" onOk={() => orderHang(true)} onCancel={()=> orderHang(false)}>
               {title}
           </Modal>
           </div>

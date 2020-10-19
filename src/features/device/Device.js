@@ -20,7 +20,7 @@ const tabs = [
   { title: '废弃', sub: 3 }
 ];
 const tabsConfig = [
-  [],
+  [{field: "SFDWGX", value: "", operator: "IS_NOT_NULL"}],
   [{field: 'cameraState', value: 'using', operator: 'EQ'}],
   [{fieldName: 'cameraState', value: 'maintenanceInfo', operator: 'EQ'}],
   [{field: 'cameraState', value: 'demolish', operator: 'EQ'}],
@@ -50,16 +50,16 @@ const Device = (props) => {
 
   // const { user: { userAccountInfo } } = props
   const [orderState, setOrderState] = useState( new URLSearchParams(search).get('state') ||"0")
-
   const callback = (key) => {
     deviceListRef.scrollTo(0,0)
-    setOrderState(key)
+    setOrderState(key + '')
   }
 
   useEffect(() => {
     setPageNum(0)
     setHasMore(true)
   }, [deviceSearch, orderState, userAccountInfo])
+  
   useEffect(() => {
     let conditions = [ ...tabsConfig[orderState]]
     if (deviceSearch !== '') {

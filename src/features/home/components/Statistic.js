@@ -34,10 +34,10 @@ export default (props) => {
     if(!userInfo.roleName) return
     if(userInfo.roleName === '超级管理员' || local_get(USER_INFO_ID).userId === MANAGE_ID){
       tattrs = [...OrderConfig(userInfo.userId)[2]]
-      oAttrs = [...OrderConfig(userInfo.userId)[3]]
+      oAttrs = [...OrderConfig(userInfo.userId)[3],{key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ"}]
     }else{
       tattrs = [...OrderConfig(userInfo.userId)[0]]
-      oAttrs = [...OrderConfig(userInfo.userId)[1]]
+      oAttrs = [...OrderConfig(userInfo.userId)[1],{key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ"}]
     }
     // console.log(userInfo)
     let conditions = [ ...tabsConfig[1]]
@@ -59,7 +59,7 @@ export default (props) => {
         .catch((e) => { })
       // 逾期
       queryOrderList({
-        'model': {'attrs':oAttrs},
+        'model': {'attrs': oAttrs},
         "pageNum": 1,
         "pageSize": 1
       }).then((d) => {

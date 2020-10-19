@@ -399,3 +399,18 @@ export const countTicketByDevType = async (para) => {
   })
   return data
 }
+
+//获取工单流程
+export const getOrderProcess = async (ticket) => {
+  console.log(ticket)
+  try {
+    const result = await axios({
+      method: 'get',
+      url: `oss/api/link/check/queryByTicket?ticketId=${ticket}`
+    })
+    return result
+  }
+  catch (e) {
+    throw new Error('getOrderProcess报错!',ticket)
+  }
+}

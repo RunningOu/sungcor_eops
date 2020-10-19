@@ -65,6 +65,7 @@ const [cardList, setCardList] = useState([])
         console.log(data)
         if(data) {
           const { result } = data
+          console.log('CardList',result);
           setCardList(result)
         }
     })

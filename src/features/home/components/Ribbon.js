@@ -10,7 +10,8 @@ const base = {
   "MyFlow": { name: '参与工单', icon: (<IconFont type="iconcanyu" />), path: { pathname: '/order?state=2'} },
   "Overdue": { name: '逾期工单', icon: (<IconFont type="iconyiyuqi" />), path: { pathname: '/order?state=4'} },
   "Finish": { name: '完成工单', icon: (<IconFont type="iconwancheng" />), path: { pathname: '/order?state=3'} },
-  "FaultyEquipment": { name: '故障设备', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device' } }, "FaultyEquipment": { name: '设备在线率', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device' } },
+  "FaultyEquipment": { name: '故障设备', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device' } },
+  "FaultyEquipment": { name: '设备在线率', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device?state=2' } },
   "Overview": { name: '总览报表', icon: (<IconFont type="iconbaobiaobiaoweiguanli" />)},
   "Alert": { name: '告警列表', icon: (<IconFont type="iconweichuligaojing" />)}
 }
@@ -20,6 +21,7 @@ const Ribbon = function (props) {
   console.log(role)
   const [fButton, setFButton] = useState([[1, 2, 3, 4, 5, 6]])
   const history = useHistory()
+  
   useEffect(() => {
     if (role && role.length) {
       let orders = []
@@ -28,7 +30,9 @@ const Ribbon = function (props) {
         if (!orders[page]) orders[page] = []
         orders[page].push(item)
       })
+      console.log('orders',orders)
       setFButton(orders)
+      console.log(fButton,'fButton')
     }
   }, [role])
 
@@ -43,9 +47,10 @@ const Ribbon = function (props) {
             <div className='ribbon_page' >
               {o.map((list,i) => {
                 const itemKey = base[list.code] || {}
+                console.log(itemKey)
                 return (
                   <div className='ribbon_fb' key={itemKey.name || i}>
-                    <button onClick={() => { history.push(itemKey.path.pathname) }}>{itemKey.icon || '/'}</button>
+                    <button onClick={() => { history.push(itemKey.path.pathname)}}>{itemKey.icon || '/'}</button>
                     <p>{list.name || ''}</p>
                   </div>
                 )
