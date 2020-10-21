@@ -19,6 +19,7 @@ const formItemLayout = {
   },
 };
 const key = "PASSWORDKEY"
+
 const Password = (props) => {
   const history = useHistory()
   const {userAccountInfo} = props

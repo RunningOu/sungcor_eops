@@ -92,8 +92,8 @@ const Device = (props) => {
     queryDeviceList({
       needCount: true,
       conditions: [
+        ...conditions,
         { field: 'classCode', value: 'Camera', operator: 'EQ' },
-        ...conditions
       ],
       pageSize: 10,
       pageNum: pageNum

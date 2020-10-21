@@ -7,7 +7,6 @@ import OrderProcessShow from './orderProcessShow.js'
 
 
 export default function(props) {
-  console.log('der!',props)
   const { orderInfo } = props
   const show = _.find(props.params, o => o.value == props.default_value)
   let style = {}

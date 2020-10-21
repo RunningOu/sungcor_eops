@@ -24,9 +24,9 @@ const Create = (props) => {
     } else {
       queryOrderTicketModel().then(d => {
         if (d && d.length) 
-          console.log(d);
+          console.log(d);{
           setOrderModal(d)
-          local_set('orderModal',d)
+          local_set('orderModal',d)}
       })
     }
   }, [])

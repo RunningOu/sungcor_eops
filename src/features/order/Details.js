@@ -113,7 +113,6 @@ const Details = (props) => {
       Commitdatas.apikey = pcsInfo.apiKeys[0].key
     }
     handleOrder(Commitdatas).then(d => {
-      console.log('handleOrder',d);
       if(orderBefore[orderInfo.model_id] && orderBefore[orderInfo.model_id][orderInfo.activity_name]) {
         updateOrder({
           ticket_id: modal,
@@ -160,7 +159,6 @@ const Details = (props) => {
         gqyyy = orderattrs.default_value
       }
     })
-    console.log(gqyyy)
     if (typeof(gqyyy) != 'string') {
       gqyArr = gqyyy
       gqyArr.push({'title': '不同意挂起原因：','reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
@@ -219,13 +217,10 @@ const Details = (props) => {
         setOrderInfo(d)
         setOrder(d.form)
         if(userAccountInfo.userId === MANAGE_ID) {
-          console.log(d)
           d.form.forEach(orderattrs => {
             if(orderattrs.code === "fxpcs"){
-              // console.log(orderattrs.default_value)
               getUserbyName(orderattrs.default_value).then(data => {
                 console.log('getUserbyName',data);
-                // console.log("data>>>",data)
                 setPcsInfo(data)
               })
             }
@@ -259,7 +254,6 @@ const Details = (props) => {
             queryLastOrderModel({
               id: modal
             }).then((ld) => {
-              console.log('queryLastOrderModel',ld);
               setOrderModel(ld.field_list)
               setPlVisible(false)
             })
@@ -283,10 +277,10 @@ const Details = (props) => {
       var iii = []
       if(!state){
         setOrder(oldOrder => {
-          console.log(oldOrder)
+          console.log('筛选前的信息',oldOrder)
           oldOrder = oldOrder.map((data, index) => {
             let selfModal = _.find(orderModel, m => data.code === m.code)
-            if(!selfModal){
+            if(!selfModal) {
               return
             }
             if (selfModal.type !== 'singleRowText' && selfModal.params) {
@@ -358,13 +352,14 @@ const Details = (props) => {
             }
             return data
           });
+          console.log('筛选后的数据',oldOrder)
           return [..._.compact(oldOrder)]
         })
       }
       
       setTimeout(() =>{
         console.log("order start",order)
-        var dataOne1 = order
+        let dataOne1 = order
         if (orderSearch['奉贤基础资源报修'].modelId !== modalId) {
           ddd.forEach((item,index) => {
             var dataOne = dataOne1.slice(0,index)
@@ -375,7 +370,7 @@ const Details = (props) => {
           })
         }
         setOrder(dataOne1)
-        console.log('order end',dataOne1) 
+        console.log('order end',dataOne1)
       }, 40)
     }
   }, [orderModel])

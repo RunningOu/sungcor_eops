@@ -402,15 +402,14 @@ export const countTicketByDevType = async (para) => {
 
 //获取工单流程
 export const getOrderProcess = async (ticket) => {
-  console.log(ticket)
-  try {
-    const result = await axios({
+  // try {
+    const {data} = await axios({
       method: 'get',
-      url: `oss/api/link/check/queryByTicket?ticketId=${ticket}`
+      url: '/oss/api/link/check/queryByTicket?ticketId='+ticket
     })
-    return result
-  }
-  catch (e) {
-    throw new Error('getOrderProcess报错!',ticket)
-  }
+    return data.result
+//   }
+//   catch (e) {
+//     throw new Error('getOrderProcess报错!',e)
+//   }
 }

@@ -13,7 +13,7 @@ const ServerIP = (props) => {
   const [dataList, setDataList] = useState([])
   const [count, setCount] = useState(0) // 列表总数
   const [status, setStatus] = useState('')
-  const [pageNum, setPageNum] = useState(1) // 列表分页下标
+  const [pageNum, setPageNum] = useState(0) // 列表分页下标
   const [loading, setLoading] = useState(false) // 列表加载中状态
   const [hasMore, setHasMore] = useState(true) // 列表加载中状态
   const tabs = {

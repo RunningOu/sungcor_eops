@@ -11,17 +11,34 @@ import { USER_INFO_ID } from '../../config'
 
 import './User.less'
 
+const params = (userAccountInfo) => {
+  return {
+    getMyTodo: [
+      { key: "executor", value: userAccountInfo.userId,operator: "IN"},
+      { key:"status", value: "1,2", operator: "IN" },
+      { key: "formData.sfbx", value: "wgq", operator: "EQ" }
+    ],
+    getMyparticipation: 
+      [{"key":"participation","value":userAccountInfo.userId,"operator":"IN"},{"key":"status","value":"1,2","operator":"IN"},{"key":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
+  }
+}
+
 const { Item } = List
 const User = (props) => {
   const { userAccountInfo } = props
   const history = useHistory()
+
   const [myToDo, setMyToDo] = useState(0)
   const [participation, setParticipation] = useState(0)
 
   useEffect(() => {
-    queryOrderCount([{ key: "executor", value: userAccountInfo.userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }]).then(d => { setMyToDo(d.count) })
-    queryOrderCount([{ key: "participation", value: userAccountInfo.userId, operator: "IN" }]).then(d => { setParticipation(d.count) })
-  }, [userAccountInfo])
+    queryOrderCount(params(userAccountInfo)['getMyTodo']).then(d => {
+      setMyToDo(d.count)
+    })
+    queryOrderCount(params(userAccountInfo)['getMyparticipation']).then(d => {
+      setParticipation(d.count)
+    })
+  },[userAccountInfo])
 
   return (
     <div className='user-page-index'>

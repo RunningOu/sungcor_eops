@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
-import {Button,Modal,Timeline} from 'antd'
-import {getOrderProcess} from '../mock/orderProcess'
-// import {getOrderProcess} from '../../../common/request'
+import {Button,Modal,Timeline,Empty} from 'antd'
+// import {getOrderProcess} from '../mock/orderProcess'
+import { getOrderProcess } from '../../../common/request'
 
 import './orderProcessShow.less'
 
@@ -21,8 +21,11 @@ export default  ({orderId}) => {
     const [orderProcess,setOrderProcess] = useState([])
   
     useEffect(() => {
-        getOrderProcess(orderId).then(res=>{
-        setOrderProcess(res.result)
+       getOrderProcess(orderId).then(res=>{
+          console.log(res)
+          if(res) {
+            setOrderProcess(res)
+          }
       })
     },[])
     return (
@@ -55,6 +58,7 @@ export default  ({orderId}) => {
               </Timeline.Item> 
             })}
              </Timeline>
+             {orderProcess && orderProcess.length !== 0 ? null : <Empty />}
            </div>
          </Modal>
       </span>

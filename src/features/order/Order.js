@@ -221,6 +221,7 @@ const Order = (props) => {
         if (d.hasOwnProperty('list')) {
           if (d.list.length !== 10) setHasMore(false)
           if(pageNum === 1) {
+            console.log('list',d)
             setOrderList([...d.list])
           }else {
             setOrderList((oldList) => [...oldList, ...d.list])
