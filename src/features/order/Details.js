@@ -264,7 +264,7 @@ const Details = (props) => {
         })
       }
     })
-  }, [modal, search, userAccountInfo])
+  }, [modal, userAccountInfo])
   useEffect(() => {
      // 判断是否显示gis
      if(orderSearch['视频报修'].modelId === modalId){

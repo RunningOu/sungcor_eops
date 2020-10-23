@@ -15,14 +15,12 @@ const ButtonStyle = {
   }
 
 export default  ({orderId}) => {
-    console.log('orderProcessShow', orderId)
     const [modalVisible,setModalVisible] = useState(false)
   
     const [orderProcess,setOrderProcess] = useState([])
   
     useEffect(() => {
        getOrderProcess(orderId).then(res=>{
-          console.log(res)
           if(res) {
             setOrderProcess(res)
           }

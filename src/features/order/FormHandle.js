@@ -97,7 +97,6 @@ const HandleOrder = Form.create({
   const [pcsInfo, setPcsInfo] = useState({})
   const [resourceId, setResourceId] = useState('') // 资产id
 
-  console.log('resourceId',resourceId,'visible',visible);
   // try{
   //   if(orderInfo) return
   //   orderInfo.form.forEach(orderFindGq => {
@@ -300,7 +299,9 @@ const HandleOrder = Form.create({
     setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
   }, [orderInfo,orderModal])
 
-
+  useEffect(() => {
+    console.log('orderInfo',orderInfo)
+  })
   return (
     <div className='order-page-formhandle'>
     <HeaderBar title='工单处理' />
@@ -386,7 +387,8 @@ const HandleOrder = Form.create({
               <Modal
                 visible={showPutUp}
                 title="填写挂起原因"
-                onOk={() => {
+                onOk={
+                  () => {
                   if(putUpRemark !== '') {
                     var gqy = ''
                     var gqjlArr = []
@@ -408,13 +410,33 @@ const HandleOrder = Form.create({
                         sfbx: 'gqsh',
                         gqyy: gqjlArr
                       }
-                    }).then(() => {
+                    }).then((res) => {
+                      if(files && files.length) {
+                        files.forEach((i) => {
+                          if(files && files.length) {
+                            let reader = new FileReader();
+                            reader.readAsDataURL(i)
+                            reader.onload = e => {
+                              let imgBase64 = e.target.result
+                              updateImage({
+                                ticketId: modal,
+                                filesBase64: [imgBase64.split(',')[1]]
+                              }).then(() => {
+                                message.success({ content: '上传成功', key: MESSAGE_KEY })
+                              })
+                            }
+                          }
+                        })
+                      }
                       history.push('/order')
                     })
+                    
                   }else {
                     message.warning('请填写挂起原因')
                   }
-                }}
+
+                }
+              }
                 onCancel={() => {setShowPutUp(false)}}
                 >
                 <Input.TextArea rows="3" placeholder="挂起原因" value={putUpRemark} onChange={e => { setPutUpRemark(e.target.value) }} />

@@ -89,6 +89,9 @@ const Device = (props) => {
         if(userAccountInfo.roleName === '设备厂商') conditions.push({ field: 'whcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
       }
     }
+    if(orderState === 1 || orderState === '1') {
+      conditions.push({field: "SFDWGX", value: "", operator: "IS_NOT_NULL"})
+    }
     queryDeviceList({
       needCount: true,
       conditions: [

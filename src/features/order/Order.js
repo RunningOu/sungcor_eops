@@ -20,14 +20,7 @@ const { CheckableTag } = Tag;
 const { Option } = Select;
 const MESSAGE_KEY = 'messageKey'
 const ORDER_TYPE_ALL = ['视频报修']
-// const tabs = [
-//   { title: '挂起', sub: 5 },
-//   { title: '待办', sub: 1 },
-//   { title: '逾期', sub: 4 },
-//   { title: '完成', sub: 3 },
-//   { title: '参与', sub: 2 },
-//   { title: '全部', sub: 0 },
-// ];
+
 // const tabsConfig = userId => [
 //   [],
 //   [{ key: "executor", value: userId, operator: "IN" }, { key:   "status", value: "1,2", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
@@ -106,6 +99,14 @@ const Order = (props) => {
     setHasMore(true)
   }, [orderState, searchTitle, orderSearchInfo, orderSearchFlow, drawerConfig, search])
   useEffect(() => {
+// const tabs = [
+//   { title: '挂起', sub: 5 },
+//   { title: '待办', sub: 1 },
+//   { title: '逾期', sub: 4 },
+//   { title: '完成', sub: 3 },
+//   { title: '参与', sub: 2 },
+//   { title: '全部', sub: 0 },
+// ];
     let attrs = [...tabsConfig(userId)[orderState]]
     if (Object.keys(drawerConfig).length) attrs.push({key: "modelId", value: drawerConfig.modelId, operator: "EQ"})
     if (searchTitle !== "") attrs.push({ key: searchInfo, value: searchTitle, operator: "LIKE" })
@@ -115,13 +116,13 @@ const Order = (props) => {
     if ((orderState === 1 || orderState === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
         attrs.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
         attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
-    }
+    } 
     // 挂起 & 逾期 图像组管理员特殊处理
     // if ((orderState === '5' || orderState === 5 || orderState === '4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
     //   attrs.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" })
     //   // 挂起 & 逾期 / 不是图像组管理员 添加参数
     // }
-    if((orderState==='5' || orderState === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+    if((orderState==='5' || orderState === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID ) {
       attrs.push({key: "executor",value: userId, operator: "IN" })
     }
     if((orderState==='4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
@@ -132,8 +133,6 @@ const Order = (props) => {
     if ((orderState === '3' || orderState === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
       attrs.push({ key: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
     }
-    // console.log(orderState)
-    // console.log(attrs)
     setLoading(true)
     setModel(oldModel => {
       return {
@@ -184,13 +183,12 @@ const Order = (props) => {
           // 挂起 & 逾期 图像组管理员特殊处理
           if ((item.sub === '5' || item.sub === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
             attt.push({ key: "executor", value: userId  , operator: "IN" })
-            // 挂起 & 逾期 / 不是图像组管理员 添加参数
+          // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
           if(( item.sub === '4' || item.sub === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
             attt.push({ key: "executor", value: userId  , operator: "IN" })
             attt.push({key: "status", value: "1,2,3", operator: "IN"})
           }
-
           // 完成工单 特殊处理
           // 命中完成
           if ((item.sub === '3' || item.sub === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
@@ -203,7 +201,7 @@ const Order = (props) => {
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
-            // console.log('attt请求参数,',attt,'tab状态',item.title,'tab值',d)
+            console.log('attt请求参数,',attt,'tab状态',item.title,'tab值',d)
             item.sum = d.count
           })
         }

@@ -3,7 +3,6 @@ import Zmage from 'react-zmage'
 import './fileShow.less'
 export default (props) => { 
   const {file} = props
-  console.log(file);
   return (
     <div className="order-component-file">
       { file.map( f => 
