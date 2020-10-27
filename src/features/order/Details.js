@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-// import { Button , message , Modal} from 'antd'
-import { Button , Modal, Input, message, Spin , Menu} from 'antd'
+import { Button , Modal, Input, message, Spin , Icon , Menu } from 'antd'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import {
@@ -24,7 +23,8 @@ import {
   pendingShow,
   FileShow,
   title,
-  cascaderShow
+  cascaderShow,
+  ProcessInfo
 } from './components'
 import { HeaderBar } from '../common'
 import _ from 'lodash'
@@ -77,7 +77,8 @@ const Details = (props) => {
   const [resourceId, setResourceId] = useState('') // 资产id
   const [state, setState] = useState(false)
   const [loading, setPlVisible] = useState(true)
-
+  const [shrinkage,setShrinkage] = useState(true)
+  const [currentKey,setCurrentKey] = useState('orderInfo') 
   // const [orderOne, setOrderOne] = useState([])
   // const [gqyy, setGqyy] = useState('') // 挂起原因
   
@@ -209,6 +210,15 @@ const Details = (props) => {
     setCode(code)
     setVisible(true)
   }
+
+  function handleChangeShrinkage () {
+    setShrinkage(!shrinkage)
+  }
+
+  const handleChangeKey = (e) => {
+    setCurrentKey(e.key)
+  }
+
   useEffect(() => {
     const query = new URLSearchParams(search)
     queryOrderInfo(modal)
@@ -277,7 +287,6 @@ const Details = (props) => {
       var iii = []
       if(!state){
         setOrder(oldOrder => {
-          console.log('筛选前的信息',oldOrder)
           oldOrder = oldOrder.map((data, index) => {
             let selfModal = _.find(orderModel, m => data.code === m.code)
             if(!selfModal) {
@@ -352,13 +361,11 @@ const Details = (props) => {
             }
             return data
           });
-          console.log('筛选后的数据',oldOrder)
           return [..._.compact(oldOrder)]
         })
       }
       
       setTimeout(() =>{
-        console.log("order start",order)
         let dataOne1 = order
         if (orderSearch['奉贤基础资源报修'].modelId !== modalId) {
           ddd.forEach((item,index) => {
@@ -369,8 +376,8 @@ const Details = (props) => {
             dataOne1 = dataOne
           })
         }
+
         setOrder(dataOne1)
-        console.log('order end',dataOne1)
       }, 40)
     }
   }, [orderModel])
@@ -378,75 +385,83 @@ const Details = (props) => {
   return (
     <div className='order-page-details'>
       <HeaderBar title="工单详情" />
-
-      <Spin spinning={loading} tip="Loading...">
-        <div className='order'>
-          <OrderBuilder meta={order} order={orderInfo}/>
-          { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
-          <div className="handle">
-            {
-              // 图像组管理员
-              (orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 || (props.userAccountInfo.userId === MANAGE_ID && orderInfo.activity_name === '用户确认')) && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
-                orderInfo.isreceived === 1 ?
-                  <>
-                    <Button type="primary" size="large" onClick={() => {
-                      orderReceiving(() => {
-                        history.go(-1)
-                      })
-                    }}>接单</Button>
-                    <Button size="large" type="primary" onClick={() => {
-                      orderReceiving(() => {
+      <Menu onClick={handleChangeKey} className="Menu" selectedKeys={[currentKey]} mode="horizontal">
+        <Menu.Item className="MenuItem" key="orderInfo">
+          工单信息
+        </Menu.Item>
+        <Menu.Item className="MenuItem" key="processInfo">
+          流程信息
+        </Menu.Item>
+      </Menu>
+      {currentKey === 'orderInfo' ?<Spin spinning={loading} tip="Loading...">
+          <div className='order'>
+            <OrderBuilder shrinkage={shrinkage} meta={order} order={orderInfo}/>
+            { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
+            <h3 className="shrinkageButton"  onClick={handleChangeShrinkage}> {shrinkage ? '展开' : '收起' }<Icon type={shrinkage ? 'down':'up'} /></h3>
+            <div className="handle">
+              {
+                // 图像组管理员
+                (orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 || (props.userAccountInfo.userId === MANAGE_ID && orderInfo.activity_name === '用户确认')) && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
+                  orderInfo.isreceived === 1 ?
+                    <>
+                      <Button type="primary" size="large" onClick={() => {
+                        orderReceiving(() => {
+                          history.go(-1)
+                        })
+                      }}>接单</Button>
+                      <Button size="large" type="primary" onClick={() => {
+                        orderReceiving(() => {
+                          history.push(`${props.location.pathname}/handle${search}`)
+                        })
+                      }}>接单并处理</Button>
+                    </> :
+                    <>
+                      <Button type="primary" size="large" onClick={() => {
                         history.push(`${props.location.pathname}/handle${search}`)
-                      })
-                    }}>接单并处理</Button>
-                  </> :
-                  <>
-                    <Button type="primary" size="large" onClick={() => {
-                      history.push(`${props.location.pathname}/handle${search}`)
-                    }}>处理</Button>
-                  </> :
-                null
-            }
-            {
-              isgq === "gqsh" && (local_get(USER_INFO_ID).userId=== MANAGE_ID) ?
-                <>
-                  <Button type="primary" onClick={() => {
-                    orderHangOnklin('ture',0)
-                  }}>同意挂起</Button>
-                  <Button type="primary" onClick={() => {
-                    orderHangOnklin('false',1)
-                  }}>不同意挂起</Button>
-                </> :
-                null
-            }
-            {
-              orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
-                isgq === "ygq"?
+                      }}>处理</Button>
+                    </> :
+                  null
+              }
+              {
+                isgq === "gqsh" && (local_get(USER_INFO_ID).userId=== MANAGE_ID) ?
                   <>
                     <Button type="primary" onClick={() => {
-                      orderHangOnqh(2)
-                    }}>挂起工单取回</Button>
+                      orderHangOnklin('ture',0)
+                    }}>同意挂起</Button>
+                    <Button type="primary" onClick={() => {
+                      orderHangOnklin('false',1)
+                    }}>不同意挂起</Button>
                   </> :
-                    null
-              :null
+                  null
               }
-            {/* <GisShow resourceId={resourceId} /> */}
-          <Modal
-          visible={disVisible}
-          title="系统提示"
-          onOk={()=> orderHangD(true)}
-          onCancel={()=> setDisVisible(false)}
-          >
-              <Input.TextArea rows="3" placeholder="请填写不同意挂起原因" value={disagreeRemark} onChange={e => { setDisagreeRemark(e.target.value) }} />
-          </Modal>
-          <Modal
-          visible={visible} title="系统提示" onOk={() => orderHang(true)} onCancel={()=> orderHang(false)}>
-              {title}
-          </Modal>
+              {
+                orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
+                  isgq === "ygq"?
+                    <>
+                      <Button type="primary" onClick={() => {
+                        orderHangOnqh(2)
+                      }}>挂起工单取回</Button>
+                    </> :
+                      null
+                :null
+                }
+              {/* <GisShow resourceId={resourceId} /> */}
+            <Modal
+            visible={disVisible}
+            title="系统提示"
+            onOk={()=> orderHangD(true)}
+            onCancel={()=> setDisVisible(false)}
+            >
+                <Input.TextArea rows="3" placeholder="请填写不同意挂起原因" value={disagreeRemark} onChange={e => { setDisagreeRemark(e.target.value) }} />
+            </Modal>
+            <Modal
+            visible={visible} title="系统提示" onOk={() => orderHang(true)} onCancel={()=> orderHang(false)}>
+                {title}
+            </Modal>
+            </div>
+            <GisShow resourceId={resourceId} visible={gisvisible} />
           </div>
-          <GisShow resourceId={resourceId} visible={gisvisible} />
-        </div>
-      </Spin>
+        </Spin> :<ProcessInfo order={orderInfo} />}
     </div>
   )
 }

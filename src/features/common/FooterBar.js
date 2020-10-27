@@ -126,7 +126,7 @@ export default (props) => {
       </Modal>
       <footer className='common-footer-bar'>
         {footerBar.map((val, i) => (
-          <div 
+          <div
             key={val.name}
             className={`footer-btn${props.pathname === val.route ? ' action' : ''}`}
             onClick={() => {

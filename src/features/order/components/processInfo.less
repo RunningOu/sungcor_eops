@@ -1,0 +1,81 @@
+.wrapper {
+  padding: 20px 10px;
+  overflow-y: auto;
+  height: calc(100vh - 45px - 27.5px);
+  .title {
+    margin-bottom: 20px;
+    color: rgb(14, 109, 251);
+  }
+}
+
+
+.TimeLineItem {
+  position: relative;
+  color: grey;
+}
+
+.TimeLineItem:first-child {
+  position: relative;
+  color: green;
+}
+
+.TimeLineItemActive {
+  position: relative
+}
+
+.TimeLineItemActive::after {
+  position: absolute;
+  display: block;
+  content: attr(data-text);
+  text-align: center;
+  background:white;
+  color: rgb(7, 193, 96);
+  font-size: 12px;
+  right: 0;
+  top: 25%;
+}
+
+.TimeLineItemActive::before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 3%;
+  right: 0;
+  top: 3%;
+  border: 1px solid rgb(196, 193, 193);
+  border-style: solid solid solid hidden;
+}
+
+.processWrapper {
+  position: relative;
+  height: 15px;
+  background: #ddd;
+  margin: 20px 40px 40px 40px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.OverdueProcess {
+  position: relative
+}
+
+.OverdueProcess::after {
+  position: absolute;
+  content: attr(data-text);
+  right: -10px;
+  top: -20px;
+}
+
+.processWrapper::after {
+  content: attr(data-text);
+  position: absolute;
+  top: -2px;
+  right: -30px;
+}
+
+.processWrapper::before {
+  content: "0h";
+  position: absolute;
+  left: -20px;
+  top: -2px;
+}

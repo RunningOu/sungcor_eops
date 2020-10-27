@@ -400,7 +400,7 @@ export const countTicketByDevType = async (para) => {
   return data
 }
 
-//获取工单流程
+//获取工单自检信息
 export const getOrderProcess = async (ticket) => {
   // try {
     const {data} = await axios({
@@ -412,4 +412,13 @@ export const getOrderProcess = async (ticket) => {
 //   catch (e) {
 //     throw new Error('getOrderProcess报错!',e)
 //   }
+}
+
+//获取工单流程信息
+export const getOrderProcessInfo = async (ticket) => {
+  const {data} = await axios({
+    method: 'get',
+    url: 'oss/api/itsm/getProcessRecord?ticketId=' + ticket
+  })
+  return data
 }

@@ -50,6 +50,7 @@ const ServerIP = (props) => {
       "pageNum": pageNum,
       "code": code
     }, url[type]).then(data => {
+      console.log('serverIp', data)
       setCount(data.result.totalRecords)
       if (data.result.hasOwnProperty('dataList')) {
         if (data.result.dataList.length !== 200) setHasMore(false)

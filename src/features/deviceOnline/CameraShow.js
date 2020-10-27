@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { HeaderBar } from '../common'
 import { useHistory } from 'react-router-dom'
 import {Input,Tabs,Layout,Card,Col,Row} from 'antd'
+import CameraRep from './components/cameraRep'
 import { countOnlineGroupByType } from '../../common/request'
 
 import './CameraShow.less'
@@ -19,42 +20,7 @@ const style = { padding: '0px 4px', boxShadow: '0 2px 12px 0 rgba(0, 0, 0, 0.2)'
 const history = useHistory()
 const [onlineState, setOnlineState] = useState(new URLSearchParams(search).get('state') || "camera")//默认选中摄像机
 const [cardList, setCardList] = useState([])
-// const camara = [
-//     {pcs: '公安分局', online: '21', nonline: '1'},
-//     {pcs: '教育局', online: '21', nonline: '1'},
-//     {pcs: '海事局', online: '21', nonline: '1'},
-//     {pcs: '社会面复接', online: '21', nonline: '1'},
-//     {pcs: '南桥镇', online: '21', nonline: '1'},
-//     {pcs: '奉城镇', online: '21', nonline: '1'},
-//     {pcs: '庄行镇', online: '21', nonline: '1'},
-//     {pcs: '金汇镇', online: '21', nonline: '1'},
-//     {pcs: '四团镇', online: '21', nonline: '1'},
-//     {pcs: '青村镇', online: '21', nonline: '1'},
-//     {pcs: '袥林镇', online: '21', nonline: '1'},
-//     {pcs: '海湾镇', online: '21', nonline: '1'},
-//     {pcs: '海湾旅游区', online: '21', nonline: '1'},
-//     {pcs: '金海街道', online: '21', nonline: '1'},
-//     {pcs: '西渡街道', online: '21', nonline: '1'},
-//     {pcs: '奉浦街道', online: '21', nonline: '1'},
-//     {pcs: '奉贤交警队', online: '21', nonline: '1'}
-// ]
-// const cc = [
-//     {pcs: 'DAS', online: '21', nonline: '1'},
-//     {pcs: 'SAN', online: '21', nonline: '1'},
-//     {pcs: 'NAS', online: '21', nonline: '1'}
-// ]
-// const network = [
-//     {pcs: 'Network', online: '21', nonline: '1'},
-//     {pcs: 'Bridge', online: '21', nonline: '1'},
-//     {pcs: 'Router', online: '21', nonline: '1'},
-//     {pcs: 'Gateway', online: '21', nonline: '1'}
-// ]
-// const service = [
-//     {pcs: 'PVG', online: '21', nonline: '1'},
-//     {pcs: 'M60', online: '21', nonline: '1'},
-//     {pcs: '宝康服务器', online: '21', nonline: '1'},
-//     {pcs: '东方网力服务器', online: '21', nonline: '1'}
-// ]
+
   function callback(key) {
     setOnlineState(key)
   }
@@ -63,36 +29,6 @@ const [cardList, setCardList] = useState([])
         if(data) {
           const { result } = data
           console.log('camera',result)
-          // const result = [
-          //   {
-          //     code: "ffff",
-          //     fail: 1,
-          //     online: 3929,
-          //     total: 3929-1,
-          //     name: "南桥派出所"
-          //   },
-          //   {
-          //     code: "fdfff",
-          //     fail: 2,
-          //     online: 3219,
-          //     total: 3219-2,
-          //     name: "星火派出所"
-          //   },
-          //   {
-          //    code: "fffsf",
-          //     fail: 1,
-          //     online: 2389,
-          //     total: 2389-1,
-          //     name: "金海派出所"
-          //   },
-          //   {
-          //     code: "ffzff",
-          //     fail: 1,
-          //     online: 785,
-          //     total: 785-1,
-          //     name: "江海派出所"
-          //   }
-          // ]
           setCardList(result)
         }
     })
@@ -108,7 +44,7 @@ const [cardList, setCardList] = useState([])
                 {
                     cardList.map((item, i) => (
                     <Col span={12} key={i}  onClick={() => {
-                        history.push('/deviceOnline/ServerIP?code='+item.code+'&name='+item.name+'&type='+onlineState)
+                        history.push('/deviceOnline/ServerIP?code='+item.code+'&name='+item.name+'&type='+ onlineState)
                     }}>
                         <Card style={style}  bordered={true} >
                             <div>{item.name}</div>
@@ -118,6 +54,7 @@ const [cardList, setCardList] = useState([])
                     </Col>
                     ))
                 }
+                {/* <CameraRep /> */}
             </div>
       </Content>
 

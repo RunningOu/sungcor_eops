@@ -201,7 +201,6 @@ const Order = (props) => {
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
-            console.log('attt请求参数,',attt,'tab状态',item.title,'tab值',d)
             item.sum = d.count
           })
         }
@@ -219,7 +218,6 @@ const Order = (props) => {
         if (d.hasOwnProperty('list')) {
           if (d.list.length !== 10) setHasMore(false)
           if(pageNum === 1) {
-            console.log('list',d)
             setOrderList([...d.list])
           }else {
             setOrderList((oldList) => [...oldList, ...d.list])
