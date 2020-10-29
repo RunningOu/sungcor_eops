@@ -21,7 +21,7 @@ export default () => {
           // })
           // setCdata([{'name': '总计', 'total': sumTotal, 'undone': sumUndone, 'overdue': sumOverdue}, ...data.result])
           setCdata(data.result)
-          console.log(cdata)
+          console.log('cdata',cdata)
         })
     },[status])
     var columns = [

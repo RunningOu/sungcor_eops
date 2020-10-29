@@ -1,10 +1,15 @@
 import React,{useState,useEffect} from 'react'
-import {Button,Modal,Timeline,Empty} from 'antd'
-// import {getOrderProcess} from '../mock/orderProcess'
+import { Button,Modal,Timeline,Empty } from 'antd'
+// import { getOrderProcess } from '../mock/orderProcess'
 import { getOrderProcess } from '../../../common/request'
 
 import './orderProcessShow.less'
 
+const StatusStyleMap = {
+  "0": 'rgb(0,128,0)',
+  "1": 'rgb(255,0,0)',
+  "2": 'rgb(169,169,169)'
+}
 
 const ButtonStyle = {
     background: '#FFA500',
@@ -22,6 +27,7 @@ export default  ({orderId}) => {
     useEffect(() => {
        getOrderProcess(orderId).then(res=>{
           if(res) {
+            console.log('获取自检信息:',res)
             setOrderProcess(res)
           }
       })
@@ -46,13 +52,17 @@ export default  ({orderId}) => {
            <div className="orderProcess-list">
              <Timeline>
              {orderProcess.map((item,index) => {
-              return <Timeline.Item 
+              return <Timeline.Item
               style={{top: '6px',padding: "0"}}
+              color={StatusStyleMap[item.status]}
+              key={item.msg}
               //取真实数据时，把注释取消
-              // key={item.id}
               >
-                <h3>{item.createTime}</h3>
-                <p>{item.msg}</p>
+                <div style={{color: StatusStyleMap[item.status] }}>
+                  <p>{index === 0 || index === (orderProcess.length -1) ?  item.createTime : null}</p>
+                  <p>{item.name}({item.ip})</p>
+                  <p>{item.msg}</p>
+                </div>
               </Timeline.Item> 
             })}
              </Timeline>

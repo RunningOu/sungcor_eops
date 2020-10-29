@@ -1,11 +1,10 @@
 import React, { useState,useEffect } from 'react'
 import { Spin ,Timeline,Descriptions } from 'antd'
 // import { getProcessInfo } from '../mock/processInfo'
-import { getOrderProcessInfo } from '../../../common/request'
+import { getOrderProcessInfo,getOrderHangDifference } from '../../../common/request'
 
 
 import './processInfo.less'
-import { replace } from 'lodash'
 
 export default function  ({order}) {
 
@@ -13,48 +12,22 @@ export default function  ({order}) {
   const [orderTimestamp, setOrderTimestamp] = useState('')
   const [loading, setLoading] = useState(true)
   const [orderStatus,setOrderStatus] = useState(order.status)
+  const [hangTime,setHangTime] = useState(0)
 
   //获取当前工单耗费的时间 小时为单位
   const getOrderCostTime = () => {
     let currentTime = new Date().valueOf()
-    console.log(orderStatus)
-    if(orderStatus === 3 || orderStatus === 8) {
+    if(orderStatus === 3 || orderStatus === 7) {
       if(typeof orderTimestamp === 'number' && processInfo.length) {
-        console.log('发起时间',orderTimestamp)
-        let hours =( (new Date(replaceDate(processInfo[0].exectorTime)).valueOf())  - orderTimestamp) / 1000 / 3600
+        let hours =( (new Date(replaceDate(processInfo[0].exectorTime)).valueOf())  - orderTimestamp - hangTime) / 1000 / 3600
         return Math.round(hours)
       }
     } else {
-      let hours =( currentTime  - orderTimestamp) / 1000 / 3600
+      let hours =( currentTime  - orderTimestamp - hangTime) / 1000 / 3600
       return Math.round(hours)
     }
 
     return null
-  }
-
-  const getProcessCostTime = (date) => {
-    // 天数
-    let day = Math.floor(date /1000/ 3600 / 24);
-    // 小时
-    let hr = Math.floor(date /1000/ 3600 % 24);
-    // 分钟
-    let min = Math.floor(date /1000/ 60 % 60);
-    if(day) {
-      return day + "天" + hr + "小时" + min + "分钟"
-    }
-    if(hr) {
-      return hr + '小时' + min+'分钟'
-    }
-    if(min) {
-      return min+'分钟'
-    }
-    return '1分钟'
-  }
-
-  //处理日期格式 ios系统下需要 yy/mm/格式
-  const replaceDate = (string) => {
-    let newString = string.replace(/-/g, '/')
-    return newString
   }
 
   //获取流程进度条样式
@@ -100,6 +73,14 @@ export default function  ({order}) {
       display: getOrderCostTime() >=72 ? 'block':'none'
     }
   }
+
+  useEffect(() => {
+    getOrderHangDifference(order.id).then((res) => {
+      if(res.code === 200) {
+        setHangTime(res.result)
+      }
+    })
+  },[])
 
   useEffect(() => {
     setLoading(true)
@@ -155,4 +136,30 @@ export default function  ({order}) {
       </div>
     </>
   );
+}
+
+
+function getProcessCostTime (date)  {
+  // 天数
+  let day = Math.floor(date /1000/ 3600 / 24);
+  // 小时
+  let hr = Math.floor(date /1000/ 3600 % 24);
+  // 分钟
+  let min = Math.floor(date /1000/ 60 % 60);
+  if(day) {
+    return day + "天" + hr + "小时" + min + "分钟"
+  }
+  if(hr) {
+    return hr + '小时' + min+'分钟'
+  }
+  if(min) {
+    return min+'分钟'
+  }
+  return '1分钟'
+}
+
+//处理日期格式 ios系统下需要 yy/mm/格式
+function replaceDate (string) {
+  let newString = string.replace(/-/g, '/')
+  return newString
 }

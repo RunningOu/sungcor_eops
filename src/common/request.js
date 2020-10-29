@@ -422,3 +422,22 @@ export const getOrderProcessInfo = async (ticket) => {
   })
   return data
 }
+
+//改变工单挂起状态, 0挂起,1取回
+export const executeOrderHangStatus = async (ticketId,isSuspend) => {
+  const result = await axios ({
+    method: 'get',
+    url: `oss/api/itsm/suspendOrResumeSelf?ticketId=${ticketId}&isSuspend=${isSuspend}`
+  })
+  return result
+}
+
+//获取当前工单挂起的差值 如果有过挂起,则返回挂起的间隔 
+export const getOrderHangDifference = async (ticketId) => {
+  const {data} = await axios ({
+    method: 'get',
+    url: `oss/api/ticket/ticketHornetInfo/getSlaSuspendById?ticketId=${ticketId}`
+  })
+
+  return data
+}

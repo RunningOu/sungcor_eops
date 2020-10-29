@@ -421,7 +421,8 @@ const HandleOrder = Form.create({
                               updateImage({
                                 ticketId: modal,
                                 filesBase64: [imgBase64.split(',')[1]]
-                              }).then(() => {
+                              }).then((res) => {
+                                console.log('上传图片成功!',res)
                                 message.success({ content: '上传成功', key: MESSAGE_KEY })
                               })
                             }

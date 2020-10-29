@@ -23,13 +23,25 @@
   position: relative
 }
 
+.TimeLineItemActive:first-child::after {
+  position: absolute;
+  display: block;
+  content: attr(data-text);
+  text-align: center;
+  background:white;
+  color: rgb(7,193,96);
+  font-size: 12px;
+  right: 0;
+  top: 25%;
+}
+
 .TimeLineItemActive::after {
   position: absolute;
   display: block;
   content: attr(data-text);
   text-align: center;
   background:white;
-  color: rgb(7, 193, 96);
+  color: rgb(0, 0, 0);
   font-size: 12px;
   right: 0;
   top: 25%;

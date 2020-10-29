@@ -8,7 +8,8 @@ import {
   queryOrderInfo,
   handleOrder,
   updateOrder,
-  getUserbyName
+  getUserbyName,
+  executeOrderHangStatus
 } from '../../common/request'
 import {
   singleRowTextShow,
@@ -83,6 +84,7 @@ const Details = (props) => {
   // const [gqyy, setGqyy] = useState('') // 挂起原因
   
   const [disagreeRemark, setDisagreeRemark] = useState('')
+  
   //挂起标识 isgq
   let isgq = 'wgq'
   try{
@@ -130,20 +132,31 @@ const Details = (props) => {
   function orderHang(isHang, gqyy){
     if(isHang){
       if(code === 0){
-        updateOrder({
-          ticket_id: modal,
-          form: {
-            'sfbx':'ygq'
-          }
+        const {id} = orderInfo
+        executeOrderHangStatus(id, 0).then(res=>{
+          updateOrder({
+            ticket_id: modal,
+            form: {
+              'sfbx':'ygq'
+            }
+          })
         })
+
       }
     if(code===1||code===2){
-      updateOrder({
-        ticket_id: modal,
-        form: {
-          'sfbx':'wgq'
-        }
-      })
+      if(code === 2) {
+        const {id} = orderInfo
+        executeOrderHangStatus(id,1).then(res=>{
+          updateOrder({
+            ticket_id: modal,
+            form: {
+              'sfbx':'wgq'
+            }
+          })
+        })
+      }
+
+
      }
      history.go(-1);
     }
@@ -199,7 +212,7 @@ const Details = (props) => {
     if(isHang==="ture"){
       setTitle("是否确认同意挂起")
       setVisible(true)
-    }else{
+    }else if(isHang === 'false'){
       setTitle("是否确认不同意挂起")
       setDisVisible(true)
     }
@@ -376,7 +389,7 @@ const Details = (props) => {
             dataOne1 = dataOne
           })
         }
-
+        console.log('处理后的order',dataOne1)
         setOrder(dataOne1)
       }, 40)
     }
@@ -439,6 +452,7 @@ const Details = (props) => {
                   isgq === "ygq"?
                     <>
                       <Button type="primary" onClick={() => {
+
                         orderHangOnqh(2)
                       }}>挂起工单取回</Button>
                     </> :

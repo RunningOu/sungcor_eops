@@ -5,7 +5,7 @@ const { Item } = Descriptions
 export default function(props) {
   return (
     <Item label={props.name} key={props.id} span={3}>
-      {props.default_value}
+      {props.default_value === 'null' ? '' : props.default_value}
     </Item>
   )
 }
