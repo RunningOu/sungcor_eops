@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom'
 import { Icon, Card, Col, Modal } from 'antd';
+import Alert from './Alert'
+import OrderAlert from './OrderAlert'
 
 import { queryOrderTicketModel, queryOrderList } from '../../common/request'
 import orderSearch from '../order/mock/orderSearch'
 import { USER_INFO_ID, MANAGE_ID } from '../../config'
 import { local_get } from '../../utils'
 
+
 import './FooterBar.less'
 
 const footerBar = [
   {name: '首页', route: '/', icon: (<Icon style={{ fontSize: '22px' }} type="home" />)},
-  {name: '工单', route: '/order', icon: (<Icon style={{ fontSize: '22px' }} type="snippets" />)},
-  {name: '资产', route: '/device', icon: (<Icon style={{ fontSize: '22px' }} type="codepen" />)},
+  {name: '工单', route: '/order', icon: (<OrderAlert style={{fontSize: '22px'}} />)},
+  // {name: '资产', route: '/device', icon: (<Icon style={{ fontSize: '22px' }} type="codepen" />)},
+  {name: '告警', route: '/alert/overview', icon: (<Alert style={{fontSize: '22px'}} />)},
   // {name: '监控', route: '/rmon', icon: (<Icon style={{ fontSize: '22px' }} type="monitor" />)},
   {name: '个人', route: '/user', icon: (<Icon style={{ fontSize: '22px' }} type="user" />)},    
 ]
+
 
 const localCache = local_get(USER_INFO_ID) || ''
 

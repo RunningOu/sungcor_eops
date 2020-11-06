@@ -36,7 +36,7 @@ const Alert = function (props) {
         }
       })
     })
-  })
+  },[])
   return (
     <div className='home-components-alert' onClick={() => { history.push('/alert/overview') }}>
         <Badge count={badge}>

@@ -6,7 +6,7 @@ export default () => {
     const [cdata, setCdata] = useState([])
     const [title, setTitle] = useState('')
     const [type, setType] = useState('')
-    const [status, setStatus] = useState('today')
+    const [status, setStatus] = useState('all')
     const statusR = ['today', 'all']
     const [visible, setVisible] = useState(false)
     useEffect(() => {
@@ -16,7 +16,6 @@ export default () => {
           let sumGq = 0
           let sumOverdue = 0
           let sumWwcOverdue = 0
-          console.log("项目总览",data)
           data.result.forEach(element => {
             sumTotal += element.total
             sumUndone += element.undone
@@ -32,7 +31,7 @@ export default () => {
             title: '项目名称',
             dataIndex: 'name',
             key: 'name',
-            width: 128,
+            width: 100,
             fixed: 'left'
           },{
             title: '工单总数',
@@ -50,13 +49,15 @@ export default () => {
             key: 'undone',
             width: 70,
             render: (overdue, record, index) => (
-                <Tag color='green' key={overdue} onClick = {() => {
-                  console.log(record, index)
-                  if(record.name === '总计') return
-                  setTitle(record.xmmc)
-                  setType('未完成')
-                  setVisible(true)
-                }}>
+                <Tag color='green' key={overdue}
+                // onClick={() => {
+                //   console.log(record, index)
+                //   if(record.name === '总计') return
+                //   setTitle(record.xmmc)
+                //   setType('未完成')
+                //   setVisible(true)
+                // }}
+                >
                     {overdue}
                 </Tag>
             )
@@ -66,64 +67,67 @@ export default () => {
             key: 'gq',
             width: 70,
             render: (overdue, record, index) => (
-                <Tag color='green' key={overdue} onClick = {() => {
-                  console.log(record, index)
-                  if(record.name === '总计') return
-                  setTitle(record.xmmc)
-                  setType('挂起')
-                  setVisible(true)
-                }}>
+                <Tag color='green' key={overdue}
+                // onClick={() => {
+                //   console.log(record, index)
+                //   if(record.name === '总计') return
+                //   setTitle(record.xmmc)
+                //   setType('挂起')
+                //   setVisible(true)
+                // }}
+                >
                     {overdue}
-                </Tag>
-            )
-          },{
-            title: '逾期未完成',
-            dataIndex: 'wwcOverdue',
-            key: 'wwcOverdue',
-            width: 90,
-            render: (overdue, record, index) => (
-                <Tag color='red' key={overdue} onClick = {() => {
-                  console.log(record, index)
-                  if(record.name === '总计') return
-                  setTitle(record.xmmc)
-                  setType('逾期未完成')
-                  setVisible(true)
-                }}>
-                  <div>
-                    {overdue}
-                  </div>
-                </Tag>
-            )
-          },{
-            title: '逾期已完成',
-            dataIndex: 'wcOverdue',
-            key: 'wcOverdue',
-            width: 90,
-            render: (overdue, record, index) => (
-                <Tag color='red' key={overdue} onClick = {() => {
-                  console.log(record, index)
-                  if(record.name === '总计') return
-                  setTitle(record.xmmc)
-                  setType('逾期已完成')
-                  setVisible(true)
-                }}>
-                  <div>
-                    {overdue}
-                  </div>
                 </Tag>
             )
           }
+    //       {
+    //         title: '逾期未完成',
+    //         dataIndex: 'wwcOverdue',
+    //         key: 'wwcOverdue',
+    //         width: 90,
+    //         render: (overdue, record, index) => (
+    //             <Tag color='red' key={overdue} onClick = {() => {
+    //               console.log(record, index)
+    //               if(record.name === '总计') return
+    //               setTitle(record.xmmc)
+    //               setType('逾期未完成')
+    //               setVisible(true)
+    //             }}>
+    //               <div>
+    //                 {overdue}
+    //               </div>
+    //             </Tag>
+    //         )
+    //       },{
+    //         title: '逾期已完成',
+    //         dataIndex: 'wcOverdue',
+    //         key: 'wcOverdue',
+    //         width: 90,
+    //         render: (overdue, record, index) => (
+    //             <Tag color='red' key={overdue} onClick = {() => {
+    //               console.log(record, index)
+    //               if(record.name === '总计') return
+    //               setTitle(record.xmmc)
+    //               setType('逾期已完成')
+    //               setVisible(true)
+    //             }}>
+    //               <div>
+    //                 {overdue}
+    //               </div>
+    //             </Tag>
+    //         )
+    //       }
     ]
   return (
     <div style={{padding: '0px 0px 50px 0px'}}>
-      <Radio.Group style={{padding: '4px'}} value={status} onChange={
+      {/* <Radio.Group style={{padding: '4px'}} value={status} onChange={
         (e) => {
           setStatus(e.target.value)
         }
       }>
         <Radio.Button value={statusR[0]}>今日</Radio.Button>
         <Radio.Button value={statusR[1]}>全部</Radio.Button>
-      </Radio.Group>
+      </Radio.Group> */}
       <div>
         <Table columns={columns} scroll={{ x: 300}} fixed={true} dataSource={cdata} pagination={false} size="small" rowKey="name"/>
       </div>

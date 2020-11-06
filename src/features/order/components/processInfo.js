@@ -17,13 +17,14 @@ export default function  ({order}) {
   //获取当前工单耗费的时间 小时为单位
   const getOrderCostTime = () => {
     let currentTime = new Date().valueOf()
+    //完成的状态
     if(orderStatus === 3 || orderStatus === 7) {
       if(typeof orderTimestamp === 'number' && processInfo.length) {
-        let hours =( (new Date(replaceDate(processInfo[0].exectorTime)).valueOf())  - orderTimestamp - hangTime) / 1000 / 3600
+        let hours =((new Date(replaceDate(processInfo[0].exectorTime)).valueOf())  - orderTimestamp - hangTime) / 1000 / 3600
         return Math.round(hours)
       }
     } else {
-      let hours =( currentTime  - orderTimestamp - hangTime) / 1000 / 3600
+      let hours = ( currentTime  - orderTimestamp - hangTime) / 1000 / 3600
       return Math.round(hours)
     }
 
@@ -65,12 +66,12 @@ export default function  ({order}) {
       top: '-10px',
       zIndex: '888',
       left: 0,
-      width: `${Math.round((72/costTime) * 100)}%`,
+      width: `${Math.round((72 / costTime) * 100)}%`,
       backgroundColor: color,
       height: '15px',
       borderRadius: '10px',
       margin: '10px 0',
-      display: getOrderCostTime() >=72 ? 'block':'none'
+      display: getOrderCostTime() >= 72 ? 'block':'none'
     }
   }
 
@@ -94,7 +95,6 @@ export default function  ({order}) {
           }
           return item
         })
-        console.log(result)
         setProcessInfo(result)
         setOrderTimestamp(((new Date(replaceDate(res.result[res.result.length-1].exectorTime))).valueOf()))
       }
@@ -106,6 +106,7 @@ export default function  ({order}) {
       <div className="wrapper">
         <Spin spinning={loading}>
           <h3 className="title">实际耗时</h3>
+          {/* 最外层 灰色 */}
           <div data-text={getOrderCostTime() >= 72 ? getOrderCostTime() + 'h' : '72h' } className="processWrapper">
             <div style={getProcessStyle()}></div>
             <div data-text={'72h'} style={getOverdueProcessStyle()} className="OverdueProcess"></div>
@@ -117,8 +118,8 @@ export default function  ({order}) {
               processInfo.map((item,index) => {
                 return(<Timeline.Item
                   data-text={item.difference ? getProcessCostTime(item.difference)  :null}
-                  key={item.exectorTime}
-                  className={`${item.difference ? 'TimeLineItemActive' :null } TimeLineItem`}
+                  key={item.id ? item.id : item.exectorTime}
+                  className={`${item.difference ? 'TimeLineItemActive' : null } TimeLineItem`}
                   color={ index === 0 ? 'green': 'grey'}
                   >
                     <div>
@@ -126,6 +127,7 @@ export default function  ({order}) {
                       <p>{item.exectorTime}【{item.activityName}】</p>
                       <p>处理人： {item.exectorName}</p>
                       <p>详情：{item.remark}</p>
+                      {item.msg ? <p>备注：{item.msg}</p> : null}
                       </div>
                     </div>
                 </Timeline.Item>)
@@ -153,7 +155,7 @@ function getProcessCostTime (date)  {
     return hr + '小时' + min+'分钟'
   }
   if(min) {
-    return min+'分钟'
+    return min + '分钟'
   }
   return '1分钟'
 }

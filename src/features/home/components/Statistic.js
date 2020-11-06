@@ -39,7 +39,6 @@ export default (props) => {
       tattrs = [...OrderConfig(userInfo.userId)[0]]
       oAttrs = [...OrderConfig(userInfo.userId)[1],{key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ"}]
     }
-    // console.log(userInfo)
     let conditions = [ ...tabsConfig[1]]
     if(['派出所人员', '设备厂商'].includes(userInfo.roleName)) {
       if(userInfo.depts.length) {
@@ -80,77 +79,100 @@ export default (props) => {
       })
     }
   }, [userInfo])
+
   const render = () => {
-    const cp = {
-      "overdue_myToDo": <Card onClick={() => {
-        if(userInfo.roleName !== '超级管理员'){
-          history.push('/order?state=1')
-        }
-      }}
-        className='statistic-card' key="overdue_myToDo">
-        <Statistic
-          title="视频报修-逾期/待办"
-          value={overdue}
-          valueStyle={{ color: '#ffa125' }}
-          suffix={'/ '+todo}
-        />
-        <img src={require('../../../assets/home/statistic01.png')} alt="图标"/>
-      </Card>,
-      "alert_processed": <Card onClick={() => {
-      }}
-        className="statistic-card" key="alert_processed">
-        <Statistic
-          title="告警/已处理"
-          value={18}
-          valueStyle={{ color: '#f00' }}
-          suffix="/ 20"
-        />
-        <img src={require('../../../assets/home/statistic02.png')} alt="图标"/>
-      </Card>,
-      "DeviceOnline": <Card onClick={() => {
-       //history.push('../../../features/deviceOnline/DeviceShow')
-       history.push('/deviceOnline/DeviceShow')
-      }}
-        className="statistic-card" key="DeviceOnline">
-        <Statistic
-          title="总设备在线率"
-          value={onlineRate}
-          precision={2}
-          valueStyle={{ color: '#3fdaa0' }}
-          suffix="%"
-        />
-        <img src={require('../../../assets/home/statistic03.png')} alt="图标"/>
-      </Card>,
-      // "DeviceError": <Card onClick={() => {
-      //   history.push('/device?state=2')
-      // }}
-      //   className="statistic-card" key="DeviceError">
-      //   <Statistic
-      //     title="摄像机异常数"
-      //     value={deviceError}
-      //     valueStyle={{ color: '#ffa125' }}
-      //     // suffix="/ 180"
-      //   />
-      //   <img src={require('../../../assets/home/statistic04.png')} alt="图标"/>
-      // </Card>,
-      "DeviceError": 
-      <Card onClick={() => {
-        // history.push('/deviceOnline/DeviceShow?state=camera')
-        history.push('./deviceOnline/CameraShow')
-      }}
-        className="statistic-card" key="DeviceError">
-        <Statistic
-          title="摄像机在线率"
-          value={cameraOnlineRate}
-          valueStyle={{ color: '#ffa125' }}
-          suffix="%"
-        />
-        <img src={require('../../../assets/home/statistic04.png')} alt="图标"/>
-      </Card>
+    if(role) {
+      let newRole = [...role]
+      newRole.splice(1,0,{name:"逾期公告",icon: '/',path: '/',code:'overdue_total'})
+      const cp = {
+        "overdue_myToDo":
+        <Card onClick={() => {
+          if(userInfo.roleName !== '超级管理员'){
+            history.push('/order/ProjectSpread/todayAdd')
+          }
+        }}
+          className='statistic-card' key="overdue_myToDo">
+          <Statistic
+            title="今日新增/处理"
+            value={overdue}
+            valueStyle={{ color: '#ffa125' }}
+            suffix={'/ '+todo}
+          />
+          <img src={require('../../../assets/home/statistic01.png')} alt="图标"/>
+        </Card>,
+        "overdue_total":
+        <Card onClick={() => {
+          history.push('/order/ProjectSpread/overdue')
+        }}
+        className="statistic-card"
+        >
+          <Statistic
+          title="逾期公告"
+          value={222}
+          valueStyle={{color:'#ffa125'}}
+          suffix={'/ '+111}
+          />
+          <img src={require('../../../assets/home/statistic06.png')} alt="图标" />
+        </Card>,
+        "alert_processed":
+        <Card onClick={() => {
+        }}
+          className="statistic-card" key="alert_processed">
+          <Statistic
+            title="告警/已处理"
+            value={18}
+            valueStyle={{ color: '#f00' }}
+            suffix="/ 20"
+          />
+          <img src={require('../../../assets/home/statistic02.png')} alt="图标"/>
+        </Card>,
+        "DeviceOnline":
+        <Card onClick={() => {
+         //history.push('../../../features/deviceOnline/DeviceShow')
+         history.push('/deviceOnline/DeviceShow')
+        }}
+          className="statistic-card" key="DeviceOnline">
+          <Statistic
+            title="总设备在线率"
+            value={onlineRate}
+            precision={2}
+            valueStyle={{ color: '#3fdaa0' }}
+            suffix="%"
+          />
+          <img src={require('../../../assets/home/statistic03.png')} alt="图标"/>
+        </Card>,
+        // "DeviceError": <Card onClick={() => {
+        //   history.push('/device?state=2')
+        // }}
+        //   className="statistic-card" key="DeviceError">
+        //   <Statistic
+        //     title="摄像机异常数"
+        //     value={deviceError}
+        //     valueStyle={{ color: '#ffa125' }}
+        //     // suffix="/ 180"
+        //   />
+        //   <img src={require('../../../assets/home/statistic04.png')} alt="图标"/>
+        // </Card>,
+        "DeviceError": 
+        <Card onClick={() => {
+          // history.push('/deviceOnline/DeviceShow?state=camera')
+          history.push('./deviceOnline/CameraShow')
+        }}
+          className="statistic-card" key="DeviceError">
+          <Statistic
+            title="摄像机在线率"
+            value={cameraOnlineRate}
+            valueStyle={{ color: '#3fdaa0' }}
+            suffix="%"
+          />
+          <img src={require('../../../assets/home/statistic05.png')} alt="图标"/>
+        </Card>
+      }
+      return newRole ? newRole.map(c => cp[c.code]) : null
     }
-    return role ? role.map(c => cp[c.code]) : null
   }
-  // const history = useHistory()
+
+
   return (
     <div className="home-components-statistic">
       {render()}

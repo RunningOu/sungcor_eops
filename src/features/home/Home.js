@@ -18,6 +18,7 @@ import { local_set } from '../../utils'
 
 const Home = (props) => {
   const { userInfo } = props
+  console.log('userInfo',userInfo)
   useEffect(() =>{
     console.log(props);
     local_set('userId',userInfo.userId)
@@ -30,7 +31,7 @@ const Home = (props) => {
       {/* <Notice /> */}
       <Statistic role={userInfo.role?.menus.StatisticsView} userInfo={userInfo}/>
       <Charts role={userInfo.role?.menus.ReportView} />
-      <Alert />
+      {/* <Alert /> */}
       <FooterBar pathname={props.location.pathname} userInfo={userInfo}/>
     </div>
   )

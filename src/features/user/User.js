@@ -6,7 +6,7 @@ import { bindActionCreators } from 'redux'
 
 import { HeaderBar, FooterBar } from '../common'
 import * as actions from './redux/actions'
-import { queryOrderCount } from '../../common/request'
+import { queryOrderCount, queryOrderList  } from '../../common/request'
 import { USER_INFO_ID } from '../../config'
 
 import './User.less'
@@ -16,7 +16,7 @@ const params = (userAccountInfo) => {
     getMyTodo: [
       { key: "executor", value: userAccountInfo.userId,operator: "IN"},
       { key:"status", value: "1,2", operator: "IN" },
-      { key: "formData.sfbx", value: "wgq", operator: "EQ" }
+      { key: "formData.sfbx", value: "wgq", operator: "EQ" },
     ],
     getMyparticipation: 
       [{"key":"participation","value":userAccountInfo.userId,"operator":"IN"},{"key":"status","value":"1,2","operator":"IN"},{"key":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
@@ -32,8 +32,14 @@ const User = (props) => {
   const [participation, setParticipation] = useState(0)
 
   useEffect(() => {
-    queryOrderCount(params(userAccountInfo)['getMyTodo']).then(d => {
-      setMyToDo(d.count)
+    let requestTodoList = []
+    if(typeof userAccountInfo.realname === 'string' && userAccountInfo.realname.includes('图像组管理员')) {
+      requestTodoList.push(queryOrderCount([{key:'status',value:'1,2',operator: 'IN'},{key:'formData.sfbx',value:'gqsh',operator:'EQ'}]))
+    }
+    requestTodoList.push(queryOrderCount(params(userAccountInfo)['getMyTodo']))
+    Promise.all(requestTodoList).then(res => {
+      const myTodoCount = res.reduce((p,c) => p + c.count,0)
+      setMyToDo(myTodoCount)
     })
     queryOrderCount(params(userAccountInfo)['getMyparticipation']).then(d => {
       setParticipation(d.count)

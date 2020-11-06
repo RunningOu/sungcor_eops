@@ -62,6 +62,7 @@ export default  ({orderId}) => {
                   <p>{index === 0 || index === (orderProcess.length -1) ?  item.createTime : null}</p>
                   <p>{item.name}({item.ip})</p>
                   <p>{item.msg}</p>
+                  {/* <p>{item.name}({item.ip}){item.msg}</p> */}
                 </div>
               </Timeline.Item> 
             })}

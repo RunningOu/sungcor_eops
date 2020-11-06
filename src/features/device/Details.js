@@ -5,6 +5,13 @@ import { HeaderBar } from '../common'
 import Circle from '../../features/common/Circle'
 
 import './Details.less'
+
+const StatusMap = {
+  "using": <Circle status="success" text="在用" />,
+  "maintenanceInfo": <Circle status="warning" text="维修" />,
+  "demolish": <Circle status="default" text="拆除" />
+}
+
 export default (props) => {
   const { params: { id } } = props.match
   const [device, setDevice] = useState({})
@@ -22,11 +29,7 @@ export default (props) => {
         <Descriptions title={device.name} bordered size="small">
           <Descriptions.Item label="状态">
             {
-              {
-                "using": <Circle status="success" text="在用" />,
-                "maintenanceInfo": <Circle status="warning" text="维修" />,
-                "demolish": <Circle status="default" text="拆除" />
-              }[device.cameraState] || null
+              StatusMap[device.cameraState] || null
             }
 
           </Descriptions.Item>

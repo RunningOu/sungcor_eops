@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { HeaderBar, FooterBar} from '../common'
-import {Input, List, message, Col, IconText } from 'antd'
+import { useHistory } from 'react-router-dom'
+import {Input, List, message, Col, IconText,Modal,Descriptions } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
-import { queryNetworkList } from '../../common/request'
+import { queryNetworkList, queryDeviceById,getOrderInfoByIp } from '../../common/request'
+
 import './ServerIP.less'
+
 const { Search } = Input
 const ServerIP = (props) => {
   const { location: { search } } = props
+  const history = useHistory()
   const [code, setCode] = useState( new URLSearchParams(search).get('code') || "")
   const [title, setTitle] = useState( new URLSearchParams(search).get('name') || "")
   const [type, setType] = useState( new URLSearchParams(search).get('type') || "")
@@ -16,6 +20,9 @@ const ServerIP = (props) => {
   const [pageNum, setPageNum] = useState(0) // 列表分页下标
   const [loading, setLoading] = useState(false) // 列表加载中状态
   const [hasMore, setHasMore] = useState(true) // 列表加载中状态
+  const [deviceInfoVisible,setDeviceInfoVisible] = useState(false) // 设备详细信息展示
+  const [currentDeviceInfo,setCurrentDeviceInfo] = useState({}) // 当前展示的设备信息
+
   const tabs = {
     "serve" : "online_state",
     "network": "status",
@@ -28,6 +35,34 @@ const ServerIP = (props) => {
     "storage": "/app/portal/queryDevList",
     "camera": "/app/portal/queryDevList"
   }
+
+  //根据传入的type决定选用哪些字段渲染
+  const TypeMap = {
+    'camera': {
+      managementUnit: '管理单位',
+      address: '所在位置',
+      JPBH: '键盘编号',
+      ip:'设备IP',
+      className: '设备类型',
+      cameraModel: '设备型号',
+      jsyylb: '建设应用类型'
+    },
+    'serve': {
+      name: "设备名称",
+      ip: '设备IP',
+      id: '设备ID',
+    },
+    'storage': {
+      name: '设备名称',
+      ip: '设备IP',
+      id: '设备ID',
+    },
+    'network': {
+      name: '设备名称',
+      ip: '设备IP',
+      id: '设备ID'
+    }
+  }
   
   const handleInfiniteOnLoad = () => {
     setLoading(true)
@@ -37,6 +72,34 @@ const ServerIP = (props) => {
       return
     }
     setPageNum(current => current + 1)
+  }
+
+  const handleJumpOrderDetail = (item) => {
+    if(item.cameraState === 'maintenanceInfo' || !item.online_state) {
+      getOrderInfoByIp(item.ip).then(res => {
+        if(res.result.dataList.length) {
+          const { activityId, modelId, ticketId } = res.result.dataList[0]
+          if(activityId && modelId && ticketId) {
+            history.push(`/order/${ticketId}?actId=${activityId}&modelId=${modelId}&search=&searchType=`)
+          }
+        } else {
+          message.error('该设备暂无工单上报')
+        }
+      })
+    }else {
+      message.success('该设备在线')
+    }
+  }
+  const handleCancel = () => {
+    setDeviceInfoVisible(false)
+  }
+  const handleClickCameraName = (item) => {
+    console.log(item)
+    const { id } = item
+    queryDeviceById(id).then(res => {
+      setCurrentDeviceInfo(res)
+      setDeviceInfoVisible(true)
+    })
   }
 
   useEffect(() => {
@@ -50,7 +113,6 @@ const ServerIP = (props) => {
       "pageNum": pageNum,
       "code": code
     }, url[type]).then(data => {
-      console.log('serverIp', data)
       setCount(data.result.totalRecords)
       if (data.result.hasOwnProperty('dataList')) {
         if (data.result.dataList.length !== 200) setHasMore(false)
@@ -93,25 +155,41 @@ const ServerIP = (props) => {
               className='list_de'
               dataSource={dataList}
               renderItem={item => (
-                <div className='item' onClick={() => { }}>
+                <div className='item'>
                   {/* <Col span={8}><h2 className='title'>{item.title}</h2></Col> */}
-                  <Col span={12}>
-                    <p className=''>{item.name}</p>
+                  <Col
+                  span={12}>
+                    <p
+                    onClick={() => {handleClickCameraName(item)}}
+                    className=''>{item.name}</p>
                   </Col>
                   <Col span={8}>
                     <p className=''>{item.ip}</p>
                   </Col>
                   <Col span={4}>
-                    <p className=''>{item[status] === 'online' || item[status] === true || item[status] === "1" || item[status] === "using" ? <span className="isno_online_text_green">在线</span> : <span class="isno_online_text_red">离线</span>}</p>
+                    <p className='' onClick={() => {handleJumpOrderDetail(item)}}>{item[status] === 'online' || item[status] === true || item[status] === "1" || item[status] === "using" ? <span className="isno_online_text_green">在线</span> : <span className="isno_online_text_red">离线</span>}</p>
                   </Col>
                   {/* <p className='orderstate'>{item.activityName}</p> */}
                 </div>
                 )} />
           </InfiniteScroll>
         </div>
+        <Modal
+          title={currentDeviceInfo.name}
+          footer={null}
+          visible={deviceInfoVisible}
+          onCancel={handleCancel}
+        >
+          <Descriptions bordered size='small'>
+            {
+              Object.keys(TypeMap[type]).length && Object.keys(TypeMap[type]).map(item => {
+                return <Descriptions.Item label={TypeMap[type][item]}>{currentDeviceInfo[item]}</Descriptions.Item>
+              })
+            }
+          </Descriptions>
+        </Modal>
     </div>
   )
 }
-
 
 export default ServerIP

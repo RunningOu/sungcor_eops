@@ -3,6 +3,16 @@ import { Descriptions , Collapse } from 'antd'
 
 const { Panel } = Collapse
 
+const shrinkageMap = {
+  deviceIP: 'deviceIP',
+  bxfs: 'bxfs',
+  title: 'title',
+  bxsj: 'bxsj',
+  fxGzlx: 'fxGzlx',
+  deviceKey: 'deviceKey',
+  ticketDesc: 'ticketDesc'
+}
+
 const OrderBuilder = (props) => {
   const { meta, shrinkage , order } = props
   
@@ -10,8 +20,10 @@ const OrderBuilder = (props) => {
     if (item.code === 'overdueNotify' || item.code === 'resource') {
       return null
     }
+
+    //如果当前状态为折叠的话，过滤对应的标题
     if(shrinkage) {
-     if(item.code === 'bxfs' ||item.code ==='title' || item.code === 'bxsj' || item.code === 'fxGzlx' || item.code === 'deviceKey' || item.code === 'deviceIp' || item.code === 'ticketDesc') {
+     if(shrinkageMap[item.code]) {
        return item.widget ? item.widget(item) : null
      } else {
        return null

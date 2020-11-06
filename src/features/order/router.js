@@ -4,7 +4,9 @@ import {
   Form, 
   SelectDevice,
   Details,
-  FormHandle} from './'
+  FormHandle,
+  ProjectSpread
+} from './'
 import { SelectView, FormHandleBa } from './bacth'
 import gisQpShow from './components/gisQpShow'
 
@@ -49,6 +51,11 @@ export default {
       path: ':modal/handle',
       name: 'FormHandle',
       component: FormHandle
+    },
+    {
+      path: 'ProjectSpread/:type',
+      name: 'ProjectSpread',
+      component: ProjectSpread
     }
   ],
 }

@@ -240,7 +240,8 @@ const Order = (props) => {
         }
       </Tabs>
       <div className='search-bar'>
-        <Select value={searchInfo} onChange={v => { setSearchInfoKey(v);
+        <Select value={searchInfo} onChange={v => {
+        setSearchInfoKey(v);
         setSearchTitle('') }}>
           {searchList.map(e => <Option
           //这里增加了一个key 如有报错或者页面展示错误请删除
@@ -319,13 +320,13 @@ const Order = (props) => {
                   <h2 className='title'>{item.title}</h2>
                   <p className='description'>当前处理人：{item.executor.join('，')}</p>
                   <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p>
-                  <p className='description'>键盘编号：{item.formData.deviceKey ==='null' ? '': item.formData.deviceKey}</p>
+                  <p className='description'>键盘编号：{item.formData.deviceKey ==='null' ? '' : item.formData.deviceKey}</p>
                   <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
                   <p className='orderstate'>{item.activityName}</p> 
                   </>
                    :
                    <>
-                   <h2 className='title'>{item.title}</h2>
+                  <h2 className='title'>{item.title}</h2>
                   <p className='description'>当前处理人：{item.executor.join('，')}</p>
                   {/* <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p> */}
                   <p className='date'>报修时间： <span>{item.formData.bxsj === undefined ? moment(item.createTime).format("YYYY-MM-DD HH:mm:ss") : item.formData.bxsj}</span></p>

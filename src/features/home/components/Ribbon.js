@@ -11,14 +11,14 @@ const base = {
   "Overdue": { name: '逾期工单', icon: (<IconFont type="iconyiyuqi" />), path: { pathname: '/order?state=4'} },
   "Finish": { name: '完成工单', icon: (<IconFont type="iconwancheng" />), path: { pathname: '/order?state=3'} },
   "FaultyEquipment": { name: '故障设备', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device' } },
-  "FaultyEquipment": { name: '设备在线率', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device?state=2' } },
+  "FaultyEquipment": { name: '设备在线率', icon: (<IconFont type="iconguzhang" />), path: { pathname: './device?state=0' } },
   "Overview": { name: '总览报表', icon: (<IconFont type="iconbaobiaobiaoweiguanli" />)},
   "Alert": { name: '告警列表', icon: (<IconFont type="iconweichuligaojing" />)}
 }
 
 const Ribbon = function (props) {
   const { role } = props
-  console.log(role)
+  console.log('role',role)
   const [fButton, setFButton] = useState([[1, 2, 3, 4, 5, 6]])
   const history = useHistory()
   
@@ -28,9 +28,8 @@ const Ribbon = function (props) {
       role.forEach((item, index) => {
         const page = Math.floor(index / 6)
         if (!orders[page]) orders[page] = []
-        orders[page].push(item)
+        orders[page].push(item.name === '故障设备' ? {...item,name:'资产信息'} :item)
       })
-      console.log('orders',orders)
       setFButton(orders)
       console.log(fButton,'fButton')
     }
