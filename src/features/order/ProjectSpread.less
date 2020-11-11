@@ -2,17 +2,24 @@
     text-align: center;
     padding: 0 6px;
     overflow-y: scroll;
+    height: calc(100vh - 72.5px);
 }
 
 .projectCard {
-    box-sizing: border-box;
     float: left;
+    // display: inline-block;
+    box-sizing: border-box;
     width: 50%;
-    padding: 10px 10px 0 10px;
+    height: calc((100vh - 72.5px) / 4)
 }
 
 .projectCard-detail {
+    display: flex;
+    height: 80%;
+    margin: 12px 12px 0 12px;
+    padding: 0px 4px;
     border-radius: 10px;
-    padding: 24px 0;
     background-color: #b8d8ea;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 12px 0px;
+    font-size: 12px;
 }

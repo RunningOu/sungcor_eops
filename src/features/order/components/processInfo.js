@@ -21,11 +21,11 @@ export default function  ({order}) {
     if(orderStatus === 3 || orderStatus === 7) {
       if(typeof orderTimestamp === 'number' && processInfo.length) {
         let hours =((new Date(replaceDate(processInfo[0].exectorTime)).valueOf())  - orderTimestamp - hangTime) / 1000 / 3600
-        return Math.round(hours)
+        return Math.floor(hours)
       }
     } else {
       let hours = ( currentTime  - orderTimestamp - hangTime) / 1000 / 3600
-      return Math.round(hours)
+      return Math.floor(hours)
     }
 
     return null

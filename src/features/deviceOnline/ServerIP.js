@@ -3,7 +3,7 @@ import { HeaderBar, FooterBar} from '../common'
 import { useHistory } from 'react-router-dom'
 import {Input, List, message, Col, IconText,Modal,Descriptions } from 'antd'
 import InfiniteScroll from 'react-infinite-scroller'
-import { queryNetworkList, queryDeviceById,getOrderInfoByIp } from '../../common/request'
+import { queryNetworkList, queryDeviceById,getOrderInfoByIp,getOrderInfoByJPBH } from '../../common/request'
 
 import './ServerIP.less'
 
@@ -75,19 +75,93 @@ const ServerIP = (props) => {
   }
 
   const handleJumpOrderDetail = (item) => {
-    if(item.cameraState === 'maintenanceInfo' || !item.online_state) {
-      getOrderInfoByIp(item.ip).then(res => {
-        if(res.result.dataList.length) {
-          const { activityId, modelId, ticketId } = res.result.dataList[0]
-          if(activityId && modelId && ticketId) {
-            history.push(`/order/${ticketId}?actId=${activityId}&modelId=${modelId}&search=&searchType=`)
-          }
-        } else {
-          message.error('该设备暂无工单上报')
+    console.log(item)
+    //判断如果是摄像机
+    if(type === 'camera') {
+      if(item.cameraState && item.cameraState === "demolish") {
+        message.error('该设备已拆除！')
+        return
+      }
+      if(item.cameraState && item.cameraState === 'maintenanceInfo') {
+        if(item.ip) {
+          getOrderInfoByIp(item.ip).then(res => {
+            console.log(res)
+            if(res.result.dataList.length) {
+              const { activityId, modelId, ticketId } = res.result.dataList[0]
+              if(activityId && modelId && ticketId) {
+                history.push(`/order/${ticketId}?actId=${activityId}&modelId=${modelId}&search=&searchType=`)
+              }
+            } else {
+              message.error('该设备暂无工单上报')
+            }
+          })
+        }else {   
+          getOrderInfoByJPBH(item.JPBH).then(res=>{
+            if(res.result.dataList.length) {
+              const { activityId, modelId, ticketId } = res.result.dataList[0]
+              if(activityId && modelId && ticketId) {
+                history.push(`/order/${ticketId}?actId=${activityId}&modelId=${modelId}&search=&searchType=`)
+              }
+            }
+          })
         }
-      })
-    }else {
-      message.success('该设备在线')
+      }else {
+        message.success('该设备在线！')
+      }
+    }
+    //如果是服务器
+    if(type === 'serve') {
+      if(item.type === 'PCServer' && item.online_state === false) {
+        getOrderInfoByIp(item.ip).then(res => {
+          console.log(res)
+          if(res.result.dataList.length) {
+            const { activityId, modelId, ticketId } = res.result.dataList[0]
+            if(activityId && modelId && ticketId) {
+              history.push(`/order/${ticketId}?actId=${activityId}&modelId=${modelId}&search=&searchType=`)
+            }
+          } else {
+            message.error('该设备暂无工单上报')
+          }
+        })
+      }else {
+        message.success('该设备在线！')
+      }
+    }
+    //如果是存储设备
+    if(type === 'storage') {
+      if(item.zxzt === '1') {
+        getOrderInfoByIp(item.ip).then(res => {
+          console.log(res)
+          if(res.result.dataList.length) {
+            const { activityId, modelId, ticketId } = res.result.dataList[0]
+            if(activityId && modelId && ticketId) {
+              history.push(`/order/${ticketId}?actId=${activityId}&modelId=${modelId}&search=&searchType=`)
+            }
+          } else {
+            message.error('该设备暂无工单上报')
+          }
+        })
+      }else {
+        message.success('该设备在线！')
+      }
+    }
+    //如果是网络设备
+    if(type === 'network') {
+      if(item.status && item.status !== 'online') {
+        getOrderInfoByIp(item.ip).then(res => {
+          console.log(res)
+          if(res.result.dataList.length) {
+            const { activityId, modelId, ticketId } = res.result.dataList[0]
+            if(activityId && modelId && ticketId) {
+              history.push(`/order/${ticketId}?actId=${activityId}&modelId=${modelId}&search=&searchType=`)
+            }
+          } else {
+            message.error('该设备暂无工单上报')
+          }
+        })
+      }else {
+        message.success('该设备在线！')
+      }
     }
   }
   const handleCancel = () => {
@@ -95,11 +169,11 @@ const ServerIP = (props) => {
   }
   const handleClickCameraName = (item) => {
     console.log(item)
-    const { id } = item
-    queryDeviceById(id).then(res => {
-      setCurrentDeviceInfo(res)
-      setDeviceInfoVisible(true)
-    })
+      const { id } = item
+      queryDeviceById(id).then(res => {
+        setCurrentDeviceInfo(res)
+        setDeviceInfoVisible(true)
+      })
   }
 
   useEffect(() => {
@@ -160,11 +234,12 @@ const ServerIP = (props) => {
                   <Col
                   span={12}>
                     <p
-                    onClick={() => {handleClickCameraName(item)}}
+                    style={{color: '#005da3'}}
+                    onClick={() => { handleClickCameraName(item)} }
                     className=''>{item.name}</p>
                   </Col>
                   <Col span={8}>
-                    <p className=''>{item.ip}</p>
+                    <p className=''>{item.ip ? item.ip : '未知'}</p>
                   </Col>
                   <Col span={4}>
                     <p className='' onClick={() => {handleJumpOrderDetail(item)}}>{item[status] === 'online' || item[status] === true || item[status] === "1" || item[status] === "using" ? <span className="isno_online_text_green">在线</span> : <span className="isno_online_text_red">离线</span>}</p>

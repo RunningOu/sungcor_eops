@@ -135,7 +135,6 @@ const HandleOrder = Form.create({
     if (props.order.form.gqyy) {
       form.gqyy = props.order.form.gqyy
     }
-    console.log(form)
     if(form.overdueNotify){
       delete form.overdueNotify
       console.log(form)
@@ -204,6 +203,7 @@ const HandleOrder = Form.create({
       if(orderSearch['视频报修'].modelId === query.get('modelId')){
         orderModelConfig[query.get('modelId')].forEach((item) => {
           if (item.id === query.get('actId')) {
+            console.log(item)
             setOrderModal(item)
             setPlVisible(false)
             return
@@ -332,7 +332,7 @@ const HandleOrder = Form.create({
           </div> : null}
           </>
         <div className="handle-button-group">
-          { sfgq?null:orderInfo.handle_rules?.map(d => (<HandleButton route={d.route_id} handle={handle} orderInfo={orderInfo} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
+          { sfgq ? null : orderInfo.handle_rules?.map(d => (<HandleButton route={d.route_id} handle={handle} orderInfo={orderInfo} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
           {/* {[3,6,8].includes(orderModal.sequence) ? */}
           {[3, 6, 8, 21].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
             <>

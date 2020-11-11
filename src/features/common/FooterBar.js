@@ -21,9 +21,7 @@ const footerBar = [
   {name: '个人', route: '/user', icon: (<Icon style={{ fontSize: '22px' }} type="user" />)},    
 ]
 
-
 const localCache = local_get(USER_INFO_ID) || ''
-
 
 export default (props) => {
   const { userInfo, pathname } = props
@@ -82,7 +80,6 @@ export default (props) => {
               mo[index].todo = d.count
               // setOrderModal(mo)
             })
-
             // 逾期个数
             queryOrderList({
               'model': {'attrs': overdue},
@@ -94,6 +91,7 @@ export default (props) => {
             })
           })
           setTimeout(()=> {
+            console.log(mo)
             setOrderModal(mo)
           },400)
         }
@@ -106,8 +104,7 @@ export default (props) => {
         <div style={{'padding': '12px'}}>
                 {orderModal.map(modal => (
                   <Col span={12} style={style} key={modal.id}>
-                  <Card key={modal.id} bodyStyle={{ background: '#fff', border: '1px solid rgb(119, 174, 254, 0.3)',
-                  boxShadow: '3px 3px 4px 0px rgba(119, 174, 254,.1)', 'borderRadius': '10px', 'padding': '15px 2px 15px 20px' }} onClick={() => {
+                  <Card key={modal.id} bodyStyle={{ background: '#fff', border: '1px solid rgb(119, 174, 254, 0.3)', boxShadow: '3px 3px 4px 0px rgba(119, 174, 254,.1)', 'borderRadius': '10px', 'padding': '15px 2px 15px 20px' }} onClick={() => {
                     setVisible(false)
                     history.push(`order?modelId=${modal.id}&modelName=${modal.name}`)
                      }}>

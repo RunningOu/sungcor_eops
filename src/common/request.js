@@ -402,16 +402,11 @@ export const countTicketByDevType = async (para) => {
 
 //获取工单自检信息
 export const getOrderProcess = async (ticket) => {
-  // try {
     const {data} = await axios({
       method: 'get',
       url: '/oss/api/link/check/queryByTicket?ticketId='+ticket
     })
     return data.result
-//   }
-//   catch (e) {
-//     throw new Error('getOrderProcess报错!',e)
-//   }
 }
 
 //获取工单流程信息
@@ -446,95 +441,25 @@ export const getOrderHangDifference = async (ticketId) => {
 export const getOrderInfoByIp = async (deviceIp) => {
   const {data} = await axios ({
     method: 'get',
-    url: `oss/app/portal/getTickertByIp?${deviceIp}&pageSize=10&pageNum=1`
+    url: `oss/app/portal/getTickertByIp?ip=${deviceIp}&pageSize=10&pageNum=1`
   })
   return data
-
-  // return new Promise(resolve => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       "success": true,
-  //       "message": "操作成功！",
-  //       "code": 200,
-  //       "result": {
-  //           "totalRecords": 1,
-  //           "dataList": [
-  //               {
-  //                   "id": "5fa4adc587aa131dee67777c",
-  //                   "ticketId": "2cbdd0a072fb4bfd9a86aad43a0b6ead",
-  //                   "modelId": "7ebd1cae5f4a46d6bee4e00464ccae90",
-  //                   "orgId": null,
-  //                   "caseId": "5bf477cbee684e91ad3a4474ac9672b8",
-  //                   "tenantId": "e10adc3949ba59abbe56e057f20f88dd",
-  //                   "title": "洪庙派出所 - 四合佳苑门口HG",
-  //                   "urgentLevel": 3,
-  //                   "ticketDesc": "1",
-  //                   "creator": "0040b527dc914057949b6ba033e5fb0f",
-  //                   "executor": [
-  //                       "8a28e8953b60488c9a2a897a90166cd9",
-  //                       "e10adc3949ba59abbe56e057f20f88dd"
-  //                   ],
-  //                   "executorCN": null,
-  //                   "executionGroup": null,
-  //                   "executionGroupCN": null,
-  //                   "flowNo": "SPSBBX2011060045",
-  //                   "status": 1,
-  //                   "activityId": "26f7145fa4c44fc18d39b8829724e947",
-  //                   "activityName": "内场接单",
-  //                   "ticketSource": "wchart",
-  //                   "createTime": "2020-11-06 09:58:29",
-  //                   "updateTime": "2020-11-06 09:58:29",
-  //                   "formData": {
-  //                       "title": "洪庙派出所 - 四合佳苑门口HG",
-  //                       "urgentLevel": 3,
-  //                       "fxBxr": "洪庙所",
-  //                       "telephone": "18712340126",
-  //                       "resource": [
-  //                           {
-  //                               "className": "摄像机内置",
-  //                               "id": "5f645748d845e3b49a45fec1",
-  //                               "name": "四合佳苑门口HG",
-  //                               "status": "0",
-  //                               "taskId": ""
-  //                           }
-  //                       ],
-  //                       "fxGzlx": "1",
-  //                       "ticketDesc": "1",
-  //                       "deviceIP": "15.233.196.39",
-  //                       "fxpcs": "洪庙派出所",
-  //                       "wxdwmc": "中远海运科技股份有限公司",
-  //                       "deviceKey": "670300039",
-  //                       "bxfs": "1",
-  //                       "sbmc": "四合佳苑门口HG",
-  //                       "bxsj": "2020-11-06 10:03:53",
-  //                       "xmmc": "电信租赁高清三期",
-  //                       "sfbx": "wgq"
-  //                   },
-  //                   "version": null,
-  //                   "overdue": 1,
-  //                   "followers": null,
-  //                   "participation": [
-  //                       "0040b527dc914057949b6ba033e5fb0f"
-  //                   ],
-  //                   "archived": 0,
-  //                   "recordTime": "2020-11-06 09:58:29:752",
-  //                   "modelFormData": null
-  //               }
-  //           ]
-  //       },
-  //       "timestamp": 1604640809846
-  //   })
-  //   },1000)
-  // })
 }
 
+//通过键盘编码来查找对应的工单
+export const getOrderInfoByJPBH = async (deviceJPBH) => {
+  const {data} = await axios ({
+    method: 'get',
+    url: `oss/app/portal/getTickertByIp?JPBH=${deviceJPBH}&pageSize=10&pageNum=1`
+  })
+  return data
+}
 //今日新增与今日完成工单统计
 export const getCountTodayTicket = async() => {
   const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/countTodayTicket`
   })
-
   return data
 }
 
@@ -566,21 +491,20 @@ export const getOverdueTicketByProject = async () => {
 }
 
 //今日新增/今日处理工单详情
-
-export const getTodayTicketByProjectName = async (projectName,status) => {
+export const getTodayTicketByProjectName = async (projectName,status,pageNum) => {
   const { data } = await axios({
     method: 'get',
-    url: `oss/app/portal/queryTodayTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=1`
+    url: `oss/app/portal/queryTodayTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
   })
 
   return data
 }
 
 //逾期未完成和逾期已完成工单详情按项目名称分布
-export const getOverdueTicketByProjectName = async (projectName,status) => {
+export const getOverdueTicketByProjectName = async (projectName,status,pageNum) => {
   const {data} = await axios({
     method: 'get',
-    url: `oss/app/portal/queryOverdueTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=1`
+    url: `oss/app/portal/queryOverdueTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
   })
   return data
 }

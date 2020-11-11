@@ -234,9 +234,10 @@ const Details = (props) => {
 
   useEffect(() => {
     const query = new URLSearchParams(search)
-    queryOrderInfo(modal)
+    const { location : {pathname} } = props
+    const ticketId = pathname.split('/')[2]
+    queryOrderInfo(ticketId)
       .then(d => {
-        console.log('queryOrderInfo',d)
         setOrderInfo(d)
         setOrder(d.form)
         if(userAccountInfo.userId === MANAGE_ID) {

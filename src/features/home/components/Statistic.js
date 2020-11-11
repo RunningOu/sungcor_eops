@@ -3,15 +3,17 @@ import React, { useState, useEffect } from 'react'
 import { Statistic, Card } from 'antd';
 import { useHistory } from 'react-router-dom'
 import { USER_INFO_ID, MANAGE_ID } from '../../../config'
-import { queryDeviceList, queryOrderList, countOnlienRate, countCameraOnlineRate } from '../../../common/request'
+import { queryDeviceList, queryOrderList, countOnlienRate, countCameraOnlineRate ,getCountTodayTicket ,getCountOverdueTicket} from '../../../common/request'
 import {local_get} from '../../../utils'
 import './Statistic.less'
 
 export default (props) => {
   const { role, userInfo } = props
   const history = useHistory()
-  const [overdue, setOverdue] = useState(0)
-  const [todo, setTodo] = useState(0)
+  const [overdueFinished, setOverdueFinished] = useState(0)
+  const [overdueUnfinished, setOverdueUnFinished] = useState(0)
+  const [todayCount,setTodayCount] = useState(0)
+  const [todayResult,setTodayResult] = useState(0)
   // const [deviceError, setDeviceError] = useState(0)
   const [onlineRate, setOnlineRate] = useState(0)
   const [cameraOnlineRate, setCameraOnlineRate] = useState(0)
@@ -48,23 +50,23 @@ export default (props) => {
     }
     if(userInfo.userId){
       // 待办个数
-      queryOrderList({
-        'model': {'attrs':tattrs},
-        "pageNum": 1,
-        "pageSize": 1
-      }).then((d) => {
-        setTodo(d.count)
-      })
-        .catch((e) => { })
+      // queryOrderList({
+      //   'model': {'attrs':tattrs},
+      //   "pageNum": 1,
+      //   "pageSize": 1
+      // }).then((d) => {
+      //   setTodo(d.count)
+      // })
+        // .catch((e) => { })
       // 逾期
-      queryOrderList({
-        'model': {'attrs': oAttrs},
-        "pageNum": 1,
-        "pageSize": 1
-      }).then((d) => {
-        setOverdue(d.count)
-      })
-        .catch((e) => { })
+      // queryOrderList({
+      //   'model': {'attrs': oAttrs},
+      //   "pageNum": 1,
+      //   "pageSize": 1
+      // }).then((d) => {
+      //   setOverdue(d.count)
+      // })
+      //   .catch((e) => { })
       // 总设备在线率
       countOnlienRate().then((data) => {
         if(data.result){
@@ -77,6 +79,21 @@ export default (props) => {
           setCameraOnlineRate(data.result.rate)
         }
       })
+      //今日新增和处理
+      getCountTodayTicket().then(res => {
+        if(res.code === 200 && res.result) {
+          setTodayCount(res.result.count)
+          setTodayResult(res.result.complete)
+        }
+      })
+      //逾期未完成和已完成
+      getCountOverdueTicket().then(res=>{
+        console.log('逾期未完成',res)
+        if(res.code === 200 && res.result) {
+          setOverdueFinished(res.result.wcOverdue)
+          setOverdueUnFinished(res.result.wwcOverdue)
+        }
+      })
     }
   }, [userInfo])
 
@@ -87,16 +104,14 @@ export default (props) => {
       const cp = {
         "overdue_myToDo":
         <Card onClick={() => {
-          if(userInfo.roleName !== '超级管理员'){
             history.push('/order/ProjectSpread/todayAdd')
-          }
         }}
           className='statistic-card' key="overdue_myToDo">
           <Statistic
             title="今日新增/处理"
-            value={overdue}
+            value={todayCount}
             valueStyle={{ color: '#ffa125' }}
-            suffix={'/ '+todo}
+            suffix={'/ '+todayResult}
           />
           <img src={require('../../../assets/home/statistic01.png')} alt="图标"/>
         </Card>,
@@ -108,9 +123,9 @@ export default (props) => {
         >
           <Statistic
           title="逾期公告"
-          value={222}
+          value={overdueUnfinished}
           valueStyle={{color:'#ffa125'}}
-          suffix={'/ '+111}
+          suffix={'/ '+overdueFinished}
           />
           <img src={require('../../../assets/home/statistic06.png')} alt="图标" />
         </Card>,
