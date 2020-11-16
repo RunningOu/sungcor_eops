@@ -85,7 +85,6 @@ const ServerIP = (props) => {
       if(item.cameraState && item.cameraState === 'maintenanceInfo') {
         if(item.ip) {
           getOrderInfoByIp(item.ip).then(res => {
-            console.log(res)
             if(res.result.dataList.length) {
               const { activityId, modelId, ticketId } = res.result.dataList[0]
               if(activityId && modelId && ticketId) {
@@ -111,7 +110,7 @@ const ServerIP = (props) => {
     }
     //如果是服务器
     if(type === 'serve') {
-      if(item.type === 'PCServer' && item.online_state === false) {
+      if((item.type === 'PCServer') &&( item.online_state === false)) {
         getOrderInfoByIp(item.ip).then(res => {
           console.log(res)
           if(res.result.dataList.length) {
@@ -123,33 +122,22 @@ const ServerIP = (props) => {
             message.error('该设备暂无工单上报')
           }
         })
-      }else {
+      } else if(item.online_state === true) {
         message.success('该设备在线！')
       }
     }
     //如果是存储设备
     if(type === 'storage') {
       if(item.zxzt === '1') {
-        getOrderInfoByIp(item.ip).then(res => {
-          console.log(res)
-          if(res.result.dataList.length) {
-            const { activityId, modelId, ticketId } = res.result.dataList[0]
-            if(activityId && modelId && ticketId) {
-              history.push(`/order/${ticketId}?actId=${activityId}&modelId=${modelId}&search=&searchType=`)
-            }
-          } else {
-            message.error('该设备暂无工单上报')
-          }
-        })
-      }else {
         message.success('该设备在线！')
+      } else {
+        
       }
     }
     //如果是网络设备
     if(type === 'network') {
       if(item.status && item.status !== 'online') {
         getOrderInfoByIp(item.ip).then(res => {
-          console.log(res)
           if(res.result.dataList.length) {
             const { activityId, modelId, ticketId } = res.result.dataList[0]
             if(activityId && modelId && ticketId) {
@@ -168,12 +156,14 @@ const ServerIP = (props) => {
     setDeviceInfoVisible(false)
   }
   const handleClickCameraName = (item) => {
-    console.log(item)
+    if(item.cameraState) {
       const { id } = item
       queryDeviceById(id).then(res => {
         setCurrentDeviceInfo(res)
         setDeviceInfoVisible(true)
       })
+    }
+
   }
 
   useEffect(() => {

@@ -49,7 +49,6 @@ export default (props) => {
     setVisible(false)
   }
   useEffect(() => {
-    console.log(pathname)
     // if (visible) {
       var mo = []
       queryOrderTicketModel().then(d => {
@@ -93,7 +92,7 @@ export default (props) => {
           setTimeout(()=> {
             console.log(mo)
             setOrderModal(mo)
-          },400)
+          }, 400 )
         }
       })
     // }

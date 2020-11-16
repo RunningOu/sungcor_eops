@@ -508,3 +508,12 @@ export const getOverdueTicketByProjectName = async (projectName,status,pageNum) 
   })
   return data
 }
+
+//维修自我检测 ：如果是人工报修就不用检测
+export const getSelfDetection = async (ip) => {
+  const {data} = await axios({
+    method: 'get',
+    url: `/oss/api/link/check/linkChecking?ip=${ip}`
+  })
+  return data
+}

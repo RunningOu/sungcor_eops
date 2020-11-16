@@ -5,6 +5,7 @@ import moment from 'moment'
 import _ from 'lodash'
 
 const { CheckableTag } = Tag
+
 export default (props) => {
   // const { handle, children, handleForm, modal } = props
   const { handle, children, handleForm, orderInfo } = props
@@ -17,8 +18,8 @@ export default (props) => {
   const [solventViseble, setSolventViseble] = useState(false)
   const [solvent, setSolvent] = useState('')
   const extraForm = useRef({})
+  
   function handleClick() {
-    console.log(handle)
     if (children === '挂起') {
       setShowPutUp(true)
       return
@@ -53,7 +54,6 @@ export default (props) => {
   }
 
   useEffect(() => {
-    console.log(handle,children)
     let next = _.find(handle.handle_rules, r => r.name === children)
     if (handle && handle.policy === 3) {
       if(next === undefined) return

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Form, message, Upload, Button, Modal, Tag, Input, Spin } from 'antd'
+import { Form, message, Upload, Button, Modal, Tag, Input, Spin ,Progress} from 'antd'
 import { MANAGE_ID } from '../../config'
 import moment from 'moment'
 import _ from 'lodash'
@@ -15,7 +15,7 @@ import {
   GisShow,
   HandleButton
 } from './components'
-import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName } from '../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName ,getSelfDetection} from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -52,6 +52,8 @@ const fieldsToObj = (fields) => {
   }
   return target
 }
+
+
 const cr = {
   "singleRowText": singleRowText,
   "singleSel": singleSel,
@@ -67,6 +69,30 @@ const cr = {
   "double": singleRowText
 }
 
+const outfieldWXWCId = 'a01fd8836a2244fe8e3d4640d2a55fcf'
+
+const infieldWXWCId = '7c79d4c44ed541e7bd0ba0a7e9c2afd5'
+
+//需要自检的错误编号
+const ErrorNumMap = ['9','10','11','12','13','14','99',9,10,11,12,13,14,99]
+const ErrorMap = {
+  '1': "无图像",
+  '2': "图像模糊",
+  '3': "控制坏",
+  '4': "绿化遮挡",
+  '5': "补光灯故障",
+  '6': "无字幕或字幕错",
+  '7': "镜头异物",
+  '8': "相机照偏",
+  '9': "摄像机网络不通",
+  '10': "上云无数据",
+  '11': "ONU设备网络不通",
+  '12': "OLT设备网络不通",
+  '13': "交换机网络不通",
+  '14': "背包箱异常",
+  '99': "其他故障"
+  }
+  
 
 const HandleOrder = Form.create({
   onFieldsChange: (props, changeFields, allFields) => {
@@ -97,27 +123,9 @@ const HandleOrder = Form.create({
   const [pcsInfo, setPcsInfo] = useState({})
   const [resourceId, setResourceId] = useState('') // 资产id
 
-  // try{
-  //   if(orderInfo) return
-  //   orderInfo.form.forEach(orderFindGq => {
-  //     if(orderFindGq.code === 'sfbx'){
-  //       if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
-  //         setSfgq(true)
-  //         message.info("工单已被挂起锁定，无法操作")
-  //       }
-  //     }
-  //   })
-
-  //   orderInfo.form.forEach(orderFindGq => {
-  //     if(orderFindGq.code === "resource"){
-  //       setResourceId(orderFindGq.default_value[0].id)
-  //     }
-  //   })
-  
-  // }catch{
-  //   console.log('')
-  // }
   function handleForm(handle_rules, name, extraForm = {}) {
+    const {route_id} = handle_rules
+    console.log('handle_rules',handle_rules)
     let pass = true
     let form = { ...props.order.form }
     if (query.get('modelId') === orderSearch['视频报修'].modelId) {
@@ -154,30 +162,80 @@ const HandleOrder = Form.create({
     if(pcsInfo.apiKeys && orderInfo.executors[0] !== MANAGE_ID){
       submitData.apikey = pcsInfo.apiKeys[0].key
     }
-    console.log(submitData)
-    handleOrder(submitData).then(d => {
-      // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
-      if (files.length) {
-        message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
-        files.forEach((i) => {
-          let reader = new FileReader();
-          reader.readAsDataURL(i)
-          reader.onload = e => {
-            let imgBase64 = e.target.result
-            updateImage({
-              ticketId: modal,
-              filesBase64: [imgBase64.split(',')[1]]
-            }).then(() => {
-              message.success({ content: '上传成功', key: MESSAGE_KEY })
-            })
+
+    console.log('submitData',submitData)
+    const {form: { deviceIP ,fxGzlx }} = submitData
+    //分别为内场和外场的维修完成ID  如果点击维修完成 进到这个逻辑
+
+    if((route_id === outfieldWXWCId || route_id === infieldWXWCId) && ErrorNumMap.includes(fxGzlx)) {
+      //如果是人工报修,则不需要检测
+        let result 
+        //如果result的值为true 代表摄像机能ping通，自检通过
+        getSelfDetection(deviceIP).then(res => {
+          if(res.result) {
+            result = res.result
           }
         })
-
-        history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
-      } else {
-        history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
-      }
-    })
+        message
+        .loading('实时自检中.....', 5)
+        .then(() => {
+          if(result) {
+            message.success('自检成功！', 2.5)
+            handleOrder(submitData).then(d => {
+              // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
+              //判断是否有图片，有的话就上传
+              if (files.length) {
+                message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
+                files.forEach((i) => {
+                  let reader = new FileReader();
+                  reader.readAsDataURL(i)
+                  reader.onload = e => {
+                    let imgBase64 = e.target.result
+                    updateImage({
+                      ticketId: modal,
+                      filesBase64: [imgBase64.split(',')[1]]
+                    }).then(() => {
+                      message.success({ content: '上传成功', key: MESSAGE_KEY })
+                    })
+                  }
+                })
+        
+                history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
+              } else {
+                history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
+              }
+            })
+          } else {
+            message.error('检测到摄像机网络不通！')
+            return
+          }
+        })
+    } else {
+    handleOrder(submitData).then(d => {
+        // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
+        //判断是否有图片，有的话就上传
+        if (files.length) {
+          message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
+          files.forEach((i) => {
+            let reader = new FileReader();
+            reader.readAsDataURL(i)
+            reader.onload = e => {
+              let imgBase64 = e.target.result
+              updateImage({
+                ticketId: modal,
+                filesBase64: [imgBase64.split(',')[1]]
+              }).then(() => {
+                message.success({ content: '上传成功', key: MESSAGE_KEY })
+              })
+            }
+          })
+  
+          history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
+        } else {
+          history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
+        }
+      })
+    }
   }
   
   useEffect(() => {
@@ -196,6 +254,7 @@ const HandleOrder = Form.create({
             })
           }
         })
+        console.log('orderInfo',d)
         setOrderInfo(d)
         props.actions.setForm(formData)
       }
@@ -299,9 +358,6 @@ const HandleOrder = Form.create({
     setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
   }, [orderInfo,orderModal])
 
-  useEffect(() => {
-    console.log('orderInfo',orderInfo)
-  })
   return (
     <div className='order-page-formhandle'>
     <HeaderBar title='工单处理' />
@@ -332,7 +388,13 @@ const HandleOrder = Form.create({
           </div> : null}
           </>
         <div className="handle-button-group">
-          { sfgq ? null : orderInfo.handle_rules?.map(d => (<HandleButton route={d.route_id} handle={handle} orderInfo={orderInfo} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>))}
+          { sfgq ? null : orderInfo.handle_rules?.map(d => (<HandleButton
+            route={d.route_id}
+            handle={handle}
+            orderInfo={orderInfo}
+            handleForm={handleForm}
+            modal={modal}
+            >{d.name}</HandleButton>))}
           {/* {[3,6,8].includes(orderModal.sequence) ? */}
           {[3, 6, 8, 21].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
             <>

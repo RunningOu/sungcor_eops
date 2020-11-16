@@ -1,7 +1,6 @@
 import React,{ useState, useEffect} from 'react'
-import moment from 'moment'
 import { useHistory } from 'react-router-dom'
-import { Menu,List } from 'antd'
+import { Menu,List,Spin } from 'antd'
 
 
 import { HeaderBar} from '../common'
@@ -91,6 +90,8 @@ const ProjectDetail = ({location,match}) => {
         setLoading(false)
      })
   },[pageNum])
+
+
 
   return (
     <>
