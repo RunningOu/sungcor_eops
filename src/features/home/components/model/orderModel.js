@@ -4,8 +4,12 @@ import { useHistory } from 'react-router-dom'
 import InfiniteScroll from 'react-infinite-scroller'
 import moment from 'moment'
 import { queryOrderList, getFieldByCode } from '../../../../common/request'
-import './orderModel.less'
 import { formatDate } from '../../../../utils'
+
+import './orderModel.less'
+
+
+
 export default (props) => {
   let { visible, title, type, tabs, onVisible, status } = props
     const [orderList, setOrderList] = useState([])
@@ -25,34 +29,37 @@ export default (props) => {
       setPageNum(current => current + 1)
     }
     // var oAttrs= [{ key: "overdue", value: "1", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }]
-    var AllAttrs= {
-      'xmmc': {
-        '逾期已完成': [
-          { key: "overdue", value: "1", operator: "IN" },
-          { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-          { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ"},
-          { key: "status", value: "3", operator: "IN" }
-        ],
-        '逾期未完成': [
-          { key: "overdue", value: "1", operator: "IN" },
-          { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-          { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae",operator: "EQ"},
-          { key: "status", value: "1,2", operator: "IN" }
-        ],
-        // 未完成不包括已挂起
-        '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
-        // 已挂起
-        '挂起': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "ygq", operator: "EQ" }]
-      },
-      'nc': {
-        '逾期': [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
-        '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }]
-      }
-    }
-    
     useEffect(() => {
+      let AllAttrs= {
+        'xmmc': {
+          '逾期已完成': [
+            { key: "overdue", value: "1", operator: "IN" },
+            { key: "formData.sfbx", value: "wgq", operator: "EQ" },
+            { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ"},
+            { key: "status", value: "3", operator: "IN" }
+          ],
+          '逾期未完成': [
+            { key: "overdue", value: "1", operator: "IN" },
+            { key: "formData.sfbx", value: "wgq", operator: "EQ" },
+            { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae",operator: "EQ"},
+            { key: "status", value: "1,2", operator: "IN" }
+          ],
+          // 未完成不包括已挂起
+          '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" },
+          { key: "overdue", value: "0", operator: "IN" }],
+          // 已挂起
+          '挂起': [  { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "ygq", operator: "EQ" },
+          
+        ]
+        },
+        'nc': {
+          '逾期': [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+          '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }]
+        }
+      }
+      
         if(visible === true){
-          var oAttrs = AllAttrs[tabs][type]
+          let oAttrs = AllAttrs[tabs][type]
           console.log(pageNum)
           if (tabs === 'xmmc') {
             oAttrs.push({ key: 'formData.xmmc', value: title, operator: "EQ" })

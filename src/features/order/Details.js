@@ -167,7 +167,6 @@ const Details = (props) => {
     //ishang = false
     var gqyyy = ''
     var gqyArr = []
-    console.log('orderInfo.form',orderInfo.form)
     orderInfo.form.forEach(orderattrs => {
       if(orderattrs.code === "gqyy"){
         gqyyy = orderattrs.default_value
@@ -180,7 +179,6 @@ const Details = (props) => {
       gqyArr.push({'title': '挂起原因：','reason': gqyyy, 'time': ''})
       gqyArr.push({'title': '不同意挂起原因：','reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
     }
-    console.log(disagreeRemark)
     if(disagreeRemark){
       if(isHang){
         if(code===0){
@@ -244,7 +242,6 @@ const Details = (props) => {
           d.form.forEach(orderattrs => {
             if(orderattrs.code === "fxpcs"){
               getUserbyName(orderattrs.default_value).then(data => {
-                console.log('getUserbyName',data);
                 setPcsInfo(data)
               })
             }
@@ -258,7 +255,6 @@ const Details = (props) => {
               queryLastOrderModel({
                 id: modal
               }).then((ld) => {
-                console.log('queryLastOrderModel',ld);
                 setOrderModel(ld.field_list)
                 setPlVisible(false)
               })
@@ -273,7 +269,6 @@ const Details = (props) => {
           modelId: query.get('modelId'),
           actId: query.get('actId')
         }).then(d => {
-          console.log('queryOrderModel',d);
           if (d.activiti_type === 'EndNoneEvent') {
             queryLastOrderModel({
               id: modal
@@ -390,7 +385,6 @@ const Details = (props) => {
             dataOne1 = dataOne
           })
         }
-        console.log('处理后的order',dataOne1)
         setOrder(dataOne1)
       }, 40)
     }

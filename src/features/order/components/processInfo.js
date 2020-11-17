@@ -27,7 +27,6 @@ export default function  ({order}) {
       let hours = ( currentTime  - orderTimestamp - hangTime) / 1000 / 3600
       return Math.floor(hours)
     }
-
     return null
   }
 
@@ -36,8 +35,6 @@ export default function  ({order}) {
     let width = getOrderCostTime()
     let color = ''
     if(!width) return null
-
-
     if(width >= 72) {
       width = 100
       color = 'rgb(245, 34, 25)'
@@ -46,7 +43,6 @@ export default function  ({order}) {
       width = (width / 72) * 100
       color = 'rgb(0, 255, 127)'
     }
-
     return {
       width: `${width}%`,
       backgroundColor:color,

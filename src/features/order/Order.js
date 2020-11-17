@@ -61,6 +61,7 @@ const Order = (props) => {
     setOrderState(key)
     orderListRef.scrollTo(0,0)
   }
+
   const handleInfiniteOnLoad = () => {
     setLoading(true)
     if (orderList.length < 10) {
@@ -71,6 +72,10 @@ const Order = (props) => {
     setPageNum(current => current + 1)
   }
   //
+
+  useEffect(() => {
+    history.replace(`/order/${props.location.search}`)
+  },[props.location.search])
   useEffect(() => {
     if (orderSearch !== '' && orderSearch[orderSearchType]) {
       setDrawerConfig(orderSearch[orderSearchType])
@@ -85,7 +90,6 @@ const Order = (props) => {
       data.data.params.forEach(element => {
         fxGzlxs[element.value] = element.label
       })
-      // console.log(fxGzlxs)
       setFxGzlxs(fxGzlxs)
     })
   }, [orderSearchType])
@@ -230,7 +234,6 @@ const Order = (props) => {
     }
   }, [model, pageNum])
 
-
   return (
     <div className='order-page-index'>
       <HeaderBar title={modelName+'-工单列表'} />
@@ -312,7 +315,7 @@ const Order = (props) => {
         >
           <List dataSource={orderList} renderItem={item => (
             <div className='item' onClick={() => {
-              history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}` + '&search=' + searchTitle + '&searchType=' + searchInfo)
+              history.push(`/order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}` + '&search=' + searchTitle + '&searchType=' + searchInfo)
               }}>
                 {
                   item.modelId === orderSearch['视频报修'].modelId ? 

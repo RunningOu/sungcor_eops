@@ -75,7 +75,6 @@ const ServerIP = (props) => {
   }
 
   const handleJumpOrderDetail = (item) => {
-    console.log(item)
     //判断如果是摄像机
     if(type === 'camera') {
       if(item.cameraState && item.cameraState === "demolish") {
@@ -112,7 +111,6 @@ const ServerIP = (props) => {
     if(type === 'serve') {
       if((item.type === 'PCServer') &&( item.online_state === false)) {
         getOrderInfoByIp(item.ip).then(res => {
-          console.log(res)
           if(res.result.dataList.length) {
             const { activityId, modelId, ticketId } = res.result.dataList[0]
             if(activityId && modelId && ticketId) {
@@ -131,7 +129,7 @@ const ServerIP = (props) => {
       if(item.zxzt === '1') {
         message.success('该设备在线！')
       } else {
-        
+
       }
     }
     //如果是网络设备

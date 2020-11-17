@@ -103,7 +103,7 @@ const ProjectDetail = ({location,match}) => {
           {/* <Menu.Item key="all">{`全部(${allCount})`}</Menu.Item> */}
         </Menu>
       </div>
-      <div className="order-list">
+      <div className="order-list" style={{top: '120.5px'}}>
           <InfiniteScroll
             initialLoad={false}
             pageStart={1}
@@ -137,7 +137,7 @@ const ProjectDetail = ({location,match}) => {
                       <>
                        <h2 className='title'>{item.deviceName}</h2>
                        <p className='description'>处理人：{item.ticketExecutor}</p>
-                       <p className='description'>故障类型：{ErrorMap[item.ticketRepairType]}</p>
+                       <p className='description'>故障类型：{ErrorMap[item.ticketType]}</p>
                        <p className='description'>键盘编号: {item.deviceNumber}</p>
                        <p className='description'>报修时间： {item.ticketCreateTime}</p>
                        <p className='orderstate' style={{color: 'rgb(255,0,0)'}}>{`${item.ticketDrainTime}小时`}</p>

@@ -42,7 +42,8 @@ const Overview = (props) => {
       'apikey': 'e10adc3949ba59abbe56e057f2gg88dd',
       'severity': severity,
       'end': parseInt(new Date().getTime()),
-      'begin': parseInt(new Date().getTime() - 7*24*60*60*1000)
+      'begin': parseInt(new Date().getTime() - 7*24*60*60*1000),
+      'status': severity === 3 ?  0 : null
     }
     const promiseList = paramData.map(item => queryAlertList({...params,...item.params}))
     Promise.all(promiseList).then(res => {

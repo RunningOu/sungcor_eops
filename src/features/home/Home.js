@@ -38,7 +38,6 @@ const Home = (props) => {
 }
 
 function mapStateToProps(state) {
-  console.log(state);
   return {
     home: state.home,
     userInfo: state.user.userAccountInfo,

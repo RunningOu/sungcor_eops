@@ -11,6 +11,7 @@ export default () => {
     const [visible, setVisible] = useState(false)
     useEffect(() => {
         countTicketByStatus(status).then(data => {
+          console.log('cdata',data)
           let sumTotal = 0
           let sumUndone = 0
           let sumGq = 0
@@ -33,7 +34,8 @@ export default () => {
             key: 'name',
             width: 100,
             fixed: 'left'
-          },{
+        },
+        {
             title: '工单总数',
             dataIndex: 'total',
             key: 'total',
@@ -43,38 +45,40 @@ export default () => {
                     {overdue}
                 </Tag>
             )
-          },{
+          },
+        {
             title: '未完成',
             dataIndex: 'undone',
             key: 'undone',
             width: 70,
             render: (overdue, record, index) => (
                 <Tag color='green' key={overdue}
-                // onClick={() => {
-                //   console.log(record, index)
-                //   if(record.name === '总计') return
-                //   setTitle(record.xmmc)
-                //   setType('未完成')
-                //   setVisible(true)
-                // }}
+                onClick={() => {
+                  console.log(record, index)
+                  if(record.name === '总计') return
+                  setTitle(record.xmmc)
+                  setType('未完成')
+                  setVisible(true)
+                }}
                 >
-                    {overdue}
+                {overdue}
                 </Tag>
             )
-          },{
+          },
+          {
             title: '挂起',
             dataIndex: 'gq',
             key: 'gq',
             width: 70,
             render: (overdue, record, index) => (
                 <Tag color='green' key={overdue}
-                // onClick={() => {
-                //   console.log(record, index)
-                //   if(record.name === '总计') return
-                //   setTitle(record.xmmc)
-                //   setType('挂起')
-                //   setVisible(true)
-                // }}
+                onClick={() => {
+                  console.log(record, index)
+                  if(record.name === '总计') return
+                  setTitle(record.xmmc)
+                  setType('挂起')
+                  setVisible(true)
+                }}
                 >
                     {overdue}
                 </Tag>
