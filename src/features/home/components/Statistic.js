@@ -103,7 +103,9 @@ export default (props) => {
       newRole.splice(1,0,{name:"逾期公告",icon: '/',path: '/',code:'overdue_total'})
       const cp = {
         "overdue_myToDo":
-        <Card onClick={() => {
+        <Card
+        key='今日新增/处理'
+        onClick={() => {
             history.push('/order/ProjectSpread/todayAdd')
         }}
           className='statistic-card' key="overdue_myToDo">
@@ -116,7 +118,9 @@ export default (props) => {
           <img src={require('../../../assets/home/statistic01.png')} alt="图标"/>
         </Card>,
         "overdue_total":
-        <Card onClick={() => {
+        <Card
+        key='逾期公告'
+        onClick={() => {
           history.push('/order/ProjectSpread/overdue')
         }}
         className="statistic-card"
@@ -130,7 +134,9 @@ export default (props) => {
           <img src={require('../../../assets/home/statistic06.png')} alt="图标" />
         </Card>,
         "alert_processed":
-        <Card onClick={() => {
+        <Card
+        key='告警/已处理'
+        onClick={() => {
         }}
           className="statistic-card" key="alert_processed">
           <Statistic
@@ -142,7 +148,9 @@ export default (props) => {
           <img src={require('../../../assets/home/statistic02.png')} alt="图标"/>
         </Card>,
         "DeviceOnline":
-        <Card onClick={() => {
+        <Card
+        key='总设备在线率'
+        onClick={() => {
          //history.push('../../../features/deviceOnline/DeviceShow')
          history.push('/deviceOnline/DeviceShow')
         }}
@@ -169,7 +177,9 @@ export default (props) => {
         //   <img src={require('../../../assets/home/statistic04.png')} alt="图标"/>
         // </Card>,
         "DeviceError": 
-        <Card onClick={() => {
+        <Card
+        key='摄像机在线率'
+        onClick={() => {
           // history.push('/deviceOnline/DeviceShow?state=camera')
           history.push('./deviceOnline/CameraShow')
         }}

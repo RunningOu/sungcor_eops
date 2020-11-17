@@ -107,8 +107,8 @@ export default (props) => {
     onCancel={handleCancel}
     >
       <div style={{'padding': '12px'}}>
-                {orderModal.map(modal => (
-                  <Col span={12} style={style} key={modal.id}>
+                {orderModal.map((modal,index) => (
+                  <Col span={12} style={style} key={index}>
                   <Card key={modal.id} bodyStyle={{ background: '#fff', border: '1px solid rgb(119, 174, 254, 0.3)', boxShadow: '3px 3px 4px 0px rgba(119, 174, 254,.1)', 'borderRadius': '10px', 'padding': '15px 2px 15px 20px' }} onClick={() => {
                     setVisible(false)
                     history.push(`order?modelId=${modal.id}&modelName=${modal.name}`)

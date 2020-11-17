@@ -18,7 +18,6 @@ const base = {
 
 const Ribbon = function (props) {
   const { role } = props
-  console.log('role',role)
   const [fButton, setFButton] = useState([[1, 2, 3, 4, 5, 6]])
   const history = useHistory()
   
@@ -31,7 +30,6 @@ const Ribbon = function (props) {
         orders[page].push(item.name === '故障设备' ? {...item,name:'资产信息'} :item)
       })
       setFButton(orders)
-      console.log(fButton,'fButton')
     }
   }, [role])
 
@@ -46,7 +44,6 @@ const Ribbon = function (props) {
             <div className='ribbon_page' >
               {o.map((list,i) => {
                 const itemKey = base[list.code] || {}
-                console.log(itemKey)
                 return (
                   <div className='ribbon_fb' key={itemKey.name || i}>
                     <button onClick={() => { history.push(itemKey.path.pathname)}}>{itemKey.icon || '/'}</button>

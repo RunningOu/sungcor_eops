@@ -8,6 +8,10 @@ export default function(props) {
   const history = useHistory()
   
   const onBack = () => {
+    if(props.title.includes('工单列表')) {
+      history.push('/')
+      return 
+    }
     if(props.route) {
       history.push(props.route)
     } else {
