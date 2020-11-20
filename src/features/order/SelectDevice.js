@@ -35,6 +35,7 @@ const IconText = ({ type, text }) => (
   </span>
 );
 export default connect(mapStateToProps, mapDispatchToProps)((props) => {
+  console.log('props',props.userAccountInfo)
   const { history, userAccountInfo, match:{params: {modal}} } = props
   const [deviceList, setDeviceList] = useState([]) // 设备列表
   // const [classType, setClassType] = useState([])
@@ -201,7 +202,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                         wxdwmc: item.whcs[0].name,
                         sbmc: item.name,
                         deviceKey: item.jpbh,
-                        deviceIP: item.DYCCSBIP,
+                        deviceIP: item.ip,
                         title: `${item.managementUnit} - ${item.name}`,
                         xmmc: item.projectName
                       })
