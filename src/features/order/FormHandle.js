@@ -75,23 +75,7 @@ const infieldWXWCId = '7c79d4c44ed541e7bd0ba0a7e9c2afd5'
 
 //需要自检的错误编号
 const ErrorNumMap = ['9','10','11','12','13','14','99',9,10,11,12,13,14,99]
-const ErrorMap = {
-  '1': "无图像",
-  '2': "图像模糊",
-  '3': "控制坏",
-  '4': "绿化遮挡",
-  '5': "补光灯故障",
-  '6': "无字幕或字幕错",
-  '7': "镜头异物",
-  '8': "相机照偏",
-  '9': "摄像机网络不通",
-  '10': "上云无数据",
-  '11': "ONU设备网络不通",
-  '12': "OLT设备网络不通",
-  '13': "交换机网络不通",
-  '14': "背包箱异常",
-  '99': "其他故障"
-  }
+
   
 
 const HandleOrder = Form.create({
@@ -171,6 +155,29 @@ const HandleOrder = Form.create({
       //如果是人工报修,则不需要检测
         let result 
         //如果result的值为true 代表摄像机能ping通，自检通过
+        // handleOrder(submitData).then(d => {
+        //   // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
+        //   //判断是否有图片，有的话就上传
+        //   if (files.length) {
+        //     message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
+        //     files.forEach((i) => {
+        //       let reader = new FileReader();
+        //       reader.readAsDataURL(i)
+        //       reader.onload = e => {
+        //         let imgBase64 = e.target.result
+        //         updateImage({
+        //           ticketId: modal,
+        //           filesBase64: [imgBase64.split(',')[1]]
+        //         }).then(() => {
+        //           message.success({ content: '上传成功', key: MESSAGE_KEY })
+        //         })
+        //       }
+        //     })
+        //     history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
+        //   } else {
+        //     history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
+        //   }
+        // })
         getSelfDetection(deviceIP).then(res => {
           if(res.result) {
             result = res.result
@@ -199,7 +206,6 @@ const HandleOrder = Form.create({
                     })
                   }
                 })
-        
                 history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
               } else {
                 history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))

@@ -33,7 +33,8 @@ export default {
       // {name: "李晓伟", id: "e33d11668c5b4fb3981cebeb1df73ae1" }, // 删除
       {name: "李明", id: "faaea1f9dd7645939e6fb7b04eec8f64" }, 
       {name: "王卓越", id: "c6b0a1173d7b47b4bb8865231432a036" },
-      {name: "戴梦", id: "e58ca9b4c2234194b855882b3af2216a" }, // 新增用户
+      // {name: "戴梦", id: "e58ca9b4c2234194b855882b3af2216a" }, // 新增用户
+      {name: "胡昕恺", id: "e58ca9b4c2234194b855882b3af2216a" }, // 新增用户
       {name: "韩忠惠", id: "e691c43ee8ef44549aa7a522fe1d2daf" }, // 新增用户
       {name: "赵敬廷", id: "00e63d89599e425b840cb50bb78b85ff" }, // 新增用户
       {name: "石玉东", id: "f33a4c22727c42e79cdc4ba64517f1f4" }, // 新增用户

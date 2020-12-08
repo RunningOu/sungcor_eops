@@ -76,6 +76,7 @@ const Order = (props) => {
   useEffect(() => {
     history.replace(`/order/${props.location.search}`)
   },[props.location.search])
+  
   useEffect(() => {
     if (orderSearch !== '' && orderSearch[orderSearchType]) {
       setDrawerConfig(orderSearch[orderSearchType])

@@ -376,6 +376,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -1005,6 +1011,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -1332,9 +1344,13 @@ export default {
                                     "id": "c6b0a1173d7b47b4bb8865231432a036"
                                 },
                                 {
-                                    "name": "戴梦",
+                                    "name": "胡昕恺",
                                     "id": "e58ca9b4c2234194b855882b3af2216a"
                                 },
+                                // {
+                                //     "name": "戴梦",
+                                //     "id": "e58ca9b4c2234194b855882b3af2216a"
+                                // },
                                 {
                                     "name": "韩忠惠",
                                     "id": "e691c43ee8ef44549aa7a522fe1d2daf"
@@ -1717,6 +1733,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -2334,6 +2356,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -2884,9 +2912,13 @@ export default {
                                     "id": "c6b0a1173d7b47b4bb8865231432a036"
                                 },
                                 {
-                                    "name": "戴梦",
+                                    "name": "胡昕恺",
                                     "id": "e58ca9b4c2234194b855882b3af2216a"
                                 },
+                                // {
+                                //     "name": "戴梦",
+                                //     "id": "e58ca9b4c2234194b855882b3af2216a"
+                                // },
                                 {
                                     "name": "韩忠惠",
                                     "id": "e691c43ee8ef44549aa7a522fe1d2daf"
@@ -3209,6 +3241,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -4209,6 +4247,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -4818,6 +4862,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -5693,6 +5743,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -6594,6 +6650,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -7445,6 +7507,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -8482,6 +8550,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -9096,6 +9170,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -10062,6 +10142,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -10676,6 +10762,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -11642,6 +11734,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -12256,6 +12354,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -13222,6 +13326,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -13836,6 +13946,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -14860,6 +14976,12 @@ export default {
                         },
                         {
                             "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
                             "label": "其他故障",
                             "value": "99",
                             "descEnable": 0
@@ -15469,6 +15591,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
@@ -16368,6 +16496,12 @@ export default {
                             "select": 0,
                             "label": "背包箱异常",
                             "value": "14",
+                            "descEnable": 0
+                        },
+                        {
+                            "select": 0,
+                            "label": "信号缺失",
+                            "value": "15",
                             "descEnable": 0
                         },
                         {
