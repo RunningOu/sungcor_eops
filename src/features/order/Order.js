@@ -138,6 +138,9 @@ const Order = (props) => {
     if ((orderState === '3' || orderState === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
       attrs.push({ key: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
     }
+    if((orderState === '6' || orderState === 6) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+      attrs.push({ key: "executor", value: userId, operator: "IN" })
+    }
     setLoading(true)
     setModel(oldModel => {
       return {
@@ -198,6 +201,10 @@ const Order = (props) => {
           // 命中完成
           if ((item.sub === '3' || item.sub === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
             attt.push({ key: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+          }
+
+          if((item.sub === '6' || item.sub === 6) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
+            attt.push({ key: "executor", value: userId, operator: "IN" })
           }
           queryOrderList({
             'model': {

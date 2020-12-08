@@ -236,7 +236,6 @@ const Details = (props) => {
     const ticketId = pathname.split('/')[2]
     queryOrderInfo(ticketId)
       .then(d => {
-        console.log('ticketId',d)
         setOrderInfo(d)
         setOrder(d.form)
         if(userAccountInfo.userId === MANAGE_ID) {
@@ -387,7 +386,6 @@ const Details = (props) => {
           })
         }
         setOrder(dataOne1)
-        console.log(dataOne1)
       }, 40)
 
     }
