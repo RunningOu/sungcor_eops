@@ -231,6 +231,9 @@ const Details = (props) => {
   }
 
   useEffect(() => {
+    console.log('orderInfo',orderInfo)
+  },[orderInfo])
+  useEffect(() => {
     const query = new URLSearchParams(search)
     const { location : {pathname} } = props
     const ticketId = pathname.split('/')[2]
@@ -425,9 +428,9 @@ const Details = (props) => {
                       }}>接单并处理</Button>
                     </> :
                     <>
-                      <Button type="primary" size="large" onClick={() => {
+                    {orderInfo.status === 10 || (orderInfo.form.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq' ? null : <Button type="primary" size="large" onClick={() => {
                         history.push(`${props.location.pathname}/handle${search}`)
-                      }}>处理</Button>
+                      }}>处理</Button>  }  
                     </> :
                   null
               }
@@ -448,7 +451,6 @@ const Details = (props) => {
                   isgq === "ygq"?
                     <>
                       <Button type="primary" onClick={() => {
-
                         orderHangOnqh(2)
                       }}>挂起工单取回</Button>
                     </> :

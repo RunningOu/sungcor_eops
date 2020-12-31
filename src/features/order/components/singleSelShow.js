@@ -22,7 +22,7 @@ export default function(props) {
     <Descriptions.Item label={props.name} key={props.id} span={3}>
       <span style={style}>
         {label}
-        {props.default_value === '2' && props.code === 'bxfs' ? <OrderProcessShow orderId={orderInfo.id} />: null }
+        {props.default_value === '2' && props.code === 'bxfs' ? <OrderProcessShow orderId={orderInfo.id} order={orderInfo} />: null }
       </span>
     </Descriptions.Item>
   )

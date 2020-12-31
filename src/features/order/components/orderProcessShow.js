@@ -17,9 +17,15 @@ const ButtonStyle = {
     color: 'black',
     fontWeight: 'bolder',
     marginLeft: '20px'
-  }
+}
 
-export default  ({orderId}) => {
+//判断是否为联通的设备
+const isUnicomDevice = (order) => {
+  let projectNameField = order.form.filter(item => item.code === 'xmmc')
+  return projectNameField[0] && projectNameField[0]['default_value'].includes('联通')
+}
+
+export default  ({orderId,order}) => {
     const [modalVisible,setModalVisible] = useState(false)
   
     const [orderProcess,setOrderProcess] = useState([])
@@ -32,44 +38,47 @@ export default  ({orderId}) => {
           }
       })
     },[])
+
     return (
-      <span>
-         <Button
-         onClick={() => {
-           setModalVisible(true)
-         }}
-         type='primary'
-         style={ButtonStyle}>自检信息</Button> 
-         <Modal
-         title="自检信息"
-         visible={modalVisible}
-         footer={null}
-         maskClosable={true}
-         onCancel={
-           () => {setModalVisible(false)}
-         }
-         >
-           <div className="orderProcess-list">
-             <Timeline>
-             {orderProcess.map((item,index) => {
-              return <Timeline.Item
-              style={{top: '6px',padding: "0"}}
-              color={StatusStyleMap[item.status]}
-              key={item.msg}
-              //取真实数据时，把注释取消
-              >
-                <div style={{color: StatusStyleMap[item.status] }}>
-                  <p>{index === 0 || index === (orderProcess.length -1) ?  item.createTime : null}</p>
-                  <p>{item.name}({item.ip})</p>
-                  <p>{item.msg}</p>
-                  {/* <p>{item.name}({item.ip}){item.msg}</p> */}
-                </div>
-              </Timeline.Item> 
-            })}
-             </Timeline>
-             {orderProcess && orderProcess.length !== 0 ? null : <Empty />}
-           </div>
-         </Modal>
-      </span>
+      <>
+        {isUnicomDevice(order) ? <span>
+          <Button
+          onClick={() => {
+            setModalVisible(true)
+          }}
+          type='primary'
+          style={ButtonStyle}>自检信息</Button> 
+          <Modal
+          title="自检信息"
+          visible={modalVisible}
+          footer={null}
+          maskClosable={true}
+          onCancel={
+            () => {setModalVisible(false)}
+          }
+          >
+            <div className="orderProcess-list">
+              <Timeline>
+              {orderProcess.map((item,index) => {
+               return <Timeline.Item
+               style={{top: '6px',padding: "0"}}
+               color={StatusStyleMap[item.status]}
+               key={item.msg}
+               //取真实数据时，把注释取消
+               >
+                 <div style={{color: StatusStyleMap[item.status] }}>
+                   <p>{index === 0 || index === (orderProcess.length -1) ?  item.createTime : null}</p>
+                   <p>{item.name}({item.ip})</p>
+                   <p>{item.msg}</p>
+                   {/* <p>{item.name}({item.ip}){item.msg}</p> */}
+                 </div>
+               </Timeline.Item> 
+             })}
+              </Timeline>
+              {orderProcess && orderProcess.length !== 0 ? null : <Empty />}
+            </div>
+          </Modal>
+       </span> : null }   
+      </>
     )
   }
