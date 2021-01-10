@@ -10,11 +10,13 @@ export default {
   },
   changeExecutor: {
     8: [
-      // {name: "梁栋", id: "6ebe9bfe346d4011b8ecd9a090c7227c" }, 
-      // {name: "沈啸", id: "f1d7dfc93e1e4a189ebb63985ee3bb80" }, 
-      // {name: "刘军", id: "acac12649ce647f18c53551c25f4a403" },
+      {name: "梁栋", id: "6ebe9bfe346d4011b8ecd9a090c7227c" }, 
+      {name: "沈啸", id: "f1d7dfc93e1e4a189ebb63985ee3bb80" }, 
+      {name: "刘军", id: "acac12649ce647f18c53551c25f4a403" },
       {name: "潘惠斌", id: "893487681844413db5422dc0b55b94d5" },
       {name: "李卫新", id: "6681ac876d624673ab627a6495b129f2" },
+      {name: "陈文军", id:"01054852b144438cafcfb09e755bcc64"},
+      {name: "熊志宏", id: "53c5460e469b42a9bc0317c033e4033d"}
     ],
     // 宝康外场
     6: [
@@ -91,8 +93,12 @@ export default {
       {
           "name": "季英才",
           "id": "4808eb6e7ee14203b8b352e4651ac068"
-          
-      }
+      },
+      {
+        "id": "4e2a710d7c984d92bdc6d4ac8629db34",
+        "name": "李枫"
+    },
+
       // ,{
       //   "name": "于旗玮",
       //   "id": "4dcc2983eb044aeaa3ad9d5b9576ed7d"

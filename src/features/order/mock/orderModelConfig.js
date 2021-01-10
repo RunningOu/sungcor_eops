@@ -1362,7 +1362,7 @@ export default {
                                 {
                                     "name": "李明",
                                     "id": "faaea1f9dd7645939e6fb7b04eec8f64"
-                                }
+                                },
                             ],
                             "group": []
                         }
