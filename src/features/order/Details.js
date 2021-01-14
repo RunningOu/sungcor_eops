@@ -428,7 +428,7 @@ const Details = (props) => {
                       }}>接单并处理</Button>
                     </> :
                     <>
-                    {orderInfo.status === 10 || (orderInfo.form.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq' ? null : <Button type="primary" size="large" onClick={() => {
+                    {orderInfo.status === 10 || (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq' ? null : <Button type="primary" size="large" onClick={() => {
                         history.push(`${props.location.pathname}/handle${search}`)
                       }}>处理</Button>  }  
                     </> :

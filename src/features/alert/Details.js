@@ -10,7 +10,6 @@ import './Details.less'
 const { Search } = Input;
 const Details = (props) => {
   const { location: { search } } = props
-  console.log(search)
   // const { userAccountInfo } = props
   // const history = useHistory()
   const [alertList, setAlertList] = useState([])
@@ -37,7 +36,7 @@ const Details = (props) => {
     }
   }, [count])
   useEffect(() => {
-    setTitle(new URLSearchParams(search).get('name')+"告警列表")
+    setTitle(new URLSearchParams(search).get('name')+"列表")
     const source = new URLSearchParams(search).get('name')
     const status = new URLSearchParams(search).get('status')
     if(source.length) {

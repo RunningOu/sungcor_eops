@@ -108,8 +108,7 @@ const HandleOrder = Form.create({
   const [resourceId, setResourceId] = useState('') // 资产id
 
   function handleForm(handle_rules, name, extraForm = {}) {
-    const {route_id} = handle_rules
-    console.log('handle_rules',handle_rules)
+    const {route_id } = handle_rules
     let pass = true
     let form = { ...props.order.form }
     if (query.get('modelId') === orderSearch['视频报修'].modelId) {
@@ -151,9 +150,9 @@ const HandleOrder = Form.create({
     const {form: { deviceIP ,fxGzlx }} = submitData
     //分别为内场和外场的维修完成ID  如果点击维修完成 进到这个逻辑
 
-    if((route_id === outfieldWXWCId || route_id === infieldWXWCId) && ErrorNumMap.includes(fxGzlx)) {
+    if(name === '维修完成' && ErrorNumMap.includes(fxGzlx)) {
       //如果是人工报修,则不需要检测
-        let result 
+        let result
         //如果result的值为true 代表摄像机能ping通，自检通过
         // handleOrder(submitData).then(d => {
         //   // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
@@ -179,6 +178,7 @@ const HandleOrder = Form.create({
         //   }
         // })
         getSelfDetection(deviceIP).then(res => {
+          console.log('getSelfDetection',res)
           if(res.result) {
             result = res.result
           }
@@ -243,7 +243,7 @@ const HandleOrder = Form.create({
       })
     }
   }
-  
+
   useEffect(() => {
     queryOrderInfo(modal).then(d => {
       let formData = {}
@@ -364,6 +364,9 @@ const HandleOrder = Form.create({
     setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
   }, [orderInfo,orderModal])
 
+  useEffect(() => {
+    console.log('handlerules',orderInfo.handle_rules)
+  },[orderInfo])
   return (
     <div className='order-page-formhandle'>
     <HeaderBar title='工单处理' />

@@ -26,6 +26,7 @@ const localCache = local_get(USER_INFO_ID) || ''
 export default (props) => {
   const { userInfo, pathname } = props
   const userInfoL = useState(local_get(USER_INFO_ID) || '')
+  console.log(userInfoL)
   let history = useHistory()
   const style = { padding: '5px 8px' };
   const [orderModal, setOrderModal] = useState([{todo:0},{todo:0},{todo:0}])
@@ -34,7 +35,8 @@ export default (props) => {
 
   const selectList = {
     'todo': (modelId) => [
-      { key: "executor", value: userInfo ? userInfo.userId : userInfoL.userId, operator: "IN" },
+      // { key: "executor", value: userInfo ? userInfo.userId : userInfoL.userId, operator: "IN" },
+      { key: "executor", value: userInfoL[0].userId, operator: "IN" },
       { key: "status", value: "1,2", operator: "IN" },
       { key: "modelId", value: modelId, operator: "EQ" }
     ],
@@ -47,6 +49,7 @@ export default (props) => {
   function handleCancel(e) {
     setVisible(false)
   }
+
   useEffect(() => {
     // if (visible) {
       var mo = []
@@ -58,15 +61,15 @@ export default (props) => {
             let todoo = selectList.todo(item.id)
             let overdue = selectList.overdue(item.id)
             if (orderSearch['视频报修'].modelId === item.id) {
-              if(MANAGE_ID === userInfo.userId) {
+              if(MANAGE_ID === userInfoL[0].userId) {
                 todoo.push({key: "formData.sfbx", value: "gqsh", operator: "EQ"}) // 视频报修 图像组管理员特殊处理
               } else {
                 todoo.push({key: "formData.sfbx", value: "wgq", operator: "EQ"})
               }
               overdue.push({key: "formData.sfbx", value: "wgq", operator: "EQ"})
             }
-            if (userInfo.userId !== MANAGE_ID) {
-              overdue.push({ key: "executor", value: userInfo.userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+            if (userInfoL[0].userId !== MANAGE_ID) {
+              overdue.push({ key: "executor", value: userInfoL[0].userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
             }
             // 待办个数
             queryOrderList({

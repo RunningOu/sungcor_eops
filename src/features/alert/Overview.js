@@ -12,12 +12,14 @@ const { TabPane } = Tabs;
 const paramData = [
   { name: '网络资源监控', params: {name: 'host.connected/unreachable'}},
   { name: '基础资源监控', params: {name: 'host.up/down'}},
-  { name: '政务网内场告警', params: {source: "政务网内场告警"}}
+  { name: '机房动环告警', params: {source: '机房动环告警'}},
+  { name: '政务网内场告警', params: {source: "政务网内场告警"}},
 ]
 
 const baseData = {
   '网络资源监控' : {title: '网络资源监控', value: '网络资源监控', count: 0, type: 'fpt'},
   '基础资源监控': {title: '基础资源监控', value: '基础资源监控', count: 0, type: 'fpt'},
+  '机房动环告警': {title: '机房动环告警',value: '机房动环告警', count: 0,type:'fpt'},
   // 'NVR存储告警': {title: 'NVR存储告警', value: 'NVR存储告警', count: 0, type: 'fpt'},
   '政务网内场告警': {title: '内场告警', value: '政务网内场告警', count: 0, type: 'zpt'}
 }
@@ -113,10 +115,12 @@ const Overview = (props) => {
               o.type === type ? 
               <>
               <Col span={12} style={style} key={i}>
-                <Card onClick={() => {
-                    history.push('/alert/details?name='+o.value+'&status=' + severity)
-                }}
-                    className="statistic-card" key="alert_processed" bodyStyle={{ background: 'rgba(67, 236, 64, 0.37)','borderRadius': '10px', 'padding': '15px 2px 15px 20px' }}>
+                <Card
+                    onClick={() => { history.push('/alert/details?name='+o.value +'&status=' + severity)}}
+                    className="statistic-card"
+                    key="alert_processed"
+                    bodyStyle={{ background: 'rgba(67, 236, 64, 0.37)','borderRadius': '10px', 'padding': '15px 2px 15px 20px' }}
+                    >
                     <Statistic
                     title={alertNums[i].title}
                     value={alertNums[i].count}
