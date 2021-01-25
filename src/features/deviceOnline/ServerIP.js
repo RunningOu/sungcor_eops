@@ -17,7 +17,7 @@ const ServerIP = (props) => {
   const [dataList, setDataList] = useState([])
   const [count, setCount] = useState(0) // 列表总数
   const [status, setStatus] = useState('')
-  const [pageNum, setPageNum] = useState(0) // 列表分页下标
+  const [pageNum, setPageNum] = useState(1) // 列表分页下标
   const [loading, setLoading] = useState(false) // 列表加载中状态
   const [hasMore, setHasMore] = useState(true) // 列表加载中状态
   const [deviceInfoVisible,setDeviceInfoVisible] = useState(false) // 设备详细信息展示
@@ -66,11 +66,12 @@ const ServerIP = (props) => {
   
   const handleInfiniteOnLoad = () => {
     setLoading(true)
-    if (dataList.length < 10) {
+    if (type!=='network' && type!=='storage' && type!=='camera') {
       setHasMore(false)
       setLoading(false)
       return
     }
+
     setPageNum(current => current + 1)
   }
 
@@ -169,19 +170,20 @@ const ServerIP = (props) => {
       message.success({ content: `共有${count}条记录`, key: ''})
     }
   }, [count])
+
   useEffect(() => {
     queryNetworkList({
-      "pageSize": 200,
+      "pageSize": 15,
       "pageNum": pageNum,
       "code": code
     }, url[type]).then(data => {
       setCount(data.result.totalRecords)
       if (data.result.hasOwnProperty('dataList')) {
-        if (data.result.dataList.length !== 200) setHasMore(false)
         if(pageNum === 1) {
           setDataList([...data.result.dataList])
         }else {
           setDataList((oldList) => [...oldList, ...data.result.dataList])
+          setHasMore(true)
         } 
         setLoading(false)
       } 

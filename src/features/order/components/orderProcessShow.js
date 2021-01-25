@@ -67,8 +67,11 @@ export default  ({orderId,order}) => {
                //取真实数据时，把注释取消
                >
                  <div style={{color: StatusStyleMap[item.status] }}>
-                   <p>{index === 0 || index === (orderProcess.length -1) ?  item.createTime : null}</p>
-                   <p>{item.name}({item.ip})</p>
+                   {/* <p>{index === 0 || index === (orderProcess.length -1) ?  item.createTime : null}</p> */}
+                   <div style={{display: "flex"}}>
+                     <p style={{flex:1}}>{item.name}({item.ip})</p>
+                     <p style={{flex:1,float:'right'}}>{item.createTime}</p>
+                   </div>
                    <p>{item.msg}</p>
                    {/* <p>{item.name}({item.ip}){item.msg}</p> */}
                  </div>

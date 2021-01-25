@@ -89,6 +89,8 @@ const CreateOrder = Form.create({
   const [files, setFiles] = useState([]) //图片
   const [bxpcs, setBxpcs] = useState('') // pcs
   const [resourceId, setResourceId] = useState('') // 资产id
+  const [buttonDisable,setButtonDisable] = useState(false)
+
   useEffect(() => {
     // if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
     //   history.push(`${props.location.pathname}/selectdevice`)
@@ -246,9 +248,9 @@ const CreateOrder = Form.create({
           type="primary"
           style={{ backgroundColor: '#005da3' }}
           block
+          disabled={buttonDisable}
           onClick={() => {
-            // console.log(props.order.form)
-            // return
+            setButtonDisable(true)
             let pass = true
             let params = {}
             let createform = {
@@ -303,9 +305,11 @@ const CreateOrder = Form.create({
                       message.success({content:'上传成功', key:MESSAGE_KEY})
                     })
                   }
-                })  
+                })
+                setButtonDisable(false)
                 history.push('/order?modelId='+modal)
               }else {
+                setButtonDisable(false)
                 history.push('/order?modelId='+modal)
               }
             })
