@@ -78,7 +78,6 @@ const CreateOrder = Form.create({
   }
 })((props) => {
   // const { user: { userAccountInfo } } = props
-  // console.log(props)
   const { modal } = useParams()
   const [visible, setVisible] = useState('none')
   const history = useHistory()
@@ -102,11 +101,11 @@ const CreateOrder = Form.create({
       setResourceId(props.order.form.resource[0].id)
     }
   }, [orderModal,  history, props.order.form, props.location.pathname])
-  useEffect(() => { 
+  useEffect(() => {
     if(files.length) {
       let file = files[0]
       let reader = new FileReader()
-      reader.readAsDataURL(file) 
+      reader.readAsDataURL(file)
     }
   }, [files])
   useEffect(() => {
@@ -216,7 +215,7 @@ const CreateOrder = Form.create({
       props.actions.setForm(defaultForm)
     }
   }, [props.actions, props.user, orderModal, modal, bxpcs])
-  
+
   return (
     <div className='order-page-form'>
       <HeaderBar title='工单创建' />

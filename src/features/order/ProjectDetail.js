@@ -72,7 +72,6 @@ const ProjectDetail = ({location,match}) => {
 
   useEffect(() => {
       Promise.all([requestMap[currentType](xmmc,0,pageNum),requestMap[currentType](xmmc,1,pageNum)]).then(res=>{
-        console.log(res);
         setProcessingCount(res[0].result.totalRecords)
         setCompletedCount(res[1].result.totalRecords)
         setOrderList((old) => {
@@ -114,7 +113,7 @@ const ProjectDetail = ({location,match}) => {
             >
               <List dataSource={orderList[menuKey]} renderItem={(item) => {
                 if(currentType === 'todayAdd') {
-                  return ( 
+                  return (
                     <div className='item' onClick={() => {
                       history.push(`/order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}&search&searchTitle`)
                       }}>
@@ -125,7 +124,7 @@ const ProjectDetail = ({location,match}) => {
                           <p className='description'>故障类型：{ErrorMap[(item.formData.fxGzlx)]}</p>
                           <p className='description'>键盘编号：{item.formData.deviceKey ==='null' ? '未知' : item.formData.deviceKey}</p>
                           <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
-                          <p className='orderstate'>{item.activityName}</p> 
+                          <p className='orderstate'>{item.activityName}</p>
                           </>
                         }
                     </div>)

@@ -52,11 +52,11 @@ const Details = (props) => {
         queryParam.entityAddr = searchIp
       }
       if(status == 3){
-        queryParam.status =0 
+        queryParam.status =0
       }
       // if(status == 0 && source !="政务网内场告警"){
       //   queryParam.name = 'host.connected/unreachable'
-      //   // queryParam.name = 'host.up/down' 
+      //   // queryParam.name = 'host.up/down'
       // }
       if(source =="网络资源监控"){
         queryParam.name = 'host.connected/unreachable'
@@ -64,7 +64,7 @@ const Details = (props) => {
       if(source =="基础资源监控"){
         queryParam.name = 'host.up/down'
       }
-      queryAlertList(queryParam).then(d => { 
+      queryAlertList(queryParam).then(d => {
           setCount(d.data.total)
           // setAlertList(d.data.records)
           if (d.data.hasOwnProperty('records')) {
@@ -73,9 +73,9 @@ const Details = (props) => {
               setAlertList([...d.data.records])
             }else {
               setAlertList((oldList) => [...oldList, ...d.data.records])
-            } 
+            }
             setLoading(false)
-          } 
+          }
       })
       .catch((e) => { })
     }
@@ -99,9 +99,9 @@ const Details = (props) => {
                 // <Row  className="alert-row" key={i}>
                     <Card onClick={() => {
                         console.log(item)
-                    }} title={<span style={{'color': '#0e6dfb'}}>{item.source} 
+                    }} title={<span style={{'color': '#0e6dfb'}}>{item.source}
                     {/* <div className="arrow-left"></div> */}
-                    <Tag className={item.severityCN === '警告' ? 'alert-warning' : item.severityCN === '错误' ? 'alert-error' : item.severityCN === '紧急' ? 'alert-critical' : 'alert-hf'}>{item.severityCN}</Tag ></span>} 
+                    <Tag className={item.severityCN === '警告' ? 'alert-warning' : item.severityCN === '错误' ? 'alert-error' : item.severityCN === '紧急' ? 'alert-critical' : 'alert-hf'}>{item.severityCN}</Tag ></span>}
                         extra={TimeToHours(item.lastOccurTime - item.firstOccurTime)}
                         headStyle={{'padding': '0px 0px 0px 5px', 'background': 'rgba(64, 169, 255, 0.7)', 'borderRadius': '10px', 'minHeight': '44px'}}
                         className="alert-card" key="alert_processed" bodyStyle={{ 'borderRadius': '10px', 'padding': '8px 2px 5px 14px' }}>

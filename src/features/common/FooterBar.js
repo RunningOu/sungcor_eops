@@ -26,7 +26,6 @@ const localCache = local_get(USER_INFO_ID) || ''
 export default (props) => {
   const { userInfo, pathname } = props
   const userInfoL = useState(local_get(USER_INFO_ID) || '')
-  console.log(userInfoL)
   let history = useHistory()
   const style = { padding: '5px 8px' };
   const [orderModal, setOrderModal] = useState([{todo:0},{todo:0},{todo:0}])

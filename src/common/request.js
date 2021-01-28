@@ -44,7 +44,7 @@ export const passwordChange = async (d) => {
   })
   return data
 }
-// 查询用户信息 
+// 查询用户信息
 export const queryUserInfo = async (d) => {
   const { data } = await axios({
     method: 'get',
@@ -116,7 +116,7 @@ export const updateOrder = async (d) => {
   })
   return data
 }
-// 上传图片 
+// 上传图片
 export const updateImage = async (d) => {
   const { data } = await axios({
     method: 'post',
@@ -153,7 +153,7 @@ export const queryOrderModel = async (modelId) => {
   return data
 }
 
-// 获取结束工单模型 
+// 获取结束工单模型
 export const queryLastOrderModel = async (params) => {
   const { data } = await axios({
     method: 'get',
@@ -177,7 +177,7 @@ export const queryOrderExecutor = async (params) => {
   return data
 }
 
-// 改派 
+// 改派
 export const changeOrderExecutor = async (params) => {
   const { data } = await axios({
     method: 'get',
@@ -216,7 +216,6 @@ export const queryOrderInfo = async (ticketId) => {
 
 // 设备列表
 export const queryDeviceList = async (q) => {
-  console.log(q)
   const { data } = await axios({
     method: 'post',
     url: '/cmdb/queryAll',
@@ -229,7 +228,6 @@ export const queryDeviceList = async (q) => {
 
 // 修改单个设备
 export const updateDevice = async (q) => {
-  console.log(q)
   const { data } = await axios({
     method: 'post',
     url: '/cmdb/update',
@@ -427,7 +425,7 @@ export const executeOrderHangStatus = async (ticketId,isSuspend) => {
   return result
 }
 
-//获取当前工单挂起的差值 如果有过挂起,则返回挂起的间隔 
+//获取当前工单挂起的差值 如果有过挂起,则返回挂起的间隔
 export const getOrderHangDifference = async (ticketId) => {
   const {data} = await axios ({
     method: 'get',
@@ -516,4 +514,49 @@ export const getSelfDetection = async (ip) => {
     url: `/oss/api/link/check/linkChecking?ip=${ip}`
   })
   return data
+}
+
+//获取资产信息的资产统计数据
+export const getAssetCountView = async () => {
+  const {data} = await axios({
+    method: "get",
+    url: `/oss/app/asset/getAssetCountView`
+  })
+  return data
+}
+
+export const getAssetList = async (type,pageNum,pageSize,state) => {
+  try {
+    const {data} = await axios({
+      method: "get",
+      url: `/oss/app/asset/getAssetList?type=${type}&pageNum=${pageNum}&pageSize=${pageSize}&state=${state}`
+    })
+    return data.result
+  } catch (e) {
+    throw new Error(e)
+  }
+}
+
+export const getAssetDetail = async(apikey,id) => {
+  try {
+    const {data} = await axios({
+      method: 'get',
+      url: `/oss/app/asset/getAssetDetail?id=${id}`
+    })
+    return data.result
+  }catch (e) {
+    throw new Error(e)
+  }
+}
+
+export const queryDevice = async(type,key) => {
+  try {
+    const {data} = await axios({
+      method: 'get',
+      url: `/oss/app/asset/queryDeviceByNameOrDeviceKey?classCode=${type}&key=${key}`
+    })
+    return data.result
+  }catch (e) {
+    throw new Error(e)
+  }
 }

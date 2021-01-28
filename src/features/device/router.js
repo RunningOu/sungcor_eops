@@ -1,4 +1,4 @@
-import { Device, Details } from './'
+import { Device, Details, DeviceType } from './'
 
 export default {
   path: '/',
@@ -13,6 +13,10 @@ export default {
       path: 'Device/:id',
       name: 'Details',
       component: Details
-    },
+    },{
+      path: 'DeviceType',
+      name: 'DeviceType',
+      component: DeviceType
+    }
   ],
 }

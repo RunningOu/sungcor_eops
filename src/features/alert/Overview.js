@@ -43,7 +43,7 @@ const Overview = (props) => {
     let params = {
       'apikey': 'e10adc3949ba59abbe56e057f2gg88dd',
       'severity': severity,
-      'end': parseInt(new Date().getTime()),
+      // 'end': parseInt(new Date().getTime()),
       'begin': parseInt(new Date().getTime() - 7*24*60*60*1000),
       'status': severity === 3 ?  0 : null
     }
@@ -74,10 +74,10 @@ const Overview = (props) => {
   //       'begin': parseInt(new Date().getTime()-7*24*60*60*1000)
   //     }
   //     if(severity == 3){
-  //       params.status =0 
+  //       params.status =0
   //     }
   //     params = {...params,...item.params}
-  //     queryAlertList(params).then(d => { 
+  //     queryAlertList(params).then(d => {
   //       baseData[item.name].count = d.data.total
   //       ss.push(baseData[item.name])
   //       if(ss.length == paramData.length){
@@ -112,7 +112,7 @@ const Overview = (props) => {
       <div style = {style}>
         {
             alertNums.map((o, i) => (
-              o.type === type ? 
+              o.type === type ?
               <>
               <Col span={12} style={style} key={i}>
                 <Card
