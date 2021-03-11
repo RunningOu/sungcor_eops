@@ -52,7 +52,8 @@ const Device = (props) => {
   useEffect(() => {
     if(deviceSearch) {
       queryDevice(deviceType,deviceSearch).then(d => {
-        setDeviceList(d.dataList)
+        setDeviceList(d)
+        message.success(`找到了${d.length}条相关资产`)
       })
       return
     }
@@ -92,7 +93,7 @@ const Device = (props) => {
         {tabs.map((tab) => (<TabPane tab={tab.title} key={tab.sub} />))}
       </Tabs> : null}
       <div className='search-bar'>
-        <Search className='search-input' placeholder={'请输入关键字（设备名称、键盘编号）'} onSearch={value => { setDeviceSearch(value) }} />
+        <Search className='search-input' placeholder={deviceType === 'Camera' ?  '请输入关键字（设备名称、键盘编号、IP）' : '请输入关键字（设备名称、IP）'} onSearch={value => { setDeviceSearch(value) }} />
       </div>
       <div className='device-list'>
         <InfiniteScroll

@@ -13,17 +13,15 @@ const chart = {
 }
 const { TabPane } = Tabs
 export default (props) => {
-  console.log(props)
   return (
     <div className="home-component-charts">
       {props.role ? <Tabs >
         {props.role.map((tab) =>
-        tab.name === '监控在线' ? '' : 
-          (<TabPane tab={tab.name} key={tab.code}> 
+        tab.name === '监控在线' ? '' :
+          (<TabPane tab={tab.name} key={tab.code}>
             {chart[tab.code] || null}
           </TabPane>))}
       </Tabs> : null}
-
     </div>
   )
 }

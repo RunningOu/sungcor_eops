@@ -56,7 +56,7 @@ const cr = {
   "title": title
 }
 
-const Details = (props) => {  
+const Details = (props) => {
   // const state = {
   //   ModalText: '沙发斯蒂芬',
   //   visible: false,
@@ -79,12 +79,14 @@ const Details = (props) => {
   const [state, setState] = useState(false)
   const [loading, setPlVisible] = useState(true)
   const [shrinkage,setShrinkage] = useState(true)
-  const [currentKey,setCurrentKey] = useState('orderInfo') 
+  const [currentKey,setCurrentKey] = useState('orderInfo')
   // const [orderOne, setOrderOne] = useState([])
   // const [gqyy, setGqyy] = useState('') // 挂起原因
-  
+
+  const showProcessInfo = orderSearch['综合设备报修'].modelId !== query.get('modelId') && orderSearch['奉贤基础资源报修'].modelId !== query.get('modelId')
+
   const [disagreeRemark, setDisagreeRemark] = useState('')
-  
+
   //挂起标识 isgq
   let isgq = 'wgq'
   try{
@@ -105,12 +107,12 @@ const Details = (props) => {
     // })
   }catch(e){
   }
-  function orderReceiving(fn) { 
+  function orderReceiving(fn) {
     var Commitdatas = {
       ticket_id: modal,//工单id
       model_id: query.get('modelId'),//模型id
       activity_id: query.get('actId'),//当前环节id
-      handle_type: "0", // 接单 
+      handle_type: "0", // 接单
     }
     if(pcsInfo.apiKeys && (orderInfo.executors[0] !== MANAGE_ID || orderInfo.executors?.indexOf(pcsInfo.userId))){
       Commitdatas.apikey = pcsInfo.apiKeys[0].key
@@ -139,6 +141,8 @@ const Details = (props) => {
             form: {
               'sfbx':'ygq'
             }
+          }).then(res => {
+            console.log(`--------------------${res.data}--------------------`)
           })
         })
 
@@ -155,8 +159,6 @@ const Details = (props) => {
           })
         })
       }
-
-
      }
      history.go(-1);
     }
@@ -181,7 +183,7 @@ const Details = (props) => {
     }
     if(disagreeRemark){
       if(isHang){
-        if(code===0){
+        if(code === 0){
           updateOrder({
             ticket_id: modal,
             form: {
@@ -294,6 +296,9 @@ const Details = (props) => {
     }
   }, [modalId])
   useEffect(() => {
+    console.log(showProcessInfo)
+  },[])
+  useEffect(() => {
     if (orderModel && orderModel.length) {
       var ddd  = []
       var iii = []
@@ -376,7 +381,7 @@ const Details = (props) => {
           return [..._.compact(oldOrder)]
         })
       }
-      
+
       setTimeout(() =>{
         let dataOne1 = order
         if (orderSearch['奉贤基础资源报修'].modelId !== modalId) {
@@ -393,18 +398,28 @@ const Details = (props) => {
 
     }
   }, [orderModel])
-  
+
   return (
     <div className='order-page-details'>
       <HeaderBar title="工单详情" />
-      <Menu onClick={handleChangeKey} className="Menu" selectedKeys={[currentKey]} mode="horizontal">
-        <Menu.Item className="MenuItem" key="orderInfo">
-          工单信息
-        </Menu.Item>
-        <Menu.Item className="MenuItem" key="processInfo">
-          流程信息
-        </Menu.Item>
-      </Menu>
+      {/* {showProcessInfo ?
+          <Menu onClick={handleChangeKey} className="Menu" selectedKeys={[currentKey]} mode="horizontal">
+            <Menu.Item className="MenuItem" key="orderInfo">
+              工单信息
+            </Menu.Item>
+            <Menu.Item className="MenuItem" key="processInfo">
+              流程信息
+            </Menu.Item>
+          </Menu>
+      : null} */}
+          <Menu onClick={handleChangeKey} className="Menu" selectedKeys={[currentKey]} mode="horizontal">
+            <Menu.Item className="MenuItem" key="orderInfo">
+              工单信息
+            </Menu.Item>
+            <Menu.Item className="MenuItem" key="processInfo">
+              流程信息
+            </Menu.Item>
+          </Menu>
       {currentKey === 'orderInfo' ?<Spin spinning={loading} tip="Loading...">
           <div className='order'>
             <OrderBuilder shrinkage={shrinkage} meta={order} order={orderInfo}/>
@@ -428,9 +443,9 @@ const Details = (props) => {
                       }}>接单并处理</Button>
                     </> :
                     <>
-                    {orderInfo.status === 10 || (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq' ? null : <Button type="primary" size="large" onClick={() => {
+                    {orderInfo.status === 10 || orderInfo.status === 7 || (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq'  ? null : <Button type="primary" size="large" onClick={() => {
                         history.push(`${props.location.pathname}/handle${search}`)
-                      }}>处理</Button>  }  
+                      }}>处理</Button>  }
                     </> :
                   null
               }

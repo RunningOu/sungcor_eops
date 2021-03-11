@@ -12,7 +12,7 @@ import { local_get2JSON , local_set} from '../../utils'
 
 
 const Create = (props) => {
-  const history = useHistory()  
+  const history = useHistory()
   const [orderModal, setOrderModal] = useState([])
   const [selectedModal, setSelectedModal] = useState("a50f0654c8a7465291f17769d4b61fae")
 
@@ -23,7 +23,7 @@ const Create = (props) => {
       setOrderModal(orderModalCache)
     } else {
       queryOrderTicketModel().then(d => {
-        if (d && d.length) 
+        if (d && d.length)
           console.log(d);{
           setOrderModal(d)
           local_set('orderModal',d)}
@@ -51,9 +51,9 @@ const Create = (props) => {
         ))}
       </div>
       <div className="handle-group">
-        <Button 
-          className="handle-button" 
-          type="primary" 
+        <Button
+          className="handle-button"
+          type="primary"
           onClick={() => {
             if(selectedModal === '') {
               message.warning('请选择一个工单模板')
@@ -65,9 +65,9 @@ const Create = (props) => {
                 urgent_level: 2
               })
               props.actions.clearForm()
-              if(selectedModal === orderSearch['视频报修'].modelId) history.push(`create/form/${selectedModal}/selectdevice`) 
-              
-              if(selectedModal === orderSearch['综合设备报修'].modelId)  history.push(`create/form/${selectedModal}`) 
+              if(selectedModal === orderSearch['视频报修'].modelId) history.push(`create/form/${selectedModal}/selectdevice`)
+
+              if(selectedModal === orderSearch['综合设备报修'].modelId)  history.push(`create/form/${selectedModal}`)
             }
           }}>
             下一步<Icon type="right" />

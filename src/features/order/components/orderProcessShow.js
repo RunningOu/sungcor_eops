@@ -27,13 +27,12 @@ const isUnicomDevice = (order) => {
 
 export default  ({orderId,order}) => {
     const [modalVisible,setModalVisible] = useState(false)
-  
+
     const [orderProcess,setOrderProcess] = useState([])
-  
+
     useEffect(() => {
        getOrderProcess(orderId).then(res=>{
           if(res) {
-            console.log('获取自检信息:',res)
             setOrderProcess(res)
           }
       })
@@ -47,7 +46,7 @@ export default  ({orderId,order}) => {
             setModalVisible(true)
           }}
           type='primary'
-          style={ButtonStyle}>自检信息</Button> 
+          style={ButtonStyle}>自检信息</Button>
           <Modal
           title="自检信息"
           visible={modalVisible}
@@ -75,13 +74,13 @@ export default  ({orderId,order}) => {
                    <p>{item.msg}</p>
                    {/* <p>{item.name}({item.ip}){item.msg}</p> */}
                  </div>
-               </Timeline.Item> 
+               </Timeline.Item>
              })}
               </Timeline>
               {orderProcess && orderProcess.length !== 0 ? null : <Empty />}
             </div>
           </Modal>
-       </span> : null }   
+       </span> : null }
       </>
     )
   }

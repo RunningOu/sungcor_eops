@@ -11,7 +11,6 @@ export default () => {
     const [visible, setVisible] = useState(false)
     useEffect(() => {
         countTicketByStatus(status).then(data => {
-          console.log('cdata',data)
           let sumTotal = 0
           let sumUndone = 0
           let sumGq = 0
@@ -54,7 +53,6 @@ export default () => {
             render: (overdue, record, index) => (
                 <Tag color='green' key={overdue}
                 onClick={() => {
-                  console.log(record, index)
                   if(record.name === '总计') return
                   setTitle(record.xmmc)
                   setType('未完成')
@@ -73,7 +71,6 @@ export default () => {
             render: (overdue, record, index) => (
                 <Tag color='green' key={overdue}
                 onClick={() => {
-                  console.log(record, index)
                   if(record.name === '总计') return
                   setTitle(record.xmmc)
                   setType('挂起')
@@ -84,43 +81,6 @@ export default () => {
                 </Tag>
             )
           }
-    //       {
-    //         title: '逾期未完成',
-    //         dataIndex: 'wwcOverdue',
-    //         key: 'wwcOverdue',
-    //         width: 90,
-    //         render: (overdue, record, index) => (
-    //             <Tag color='red' key={overdue} onClick = {() => {
-    //               console.log(record, index)
-    //               if(record.name === '总计') return
-    //               setTitle(record.xmmc)
-    //               setType('逾期未完成')
-    //               setVisible(true)
-    //             }}>
-    //               <div>
-    //                 {overdue}
-    //               </div>
-    //             </Tag>
-    //         )
-    //       },{
-    //         title: '逾期已完成',
-    //         dataIndex: 'wcOverdue',
-    //         key: 'wcOverdue',
-    //         width: 90,
-    //         render: (overdue, record, index) => (
-    //             <Tag color='red' key={overdue} onClick = {() => {
-    //               console.log(record, index)
-    //               if(record.name === '总计') return
-    //               setTitle(record.xmmc)
-    //               setType('逾期已完成')
-    //               setVisible(true)
-    //             }}>
-    //               <div>
-    //                 {overdue}
-    //               </div>
-    //             </Tag>
-    //         )
-    //       }
     ]
   return (
     <div style={{padding: '0px 0px 50px 0px'}}>

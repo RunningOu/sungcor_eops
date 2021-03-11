@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-// import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Button, Input, Icon, List, Drawer, message, } from 'antd'
@@ -8,10 +7,12 @@ import * as actions from './redux/actions'
 import { HeaderBar } from '../common'
 import _ from 'lodash'
 import { queryDeviceList, queryDeviceByManager } from '../../common/request'
+import {cgAccountList,cgAccountMap} from './mock/cgAccountList'
 
 import './SelectDevice.less'
+
+
 const { Search } = Input;
-// const { CheckableTag } = Tag;
 const deviceState = [{ name: '在用', code: 'using' }, { name: '维修', code: 'maintenanceInfo' }, { name: '拆除', code: 'demolish' }]
 function mapStateToProps(state) {
   return {
@@ -23,11 +24,7 @@ function mapDispatchToProps(dispatch) {
     actions: bindActionCreators({ ...actions }, dispatch),
   }
 }
-// function mapJwdProps() {
-//   return {
-//     jwd: {},
-//   }
-// }
+
 const IconText = ({ type, text }) => (
   <span>
     <Icon type={type} style={{ marginRight: 8 }} />
@@ -38,9 +35,6 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
   console.log('props',props.userAccountInfo)
   const { history, userAccountInfo, match:{params: {modal}} } = props
   const [deviceList, setDeviceList] = useState([]) // 设备列表
-  // const [classType, setClassType] = useState([])
-  // const [selectedClass, setSelectedClass] = useState([{ code: "Camera", name: "摄像机" }])
-  // const [selectedState, setSelectedState] = useState([])
   const [devcieSearch, setDeviceSearch] = useState('')
   const [selectedClass] = useState([{ code: "Camera", name: "摄像机" }])
   const [selectedState] = useState([])
@@ -65,6 +59,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
   }, [devcieSearch, userAccountInfo])
   useEffect(() => {
     let conditions = []
+    let { realname } = userAccountInfo
     if (selectedClass.length) {
       conditions.push({
         field: 'classCode',
@@ -72,12 +67,16 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
         operator: 'IN'
       })
     }
+    //如果当前账号是城管下的账号，则进入流程
+    if(cgAccountList.includes(realname)) {
+      conditions.push({
+        field: 'tags',
+        value: [cgAccountMap[realname]],
+        operator: "IN"
+      })
+    }
+
     if (devcieSearch !== '') {
-      // conditions.push({
-      //   field: 'name',
-      //   value: devcieSearch,
-      //   operator: 'LIKE'
-      // })
       conditions.push({
         "cjt": "OR",
         "items": [

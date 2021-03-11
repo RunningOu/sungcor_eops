@@ -90,6 +90,7 @@ const CreateOrder = Form.create({
   const [resourceId, setResourceId] = useState('') // 资产id
   const [buttonDisable,setButtonDisable] = useState(false)
 
+
   useEffect(() => {
     // if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
     //   history.push(`${props.location.pathname}/selectdevice`)
@@ -98,6 +99,7 @@ const CreateOrder = Form.create({
       setBxpcs(props.order.form.fxpcs)
     }
     if (props.order.form.resource && props.order.form.resource[0].id) {
+
       setResourceId(props.order.form.resource[0].id)
     }
   }, [orderModal,  history, props.order.form, props.location.pathname])
@@ -108,6 +110,7 @@ const CreateOrder = Form.create({
       reader.readAsDataURL(file)
     }
   }, [files])
+
   useEffect(() => {
      // 判断如果是视频报修
      if(orderSearch['视频报修'].modelId === modal){
@@ -160,7 +163,6 @@ const CreateOrder = Form.create({
           })
         }
         if(element.code === 'fxGzlx') {
-          console.log(element)
           element.params = [...element.params,{
             select: 0,
             label: "传输设备异常",
@@ -204,14 +206,12 @@ const CreateOrder = Form.create({
       }
       if(props.user.userAccountInfo.userId === MANAGE_ID && bxpcs !== '') {
         getUserbyName(bxpcs).then(data => {
-          console.log("data>>>",data)
           setPcsInfo(data)
           defaultForm.fxBxr = data.realname
           defaultForm.telephone = data.mobile
           props.actions.setForm(defaultForm)
         })
       }
-      console.log("defaultForm>>>",defaultForm)
       props.actions.setForm(defaultForm)
     }
   }, [props.actions, props.user, orderModal, modal, bxpcs])
@@ -253,7 +253,8 @@ const CreateOrder = Form.create({
             let pass = true
             let params = {}
             let createform = {
-              ...props.order.form
+              ...props.order.form,
+              overdueNotify: 'normal'
             }
             props.form.validateFieldsAndScroll((err, value) => {
               if (err) {

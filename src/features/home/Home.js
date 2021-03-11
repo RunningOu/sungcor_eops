@@ -5,7 +5,7 @@ import * as actions from './redux/actions'
 
 import { FooterBar } from '../common'
 
-import { 
+import {
   Carousel,
   Ribbon,
   Alert,
@@ -18,14 +18,12 @@ import { local_set } from '../../utils'
 
 const Home = (props) => {
   const { userInfo } = props
-  console.log('userInfo',userInfo)
   useEffect(() =>{
-    console.log(props);
     local_set('userId',userInfo.userId)
   },[])
   return (
     <div className="home-page-home">
-      <Carousel /> 
+      <Carousel />
       <Ribbon role={userInfo.role?.menus.ConvenientMenu}/>
       {/* <Repairs /> */}
       {/* <Notice /> */}

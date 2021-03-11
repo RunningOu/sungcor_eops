@@ -88,7 +88,6 @@ export default (props) => {
       })
       //逾期未完成和已完成
       getCountOverdueTicket().then(res=>{
-        console.log('逾期未完成',res)
         if(res.code === 200 && res.result) {
           setOverdueFinished(res.result.wcOverdue)
           setOverdueUnFinished(res.result.wwcOverdue)
@@ -176,7 +175,7 @@ export default (props) => {
         //   />
         //   <img src={require('../../../assets/home/statistic04.png')} alt="图标"/>
         // </Card>,
-        "DeviceError": 
+        "DeviceError":
         <Card
         key='摄像机在线率'
         onClick={() => {

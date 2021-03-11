@@ -14,6 +14,7 @@ export default () => {
           let sumTotal = 0
           let sumUndone = 0
           let sumOverdue = 0
+          console.log('内场工单总览',data)
           // data.result.forEach(element => {
           //   sumTotal += element.total
           //   sumUndone += element.undone

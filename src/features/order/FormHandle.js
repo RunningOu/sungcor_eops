@@ -76,7 +76,7 @@ const infieldWXWCId = '7c79d4c44ed541e7bd0ba0a7e9c2afd5'
 //需要自检的错误编号
 const ErrorNumMap = ['9','10','11','12','13','14','99',9,10,11,12,13,14,99]
 
-  
+
 
 const HandleOrder = Form.create({
   onFieldsChange: (props, changeFields, allFields) => {
@@ -150,8 +150,7 @@ const HandleOrder = Form.create({
     const {form: { deviceIP ,fxGzlx }} = submitData
     //分别为内场和外场的维修完成ID  如果点击维修完成 进到这个逻辑
 
-    if(name === '维修完成' && ErrorNumMap.includes(fxGzlx)) {
-      //如果是人工报修,则不需要检测
+    if(name === '维修完成' && ErrorNumMap.includes(fxGzlx) && deviceIP) {
         let result
         //如果result的值为true 代表摄像机能ping通，自检通过
         // handleOrder(submitData).then(d => {
@@ -235,7 +234,7 @@ const HandleOrder = Form.create({
               })
             }
           })
-  
+
           history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
         } else {
           history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
@@ -322,7 +321,7 @@ const HandleOrder = Form.create({
     if(orderSearch['视频报修'].modelId === query.get('modelId')){
       setVisible('unset');
     }
-    
+
   }, [orderModal, search])
   useEffect(() => {
     let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
@@ -343,7 +342,7 @@ const HandleOrder = Form.create({
     }
   }, [orderModal, search])
   useEffect(() => {
-    if(!orderInfo){
+    if(Object.keys(orderInfo).length){
       orderInfo.form.forEach(orderFindGq => {
         if(orderFindGq.code === 'sfbx'){
           if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
@@ -352,7 +351,7 @@ const HandleOrder = Form.create({
           }
         }
       })
-
+      console.log(orderInfo)
       orderInfo.form.forEach(orderFindGq => {
         if(orderFindGq.code === "resource"){
           setResourceId(orderFindGq.default_value[0].id)
@@ -502,7 +501,7 @@ const HandleOrder = Form.create({
                       }
                       history.push('/order')
                     })
-                    
+
                   }else {
                     message.warning('请填写挂起原因')
                   }

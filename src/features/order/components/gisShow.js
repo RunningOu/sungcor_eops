@@ -8,7 +8,6 @@ import { queryDeviceById } from '../../../common/request'
 // var BMap = window.BMap || {}
 
 export default function(props) {
-    // console.log(props)
     var BMap = window.BMap
     const history = useHistory()
     const {resourceId, visible} = props
@@ -90,7 +89,7 @@ export default function(props) {
 let PI = 3.1415926535897932384626;
 // let a = 6378245.0;
 // let ee = 0.00669342162296594323;
- 
+
     /**
      * WGS84转GCj02
      * @param lng
@@ -98,7 +97,7 @@ let PI = 3.1415926535897932384626;
      * @returns {*[]}
      */
 
-    function wgs84togcj02(lng, lat) { 
+    function wgs84togcj02(lng, lat) {
         if (out_of_china(lng, lat)) {
             return [lng, lat]
         }
@@ -134,7 +133,7 @@ let PI = 3.1415926535897932384626;
         ret += (160.0 * Math.sin(lat / 12.0 * PI) + 320 * Math.sin(lat * PI / 30.0)) * 2.0 / 3.0;
         return ret
     }
-    
+
     function transformlng(lng, lat) {
         let ret = 300.0 + lng + 2.0 * lat + 0.1 * lng * lng + 0.1 * lng * lat + 0.1 * Math.sqrt(Math.abs(lng));
         ret += (20.0 * Math.sin(6.0 * lng * PI) + 20.0 * Math.sin(2.0 * lng * PI)) * 2.0 / 3.0;
@@ -144,11 +143,11 @@ let PI = 3.1415926535897932384626;
     }
 
     //将 GCJ-02 坐标转换成 BD-09 坐标
-    function bd_encrypt(gg_lat,  gg_lon) { 
-        var x = gg_lon, y = gg_lat;  
-        var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);  
-        var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);  
-        var bd_lon = z * Math.cos(theta) + 0.0065;  
+    function bd_encrypt(gg_lat,  gg_lon) {
+        var x = gg_lon, y = gg_lat;
+        var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * x_pi);
+        var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * x_pi);
+        var bd_lon = z * Math.cos(theta) + 0.0065;
         var bd_lat = z * Math.sin(theta) + 0.006;
         console.log(bd_lon,bd_lat)
     }
@@ -166,18 +165,18 @@ let PI = 3.1415926535897932384626;
             var div = this._div = document.createElement("div");
             div.style.position = "absolute";
             var arrow = this._arrow = document.createElement("div");
-    
+
             arrow.style.position = "absolute";
             arrow.style.overflow = "hidden";
             div.appendChild(arrow);
             arrow.className="css_animation";
-    
+
             if(this._marker ){
                 map.addOverlay(this._marker );
             }
-    
+
             map.getPanes().labelPane.appendChild(div);
-    
+
             return div;
         };
         ComplexCustomOverlay.prototype.draw = function(){
@@ -185,21 +184,21 @@ let PI = 3.1415926535897932384626;
             var pixel = map.pointToOverlayPixel(this._point);
             this._div.style.left = pixel.x - 30 + "px";
             this._div.style.top  = pixel.y - 30 + "px";
-    
-    
+
+
         };
-    
+
         ComplexCustomOverlay.prototype.setPosition = function(point) {
             this._point = point ;
             this.draw();
             if(this._marker)
                 this._marker.setPosition(this._point);
-    
+
         };
-    
+
         ComplexCustomOverlay.prototype.getPosition = function() {
             return this._point ;
-    
+
         };
     }
 
@@ -258,7 +257,7 @@ let PI = 3.1415926535897932384626;
         };
         var tileMapType = new BMap.MapType('tileMapType', tileLayer, {minZoom: window.minZoom, maxZoom: window.maxZoom});
         var map = new BMap.Map('allmap', {mapType: tileMapType});
-        
+
         // 百度地图API功能
         if (deviseInfo.longitude) {
             var DBD09 = wgs2bd(parseFloat(deviseInfo.latitude), parseFloat(deviseInfo.longitude))
@@ -269,28 +268,28 @@ let PI = 3.1415926535897932384626;
             var m1 = addMarker(longitude, latitude);
             map.addOverlay(m1);
         }
-        
+
 
         map.setCurrentCity("上海");          // 设置地图显示的城市 此项是必须设置的
         map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
         map.enableContinuousZoom();
 
         map.enablePinchToZoom(true) // 启用双指操作缩放，默认启用
-        setMap(map)  
+        setMap(map)
 
-        map.addEventListener("zoomend", function(){    
+        map.addEventListener("zoomend", function(){
             // alert("地图缩放至：" + this.getZoom() + "级");
             console.log(this.getZoom())
             var DBD091 = wgs2bd(parseFloat(deviseInfo.latitude), parseFloat(deviseInfo.longitude)) // 转换为百度加密之后的经纬度
             map.centerAndZoom(new BMap.Point(DBD091[1], DBD091[0]), this.getZoom());
         })
-        
+
     },[deviseInfo])
-    
+
   return (
       <div style={{display: visible}}>
         {/* <div style={{textAlign: 'left'}}>
-            
+
         </div> */}
         <div style={{padding: '2px',height: '25px'}}>
             <Button size='small' style={{float: 'left'}} onClick={handleClickQp}>全屏</Button>

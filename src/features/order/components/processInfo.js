@@ -2,17 +2,22 @@ import React, { useState,useEffect } from 'react'
 import { Spin ,Timeline,Descriptions } from 'antd'
 // import { getProcessInfo } from '../mock/processInfo'
 import { getOrderProcessInfo,getOrderHangDifference } from '../../../common/request'
+import orderSearch from '../mock/orderSearch'
 
 
 import './processInfo.less'
 
-export default function  ({order}) {
-
+export default function  (props) {
+  const {order} = props
+  const modelId = order.model_id
   const [processInfo, setProcessInfo] = useState([])
   const [orderTimestamp, setOrderTimestamp] = useState('')
   const [loading, setLoading] = useState(true)
   const [orderStatus,setOrderStatus] = useState(order.status)
   const [hangTime,setHangTime] = useState(0)
+
+  const showProcessInfo = orderSearch['综合设备报修'].modelId !== modelId && orderSearch['奉贤基础资源报修'].modelId !== modelId
+
 
   //获取当前工单耗费的时间 小时为单位
   const getOrderCostTime = () => {
@@ -80,6 +85,7 @@ export default function  ({order}) {
   },[])
 
   useEffect(() => {
+    console.log(order)
     setLoading(true)
     getOrderProcessInfo(order.id).then(res => {
       console.log(res)
@@ -101,13 +107,25 @@ export default function  ({order}) {
     <>
       <div className="wrapper">
         <Spin spinning={loading}>
-          <h3 className="title">实际耗时</h3>
-          {/* 最外层 灰色 */}
-          <div data-text={getOrderCostTime() >= 72 ? getOrderCostTime() + 'h' : '72h' } className="processWrapper">
-            <div style={getProcessStyle()}></div>
-            <div data-text={'72h'} style={getOverdueProcessStyle()} className="OverdueProcess"></div>
-            <p style={{fontWeight: 'bolder'}}>{'耗时：' + getOrderCostTime() + '小时'}</p>
-          </div>
+          {
+            showProcessInfo ?
+              order.status === 10 || (order.form.filter(i => i.code === 'sfbx'))[0]['default_value'] === 'ygq' ? null :
+              <>
+              <h3 className="title">实际耗时</h3>
+              <div data-text={getOrderCostTime() >= 72 ? getOrderCostTime() + 'h' : '72h' } className="processWrapper">
+                <div style={getProcessStyle()}></div>
+                <div data-text={'72h'} style={getOverdueProcessStyle()} className="OverdueProcess"></div>
+                <p style={{fontWeight: 'bolder'}}>{'耗时：' + getOrderCostTime() + '小时'}</p>
+              </div>
+              </>
+            : <><h3 className="title">实际耗时</h3>
+              <div data-text={getOrderCostTime() >= 72 ? getOrderCostTime() + 'h' : '72h' } className="processWrapper">
+                <div style={getProcessStyle()}></div>
+                <div data-text={'72h'} style={getOverdueProcessStyle()} className="OverdueProcess"></div>
+                <p style={{fontWeight: 'bolder'}}>{'耗时：' + getOrderCostTime() + '小时'}</p>
+              </div></>
+          }
+
           <h3 className="title">操作记录</h3>
           <Timeline>
             {
