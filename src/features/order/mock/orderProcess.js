@@ -4,7 +4,7 @@ export const getOrderProcess = () => {
     return new Promise(resolve => {
         setTimeout(() => {
             resolve({
-                // url:oss/api/link/check/queryByTicket?ticketId=123123123
+                // url:oss2/api/link/check/queryByTicket?ticketId=123123123
                 "success": true,
                 "message": "操作成功！",
                 "code": 200,

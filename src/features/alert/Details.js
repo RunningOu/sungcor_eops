@@ -42,7 +42,7 @@ const Details = (props) => {
     if(source.length) {
       console.log(status)
       var queryParam = {
-        "source": source,
+        "source": source === '机房动环告警' || source === '政务网内场告警' ? source : null ,
         'pageNo': pageNum,
         'pageSize': 10,
         'severity': status,
@@ -60,10 +60,12 @@ const Details = (props) => {
       // }
       if(source =="网络资源监控"){
         queryParam.name = 'host.connected/unreachable'
+        delete queryParam.source
       }
       if(source =="基础资源监控"){
         queryParam.name = 'host.up/down'
       }
+
       queryAlertList(queryParam).then(d => {
           setCount(d.data.total)
           // setAlertList(d.data.records)
