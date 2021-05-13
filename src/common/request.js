@@ -342,7 +342,7 @@ export const countByCode = async (code, type) => {
 export const countOnlienRate = async () => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss2/app/portal/countOnlineRate'
+    url: '/oss/app/portal/countOnlineRate'
   })
   return data
 }
@@ -351,7 +351,7 @@ export const countOnlienRate = async () => {
 export const countCameraOnlineRate = async () => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss2/app/portal/countCameraOnlineRate'
+    url: '/oss/app/portal/countCameraOnlineRate'
   })
   return data
 }
@@ -360,7 +360,7 @@ export const countCameraOnlineRate = async () => {
 export const countOnlineGroupByType = async (type) => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss2/app/portal/countOnlineGroupByType',
+    url: '/oss/app/portal/countOnlineGroupByType',
     params: {
       type: type
     }
@@ -372,7 +372,7 @@ export const countOnlineGroupByType = async (type) => {
 export const queryNetworkList = async (d, url) => {
   const { data } = await axios({
     method: 'post',
-    url: '/oss2' + url,
+    url: '/oss' + url,
     data: {
       ...d
     }
@@ -384,7 +384,7 @@ export const queryNetworkList = async (d, url) => {
 export const countTicketByStatus = async (para) => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss2/app/portal/countTicketByStatus?interval='+para
+    url: '/oss/app/portal/countTicketByStatus?interval='+para
   })
   return data
 }
@@ -393,7 +393,7 @@ export const countTicketByStatus = async (para) => {
 export const countTicketByDevType = async (para) => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss2/app/portal/countTicketByDevType?interval='+para
+    url: '/oss/app/portal/countTicketByDevType?interval='+para
   })
   return data
 }
@@ -402,7 +402,7 @@ export const countTicketByDevType = async (para) => {
 export const getOrderProcess = async (ticket) => {
     const {data} = await axios({
       method: 'get',
-      url: '/oss2/api/link/check/queryByTicket?ticketId='+ticket
+      url: '/oss/api/link/check/queryByTicket?ticketId='+ticket
     })
     return data.result
 }
@@ -411,7 +411,7 @@ export const getOrderProcess = async (ticket) => {
 export const getOrderProcessInfo = async (ticket) => {
   const {data} = await axios({
     method: 'get',
-    url: 'oss2/api/itsm/getProcessRecord?ticketId=' + ticket
+    url: 'oss/api/itsm/getProcessRecord?ticketId=' + ticket
   })
   return data
 }
@@ -420,7 +420,7 @@ export const getOrderProcessInfo = async (ticket) => {
 export const executeOrderHangStatus = async (ticketId,isSuspend) => {
   const result = await axios ({
     method: 'get',
-    url: `oss2/api/itsm/suspendOrResumeSelf?ticketId=${ticketId}&isSuspend=${isSuspend}`
+    url: `oss/api/itsm/suspendOrResumeSelf?ticketId=${ticketId}&isSuspend=${isSuspend}`
   })
   return result
 }
@@ -429,7 +429,7 @@ export const executeOrderHangStatus = async (ticketId,isSuspend) => {
 export const getOrderHangDifference = async (ticketId) => {
   const {data} = await axios ({
     method: 'get',
-    url: `oss2/api/ticket/ticketHornetInfo/getSlaSuspendById?ticketId=${ticketId}`
+    url: `oss/api/ticket/ticketHornetInfo/getSlaSuspendById?ticketId=${ticketId}`
   })
 
   return data
@@ -439,7 +439,7 @@ export const getOrderHangDifference = async (ticketId) => {
 export const getOrderInfoByIp = async (deviceIp) => {
   const {data} = await axios ({
     method: 'get',
-    url: `oss2/app/portal/getTickertByIp?ip=${deviceIp}&pageSize=10&pageNum=1`
+    url: `oss/app/portal/getTickertByIp?ip=${deviceIp}&pageSize=10&pageNum=1`
   })
   return data
 }
@@ -448,7 +448,7 @@ export const getOrderInfoByIp = async (deviceIp) => {
 export const getOrderInfoByJPBH = async (deviceJPBH) => {
   const {data} = await axios ({
     method: 'get',
-    url: `oss2/app/portal/getTickertByIp?JPBH=${deviceJPBH}&pageSize=10&pageNum=1`
+    url: `oss/app/portal/getTickertByIp?JPBH=${deviceJPBH}&pageSize=10&pageNum=1`
   })
   return data
 }
@@ -456,7 +456,7 @@ export const getOrderInfoByJPBH = async (deviceJPBH) => {
 export const getCountTodayTicket = async() => {
   const { data } = await axios({
     method: 'get',
-    url: `oss2/app/portal/countTodayTicket`
+    url: `oss/app/portal/countTodayTicket`
   })
   return data
 }
@@ -465,7 +465,7 @@ export const getCountTodayTicket = async() => {
 export const getCountOverdueTicket = async () => {
   const {data} = await axios({
     method: 'get',
-    url: `oss2/app/portal/countOverdueTicket`
+    url: `oss/app/portal/countOverdueTicket`
   })
   return data
 }
@@ -474,7 +474,7 @@ export const getCountOverdueTicket = async () => {
 export const getTodayTicketByProject = async () => {
   const {data} = await axios({
     method: 'get',
-    url: `oss2/app/portal/countTodayTicketByProject`
+    url: `oss/app/portal/countTodayTicketByProject`
   })
   return data
 }
@@ -483,7 +483,7 @@ export const getTodayTicketByProject = async () => {
 export const getOverdueTicketByProject = async () => {
   const {data} = await axios({
     method: 'get',
-    url: `oss2/app/portal/countOverdueTicketByProject`
+    url: `oss/app/portal/countOverdueTicketByProject`
   })
   return data
 }
@@ -492,7 +492,7 @@ export const getOverdueTicketByProject = async () => {
 export const getTodayTicketByProjectName = async (projectName,status,pageNum) => {
   const { data } = await axios({
     method: 'get',
-    url: `oss2/app/portal/queryTodayTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
+    url: `oss/app/portal/queryTodayTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
   })
 
   return data
@@ -502,7 +502,7 @@ export const getTodayTicketByProjectName = async (projectName,status,pageNum) =>
 export const getOverdueTicketByProjectName = async (projectName,status,pageNum) => {
   const {data} = await axios({
     method: 'get',
-    url: `oss2/app/portal/queryOverdueTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
+    url: `oss/app/portal/queryOverdueTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
   })
   return data
 }
@@ -511,7 +511,7 @@ export const getOverdueTicketByProjectName = async (projectName,status,pageNum) 
 export const getSelfDetection = async (ip) => {
   const {data} = await axios({
     method: 'get',
-    url: `/oss2/api/link/check/linkChecking?ip=${ip}`
+    url: `/oss/api/link/check/linkChecking?ip=${ip}`
   })
   return data
 }
@@ -520,7 +520,7 @@ export const getSelfDetection = async (ip) => {
 export const getAssetCountView = async () => {
   const {data} = await axios({
     method: "get",
-    url: `/oss2/app/asset/getAssetCountView`
+    url: `/oss/app/asset/getAssetCountView`
   })
   return data
 }
@@ -529,7 +529,7 @@ export const getAssetList = async (type,pageNum,pageSize,state) => {
   try {
     const {data} = await axios({
       method: "get",
-      url: `/oss2/app/asset/getAssetList?type=${type}&pageNum=${pageNum}&pageSize=${pageSize}&state=${state}`
+      url: `/oss/app/asset/getAssetList?type=${type}&pageNum=${pageNum}&pageSize=${pageSize}&state=${state}`
     })
     return data.result
   } catch (e) {
@@ -541,7 +541,7 @@ export const getAssetDetail = async(apikey,id) => {
   try {
     const {data} = await axios({
       method: 'get',
-      url: `/oss2/app/asset/getAssetDetail?id=${id}`
+      url: `/oss/app/asset/getAssetDetail?id=${id}`
     })
     return data.result
   }catch (e) {
@@ -553,7 +553,7 @@ export const queryDevice = async(type,key) => {
   try {
     const {data} = await axios({
       method: 'get',
-      url: `/oss2/app/asset/queryDeviceByNameOrDeviceKey?classCode=${type}&key=${key}`
+      url: `/oss/app/asset/queryDeviceByNameOrDeviceKey?classCode=${type}&key=${key}`
     })
     return data.result
   }catch (e) {

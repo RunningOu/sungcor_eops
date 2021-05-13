@@ -18,7 +18,7 @@ export default (props) => {
   const [solventViseble, setSolventViseble] = useState(false)
   const [solvent, setSolvent] = useState('')
   const extraForm = useRef({})
-  
+
   function handleClick() {
     if (children === '挂起') {
       setShowPutUp(true)

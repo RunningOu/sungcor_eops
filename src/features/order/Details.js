@@ -57,11 +57,6 @@ const cr = {
 }
 
 const Details = (props) => {
-  // const state = {
-  //   ModalText: '沙发斯蒂芬',
-  //   visible: false,
-  //   confirmLoading: false,
-  // }
   const { location: { search }, match: { params: { modal } }, history, userAccountInfo } = props
   const [orderModel, setOrderModel] = useState([])
   const [orderInfo, setOrderInfo] = useState([])
@@ -264,6 +259,7 @@ const Details = (props) => {
                 setPlVisible(false)
               })
             } else {
+              console.log(2);
               setOrderModel(item.field_list)
               setPlVisible(false)
             }
@@ -296,10 +292,8 @@ const Details = (props) => {
     }
   }, [modalId])
   useEffect(() => {
-    console.log(showProcessInfo)
-  },[])
-  useEffect(() => {
     if (orderModel && orderModel.length) {
+      console.log(1)
       var ddd  = []
       var iii = []
       if(!state){
@@ -398,6 +392,9 @@ const Details = (props) => {
 
     }
   }, [orderModel])
+  useEffect(() => {
+    console.log(currentKey)
+  },[currentKey])
 
   return (
     <div className='order-page-details'>
@@ -420,14 +417,13 @@ const Details = (props) => {
               流程信息
             </Menu.Item>
           </Menu>
-      {currentKey === 'orderInfo' ?<Spin spinning={loading} tip="Loading...">
+      {currentKey === 'orderInfo' ? <Spin spinning={loading} tip="Loading...">
           <div className='order'>
             <OrderBuilder shrinkage={shrinkage} meta={order} order={orderInfo}/>
             { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
             <h3 className="shrinkageButton"  onClick={handleChangeShrinkage}> {shrinkage ? '展开' : '收起' }<Icon type={shrinkage ? 'down':'up'} /></h3>
             <div className="handle">
               {
-                // 图像组管理员
                 (orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 || (props.userAccountInfo.userId === MANAGE_ID && orderInfo.activity_name === '用户确认')) && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
                   orderInfo.isreceived === 1 ?
                     <>
@@ -472,7 +468,6 @@ const Details = (props) => {
                       null
                 :null
                 }
-              {/* <GisShow resourceId={resourceId} /> */}
             <Modal
             visible={disVisible}
             title="系统提示"
@@ -488,7 +483,9 @@ const Details = (props) => {
             </div>
             <GisShow resourceId={resourceId} visible={gisvisible} />
           </div>
-        </Spin> :<ProcessInfo order={orderInfo} />}
+        </Spin> :
+        <ProcessInfo order={orderInfo} />
+        }
     </div>
   )
 }

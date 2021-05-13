@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Descriptions , Collapse } from 'antd'
 
 const { Panel } = Collapse
@@ -15,7 +15,11 @@ const shrinkageMap = {
 
 const OrderBuilder = (props) => {
   const { meta, shrinkage , order } = props
-  
+
+  useEffect(() =>{
+    console.log(props)
+  }, [] )
+
   function render(item) {
     if (item.code === 'overdueNotify' || item.code === 'resource') {
       return null
