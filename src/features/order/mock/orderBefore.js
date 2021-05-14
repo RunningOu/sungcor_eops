@@ -36,6 +36,9 @@ export default {
       {name: "李明", id: "faaea1f9dd7645939e6fb7b04eec8f64" },
       {name: "王卓越", id: "c6b0a1173d7b47b4bb8865231432a036" },
       {name: "操刚华",id: "4aae8ef1889946a785e400b8c596fe11"},
+      {name: "熊志宏",id: "53c5460e469b42a9bc0317c033e4033d"},
+      {name: "许光尚",id: "70df6d2a034d4d838343003a2f1b5cfb"},
+      {name: "叶忱",id: "2c9292cb1aaf47db8becef3b2be127dc"},
       // {name: "戴梦", id: "e58ca9b4c2234194b855882b3af2216a" }, // 新增用户
       // {name: "胡昕恺", id: "e58ca9b4c2234194b855882b3af2216a" }, // 新增用户
       // {name: "韩忠惠", id: "e691c43ee8ef44549aa7a522fe1d2daf" }, // 新增用户
