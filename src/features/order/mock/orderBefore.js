@@ -44,6 +44,7 @@ export default {
       // {name: "韩忠惠", id: "e691c43ee8ef44549aa7a522fe1d2daf" }, // 新增用户
       {name: "赵敬廷", id: "00e63d89599e425b840cb50bb78b85ff" }, // 新增用户
       {name: "石玉东", id: "f33a4c22727c42e79cdc4ba64517f1f4" }, // 新增用户
+      {name: "李枫",id: "4e2a710d7c984d92bdc6d4ac8629db34"},
       // {name: "顾杰", id: "7c2b298c3ba644829335dfc87f676180" }, // 新增用户
     ],
     // 上海联通
@@ -101,7 +102,7 @@ export default {
       {
         "id": "4e2a710d7c984d92bdc6d4ac8629db34",
         "name": "李枫"
-    },
+      },
 
       // ,{
       //   "name": "于旗玮",

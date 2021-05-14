@@ -152,30 +152,6 @@ const HandleOrder = Form.create({
 
     if(name === '维修完成' && ErrorNumMap.includes(fxGzlx) && deviceIP) {
         let result
-        //如果result的值为true 代表摄像机能ping通，自检通过
-        // handleOrder(submitData).then(d => {
-        //   // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
-        //   //判断是否有图片，有的话就上传
-        //   if (files.length) {
-        //     message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
-        //     files.forEach((i) => {
-        //       let reader = new FileReader();
-        //       reader.readAsDataURL(i)
-        //       reader.onload = e => {
-        //         let imgBase64 = e.target.result
-        //         updateImage({
-        //           ticketId: modal,
-        //           filesBase64: [imgBase64.split(',')[1]]
-        //         }).then(() => {
-        //           message.success({ content: '上传成功', key: MESSAGE_KEY })
-        //         })
-        //       }
-        //     })
-        //     history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
-        //   } else {
-        //     history.push('/order?modelId='+query.get('modelId')+'&search='+query.get('search')+'&searchType='+query.get('searchType'))
-        //   }
-        // })
         getSelfDetection(deviceIP).then(res => {
           console.log('getSelfDetection',res)
           if(res.result) {
