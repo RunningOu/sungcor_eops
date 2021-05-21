@@ -147,10 +147,10 @@ const HandleOrder = Form.create({
     }
 
     console.log('submitData',submitData)
-    const {form: { deviceIP ,fxGzlx }} = submitData
+    const {form: { deviceIP ,fxGzlx,xmmc }} = submitData
     //分别为内场和外场的维修完成ID  如果点击维修完成 进到这个逻辑
 
-    if(name === '维修完成' && ErrorNumMap.includes(fxGzlx) && deviceIP) {
+    if(name === '维修完成' && ErrorNumMap.includes(fxGzlx) && deviceIP && xmmc !== '奉贤区社会面智能安防项目') {
         let result
         getSelfDetection(deviceIP).then(res => {
           console.log('getSelfDetection',res)
