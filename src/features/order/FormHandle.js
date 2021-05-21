@@ -149,8 +149,13 @@ const HandleOrder = Form.create({
     console.log('submitData',submitData)
     const {form: { deviceIP ,fxGzlx,xmmc }} = submitData
     //分别为内场和外场的维修完成ID  如果点击维修完成 进到这个逻辑
-
-    if(name === '维修完成' && ErrorNumMap.includes(fxGzlx) && deviceIP && xmmc !== '奉贤区社会面智能安防项目') {
+    console.log(form)
+    //这里除了15开头以外的IP地址，全都不ping
+    let firstCode = null
+    if(deviceIP) {
+      firstCode = deviceIP.split('.')[0]
+    }
+    if(name === '维修完成' && ErrorNumMap.includes(fxGzlx) && deviceIP && firstCode === '15') {
         let result
         getSelfDetection(deviceIP).then(res => {
           console.log('getSelfDetection',res)
