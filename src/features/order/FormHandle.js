@@ -248,7 +248,6 @@ const HandleOrder = Form.create({
       if(orderSearch['视频报修'].modelId === query.get('modelId')){
         orderModelConfig[query.get('modelId')].forEach((item) => {
           if (item.id === query.get('actId')) {
-            console.log(item)
             setOrderModal(item)
             setPlVisible(false)
             return
@@ -347,6 +346,11 @@ const HandleOrder = Form.create({
   useEffect(() => {
     console.log('handlerules',orderInfo.handle_rules)
   },[orderInfo])
+
+  useEffect(() => {
+    console.log(orderModal)
+  }, [orderModal])
+
   return (
     <div className='order-page-formhandle'>
     <HeaderBar title='工单处理' />
@@ -385,7 +389,7 @@ const HandleOrder = Form.create({
             modal={modal}
             >{d.name}</HandleButton>))}
           {/* {[3,6,8].includes(orderModal.sequence) ? */}
-          {[3, 6, 8, 21].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
+          {[3, 6, 8, 21, 14].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
             <>
               <Button onClick={() => { setChangeExecutor(true) }}>改派工单</Button>
               <Modal
