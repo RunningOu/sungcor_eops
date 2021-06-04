@@ -27,19 +27,21 @@ const ProjectSpread = ({match}) => {
         getTodayTicketByProject().then(res => {
           console.log('今日新增',res)
           //过滤掉没有name字段的数据
-          setSpreadData(res.result.filter(item => item.name))
+          // setSpreadData(res.result.filter(item => item.name))
+          setSpreadData(res.result)
         })
       }
       if(currentType === 'overdue') {
         getOverdueTicketByProject().then(res => {
           console.log('逾期',res)
           //过滤掉没有name字段的数据
-          setSpreadData(res.result.filter(item => item.name))
+          // setSpreadData(res.result.filter(item => item.name))
+          setSpreadData(res.result)
         })
       }
 
     },[])
-    
+
     return (
         <>
         <HeaderBar title={`${typeMap[currentType]}工单`} />
