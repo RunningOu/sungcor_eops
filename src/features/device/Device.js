@@ -113,8 +113,8 @@ const Device = (props) => {
               key={item.id}
             >
               <List.Item.Meta
-              title={<><span>{item.name}</span><span style={{verticalAlign: 'inherit',color: 'rgba(0, 0, 0, 0.45)',fontSize: '14px'}}>{item.managementUnit}</span></>}
-              description={<><span>{item.jpbh || item.ip}</span>
+              title={<><span>{item.name}</span><span style={{verticalAlign: 'inherit',color: 'rgba(0, 0, 0, 0.45)',fontSize: '14px'}}>{Array.isArray(item.pcs) ? item.pcs[0].name : item.managementUnit}</span></>}
+              description={<><span>{ item.ip}</span>
               {deviceType === 'Camera' ? <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} /> : null}
               </>
                } /></List.Item>

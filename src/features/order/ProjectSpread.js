@@ -13,6 +13,8 @@ const typeMap = {
 }
 
 
+
+
 const ProjectSpread = ({match}) => {
     const currentType = match.params.type
     const history = useHistory()
@@ -20,7 +22,7 @@ const ProjectSpread = ({match}) => {
 
     const handleClickProjectCard = (project) => {
       const {name,xmmc} = project
-      history.push(`/order/ProjectSpread/${currentType}/ProjectDetail?xmmc=${xmmc}`)
+      history.push(`/order/ProjectSpread/${currentType}/ProjectDetail?name=${name}`)
     }
     useEffect(() => {
       if(currentType === 'todayAdd') {
@@ -28,15 +30,22 @@ const ProjectSpread = ({match}) => {
           console.log('今日新增',res)
           //过滤掉没有name字段的数据
           // setSpreadData(res.result.filter(item => item.name))
-          setSpreadData(res.result)
+          const result = res.result.filter((item) =>{
+            return ((item.total - item.complete) + item.complete) > 0
+          })
+          setSpreadData(result)
         })
       }
       if(currentType === 'overdue') {
         getOverdueTicketByProject().then(res => {
           console.log('逾期',res)
+
+          const result = res.result.filter((item) => {
+            return (item.wwcOverdue + item.wcOverdue )> 0
+          })
           //过滤掉没有name字段的数据
           // setSpreadData(res.result.filter(item => item.name))
-          setSpreadData(res.result)
+          setSpreadData(result)
         })
       }
 

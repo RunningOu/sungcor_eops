@@ -29,6 +29,15 @@ const DeviceDetail = (props) => {
     })
   }, [id])
 
+  const transformJPBH = (JPBH) => {
+    if(!JPBH) return ''
+    let str = JPBH + ''
+    if(str.length === 20) {
+      return ''
+    }
+    return str
+  }
+
   const getDeviceInfoTemplate = () => {
     switch(deviceType) {
       case 'Camera': {
@@ -41,7 +50,7 @@ const DeviceDetail = (props) => {
         {/* <Item label="编号">{device.code}</Item> */}
         <Item label="管理单位">{device.vendorInfo || device.managementUnit}</Item>
         <Item label="所在位置">{device.address}</Item>
-        <Item label="键盘编号">{device.serialNumber}</Item>
+        <Item label="键盘编号">{transformJPBH(device.JPBH)}</Item>
         <Item label="对应储存设备IP">{device.ip}</Item>
         <Item label="设备类型">{device.className}</Item>
         {/* <Item label="设备功能">卡口枪机</Item> */}

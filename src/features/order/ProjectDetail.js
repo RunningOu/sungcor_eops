@@ -43,7 +43,7 @@ const requestMap = {
 
 const ProjectDetail = ({location,match}) => {
   const history = useHistory()
-  const xmmc = new URLSearchParams(location.search).get('xmmc')
+  const xmmc = new URLSearchParams(location.search).get('name')
   const currentType = match.params.type
   const [orderList,setOrderList] = useState({processing: [],completed: []})
   const [processingCount,setProcessingCount] = useState(0)

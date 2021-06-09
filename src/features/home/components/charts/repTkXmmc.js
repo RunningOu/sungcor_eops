@@ -16,14 +16,21 @@ export default () => {
           let sumGq = 0
           let sumOverdue = 0
           let sumWwcOverdue = 0
-          data.result.forEach(element => {
+
+          const showItemName = ['联通雪亮','治安卡口','电信雪亮','电信一期','电信二期','电信三期','联通社会面','移动租赁']
+          const result = data.result.filter(item => {
+            return showItemName.includes(item.name)
+          })
+          console.log(data)
+          result.forEach(element => {
             sumTotal += element.total
             sumUndone += element.undone
             sumOverdue += element.wcOverdue
             sumWwcOverdue += element.wwcOverdue
             sumGq += element.gq
           })
-          setCdata([{'name': '总计', 'total': sumTotal, 'undone': sumUndone, 'gq': sumGq, 'wwcOverdue': sumWwcOverdue, 'wcOverdue': sumOverdue}, ...data.result])
+
+          setCdata([{'name': '总计', 'total': sumTotal, 'undone': sumUndone, 'gq': sumGq, 'wwcOverdue': sumWwcOverdue, 'wcOverdue': sumOverdue}, ...result])
         })
     },[status])
     var columns = [

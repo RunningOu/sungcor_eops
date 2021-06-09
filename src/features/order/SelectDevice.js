@@ -185,7 +185,9 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                           title: `${item.managementUnit} - ${item.name}`,
                           xmmc: item.projectName
                         })
-                        history.go(-1);
+                        history.push({
+                          pathname: history.location.pathname.replace('/selectdevice', '')
+                        })
                       })
                       return
                     } else {
