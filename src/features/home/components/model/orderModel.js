@@ -45,11 +45,11 @@ export default (props) => {
             { key: "status", value: "1,2", operator: "IN" }
           ],
           // 未完成不包括已挂起
-          '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-          { key: "overdue", value: "0", operator: "IN" }],
+          '未完成': [{ key: "status", value: "1,2,10", operator: "IN" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" },
+          ],
           // 已挂起
           '挂起': [  { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "ygq", operator: "EQ" },
-          
+
         ]
         },
         'nc': {
@@ -57,7 +57,7 @@ export default (props) => {
           '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }]
         }
       }
-      
+
         if(visible === true){
           let oAttrs = AllAttrs[tabs][type]
           console.log(pageNum)
@@ -90,7 +90,7 @@ export default (props) => {
                 setOrderList([...d.list])
               }else {
                 setOrderList((oldList) => [...oldList, ...d.list])
-              } 
+              }
               setLoading(false)
             }
             setCount(d.count)
@@ -121,11 +121,11 @@ export default (props) => {
               useWindow={false}
             >
               <List dataSource={orderList} renderItem={item => (
-                  <div className='item' onClick={() => { 
-                    history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}`) 
+                  <div className='item' onClick={() => {
+                    history.push(`order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}`)
                     }}>
                     {
-                       tabs === 'xmmc' ? 
+                       tabs === 'xmmc' ?
                        <>
                         <h2 className='title'>{item.title}</h2>
                         <p className='description'>当前处理人：{item.executor.join('，')}</p>

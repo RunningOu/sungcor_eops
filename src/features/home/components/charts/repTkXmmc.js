@@ -7,10 +7,13 @@ export default () => {
     const [title, setTitle] = useState('')
     const [type, setType] = useState('')
     const [status, setStatus] = useState('all')
+    const [loading, setLoading] = useState(false)
     const statusR = ['today', 'all']
     const [visible, setVisible] = useState(false)
     useEffect(() => {
+      setLoading(true)
         countTicketByStatus(status).then(data => {
+          setLoading(false)
           let sumTotal = 0
           let sumUndone = 0
           let sumGq = 0
@@ -100,7 +103,7 @@ export default () => {
         <Radio.Button value={statusR[1]}>全部</Radio.Button>
       </Radio.Group> */}
       <div>
-        <Table columns={columns} scroll={{ x: 300}} fixed={true} dataSource={cdata} pagination={false} size="small" rowKey="name"/>
+        <Table loading={loading} columns={columns} scroll={{ x: 300}} fixed={true} dataSource={cdata} pagination={false} size="small" rowKey="name"/>
       </div>
       <OrderModel title={title} type={type} tabs="xmmc" status={status} visible={visible} pnum={1} onVisible={(val) =>{setVisible(val)}}/>
     </div>
