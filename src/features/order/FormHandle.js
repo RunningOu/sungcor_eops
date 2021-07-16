@@ -334,7 +334,9 @@ const HandleOrder = Form.create({
       console.log(orderInfo)
       orderInfo.form.forEach(orderFindGq => {
         if(orderFindGq.code === "resource"){
-          setResourceId(orderFindGq.default_value[0].id)
+          console.log(orderFindGq)
+
+          setResourceId(orderFindGq.default_value ? orderFindGq.default_value[0].id : orderFindGq.id)
         }
       })
     }
