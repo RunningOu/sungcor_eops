@@ -61,7 +61,7 @@ const SelectView = (props) => {
       align: 'center'
     }
   ];
-  
+
   const onSelectChange = selectedRowKeys => {
     // return
     console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -104,7 +104,7 @@ const SelectView = (props) => {
       console.log(changeableRowKeys)
     }
   }
-  
+
   useEffect(() => {
     getFieldByCode('fxGzlx').then(data => {
       var fxGzlxs = {}
@@ -133,7 +133,7 @@ const SelectView = (props) => {
           setOrderList([...d.list])
         }else {
           setOrderList((oldList) => [...oldList, ...d.list])
-        } 
+        }
         setLoading(false)
       }
     })
@@ -156,7 +156,7 @@ const SelectView = (props) => {
           <Table rowSelection={rowSelection} selection={selection} pagination={false} dataSource={orderList} columns={columns} />
         </InfiniteScroll>
       </div>
-      <div className='pl-handle' style={{display: plVisible}} onClick={() => { 
+      <div className='pl-handle' style={{display: plVisible}} onClick={() => {
         local_set('selected', selectedRows)
         history.push('/order/formHandleBa?modelId=a50f0654c8a7465291f17769d4b61fae&actId='+selectedRows[0].activityId) }}>
         <button style={{fontSize: '16px'}}>处理</button>

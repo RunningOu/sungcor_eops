@@ -2,11 +2,6 @@ import React, { useState, useEffect }  from 'react'
 import { Chart, Geom, Coord, Label, Axis, Tooltip } from 'bizcharts'
 import { Card, Statistic, Col, Radio } from 'antd'
 import { countByCode } from '../../../../common/request'
-// const data = [
-//   { name: '监控设备', error: 25 },
-//   { name: '视频设备', error: 15 },
-//   { name: '办公设备', error: 17 },
-// ]
 
 const cols = {
   error: { alias: '故障数量' },

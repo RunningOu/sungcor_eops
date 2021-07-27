@@ -13,6 +13,7 @@ export default () => {
     useEffect(() => {
       setLoading(true)
         countTicketByStatus(status).then(data => {
+          console.log(data)
           setLoading(false)
           let sumTotal = 0
           let sumUndone = 0
@@ -94,14 +95,6 @@ export default () => {
     ]
   return (
     <div style={{padding: '0px 0px 50px 0px'}}>
-      {/* <Radio.Group style={{padding: '4px'}} value={status} onChange={
-        (e) => {
-          setStatus(e.target.value)
-        }
-      }>
-        <Radio.Button value={statusR[0]}>今日</Radio.Button>
-        <Radio.Button value={statusR[1]}>全部</Radio.Button>
-      </Radio.Group> */}
       <div>
         <Table loading={loading} columns={columns} scroll={{ x: 300}} fixed={true} dataSource={cdata} pagination={false} size="small" rowKey="name"/>
       </div>

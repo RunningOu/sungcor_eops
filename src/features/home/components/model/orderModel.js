@@ -60,7 +60,6 @@ export default (props) => {
 
         if(visible === true){
           let oAttrs = AllAttrs[tabs][type]
-          console.log(pageNum)
           if (tabs === 'xmmc') {
             oAttrs.push({ key: 'formData.xmmc', value: title, operator: "EQ" })
           }

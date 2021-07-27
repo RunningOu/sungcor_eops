@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react'
 import { useHistory } from 'react-router-dom'
-import {Statistic} from 'antd'
 import { HeaderBar,FooterBar} from '../common'
 import {getTodayTicketByProject,getOverdueTicketByProject } from '../../common/request'
 

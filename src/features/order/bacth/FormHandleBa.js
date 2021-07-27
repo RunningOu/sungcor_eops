@@ -109,7 +109,7 @@ const HandleOrder = Form.create({
         }
       }
     })
-  
+
   }catch{
     console.log('')
   }
@@ -250,7 +250,7 @@ const HandleOrder = Form.create({
         })
       })
     }
-    
+
   },[listSelect1])
 
   useEffect(() => {

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react'
-// import { useHistory } from 'react-router-dom'
 import { Statistic, Card } from 'antd';
 import { useHistory } from 'react-router-dom'
 import { USER_INFO_ID, MANAGE_ID } from '../../../config'
-import { queryDeviceList, queryOrderList, countOnlienRate, countCameraOnlineRate ,getCountTodayTicket ,getCountOverdueTicket} from '../../../common/request'
+import { countOnlienRate, countCameraOnlineRate ,getCountTodayTicket ,getCountOverdueTicket} from '../../../common/request'
 import {local_get} from '../../../utils'
 import './Statistic.less'
 
@@ -14,7 +13,6 @@ export default (props) => {
   const [overdueUnfinished, setOverdueUnFinished] = useState(0)
   const [todayCount,setTodayCount] = useState(0)
   const [todayResult,setTodayResult] = useState(0)
-  // const [deviceError, setDeviceError] = useState(0)
   const [onlineRate, setOnlineRate] = useState(0)
   const [cameraOnlineRate, setCameraOnlineRate] = useState(0)
 
