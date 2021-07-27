@@ -1,5 +1,5 @@
 /**
- * sessionStorage set 
+ * sessionStorage set
  * sessionStorage get
  */
 export const session_set = (key, value) => {
@@ -18,7 +18,7 @@ export const session_get = (key) => {
 }
 
 /**
- * localStorage set 
+ * localStorage set
  * localStorage get
  */
 export const local_set = (key, value) => {
@@ -87,6 +87,6 @@ export function formatDate(date, formatStr) {
 
 // 毫秒转小时
 export function TimeToHours (time) {
-  var hours = time / 1000 / 60 / 60 
+  var hours = time / 1000 / 60 / 60
   return hours.toFixed(1) + 'h'
 }

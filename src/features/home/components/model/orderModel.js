@@ -48,9 +48,7 @@ export default (props) => {
           '未完成': [{ key: "status", value: "1,2,10", operator: "IN" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" },
           ],
           // 已挂起
-          '挂起': [  { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "ygq", operator: "EQ" },
-
-        ]
+          '挂起': [  { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "ygq", operator: "EQ" },{ key: "status", value: "1,2,10", operator: "IN" }]
         },
         'nc': {
           '逾期': [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],

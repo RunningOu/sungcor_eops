@@ -6,18 +6,19 @@ import Root from './Root';
 import * as serviceWorker from './serviceWorker';
 import { message, ConfigProvider } from 'antd';
 import zhCN from 'antd/es/locale/zh_CN';
+import storageEnhance from '@/utils/storageEnhance'
 
 import './styles/normalize.css'
 import './styles/common.less'
 
 const store = configStore()
-
+storageEnhance()
 message.config({ top: '30%', duration: 1, maxCount: 1})
 
 ReactDOM.render(
   <ConfigProvider locale={zhCN}>
     <Root store={store} routeConfig={routeConfig}/>
-  </ConfigProvider> 
+  </ConfigProvider>
   , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
@@ -29,7 +30,7 @@ if (module.hot) {
     ReactDOM.render(
       <ConfigProvider locale={zhCN}>
         <Root store={store} routeConfig={routeConfig}/>
-      </ConfigProvider> 
+      </ConfigProvider>
       , document.getElementById('root'));
   });
 }

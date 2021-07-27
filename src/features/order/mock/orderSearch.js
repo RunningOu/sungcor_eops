@@ -15,5 +15,8 @@ export default {
   },
   '奉贤基础资源报修': {
     modelId: '8e046f46a81b4988bf6de158d847059f',
+  },
+  '综合运维服务流程': {
+    modelId: 'd948b00b8e1f4a81b36e2203dcd1b78f'
   }
 }

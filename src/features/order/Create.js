@@ -68,6 +68,8 @@ const Create = (props) => {
               if(selectedModal === orderSearch['视频报修'].modelId) history.push(`create/form/${selectedModal}/selectdevice`)
 
               if(selectedModal === orderSearch['综合设备报修'].modelId)  history.push(`create/form/${selectedModal}`)
+
+              if(selectedModal === orderSearch['综合运维服务流程'].modelId) history.push(`create/form/${selectedModal}`)
             }
           }}>
             下一步<Icon type="right" />
