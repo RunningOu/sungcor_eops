@@ -18,7 +18,7 @@ const footerBar = [
   // {name: '资产', route: '/device', icon: (<Icon style={{ fontSize: '22px' }} type="codepen" />)},
   {name: '告警', route: '/alert/overview', icon: (<Alert style={{fontSize: '22px'}} />)},
   // {name: '监控', route: '/rmon', icon: (<Icon style={{ fontSize: '22px' }} type="monitor" />)},
-  {name: '个人', route: '/user', icon: (<Icon style={{ fontSize: '22px' }} type="user" />)},    
+  {name: '个人', route: '/user', icon: (<Icon style={{ fontSize: '22px' }} type="user" />)},
 ]
 
 const localCache = local_get(USER_INFO_ID) || ''
@@ -108,16 +108,13 @@ export default (props) => {
     visible={visible}
     onCancel={handleCancel}
     >
-      <div style={{'padding': '12px'}}>
+      <div>
                 {orderModal.map((modal,index) => (
                   <Col span={12} style={style} key={index}>
-                  <Card key={modal.id} bodyStyle={{ background: '#fff', border: '1px solid rgb(119, 174, 254, 0.3)', boxShadow: '3px 3px 4px 0px rgba(119, 174, 254,.1)', 'borderRadius': '10px', 'padding': '15px 2px 15px 20px' }} onClick={() => {
+                  <Card key={modal.id} bodyStyle={{background: '#fff', border: '1px solid rgb(119, 174, 254, 0.3)', boxShadow: '3px 3px 4px 0px rgba(119, 174, 254,.1)', 'borderRadius': '10px', 'padding': '15px 2px 15px 20px' }} onClick={() => {
                     setVisible(false)
                     history.push(`order?modelId=${modal.id}&modelName=${modal.name}`)
                     }}>
-                    {/* <div className="order-modal-icon">
-                      <img className="img" src={require('../../assets/imgs/modal.png')} alt='工单模型' />
-                    </div> */}
                     <p>
                       <span className="modal-name">{modal.name}</span>
                     </p>

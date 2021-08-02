@@ -77,7 +77,6 @@ const CreateOrder = Form.create({
     return objToFields(props.order.form)
   }
 })((props) => {
-  // const { user: { userAccountInfo } } = props
   const { modal } = useParams()
   const [visible, setVisible] = useState('none')
   const history = useHistory()
@@ -92,9 +91,6 @@ const CreateOrder = Form.create({
 
 
   useEffect(() => {
-    // if(_.findIndex(orderModal.field_list, e => e.code === 'resource') !== -1 && !_.has(props.order.form, 'resource')) {
-    //   history.push(`${props.location.pathname}/selectdevice`)
-    // }
     if(props.order.form.fxpcs !== undefined) {
       setBxpcs(props.order.form.fxpcs)
     }

@@ -13,7 +13,7 @@ import './SelectDevice.less'
 
 
 const { Search } = Input;
-const deviceState = [{ name: '在用', code: 'using' }, { name: '维修', code: 'maintenanceInfo' }, { name: '拆除', code: 'demolish' }]
+// const deviceState = [{ name: '在用', code: 'using' }, { name: '维修', code: 'maintenanceInfo' }, { name: '拆除', code: 'demolish' }]
 function mapStateToProps(state) {
   return {
     userAccountInfo: state.user.userAccountInfo,
@@ -36,7 +36,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
   const { history, userAccountInfo, match:{params: {modal}} } = props
   const [deviceList, setDeviceList] = useState([]) // 设备列表
   const [devcieSearch, setDeviceSearch] = useState('')
-  const [selectedClass] = useState([{ code: "Camera", name: "摄像机" }])
+  const [selectedClass] = useState([{ code: "fjsxj", name: "摄像机" }])
   const [selectedState] = useState([])
   const [drawerOpen, setDrawerOpen] = useState(false)
   const [count, setCount] = useState(0) // 列表总数
@@ -85,7 +85,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
             value: devcieSearch,
             operator: 'LIKE'
           }, {
-            field: 'jpbh',
+            field: 'JPBH',
             value: devcieSearch,
             operator: 'LIKE'
           }
@@ -114,7 +114,6 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
         } else {
           setDeviceList([...d.dataList])
         }
-        console.log(d)
       }
     })
   }, [selectedClass, selectedState, pageNum, devcieSearch, userAccountInfo])
@@ -145,27 +144,30 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 className="device-item"
                 key={item.id}
                 actions={[
-                  <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
-                  <IconText type="tool" text={item.whcs ? item.whcs[0].name : item.whcs} />
+                  // <IconText type="api" text={_.find(deviceState, (v) => v.code === item.cameraState).name} />,
+                  <IconText type="api" text={item.wxzt}/>,
+                  <IconText type="tool" text={item.ywdw} />
                 ]}
               >
                 <List.Item.Meta title={item.name} description={item.managementUnit} />
-                <span>{item.jpbh}</span>
+                <span>{item.code}</span>
                 <Button className="btn" type="link" onClick={() => {
-                  if (item.cameraState !== "using") {
-                    if (item.cameraState === "maintenanceInfo") {
+                  console.log(item)
+                  if (item.wxzt !== "在用") {
+                    if (item.wxzt === "维修中") {
                       message.error(`设备正在维修，无需重复报修`)
                     }
-                    if (item.cameraState === "demolish") {
+                    if (item.wxzt === "拆除") {
                       message.error(`设备已拆除`)
                     }
                     return
                   }
-                  if (item.whcs) {
+                  if (item.ywdw) {
                     console.log(props)
                     if (['超级管理员'].includes(userAccountInfo.roleName)) {
                       // props.staticContext({longitude: item.longitude})
                       queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
+                        console.log(d)
                         props.actions.setForm({
                           resource: [{
                             name: item.name,
@@ -177,12 +179,12 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                           apikey: d.apikey,
                           fxBxr: d.realname,
                           telephone: d.mobile,
-                          fxpcs: item.managementUnit,
-                          wxdwmc: item.whcs[0].name,
+                          fxpcs: item.SSDW,
+                          wxdwmc: item.ywdw,
                           sbmc: item.name,
-                          deviceKey: item.serialNumber,
+                          deviceKey: item.JPBH,
                           deviceIP: item.ip,
-                          title: `${item.managementUnit} - ${item.name}`,
+                          title: `${item.SSDW} - ${item.name}`,
                           xmmc: item.projectName
                         })
                         history.push({
@@ -199,12 +201,12 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                           taskId: null,
                           id: item.id
                         }],
-                        fxpcs: item.managementUnit,
-                        wxdwmc: item.whcs[0].name,
+                        fxpcs: item.SSDW,
+                        wxdwmc: item.ywdw,
                         sbmc: item.name,
-                        deviceKey: item.jpbh,
+                        deviceKey: item.JPBH,
                         deviceIP: item.ip,
-                        title: `${item.managementUnit} - ${item.name}`,
+                        title: `${item.SSDW} - ${item.name}`,
                         xmmc: item.projectName
                       })
                       history.push({

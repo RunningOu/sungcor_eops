@@ -19,7 +19,7 @@ export default (props) => {
   return (
     <>
     <Button type="primary" style={{backgroundColor:'#005da3'}} onClick={() => { history.push(`${location.pathname}/selectdevice`) }}>选择设备</Button>
-    <Table columns={columns} dataSource={props.form.resource} size="small" rowKey="id"/> 
+    <Table columns={columns} dataSource={props.form.resource} size="small" rowKey="id"/>
     </>
   )
 }

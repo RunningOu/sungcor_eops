@@ -112,7 +112,7 @@ export default {
             {code: 'title', name: '工单标题'}
         ]
     },
-    //综合运维服务流程
+    // 综合运维服务流程
     'd948b00b8e1f4a81b36e2203dcd1b78f': {
         modelName: "综合运维服务流程",
         tabs: [
