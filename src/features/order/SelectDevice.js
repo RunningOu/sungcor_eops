@@ -11,9 +11,9 @@ import {cgAccountList,cgAccountMap} from './mock/cgAccountList'
 
 import './SelectDevice.less'
 
+const classCodeArr = ['fjsxj','NVR','DVR','PCServer','Router','Switch','fxonu','fxolt','PCTerminal','Firewall','fxbbx','NBJK','other']
 
 const { Search } = Input;
-// const deviceState = [{ name: '在用', code: 'using' }, { name: '维修', code: 'maintenanceInfo' }, { name: '拆除', code: 'demolish' }]
 function mapStateToProps(state) {
   return {
     userAccountInfo: state.user.userAccountInfo,
@@ -60,12 +60,17 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
   useEffect(() => {
     let conditions = []
     let { realname } = userAccountInfo
-    if (selectedClass.length) {
+    if(modal === 'a50f0654c8a7465291f17769d4b61fae') {
+      conditions.push({
+       field: 'classCode',
+       value: 'fjsxj',
+       operator: 'IN'
+      })
+    } else {
       conditions.push({
         field: 'classCode',
-        value: selectedClass.map(classcode => classcode.code),
-        operator: 'IN'
-      })
+        value:[...classCodeArr],
+        operator: 'IN'})
     }
     //如果当前账号是城管下的账号，则进入流程
     if(cgAccountList.includes(realname)) {
@@ -152,8 +157,9 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 <List.Item.Meta title={item.name} description={item.managementUnit} />
                 <span>{item.code}</span>
                 <Button className="btn" type="link" onClick={() => {
-                  console.log(item)
-                  if (item.wxzt !== "在用") {
+                  console.log(item);
+                  // return
+                  if (item.classCode === 'fxsxj' && item.wxzt !== "在用") {
                     if (item.wxzt === "维修中") {
                       message.error(`设备正在维修，无需重复报修`)
                     }
@@ -163,11 +169,32 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     return
                   }
                   if (item.ywdw) {
-                    console.log(props)
+                    //综合运维流程id
+                    if(modal === 'd948b00b8e1f4a81b36e2203dcd1b78f') {
+                      props.actions.setForm({
+                        title: item.SSDW ? `${item.SSDW} - ${item.name}` : item.name,
+                        fxxmmc: item.projectName,
+                        fxwxdw: item.managementUnit,
+                        IP:item.ip,
+                        dd:item.name,
+                        deviceid: item.code,
+                        bxlx: 'rgxj' ,
+                        resource: [{
+                          classCode: item.classCode,
+                          className: item.className,
+                          id: item.id,
+                          name: item.name,
+                          status: 0
+                        }]
+                      })
+                      history.push({
+                        pathname: history.location.pathname.replace('/selectdevice', '')
+                      })
+                      return
+                    }
                     if (['超级管理员'].includes(userAccountInfo.roleName)) {
                       // props.staticContext({longitude: item.longitude})
-                      queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
-                        console.log(d)
+                      // queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
                         props.actions.setForm({
                           resource: [{
                             name: item.name,
@@ -176,21 +203,21 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                             taskId: null,
                             id: item.id
                           }],
-                          apikey: d.apikey,
-                          fxBxr: d.realname,
-                          telephone: d.mobile,
+                          apikey: userAccountInfo.apikey,
+                          fxBxr: userAccountInfo.realname,
+                          telephone: userAccountInfo.mobile,
                           fxpcs: item.SSDW,
                           wxdwmc: item.ywdw,
                           sbmc: item.name,
                           deviceKey: item.JPBH,
                           deviceIP: item.ip,
-                          title: `${item.SSDW} - ${item.name}`,
+                          title:  item.SSDW ?  `${item.SSDW} - ${item.name}` : item.name,
                           xmmc: item.projectName
                         })
                         history.push({
                           pathname: history.location.pathname.replace('/selectdevice', '')
                         })
-                      })
+                      // })
                       return
                     } else {
                       props.actions.setForm({
@@ -206,7 +233,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                         sbmc: item.name,
                         deviceKey: item.JPBH,
                         deviceIP: item.ip,
-                        title: `${item.SSDW} - ${item.name}`,
+                        title: item.SSDW ? `${item.SSDW} - ${item.name}` : item.name,
                         xmmc: item.projectName
                       })
                       history.push({

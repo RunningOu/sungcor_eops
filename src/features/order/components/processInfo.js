@@ -19,7 +19,7 @@ export default function  (props) {
   const showProcessInfo = orderSearch['综合设备报修'].modelId !== modelId && orderSearch['奉贤基础资源报修'].modelId !== modelId
 
 
-  //获取当前工单耗费的时间 小时为单位
+  //获取当前工单耗费的时间 单位为小时
   const getOrderCostTime = () => {
     let currentTime = new Date().valueOf()
     //完成的状态
@@ -109,7 +109,7 @@ export default function  (props) {
         <Spin spinning={loading}>
           {
             showProcessInfo ?
-              order.status === 10 || (order.form.filter(i => i.code === 'sfbx'))[0]['default_value'] === 'ygq' ? null :
+              order.status === 10 || (order.form.filter(i => i.code === 'sfbx'))[0] && order.form.filter(i => i.code === 'sfbx')[0]['default_value'] === 'ygq' ? null :
               <>
               <h3 className="title">实际耗时</h3>
               <div data-text={getOrderCostTime() >= 72 ? getOrderCostTime() + 'h' : '72h' } className="processWrapper">

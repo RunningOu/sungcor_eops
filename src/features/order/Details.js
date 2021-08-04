@@ -421,7 +421,7 @@ const Details = (props) => {
           <div className='order'>
             <OrderBuilder shrinkage={shrinkage} meta={order} order={orderInfo}/>
             { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
-            <h3 className="shrinkageButton"  onClick={handleChangeShrinkage}> {shrinkage ? '展开' : '收起' }<Icon type={shrinkage ? 'down':'up'} /></h3>
+            {orderInfo.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' ? null :  <h3  className="shrinkageButton"  onClick={handleChangeShrinkage}> {shrinkage ? '展开' : '收起' }<Icon type={shrinkage ? 'down':'up'} /></h3> }
             <div className="handle">
               {
                 (orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 || (props.userAccountInfo.userId === MANAGE_ID && orderInfo.activity_name === '用户确认')) && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
@@ -439,7 +439,7 @@ const Details = (props) => {
                       }}>接单并处理</Button>
                     </> :
                     <>
-                    {orderInfo.status === 10 || orderInfo.status === 7 || (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq'  ? null : <Button type="primary" size="large" onClick={() => {
+                    {orderInfo.status === 10 || orderInfo.status === 7 || (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0] &&  (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq'  ? null : <Button type="primary" size="large" onClick={() => {
                         history.push(`${props.location.pathname}/handle${search}`)
                       }}>处理</Button>  }
                     </> :

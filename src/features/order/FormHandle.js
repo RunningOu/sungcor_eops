@@ -11,9 +11,11 @@ import {
   singleSel,
   dateTime,
   resource,
+  resourceShow,
   listSel,
   GisShow,
-  HandleButton
+  HandleButton,
+  cascader
 } from './components'
 import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName ,getSelfDetection} from '../../common/request'
 import { connect } from 'react-redux'
@@ -25,7 +27,7 @@ import orderBefore from './mock/orderBefore'
 import orderSearch from './mock/orderSearch'
 import orderModelConfig from './mock/orderModelConfig'
 
-import './Form.less'
+import "./FormHandle.less"
 
 const MESSAGE_KEY = 'messageKey'
 const { CheckableTag } = Tag
@@ -59,12 +61,12 @@ const cr = {
   "singleSel": singleSel,
   "listSel": listSel,
   "multiRowText": multiRowText,
-  "resource": resource,
+  "resource": resourceShow,
   "attachfile": singleRowText,
   "department": singleRowText,
   "dateTime": dateTime,
   "multiSel": multiSel,
-  "cascader": singleRowText,
+  "cascader": cascader,
   "treeSel": singleRowText,
   "double": singleRowText
 }
@@ -108,7 +110,6 @@ const HandleOrder = Form.create({
   const [resourceId, setResourceId] = useState('') // 资产id
 
   function handleForm(handle_rules, name, extraForm = {}) {
-    const {route_id } = handle_rules
     let pass = true
     let form = { ...props.order.form }
     if (query.get('modelId') === orderSearch['视频报修'].modelId) {
@@ -128,7 +129,6 @@ const HandleOrder = Form.create({
     }
     if(form.overdueNotify){
       delete form.overdueNotify
-      console.log(form)
     }
     var submitData = {
       ticket_id: modal,//工单id
@@ -198,7 +198,6 @@ const HandleOrder = Form.create({
         })
     } else {
     handleOrder(submitData).then(d => {
-        // if (name !== '维修完成关单') wxMessage({ id: orderInfo.id })
         //判断是否有图片，有的话就上传
         if (files.length) {
           message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
@@ -270,6 +269,7 @@ const HandleOrder = Form.create({
     if (orderModal.hasOwnProperty('field_list')) {
       let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
       orderModal.field_list.forEach(field => {
+
         if (orderRule.hidden && orderRule.hidden.includes(field.code)) {
           return
         }
@@ -280,6 +280,9 @@ const HandleOrder = Form.create({
         const element = pickProps(field, [
           'code', 'name', 'id', 'type', 'params', 'cascader', 'type_desc'
         ])
+        if(field.code === 'fxbxgzlx') {
+          element.params = [...field.cascade]
+        }
         element.widget = cr[element.type]
         element.form = props.order.form
         element.rules = []
@@ -460,7 +463,6 @@ const HandleOrder = Form.create({
                     } else {
                       gqjlArr.push({'title': '挂起原因','reason': putUpRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
                     }
-                    // var gqqq = []
                     updateOrder({
                       ticket_id: modal,
                       form: {
@@ -492,7 +494,6 @@ const HandleOrder = Form.create({
                   }else {
                     message.warning('请填写挂起原因')
                   }
-
                 }
               }
                 onCancel={() => {setShowPutUp(false)}}

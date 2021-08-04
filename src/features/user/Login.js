@@ -26,11 +26,16 @@ const Login = (props) => {
       login({
         "uyunUserName": userName,
         "uyunPassWord": passWord,
+        // username: userName,
+        // password: passWord,
+        // captcha: "",
+        // checkKey: Date.now()
       }).then(dd => {
         if (!dd.data) {
           message.error(dd.message)
           return
         }
+        console.log(dd)
         queryUserInfo({...userAccountInfo, ...dd.data})
           .then(d => {
             const userInfo = {

@@ -15,16 +15,12 @@ const shrinkageMap = {
 
 const OrderBuilder = (props) => {
   const { meta, shrinkage , order } = props
-
-  useEffect(() =>{
-    console.log(props)
-  }, [] )
+  console.log(order)
 
   function render(item) {
     if (item.code === 'overdueNotify' || item.code === 'resource') {
       return null
     }
-
     //如果当前状态为折叠的话，过滤对应的标题
     if(shrinkage) {
      if(shrinkageMap[item.code]) {
@@ -36,6 +32,9 @@ const OrderBuilder = (props) => {
     return item.widget ? item.widget(item) : null
   }
   return (
+      order.model_id  === 'd948b00b8e1f4a81b36e2203dcd1b78f' ? <Descriptions size="middle">
+        {(meta || []).map(i => i.widget ? i.widget(i) : null )}
+      </Descriptions>  :
         <Descriptions  size="middle">
           <Descriptions.Item label='' key={props.id} >
             <h3 style={{color: "#0e6dfb"}}>{'基础信息'}</h3>

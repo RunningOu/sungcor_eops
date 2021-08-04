@@ -29,7 +29,7 @@ export default function(props) {
         });
       }
   },[props])
-  
+
 //   const show = _.find(props.cascade, o => o.value === props.default_value)
   return (
     <Descriptions.Item label={props.name} key={props.id} span={3}>

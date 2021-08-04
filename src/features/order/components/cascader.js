@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Cascader } from 'antd'
 export default function(props) {
+  console.log('cascader',props)
   return (
-    <Cascader options={props.cascade} placeholder={`请选择${props.name}`} />
+    <Cascader options={props.cascade || props.params} defaultValue={props.form && props.form.fxbxgzlx && props.form.fxbxgzlx.length ? props.form.fxbxgzlx : []} placeholder={`请选择${props.name}`} />
   )
 }

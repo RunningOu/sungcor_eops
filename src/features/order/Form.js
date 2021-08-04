@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
-import { Form, message, Upload, Button } from 'antd'
+import { Form, message, Upload, Button, Spin } from 'antd'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
@@ -88,6 +88,7 @@ const CreateOrder = Form.create({
   const [bxpcs, setBxpcs] = useState('') // pcs
   const [resourceId, setResourceId] = useState('') // 资产id
   const [buttonDisable,setButtonDisable] = useState(false)
+  const [formLoading,setFormLoading] = useState(false)
 
 
   useEffect(() => {
@@ -109,9 +110,11 @@ const CreateOrder = Form.create({
 
   useEffect(() => {
      // 判断如果是视频报修
+     setFormLoading(true)
      if(orderSearch['视频报修'].modelId === modal){
       orderModelConfig[modal].forEach((item) => {
         if (item.name === '开始') {
+          setFormLoading(false)
           setOrderModal(item)
         }
       })
@@ -119,6 +122,7 @@ const CreateOrder = Form.create({
       // 加载工单模板
       queryOrderModel({ modelId: modal }).then(d => {
         console.log('加载工单模板',d)
+        setFormLoading(false)
         setOrderModal(d)
       }).catch(e => {
         message.error('从远程加载模板失败' + e)
@@ -213,10 +217,15 @@ const CreateOrder = Form.create({
   }, [props.actions, props.user, orderModal, modal, bxpcs])
 
   return (
+    formLoading ?
+    <div className='order-page-form'>
+      <HeaderBar title='工单创建' />
+      <Spin style={{margin: '20px auto',width: '100%'}} tip="报修模板加载中" />
+    </div> :
     <div className='order-page-form'>
       <HeaderBar title='工单创建' />
       <div className='form'>
-        <Form>
+        <Form loading={formLoading}>
           <FormBuilder meta={meta} form={props.form} />
         </Form>
         {needFile ?
@@ -264,6 +273,7 @@ const CreateOrder = Form.create({
             if (props.order.form.hasOwnProperty('apikey')) {
               params.apikey = props.order.form.apikey
             }
+            console.log(createform)
             if(orderSearch['综合设备报修'].modelId === modal){
               var bxsblx = document.getElementsByClassName('ant-cascader-picker-label')
               var pcsgg = document.getElementsByClassName('ant-select-selection-selected-value')
@@ -271,6 +281,12 @@ const CreateOrder = Form.create({
               var bxcc = bxsblx[0].textContent.replace(' ','')
               bxcc = bxcc.replace(' ','')
               createform.title = pcsgg[0].textContent + '-' + checked[0].children[1].textContent + '-' + bxcc
+            }
+
+            if(modal === 'd948b00b8e1f4a81b36e2203dcd1b78f') {
+              const filterKey = ['deviceIp','deviceKey','fxpcs','sbmc','wxdwmc','xmmc']
+              filterKey.forEach(i => delete createform[i])
+              delete createform.overdueNotify
             }
             message.loading({content:'创建工单中……', key:MESSAGE_KEY})
             createOrder({
@@ -304,7 +320,7 @@ const CreateOrder = Form.create({
                 })
                 setButtonDisable(false)
                 history.push('/order?modelId='+modal)
-              }else {
+              } else {
                 setButtonDisable(false)
                 history.push('/order?modelId='+modal)
               }
