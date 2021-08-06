@@ -560,3 +560,18 @@ export const queryDevice = async(type,key) => {
     throw new Error(e)
   }
 }
+
+
+/**
+ * 处理工单
+ * @param data 工单数据
+ * @param apiKey 参数
+ */
+ export function handleOssTicket (data, apiKey) {
+  return axios({
+    url: '/oss/api/itsm/handle',
+    method: 'POST',
+    params: { apikey: apiKey },
+    data
+  })
+}

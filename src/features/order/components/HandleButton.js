@@ -57,6 +57,7 @@ export default (props) => {
     let next = _.find(handle.handle_rules, r => r.name === children)
     if (handle && handle.policy === 3) {
       if(next === undefined) return
+      console.log(next)
       setGroups({
         key: Object.keys(next.executors_groups)[0],
         groups: {

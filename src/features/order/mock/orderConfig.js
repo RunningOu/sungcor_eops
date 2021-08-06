@@ -7,10 +7,10 @@ export default {
       required: ['telephone', "bxfs", "fxGzlx"],
       readOnly: ['fxpcs', 'wxdwmc', 'sbmc', 'deviceKey', 'deviceIP', 'title', 'xmmc'],
       hidden: ['title', 'overdueNotify',
-      'resource', 
+      'resource',
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
-      "deviceIP",'bxfs', 'bxsj', 
+      "deviceIP",'bxfs', 'bxsj',
       'jdsj','sfbx','gqyy'],
       defaultValue: {
         fxBxr: 'realname',
@@ -24,10 +24,10 @@ export default {
     },
     '内场接单': {
       hidden: ['title', 'fxBxr', 'telephone', 'overdueNotify',
-      'resource', 'fxGzlx', 'ticketDesc', 
+      'resource', 'fxGzlx', 'ticketDesc',
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
-      "deviceIP",'bxfs', 'bxsj', 
+      "deviceIP",'bxfs', 'bxsj',
       'jdsj', 'xmmc', 'sfbx', 'gqyy'],
       defaultValue: {
         receivedman: 'realname',
@@ -38,10 +38,10 @@ export default {
     '外场返单': {
       required: ['solvent'],
       hidden: ['title', 'fxBxr', 'telephone', 'overdueNotify',
-      'resource', 'fxGzlx', 'ticketDesc', 
+      'resource', 'fxGzlx', 'ticketDesc',
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
-      "deviceIP",'bxfs', 'bxsj', 
+      "deviceIP",'bxfs', 'bxsj',
       'jdsj', 'receivedman', 'jdphone', 'jdsj'
       , 'pdms', 'solvingTime','gpsm', 'xmmc'
       , 'sfbx', 'gqyy'],
@@ -54,10 +54,10 @@ export default {
     },
     '内场审核': {
       hidden: ['title', 'fxBxr', 'telephone', 'overdueNotify',
-      'resource', 'fxGzlx', 'ticketDesc', 
+      'resource', 'fxGzlx', 'ticketDesc',
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
-      "deviceIP",'bxfs', 'bxsj', 
+      "deviceIP",'bxfs', 'bxsj',
       'jdsj', 'receivedman', 'jdphone', 'jdsj',
       'pdms', 'solvingTime',
       'gpsm', 'solver', 'solveResult',
@@ -66,10 +66,10 @@ export default {
     },
     '用户确认': {
       hidden: ['title', 'fxBxr', 'telephone', 'overdueNotify',
-      'resource', 'fxGzlx', 'ticketDesc', 
+      'resource', 'fxGzlx', 'ticketDesc',
       'fxpcs', 'wxdwmc', 'sbmc',
       'urgentLevel', "deviceKey" ,
-      "deviceIP",'bxfs', 'bxsj', 
+      "deviceIP",'bxfs', 'bxsj',
       'jdsj', 'receivedman', 'jdphone', 'jdsj',
       'pdms', 'solvingTime',
       'gpsm', 'solver', 'solveResult',
@@ -90,7 +90,7 @@ export default {
         readOnly: [],
         hidden: ['overdueNotify', 'title',
         'fxpcs', 'wxdwmc',
-        'urgentLevel', 'bxsj', 
+        'urgentLevel', 'bxsj',
         'jdsj'],
         defaultValue: {
           fxBxr: 'realname',
@@ -148,6 +148,53 @@ export default {
         solvingTime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       },
       userInfo: {fxpcs: 'realname'}
+    }
+  },
+  //综合运维服务流程
+  'd948b00b8e1f4a81b36e2203dcd1b78f': {
+    "开始": {
+      hidden: ['urgentLevel','bxlx'],
+      readOnly: ['repairman'],
+      defaultValue: {
+        urgentLevel:2,
+        repairman: 'realname',
+        telephone: 'mobile',
+        bxlx: 'rgxj'
+      }
+    },
+    "服务台审核": {
+      hidden: ['shr','shsj','bxlx','resource'],
+      readOnly: ['repairman','IP','dd','deviceid'],
+      defaultValue: {
+        shr: 'realname',
+        shsj: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
+    "问题受理":{
+      hidden: ['qsr','qssj','qsrlxdh','shsj','shr','bxlx','resource','urgentLevel','repairman','bxbm'],
+      readOnly: ['repairman','bxbm','dd','IP','deviceid','fxxmmc','fxwxdw'],
+      defaultValue: {
+        qsr: 'realname',
+        qssj: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
+        qsrlxdh: 'mobile'
+      }
+    },
+    "实施办理": {
+      hidden: ['urgentLevel','repairman','bxbm','resource','bxlx','shr','shsj','qsr','qssj','qsrlxdh','qsgs','solvingTime'],
+      readOnly: ['dd','IP','deviceid','fxxmmc','fxwxdw','fpr','fprlxdh'],
+      defaultValue: {
+        fpr: 'realname',
+        fprlxdh: 'mobile',
+        solvingTime: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      }
+    },
+    "结果确认": {
+      hidden: ['urgentLevel','repairman','bxbm','resource','bxlx','shr','shsj','qsr','qssj','qsrlxdh','qsgs','solvingTime','fxqrr','acknowledgetime'],
+      readOnly: [],
+      defaultValue: {
+        fxqrr: 'realname',
+        acknowledgetime: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
+      }
     }
   }
 }

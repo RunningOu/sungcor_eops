@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, message, Spin, Button, Modal, Tag, Input } from 'antd'
 import { MANAGE_ID } from '../../../config'
-import { local_get } from '../../../utils/index'
+import { local_get ,filterInvalidValue} from '../../../utils/index'
 import moment from 'moment'
 import _ from 'lodash'
 import {
@@ -165,7 +165,7 @@ const HandleOrder = Form.create({
         // }
         // console.log(param)
         // pldeal.push(param)
-        submitDatat.apikey = item.apikey
+        // submitDatat.apikey = item.apikey
         handleOrder(submitDatat).then(d => {
           if(d){
             setSecuss(suuu+=1)
@@ -329,14 +329,13 @@ const HandleOrder = Form.create({
       props.actions.setForm(defaultForm)
     }
   }, [props.actions, props.user, orderModal, modal, search])
-  // useEffect(() => {
-  //   console.log(orderInfo, orderModal)
-  //   console.log(orderBefore.changeExecutor[orderModal.sequence])
-  // }, [orderInfo, orderModal])
   useEffect(() => {
     setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
   }, [orderInfo,orderModal])
 
+  useEffect(() => {
+    console.log(orderModal)
+  })
 
   return (
     <div className='order-page-formhandleBa'>
@@ -347,13 +346,12 @@ const HandleOrder = Form.create({
             <FormBuilder meta={meta} form={props.form} />
           </Form>
           <div className="handle-button-group">
-            { sfgq?null:orderInfo.handle_rules?.map(
+            { sfgq ? null:orderInfo.handle_rules?.map(
               d => (
                 d.name !== '未修好回退'?
                 <HandleButton key={d.route_id} handle={handle} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>
                 : <></>
               ))}
-            {/* {[3,6,8].includes(orderModal.sequence) ? */}
             {[3, 6, 8].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
               <>
                 <Button onClick={() => { setChangeExecutor(true) }}>改派工单</Button>

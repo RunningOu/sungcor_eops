@@ -439,7 +439,7 @@ const Details = (props) => {
                       }}>接单并处理</Button>
                     </> :
                     <>
-                    {orderInfo.status === 10 || orderInfo.status === 7 || (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0] &&  (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq'  ? null : <Button type="primary" size="large" onClick={() => {
+                    {orderInfo.status === 10 || orderInfo.status === 7 || (orderInfo.form?.filter((item) => item.code === 'sfbx')) [0] && (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq'  ? null : <Button type="primary" size="large" onClick={() => {
                         history.push(`${props.location.pathname}/handle${search}`)
                       }}>处理</Button>  }
                     </> :
@@ -457,6 +457,9 @@ const Details = (props) => {
                   </> :
                   null
               }
+              {orderInfo.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' && orderInfo.status === 10 ? <Button onClick={() => {
+                orderHangOnqh(2)
+              }} type="primary">挂起工单取回</Button>:null}
               {
                 orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
                   isgq === "ygq"?

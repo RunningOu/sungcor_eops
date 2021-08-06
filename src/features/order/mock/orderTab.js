@@ -116,7 +116,7 @@ export default {
     'd948b00b8e1f4a81b36e2203dcd1b78f': {
         modelName: "综合运维服务流程",
         tabs: [
-            // { title: '挂起', sub: 5 },
+            { title: '挂起', sub: 5 },
             { title: '待办', sub: 1 },
             { title: '逾期', sub: 4 },
             { title: '完成', sub: 3 },
@@ -129,7 +129,7 @@ export default {
             [{ key: "participation", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
             [{ key: "status", value: "3", operator: "IN" }, { key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
             [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
-            [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+            [{ key: "formData.sfbx", value: "ygq", operator: "EQ" },{ key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
         ],
         searchList: [
             {code: 'title', name: '工单标题'}

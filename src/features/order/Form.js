@@ -96,7 +96,6 @@ const CreateOrder = Form.create({
       setBxpcs(props.order.form.fxpcs)
     }
     if (props.order.form.resource && props.order.form.resource[0].id) {
-
       setResourceId(props.order.form.resource[0].id)
     }
   }, [orderModal,  history, props.order.form, props.location.pathname])
@@ -225,7 +224,7 @@ const CreateOrder = Form.create({
     <div className='order-page-form'>
       <HeaderBar title='工单创建' />
       <div className='form'>
-        <Form loading={formLoading}>
+        <Form loading={formLoading.toString()}>
           <FormBuilder meta={meta} form={props.form} />
         </Form>
         {needFile ?
@@ -282,11 +281,39 @@ const CreateOrder = Form.create({
               bxcc = bxcc.replace(' ','')
               createform.title = pcsgg[0].textContent + '-' + checked[0].children[1].textContent + '-' + bxcc
             }
-
-            if(modal === 'd948b00b8e1f4a81b36e2203dcd1b78f') {
+            //进到综合运维服务流程，做一些定制操作
+            if(orderSearch['综合运维服务流程'].modelId ===  modal) {
+              //去掉参数中的部分key，让工单正常流转
               const filterKey = ['deviceIp','deviceKey','fxpcs','sbmc','wxdwmc','xmmc']
               filterKey.forEach(i => delete createform[i])
               delete createform.overdueNotify
+
+              //如果选择了设备，但是设备没有维修单位，需要提示
+              let { resource } = createform
+              if(resource && Array.isArray(resource) && resource.length > 0) {
+                if(!createform.hasOwnProperty('fxwxdw') || (createform.hasOwnProperty('fxwxdw') && (createform.fxwxdw === '' || createform.fxwxdw === undefined))) {
+                  message.error({content: '请完善资产信息!'})
+                  setButtonDisable(false)
+                  return
+                }
+              }
+
+              const fxbxgzlx = orderModal.field_list.find((i) => i.code === 'fxbxgzlx' )
+              const filterArray = ['监控类','计算机类','其他设备类']
+              const errorTypeMap = fxbxgzlx.cascade.map(i => {
+                return {
+                  label: i.label,
+                  value: i.value
+                }
+              })
+              if(Array.isArray(createform['fxbxgzlx']) && createform['fxbxgzlx'].length) {
+                let result = errorTypeMap.find(i => i.value === createform['fxbxgzlx'][0])
+                if(filterArray.includes(result.label) &&  (createform.hasOwnProperty('fxwxdw') && !createform['fxwxdw'])){
+                  message.error('维护单位不能为空!')
+                  setButtonDisable(false)
+                  return
+                }
+              }
             }
             message.loading({content:'创建工单中……', key:MESSAGE_KEY})
             createOrder({

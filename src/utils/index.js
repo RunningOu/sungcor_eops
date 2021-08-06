@@ -90,3 +90,13 @@ export function TimeToHours (time) {
   var hours = time / 1000 / 60 / 60
   return hours.toFixed(1) + 'h'
 }
+export function filterInvalidValue(obj) {
+  let copy = Object.assign({},obj)
+  console.log(copy)
+  for(const key in copy) {
+    if(copy[key] === '' || copy[key] === undefined || copy[key] === null || (Array.isArray(copy[key]) && copy[key].length === 0)) {
+      delete copy[key]
+    }
+  }
+  return copy
+}

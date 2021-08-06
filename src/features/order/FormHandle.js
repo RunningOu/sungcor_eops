@@ -17,7 +17,7 @@ import {
   HandleButton,
   cascader
 } from './components'
-import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName ,getSelfDetection} from '../../common/request'
+import { queryOrderModel, queryOrderInfo, handleOrder, updateImage, changeOrderExecutor, updateOrder, getUserbyName ,getSelfDetection,handleOssTicket ,executeOrderHangStatus} from '../../common/request'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actions from './redux/actions'
@@ -97,6 +97,8 @@ const HandleOrder = Form.create({
   const [handle, setHandle] = useState({}) //setHandle
   const [visible, setVisible] = useState('none') // gis显示隐藏
   const [loading, setPlVisible] = useState(true)
+  const [showBackModal,setShowBackModal] = useState(false)
+  const [backRemark,setBackRemark] = useState('')
   const query = new URLSearchParams(search)
 
   const [changeExecutor, setChangeExecutor] = useState(false)
@@ -269,7 +271,6 @@ const HandleOrder = Form.create({
     if (orderModal.hasOwnProperty('field_list')) {
       let orderRule = _.get(orderConfig, `${query.get('modelId')}.${orderModal.name}`, {})
       orderModal.field_list.forEach(field => {
-
         if (orderRule.hidden && orderRule.hidden.includes(field.code)) {
           return
         }
@@ -297,6 +298,7 @@ const HandleOrder = Form.create({
         }
         newMeta.push(element)
       })
+      console.log(newMeta)
       setMeta(newMeta)
       console.log(orderModal.field_list)
     }
@@ -348,13 +350,7 @@ const HandleOrder = Form.create({
     setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
   }, [orderInfo,orderModal])
 
-  useEffect(() => {
-    console.log('handlerules',orderInfo.handle_rules)
-  },[orderInfo])
 
-  useEffect(() => {
-    console.log(orderModal)
-  }, [orderModal])
 
   return (
     <div className='order-page-formhandle'>
@@ -502,6 +498,62 @@ const HandleOrder = Form.create({
               </Modal>
             </>
             : null}
+          {orderInfo.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' && orderInfo.status !== 10 ? <div>
+            <Button
+            onClick={() => {
+              Modal.confirm({
+                title: '系统提示',
+                content: '确定挂起工单吗？',
+                onOk() {
+                  executeOrderHangStatus(orderInfo.id,0).then(res => {
+                    updateOrder({
+                      ticket_id: orderInfo.id,
+                      form: {
+                        sfbx: 'ygq'
+                      }
+                    }).then(res => {
+                      message.success('挂起成功')
+                    })
+                  })
+                  history.push('/order/?modelId=d948b00b8e1f4a81b36e2203dcd1b78f&modelName=综合运维服务流程')
+                },
+                onCancel() {
+                  console.log('取消')
+                }
+              })
+            }}
+            >挂起工单</Button>
+          </div> : null }
+          {orderInfo.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' && orderInfo.activity_name !== '服务台审核' ?
+            <div>
+              <Button onClick={() => {setShowBackModal(true)}}>回退工单</Button>
+              <Modal visible={showBackModal}
+              title="请填写回退原因"
+              onOk={
+                () => {
+                  if(!backRemark) {
+                    message.warning('请填写回退原因')
+                  }
+                  let data = {
+                    handle_rules: {
+                      message: backRemark
+                    },
+                    handle_type: 4,
+                    model_id: orderInfo.model_id,
+                    ticket_id:  orderInfo.id
+                  }
+                  console.log(userAccountInfo)
+                  handleOssTicket(data,userAccountInfo.apiKey).then(res => {
+                    message.success('回退成功！')
+                    history.push('/order/?modelId=d948b00b8e1f4a81b36e2203dcd1b78f&modelName=综合运维服务流程')
+                  })
+                }
+              }
+              onCancel={() => {setShowBackModal(false)}}
+              >
+                  <Input.TextArea rows="3" placeholder="回退原因" value={backRemark} onChange={e => { setBackRemark(e.target.value) }} />
+              </Modal>
+            </div> : null}
         </div>
         <GisShow resourceId={resourceId} visible={visible} />
       </Spin>
