@@ -3,7 +3,7 @@ import "./Circle.less"
 
 /*
 Circle组件对状态小球进行了封装，实现了从内向外波动的动画效果
-Circle组件接受两个参数 
+Circle组件接受两个参数
   status: 组件显示的状态，默认是success
   text: 组件的文本,如果不传就是不显示
 */

@@ -5,15 +5,13 @@ import './gisShow.css'
 import { useHistory } from 'react-router-dom'
 import { queryDeviceById } from '../../../common/request'
 
-// var BMap = window.BMap || {}
-
 export default function(props) {
     var BMap = window.BMap
+    let PI = 3.1415926535897932384626;
     const history = useHistory()
     const {resourceId, visible} = props
     const [deviseInfo, setDeviseInfo] = useState({}) // 设备信息
     const [mapr, setMap] = useState()
-    // const [jwdBD, setJwdBd] = useState([])
     function handleClick() {
         mapr.setZoom(mapr.getZoom() + 2)
     }
@@ -85,10 +83,9 @@ export default function(props) {
     }
 
     //定义常量
-// let x_PI = 3.14159265358979324 * 3000.0 / 180.0;
-let PI = 3.1415926535897932384626;
-// let a = 6378245.0;
-// let ee = 0.00669342162296594323;
+    // let x_PI = 3.14159265358979324 * 3000.0 / 180.0;
+    // let a = 6378245.0;
+    // let ee = 0.00669342162296594323;
 
     /**
      * WGS84转GCj02
@@ -240,6 +237,7 @@ let PI = 3.1415926535897932384626;
     useEffect(()=>{
         if (resourceId !== '') {
             queryDeviceById(resourceId).then((d) => {
+                console.log(d);
                 setDeviseInfo(d)
             })
         }

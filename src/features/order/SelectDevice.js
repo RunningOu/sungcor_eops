@@ -99,7 +99,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
     }
     if (['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
       if (userAccountInfo.depts.length) {
-        if (userAccountInfo.roleName === '派出所人员') conditions.push({ field: 'pcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
+        if (userAccountInfo.roleName === '派出所人员') conditions.push({ field: 'SSDW', value: userAccountInfo.depts.map(dep => dep.name), operator: 'IN' })
         if (userAccountInfo.roleName === '设备厂商') conditions.push({ field: 'whcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
       }
     }
@@ -158,43 +158,98 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 <span>{item.code}</span>
                 <Button className="btn" type="link" onClick={() => {
                   console.log(item);
-                  // return
-                  if (item.classCode === 'fxsxj' && item.wxzt !== "在用") {
-                    if (item.wxzt === "维修中") {
-                      message.error(`设备正在维修，无需重复报修`)
+                  fetch('https://fxtyyw.gaj.sh.gov.cn/mobile/oss2/api/ciSnapshot/query',{
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                      'X-Access-Token': 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2Mjg4MzQ5MTIsInVzZXJuYW1lIjoiYWRtaW4ifQ.3PYVn4Ag_Tqh9FofS6GD0FpISqnK6O-tdjBQ89J5XMo',
+                    },
+                    body: JSON.stringify({
+                        "conditions": [{
+                            "field": "name",
+                            "operator": "in",
+                            "value": `${item.name}`
+                        }],
+                        "pageNum": 1,
+                        "pageSize": 10
+                    })
+                  }).then(res => res.json()).then(res => {
+                    if(res.code === 200 && res.result.list) {
+                      let { list } = res.result
+                      if(list[0].repairStatus === null || list[0].repairStatus === 1) {
+                        handleCreateForm()
+                      } else if(list[0].repairStatus === 0) {
+                        message.error('工单已存在，请勿重复报修')
+                      }
+                    } else {
+                      message.error('请查询资产是否录入！')
                     }
-                    if (item.wxzt === "拆除") {
-                      message.error(`设备已拆除`)
-                    }
-                    return
-                  }
-                  if (item.ywdw) {
-                    //综合运维流程id
-                    if(modal === 'd948b00b8e1f4a81b36e2203dcd1b78f') {
-                      props.actions.setForm({
-                        title: item.SSDW ? `${item.SSDW} - ${item.name}` : item.name,
-                        fxxmmc: item.projectName,
-                        fxwxdw: item.managementUnit,
-                        IP:item.ip,
-                        dd:item.name,
-                        deviceid: item.code,
-                        bxlx: 'rgxj' ,
-                        resource: [{
-                          classCode: item.classCode,
-                          className: item.className,
-                          id: item.id,
-                          name: item.name,
-                          status: 0
-                        }]
-                      })
-                      history.push({
-                        pathname: history.location.pathname.replace('/selectdevice', '')
-                      })
+                  })
+                  return
+
+                  function handleCreateForm() {
+                    if (item.classCode === 'fxsxj' && item.wxzt !== "在用") {
+                      if (item.wxzt === "维修中") {
+                        message.error(`设备正在维修，无需重复报修`)
+                      }
+                      if (item.wxzt === "拆除") {
+                        message.error(`设备已拆除`)
+                      }
                       return
                     }
-                    if (['超级管理员'].includes(userAccountInfo.roleName)) {
-                      // props.staticContext({longitude: item.longitude})
-                      // queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
+                    if (item.ywdw) {
+                      //综合运维流程id
+                      if(modal === 'd948b00b8e1f4a81b36e2203dcd1b78f') {
+                        props.actions.setForm({
+                          title: item.SSDW ? `${item.SSDW} - ${item.name}` : item.name,
+                          fxxmmc: item.projectName,
+                          fxwxdw: item.managementUnit,
+                          IP:item.ip,
+                          dd:item.name,
+                          deviceid: item.code,
+                          bxlx: 'rgxj' ,
+                          resource: [{
+                            classCode: item.classCode,
+                            className: item.className,
+                            id: item.id,
+                            name: item.name,
+                            status: 0
+                          }]
+                        })
+                        history.push({
+                          pathname: history.location.pathname.replace('/selectdevice', '')
+                        })
+                        return
+                      }
+
+                      if (['超级管理员'].includes(userAccountInfo.roleName)) {
+                        // props.staticContext({longitude: item.longitude})
+                        // queryDeviceByManager(item.pcs[0].uid).then(({data:d}) => {
+                          props.actions.setForm({
+                            resource: [{
+                              name: item.name,
+                              className: item.className,
+                              status: 0,
+                              taskId: null,
+                              id: item.id
+                            }],
+                            apikey: userAccountInfo.apikey,
+                            fxBxr: userAccountInfo.realname,
+                            telephone: userAccountInfo.mobile,
+                            fxpcs: item.SSDW,
+                            wxdwmc: item.ywdw,
+                            sbmc: item.name,
+                            deviceKey: item.JPBH,
+                            deviceIP: item.ip,
+                            title:  item.SSDW ?  `${item.SSDW} - ${item.name}` : item.name,
+                            xmmc: item.projectName
+                          })
+                          history.push({
+                            pathname: history.location.pathname.replace('/selectdevice', '')
+                          })
+                        // })
+                        return
+                      } else {
                         props.actions.setForm({
                           resource: [{
                             name: item.name,
@@ -203,47 +258,22 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                             taskId: null,
                             id: item.id
                           }],
-                          apikey: userAccountInfo.apikey,
-                          fxBxr: userAccountInfo.realname,
-                          telephone: userAccountInfo.mobile,
                           fxpcs: item.SSDW,
                           wxdwmc: item.ywdw,
                           sbmc: item.name,
                           deviceKey: item.JPBH,
                           deviceIP: item.ip,
-                          title:  item.SSDW ?  `${item.SSDW} - ${item.name}` : item.name,
+                          title: item.SSDW ? `${item.SSDW} - ${item.name}` : item.name,
                           xmmc: item.projectName
                         })
                         history.push({
                           pathname: history.location.pathname.replace('/selectdevice', '')
                         })
-                      // })
-                      return
+                      }
                     } else {
-                      props.actions.setForm({
-                        resource: [{
-                          name: item.name,
-                          className: item.className,
-                          status: 0,
-                          taskId: null,
-                          id: item.id
-                        }],
-                        fxpcs: item.SSDW,
-                        wxdwmc: item.ywdw,
-                        sbmc: item.name,
-                        deviceKey: item.JPBH,
-                        deviceIP: item.ip,
-                        title: item.SSDW ? `${item.SSDW} - ${item.name}` : item.name,
-                        xmmc: item.projectName
-                      })
-                      history.push({
-                        pathname: history.location.pathname.replace('/selectdevice', '')
-                      })
+                      message.error("设备信息不完善，报修失败。", () => { history.push("/") })
                     }
-                  } else {
-                    message.error("设备信息不完善，报修失败。", () => { history.push("/") })
                   }
-
                 }}>点击选择</Button>
               </List.Item>)}
           />

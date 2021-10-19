@@ -47,24 +47,6 @@ export default (props) => {
       }
     }
     if(userInfo.userId){
-      // 待办个数
-      // queryOrderList({
-      //   'model': {'attrs':tattrs},
-      //   "pageNum": 1,
-      //   "pageSize": 1
-      // }).then((d) => {
-      //   setTodo(d.count)
-      // })
-        // .catch((e) => { })
-      // 逾期
-      // queryOrderList({
-      //   'model': {'attrs': oAttrs},
-      //   "pageNum": 1,
-      //   "pageSize": 1
-      // }).then((d) => {
-      //   setOverdue(d.count)
-      // })
-      //   .catch((e) => { })
       // 总设备在线率
       countOnlienRate().then((data) => {
         if(data.result){

@@ -64,7 +64,9 @@ const Create = (props) => {
                 urgent_level: 2
               })
               props.actions.clearForm()
-              if(selectedModal === orderSearch['视频报修'].modelId) history.push(`create/form/${selectedModal}/selectdevice`)
+              if(selectedModal === orderSearch['视频报修'].modelId) {
+                history.push(`create/form/${selectedModal}/selectdevice`)
+              }
 
               if(selectedModal === orderSearch['综合设备报修'].modelId)  history.push(`create/form/${selectedModal}`)
 

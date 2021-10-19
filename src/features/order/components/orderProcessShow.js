@@ -63,7 +63,6 @@ export default  ({orderId,order}) => {
                style={{top: '6px',padding: "0"}}
                color={StatusStyleMap[item.status]}
                key={item.msg}
-               //取真实数据时，把注释取消
                >
                  <div style={{color: StatusStyleMap[item.status] }}>
                    {/* <p>{index === 0 || index === (orderProcess.length -1) ?  item.createTime : null}</p> */}
