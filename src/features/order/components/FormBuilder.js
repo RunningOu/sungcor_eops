@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form} from 'antd'
+import { Form } from 'antd'
 
 const { Item } = Form
 const FormBuilder = (props) => {
@@ -11,7 +11,6 @@ const FormBuilder = (props) => {
         {getFieldDecorator(item.code, {
           rules: item.rules
         })(item.widget(item))}
-       
       </Item>
     )
   }

@@ -24,10 +24,6 @@ export default (props) => {
       setShowPutUp(true)
       return
     }
-    // if (children === '维修完成') {
-    //   setSolventViseble(true)
-    //   return
-    // }
     if (handle.name === '内场审核') {
       if (children === '同意') {
         extraForm.current = {
@@ -49,14 +45,14 @@ export default (props) => {
     if (groups && groups.key) {
       setVisible(true)
     } else {
-      handleForm({ route_id: _.find(handle.handle_rules, r => r.name === children).route_id }, children, extraForm.current )
+      handleForm({ route_id: _.find(handle.handle_rules, r => r.name === children).route_id }, children, extraForm.current)
     }
   }
 
   useEffect(() => {
     let next = _.find(handle.handle_rules, r => r.name === children)
     if (handle && handle.policy === 3) {
-      if(next === undefined) return
+      if (next === undefined) return
       console.log(next)
       setGroups({
         key: Object.keys(next.executors_groups)[0],
@@ -94,16 +90,16 @@ export default (props) => {
             <>
               <h4>处理人</h4>
               <div>{groups.groups.user.map(e =>
-                (<CheckableTag
-                  key={e.id}
-                  checked={_.findIndex(selectGroups.user, s => s === e.id) !== -1}
-                  onChange={checked => {
-                    if (checked) {
-                      setSelectGroups({ ...selectGroups, user: [...selectGroups.user, e.id] })
-                    } else {
-                      setSelectGroups({ ...selectGroups, user: [..._.filter(selectGroups.user, s => s !== e.id)] })
-                    }
-                  }}>{e.name}</CheckableTag>))}</div>
+              (<CheckableTag
+                key={e.id}
+                checked={_.findIndex(selectGroups.user, s => s === e.id) !== -1}
+                onChange={checked => {
+                  if (checked) {
+                    setSelectGroups({ ...selectGroups, user: [...selectGroups.user, e.id] })
+                  } else {
+                    setSelectGroups({ ...selectGroups, user: [..._.filter(selectGroups.user, s => s !== e.id)] })
+                  }
+                }}>{e.name}</CheckableTag>))}</div>
             </> : null
         }
         {
@@ -111,16 +107,16 @@ export default (props) => {
             <>
               <h4>处理组</h4>
               <div>{groups.groups.group.map(e =>
-                (<CheckableTag
-                  key={e.id}
-                  checked={_.findIndex(selectGroups.group, s => s === e.id) !== -1}
-                  onChange={checked => {
-                    if (checked) {
-                      setSelectGroups({ ...selectGroups, group: [...selectGroups.group, e.id] })
-                    } else {
-                      setSelectGroups({ ...selectGroups, group: [..._.filter(selectGroups.group, s => s !== e.id)] })
-                    }
-                  }}>{e.name}</CheckableTag>))}</div>
+              (<CheckableTag
+                key={e.id}
+                checked={_.findIndex(selectGroups.group, s => s === e.id) !== -1}
+                onChange={checked => {
+                  if (checked) {
+                    setSelectGroups({ ...selectGroups, group: [...selectGroups.group, e.id] })
+                  } else {
+                    setSelectGroups({ ...selectGroups, group: [..._.filter(selectGroups.group, s => s !== e.id)] })
+                  }
+                }}>{e.name}</CheckableTag>))}</div>
             </> : null
         }
       </Modal>
@@ -148,15 +144,15 @@ export default (props) => {
             var gqy = ''
             var gqjlArr = []
             orderInfo.form.forEach(orderattrs => {
-              if(orderattrs.code === "gqyy"){
+              if (orderattrs.code === "gqyy") {
                 gqy = orderattrs.default_value
               }
             })
-            if (typeof(gqy) !== 'string' && gqy) {
+            if (typeof (gqy) !== 'string' && gqy) {
               gqjlArr = gqy
-              gqjlArr.push({'title': '解决方案','reason': solvent, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+              gqjlArr.push({ 'title': '解决方案', 'reason': solvent, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss") })
             } else {
-              gqjlArr.push({'title': '解决方案','reason': solvent, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+              gqjlArr.push({ 'title': '解决方案', 'reason': solvent, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss") })
             }
             handleForm({ route_id: _.find(handle.handle_rules, r => r.name === children).route_id }, children, {
               solvent: gqjlArr

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button , Modal, Input, message, Spin , Icon , Menu } from 'antd'
+import { Button, Modal, Input, message, Spin, Icon, Menu } from 'antd'
 import moment from 'moment'
 import { connect } from 'react-redux'
 import {
@@ -62,7 +62,7 @@ const Details = (props) => {
   const [orderInfo, setOrderInfo] = useState([])
   const [order, setOrder] = useState([])
   const query = new URLSearchParams(search)
-  const [modalId, setModalId] = useState( new URLSearchParams(search).get('modelId'))//模型id
+  const [modalId, setModalId] = useState(new URLSearchParams(search).get('modelId'))//模型id
   const [gisvisible, setGisVisible] = useState('none')
   // const [plVisible, setPlVisible] = useState('none')
   const [visible, setVisible] = useState(false);
@@ -73,8 +73,8 @@ const Details = (props) => {
   const [resourceId, setResourceId] = useState('') // 资产id
   const [state, setState] = useState(false)
   const [loading, setPlVisible] = useState(true)
-  const [shrinkage,setShrinkage] = useState(true)
-  const [currentKey,setCurrentKey] = useState('orderInfo')
+  const [shrinkage, setShrinkage] = useState(true)
+  const [currentKey, setCurrentKey] = useState('orderInfo')
   // const [orderOne, setOrderOne] = useState([])
   // const [gqyy, setGqyy] = useState('') // 挂起原因
 
@@ -84,14 +84,14 @@ const Details = (props) => {
 
   //挂起标识 isgq
   let isgq = 'wgq'
-  try{
+  try {
     orderInfo.form.forEach(orderattrs => {
-        if(orderattrs.code === "sfbx"){
-          isgq = orderattrs.default_value
-        }
+      if (orderattrs.code === "sfbx") {
+        isgq = orderattrs.default_value
+      }
     })
     orderInfo.form.forEach(orderattrs => {
-      if(orderattrs.code === "resource"){
+      if (orderattrs.code === "resource") {
         setResourceId(orderattrs.default_value[0].id)
       }
     })
@@ -100,7 +100,7 @@ const Details = (props) => {
     //     setGqyy(orderattrs.default_value)
     //   }
     // })
-  }catch(e){
+  } catch (e) {
   }
   function orderReceiving(fn) {
     var Commitdatas = {
@@ -109,11 +109,11 @@ const Details = (props) => {
       activity_id: query.get('actId'),//当前环节id
       handle_type: "0", // 接单
     }
-    if(pcsInfo.apiKeys && (orderInfo.executors[0] !== MANAGE_ID || orderInfo.executors?.indexOf(pcsInfo.userId))){
+    if (pcsInfo.apiKeys && (orderInfo.executors[0] !== MANAGE_ID || orderInfo.executors?.indexOf(pcsInfo.userId))) {
       Commitdatas.apikey = pcsInfo.apiKeys[0].key
     }
     handleOrder(Commitdatas).then(d => {
-      if(orderBefore[orderInfo.model_id] && orderBefore[orderInfo.model_id][orderInfo.activity_name]) {
+      if (orderBefore[orderInfo.model_id] && orderBefore[orderInfo.model_id][orderInfo.activity_name]) {
         updateOrder({
           ticket_id: modal,
           form: {
@@ -121,20 +121,20 @@ const Details = (props) => {
           }
         })
         fn(d)
-      }else {
+      } else {
         fn(d)
       }
     })
   }
-  function orderHang(isHang, gqyy){
-    if(isHang){
-      if(code === 0){
-        const {id} = orderInfo
-        executeOrderHangStatus(id, 0).then(res=>{
+  function orderHang(isHang, gqyy) {
+    if (isHang) {
+      if (code === 0) {
+        const { id } = orderInfo
+        executeOrderHangStatus(id, 0).then(res => {
           updateOrder({
             ticket_id: modal,
             form: {
-              'sfbx':'ygq'
+              'sfbx': 'ygq'
             }
           }).then(res => {
             console.log(`--------------------${res.data}--------------------`)
@@ -142,60 +142,60 @@ const Details = (props) => {
         })
 
       }
-    if(code===1||code===2){
-      if(code === 2) {
-        const {id} = orderInfo
-        executeOrderHangStatus(id,1).then(res=>{
-          updateOrder({
-            ticket_id: modal,
-            form: {
-              'sfbx':'wgq'
-            }
+      if (code === 1 || code === 2) {
+        if (code === 2) {
+          const { id } = orderInfo
+          executeOrderHangStatus(id, 1).then(res => {
+            updateOrder({
+              ticket_id: modal,
+              form: {
+                'sfbx': 'wgq'
+              }
+            })
           })
-        })
+        }
       }
-     }
-     history.go(-1);
+      history.go(-1);
     }
     setVisible(false)
   }
 
-  function orderHangD(isHang){
+  function orderHangD(isHang) {
     //ishang = false
     var gqyyy = ''
     var gqyArr = []
     orderInfo.form.forEach(orderattrs => {
-      if(orderattrs.code === "gqyy"){
+      if (orderattrs.code === "gqyy") {
         gqyyy = orderattrs.default_value
       }
     })
-    if (typeof(gqyyy) != 'string') {
+    if (typeof (gqyyy) != 'string') {
       gqyArr = gqyyy
-      gqyArr.push({'title': '不同意挂起原因：','reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+      gqyArr.push({ 'title': '不同意挂起原因：', 'reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss") })
     } else {
-      gqyArr.push({'title': '挂起原因：','reason': gqyyy, 'time': ''})
-      gqyArr.push({'title': '不同意挂起原因：','reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss")})
+      gqyArr.push({ 'title': '挂起原因：', 'reason': gqyyy, 'time': '' })
+      gqyArr.push({ 'title': '不同意挂起原因：', 'reason': disagreeRemark, 'time': moment(new Date()).format("YYYY-MM-DD HH:mm:ss") })
     }
-    if(disagreeRemark){
-      if(isHang){
-        if(code === 0){
+    if (disagreeRemark) {
+      if (isHang) {
+        if (code === 0) {
           updateOrder({
             ticket_id: modal,
             form: {
-              'sfbx':'ygq'
+              'sfbx': 'ygq'
             }
           })
         }
-      if(code===1||code===2){
-        updateOrder({
-          ticket_id: modal,
-          form: {
-            'sfbx':'wgq',
-            'gqyy': gqyArr
-          }
-        })
-      }
-      history.go(-1);
+        if (code === 1 || code === 2) {
+          updateOrder({
+            ticket_id: modal,
+            form: {
+              'sfbx': 'wgq',
+              'gqyy': gqyArr
+            }
+          })
+        }
+        history.go(-1);
       }
       setDisVisible(false)
     } else {
@@ -203,23 +203,23 @@ const Details = (props) => {
     }
   }
 
-  function orderHangOnklin(isHang,code){
-    if(isHang==="ture"){
+  function orderHangOnklin(isHang, code) {
+    if (isHang === "ture") {
       setTitle("是否确认同意挂起")
       setVisible(true)
-    }else if(isHang === 'false'){
+    } else if (isHang === 'false') {
       setTitle("是否确认不同意挂起")
       setDisVisible(true)
     }
     setCode(code)
   }
-  function orderHangOnqh(code){
+  function orderHangOnqh(code) {
     setTitle("取回后工单将正常流转")
     setCode(code)
     setVisible(true)
   }
 
-  function handleChangeShrinkage () {
+  function handleChangeShrinkage() {
     setShrinkage(!shrinkage)
   }
 
@@ -228,19 +228,19 @@ const Details = (props) => {
   }
 
   useEffect(() => {
-    console.log('orderInfo',orderInfo)
-  },[orderInfo])
+  }, [orderInfo])
   useEffect(() => {
     const query = new URLSearchParams(search)
-    const { location : {pathname} } = props
+    const { location: { pathname } } = props
     const ticketId = pathname.split('/')[2]
     queryOrderInfo(ticketId)
       .then(d => {
         setOrderInfo(d)
+        console.log(d.form)
         setOrder(d.form)
-        if(userAccountInfo.userId === MANAGE_ID) {
+        if (userAccountInfo.userId === MANAGE_ID) {
           d.form.forEach(orderattrs => {
-            if(orderattrs.code === "fxpcs"){
+            if (orderattrs.code === "fxpcs") {
               getUserbyName(orderattrs.default_value).then(data => {
                 setPcsInfo(data)
               })
@@ -248,10 +248,28 @@ const Details = (props) => {
           })
         }
         // 判断如果是视频报修
-      if(orderSearch['视频报修'].modelId === query.get('modelId')){
-        orderModelConfig[query.get('modelId')].forEach((item) => {
-          if (item.id === query.get('actId')) {
-            if (item.activiti_type === 'EndNoneEvent') {
+        if (orderSearch['视频报修'].modelId === query.get('modelId')) {
+          orderModelConfig[query.get('modelId')].forEach((item) => {
+            if (item.id === query.get('actId')) {
+              if (item.activiti_type === 'EndNoneEvent') {
+                queryLastOrderModel({
+                  id: modal
+                }).then((ld) => {
+                  setOrderModel(ld.field_list)
+                  setPlVisible(false)
+                })
+              } else {
+                setOrderModel(item.field_list)
+                setPlVisible(false)
+              }
+            }
+          })
+        } else {
+          queryOrderModel({
+            modelId: query.get('modelId'),
+            actId: query.get('actId')
+          }).then(d => {
+            if (d.activiti_type === 'EndNoneEvent') {
               queryLastOrderModel({
                 id: modal
               }).then((ld) => {
@@ -259,48 +277,29 @@ const Details = (props) => {
                 setPlVisible(false)
               })
             } else {
-              console.log(2);
-              setOrderModel(item.field_list)
+              setOrderModel(d.field_list)
               setPlVisible(false)
             }
-          }
-        })
-      }else{
-        queryOrderModel({
-          modelId: query.get('modelId'),
-          actId: query.get('actId')
-        }).then(d => {
-          if (d.activiti_type === 'EndNoneEvent') {
-            queryLastOrderModel({
-              id: modal
-            }).then((ld) => {
-              setOrderModel(ld.field_list)
-              setPlVisible(false)
-            })
-          } else {
-            setOrderModel(d.field_list)
-            setPlVisible(false)
-          }
-        })
-      }
-    })
+          })
+        }
+      })
   }, [modal, userAccountInfo])
   useEffect(() => {
-     // 判断是否显示gis
-     if(orderSearch['视频报修'].modelId === modalId){
+    // 判断是否显示gis
+    if (orderSearch['视频报修'].modelId === modalId) {
       setGisVisible('unset');
     }
   }, [modalId])
   useEffect(() => {
     if (orderModel && orderModel.length) {
-      console.log(1)
-      var ddd  = []
+      var ddd = []
       var iii = []
-      if(!state){
+      if (!state) {
+        console.log(order)
         setOrder(oldOrder => {
           oldOrder = oldOrder.map((data, index) => {
             let selfModal = _.find(orderModel, m => data.code === m.code)
-            if(!selfModal) {
+            if (!selfModal) {
               return
             }
             if (selfModal.type !== 'singleRowText' && selfModal.params) {
@@ -309,7 +308,7 @@ const Details = (props) => {
             if (selfModal.code === 'gqyy') {
               data.type = 'pendingShow'
             }
-            if(selfModal.code === 'receivedman' ){
+            if (selfModal.code === 'receivedman') {
               setState(true)
               var dataa = {
                 'widget': cr['title'],
@@ -325,7 +324,7 @@ const Details = (props) => {
               ddd.push(dataa)
               iii.push(index)
             }
-            if(selfModal.code === 'solver'){
+            if (selfModal.code === 'solver') {
               var dataa = {
                 'widget': cr['title'],
                 'id': 1333,
@@ -340,7 +339,7 @@ const Details = (props) => {
               ddd.push(dataa)
               iii.push(index)
             }
-            if(selfModal.code === 'score'){
+            if (selfModal.code === 'score') {
               var dataa = {
                 'widget': cr['title'],
                 'id': 6666,
@@ -352,7 +351,7 @@ const Details = (props) => {
               ddd.push(dataa)
               iii.push(index)
             }
-            if(selfModal.code === 'sfbx'){
+            if (selfModal.code === 'sfbx') {
               var dataa = {
                 'widget': cr['title'],
                 'id': 6000,
@@ -370,20 +369,21 @@ const Details = (props) => {
             if (!data.default_value) {
               data = null
             }
+
             return data
           });
           return [..._.compact(oldOrder)]
         })
       }
 
-      setTimeout(() =>{
+      setTimeout(() => {
         let dataOne1 = order
         if (orderSearch['奉贤基础资源报修'].modelId !== modalId) {
-          ddd.forEach((item,index) => {
-            var dataOne = dataOne1.slice(0,index)
-            var dataOne = dataOne1.slice(0,iii[index]+index)
+          ddd.forEach((item, index) => {
+            var dataOne = dataOne1.slice(0, index)
+            var dataOne = dataOne1.slice(0, iii[index] + index)
             dataOne = dataOne.concat(item)
-            dataOne = dataOne.concat(dataOne1.slice(iii[index]+index,dataOne1.length))
+            dataOne = dataOne.concat(dataOne1.slice(iii[index] + index, dataOne1.length))
             dataOne1 = dataOne
           })
         }
@@ -392,9 +392,6 @@ const Details = (props) => {
 
     }
   }, [orderModel])
-  useEffect(() => {
-    console.log(currentKey)
-  },[currentKey])
 
   return (
     <div className='order-page-details'>
@@ -409,92 +406,92 @@ const Details = (props) => {
             </Menu.Item>
           </Menu>
       : null} */}
-          <Menu onClick={handleChangeKey} className="Menu" selectedKeys={[currentKey]} mode="horizontal">
-            <Menu.Item className="MenuItem" key="orderInfo">
-              工单信息
-            </Menu.Item>
-            <Menu.Item className="MenuItem" key="processInfo">
-              流程信息
-            </Menu.Item>
-          </Menu>
+      <Menu onClick={handleChangeKey} className="Menu" selectedKeys={[currentKey]} mode="horizontal">
+        <Menu.Item className="MenuItem" key="orderInfo">
+          工单信息
+        </Menu.Item>
+        <Menu.Item className="MenuItem" key="processInfo">
+          流程信息
+        </Menu.Item>
+      </Menu>
       {currentKey === 'orderInfo' ? <Spin spinning={loading} tip="Loading...">
-          <div className='order'>
-            <OrderBuilder shrinkage={shrinkage} meta={order} order={orderInfo}/>
-            { orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312"/> : null }
-            {orderInfo.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' ? null :  <h3  className="shrinkageButton"  onClick={handleChangeShrinkage}> {shrinkage ? '展开' : '收起' }<Icon type={shrinkage ? 'down':'up'} /></h3> }
-            <div className="handle">
-              {
-                (orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 || (props.userAccountInfo.userId === MANAGE_ID && orderInfo.activity_name === '用户确认')) && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
-                  orderInfo.isreceived === 1 ?
-                    <>
-                      <Button type="primary" size="large" onClick={() => {
-                        orderReceiving(() => {
-                          history.go(-1)
-                        })
-                      }}>接单</Button>
-                      <Button size="large" type="primary" onClick={() => {
-                        orderReceiving(() => {
-                          history.push(`${props.location.pathname}/handle${search}`)
-                        })
-                      }}>接单并处理</Button>
-                    </> :
-                    <>
-                    {orderInfo.status === 10 || orderInfo.status === 7 || (orderInfo.form?.filter((item) => item.code === 'sfbx')) [0] && (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq'  ? null : <Button type="primary" size="large" onClick={() => {
+        <div className='order'>
+          <OrderBuilder shrinkage={shrinkage} meta={order} order={orderInfo} />
+          {orderInfo.attach_files?.length ? <FileShow file={orderInfo.attach_files} className="12312312" /> : null}
+          {orderInfo.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' ? null : <h3 className="shrinkageButton" onClick={handleChangeShrinkage}> {shrinkage ? '展开' : '收起'}<Icon type={shrinkage ? 'down' : 'up'} /></h3>}
+          <div className="handle">
+            {
+              (orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 || (props.userAccountInfo.userId === MANAGE_ID && orderInfo.activity_name === '用户确认')) && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
+                orderInfo.isreceived === 1 ?
+                  <>
+                    <Button type="primary" size="large" onClick={() => {
+                      orderReceiving(() => {
+                        history.go(-1)
+                      })
+                    }}>接单</Button>
+                    <Button size="large" type="primary" onClick={() => {
+                      orderReceiving(() => {
                         history.push(`${props.location.pathname}/handle${search}`)
-                      }}>处理</Button>  }
-                    </> :
-                  null
-              }
-              {
-                isgq === "gqsh" && (local_get(USER_INFO_ID).userId=== MANAGE_ID) ?
+                      })
+                    }}>接单并处理</Button>
+                  </> :
+                  <>
+                    {orderInfo.status === 10 || orderInfo.status === 7 || (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0] && (orderInfo.form?.filter((item) => item.code === 'sfbx'))[0]["default_value"] === 'ygq' ? null : <Button type="primary" size="large" onClick={() => {
+                      history.push(`${props.location.pathname}/handle${search}`)
+                    }}>处理</Button>}
+                  </> :
+                null
+            }
+            {
+              isgq === "gqsh" && (local_get(USER_INFO_ID).userId === MANAGE_ID) ?
+                <>
+                  <Button type="primary" onClick={() => {
+                    orderHangOnklin('ture', 0)
+                  }}>同意挂起</Button>
+                  <Button type="primary" onClick={() => {
+                    orderHangOnklin('false', 1)
+                  }}>不同意挂起</Button>
+                </> :
+                null
+            }
+            {orderInfo.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' && orderInfo.status === 10 ? <Button onClick={() => {
+              orderHangOnqh(2)
+            }} type="primary">挂起工单取回</Button> : null}
+            {
+              orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
+                isgq === "ygq" ?
                   <>
                     <Button type="primary" onClick={() => {
-                      orderHangOnklin('ture',0)
-                    }}>同意挂起</Button>
-                    <Button type="primary" onClick={() => {
-                      orderHangOnklin('false',1)
-                    }}>不同意挂起</Button>
+                      orderHangOnqh(2)
+                    }}>挂起工单取回</Button>
                   </> :
                   null
-              }
-              {orderInfo.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' && orderInfo.status === 10 ? <Button onClick={() => {
-                orderHangOnqh(2)
-              }} type="primary">挂起工单取回</Button>:null}
-              {
-                orderInfo.executors?.indexOf(props.userAccountInfo.userId) !== -1 && orderInfo.status !== 3 && Object.keys(orderInfo).length ?
-                  isgq === "ygq"?
-                    <>
-                      <Button type="primary" onClick={() => {
-                        orderHangOnqh(2)
-                      }}>挂起工单取回</Button>
-                    </> :
-                      null
-                :null
-                }
+                : null
+            }
             <Modal
-            visible={disVisible}
-            title="系统提示"
-            onOk={()=> orderHangD(true)}
-            onCancel={()=> setDisVisible(false)}
+              visible={disVisible}
+              title="系统提示"
+              onOk={() => orderHangD(true)}
+              onCancel={() => setDisVisible(false)}
             >
-                <Input.TextArea rows="3" placeholder="请填写不同意挂起原因" value={disagreeRemark} onChange={e => { setDisagreeRemark(e.target.value) }} />
+              <Input.TextArea rows="3" placeholder="请填写不同意挂起原因" value={disagreeRemark} onChange={e => { setDisagreeRemark(e.target.value) }} />
             </Modal>
             <Modal
-            visible={visible} title="系统提示" onOk={() => orderHang(true)} onCancel={()=> orderHang(false)}>
-                {title}
+              visible={visible} title="系统提示" onOk={() => orderHang(true)} onCancel={() => orderHang(false)}>
+              {title}
             </Modal>
-            </div>
-            <GisShow resourceId={resourceId} visible={gisvisible} />
           </div>
-        </Spin> :
+          <GisShow resourceId={resourceId} visible={gisvisible} />
+        </div>
+      </Spin> :
         <ProcessInfo order={orderInfo} />
-        }
+      }
     </div>
   )
 }
 export const local_get = (key) => {
   let value = localStorage.getItem(key)
-  if(/^\{|\[*\}\b|\]\b/.test(value)) {
+  if (/^\{|\[*\}\b|\]\b/.test(value)) {
     value = JSON.parse(value)
   }
   return value

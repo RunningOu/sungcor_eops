@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Form, message, Spin, Button, Modal, Tag, Input } from 'antd'
 import { MANAGE_ID } from '../../../config'
-import { local_get ,filterInvalidValue} from '../../../utils/index'
+import { local_get, filterInvalidValue } from '../../../utils/index'
 import moment from 'moment'
 import _ from 'lodash'
 import {
@@ -78,7 +78,7 @@ const HandleOrder = Form.create({
   }
 })((props) => {
   const [listSelect, setListSelec] = useState(JSON.parse(local_get('selected')))
-  const [listSelect1, setListSelect] =  useState(JSON.parse(local_get('selected')))
+  const [listSelect1, setListSelect] = useState(JSON.parse(local_get('selected')))
   const [modal, setModel] = useState(JSON.parse(local_get('selected'))[0].ticketId)
   const { location: { search }, history, user: { userAccountInfo } } = props
   const [orderModal, setOrderModal] = useState({})
@@ -100,17 +100,17 @@ const HandleOrder = Form.create({
 
   const query = new URLSearchParams(search)
 
-  try{
+  try {
     orderInfo.form.forEach(orderFindGq => {
-      if(orderFindGq.code === 'sfbx'){
-        if(orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh'){
+      if (orderFindGq.code === 'sfbx') {
+        if (orderFindGq.default_value === 'ygq' || orderFindGq.default_value === 'gqsh') {
           setSfgq(true)
           message.info("工单已被挂起锁定，无法操作")
         }
       }
     })
 
-  }catch{
+  } catch {
     console.log('')
   }
   function handleForm(handle_rules, name, extraForm = {}) {
@@ -167,11 +167,11 @@ const HandleOrder = Form.create({
         // pldeal.push(param)
         // submitDatat.apikey = item.apikey
         handleOrder(submitDatat).then(d => {
-          if(d){
-            setSecuss(suuu+=1)
-            if(suuu === listSelect.length){
+          if (d) {
+            setSecuss(suuu += 1)
+            if (suuu === listSelect.length) {
               setPlVisible(false)
-              history.push('/order?modelId='+query.get('modelId'))
+              history.push('/order?modelId=' + query.get('modelId'))
             }
           }
         })
@@ -199,28 +199,28 @@ const HandleOrder = Form.create({
     } else {
       listSelect.forEach((item) => {
         // var param1 = {
-         var data = {
-            ticket_id: item.ticketId,//工单id
-            model_id: item.modelId,//模型id
-            activity_id: item.activityId,//当前环节id
-            handle_type: "1",
-            form: {
-              ...formdata,
-              ...item.formData
-            },
-            handle_rules: {
-              ...handle_rules
-            }
+        var data = {
+          ticket_id: item.ticketId,//工单id
+          model_id: item.modelId,//模型id
+          activity_id: item.activityId,//当前环节id
+          handle_type: "1",
+          form: {
+            ...formdata,
+            ...item.formData
+          },
+          handle_rules: {
+            ...handle_rules
           }
+        }
         //   apikey: userAccountInfo.apiKey
         // }
         // pldeal.push(param1)
         handleOrder(data).then(d => {
-          if(d){
-            setSecuss(suuu+=1)
-            if(suuu === listSelect.length){
+          if (d) {
+            setSecuss(suuu += 1)
+            if (suuu === listSelect.length) {
               setPlVisible(false)
-              history.push('/order?modelId='+query.get('modelId'))
+              history.push('/order?modelId=' + query.get('modelId'))
             }
           }
         })
@@ -241,8 +241,8 @@ const HandleOrder = Form.create({
   }
 
   useEffect(() => {
-    if(userAccountInfo.userId === MANAGE_ID){
-      listSelect.forEach((item,index) => {
+    if (userAccountInfo.userId === MANAGE_ID) {
+      listSelect.forEach((item, index) => {
         getUserbyName(item.formData.fxpcs).then(data => {
           item.apikey = data.apiKeys[0].key
           console.log(listSelect)
@@ -251,7 +251,7 @@ const HandleOrder = Form.create({
       })
     }
 
-  },[listSelect1])
+  }, [listSelect1])
 
   useEffect(() => {
     const query = new URLSearchParams(search)
@@ -319,19 +319,20 @@ const HandleOrder = Form.create({
         if (props.user.userAccountInfo.hasOwnProperty(value)) {
           defaultForm[key] = props.user.userAccountInfo[value]
         } else {
-          if(typeof value === "function") {
+          if (typeof value === "function") {
             defaultForm[key] = value()
-          }else {
+          } else {
             defaultForm[key] = value
           }
         }
       }
+      console.log(defaultForm)
       props.actions.setForm(defaultForm)
     }
   }, [props.actions, props.user, orderModal, modal, search])
   useEffect(() => {
-    setHandle({handle_rules: orderInfo.handle_rules,name: orderModal.name,policy: orderModal.policy})
-  }, [orderInfo,orderModal])
+    setHandle({ handle_rules: orderInfo.handle_rules, name: orderModal.name, policy: orderModal.policy })
+  }, [orderInfo, orderModal])
 
   useEffect(() => {
     console.log(orderModal)
@@ -339,18 +340,18 @@ const HandleOrder = Form.create({
 
   return (
     <div className='order-page-formhandleBa'>
-      <Spin spinning={loading} tip={'正在提交工单，共'+listSelect.length+'个，成功：'+secuss} style={{padding: 0}}>
-      <HeaderBar title='工单批量处理' />
-        <div className='form' style={{padding: 15}}>
+      <Spin spinning={loading} tip={'正在提交工单，共' + listSelect.length + '个，成功：' + secuss} style={{ padding: 0 }}>
+        <HeaderBar title='工单批量处理' />
+        <div className='form' style={{ padding: 15 }}>
           <Form>
             <FormBuilder meta={meta} form={props.form} />
           </Form>
           <div className="handle-button-group">
-            { sfgq ? null:orderInfo.handle_rules?.map(
+            {sfgq ? null : orderInfo.handle_rules?.map(
               d => (
-                d.name !== '未修好回退'?
-                <HandleButton key={d.route_id} handle={handle} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>
-                : <></>
+                d.name !== '未修好回退' ?
+                  <HandleButton key={d.route_id} handle={handle} handleForm={handleForm} modal={modal}>{d.name}</HandleButton>
+                  : <></>
               ))}
             {[3, 6, 8].includes(orderModal.sequence) && orderSearch['视频报修'].modelId === orderInfo.model_id ?
               <>

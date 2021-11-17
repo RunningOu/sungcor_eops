@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Descriptions , Collapse } from 'antd'
+import { Descriptions, Collapse } from 'antd'
 
 const { Panel } = Collapse
 
@@ -14,36 +14,36 @@ const shrinkageMap = {
 }
 
 const OrderBuilder = (props) => {
-  const { meta, shrinkage , order } = props
-  console.log(order)
+  console.log('orderBuilder', props)
+  const { meta, shrinkage, order } = props
 
   function render(item) {
     if (item.code === 'overdueNotify' || item.code === 'resource') {
       return null
     }
     //如果当前状态为折叠的话，过滤对应的标题
-    if(shrinkage) {
-     if(shrinkageMap[item.code]) {
-       return item.widget ? item.widget(item) : null
-     } else {
-       return null
-     }
+    if (shrinkage) {
+      if (shrinkageMap[item.code]) {
+        return item.widget ? item.widget(item) : null
+      } else {
+        return null
+      }
     }
-    return item.widget ? item.widget(item) : null
+    return item.widget instanceof Function ? item.widget(item) : null
   }
   return (
-      order.model_id  === 'd948b00b8e1f4a81b36e2203dcd1b78f' ? <Descriptions size="middle">
-        {(meta || []).map(i => i.widget ? i.widget(i) : null )}
-      </Descriptions>  :
-        <Descriptions  size="middle">
-          <Descriptions.Item label='' key={props.id} >
-            <h3 style={{color: "#0e6dfb"}}>{'基础信息'}</h3>
-          </Descriptions.Item>
-          {(meta || []).map(render)}
-          <Descriptions.Item label='' key={22} >
-            {/* <h3 style={{color: "#0e6dfb"}}>{props.value}</h3> */}
-          </Descriptions.Item>
-        </Descriptions>
+    order.model_id === 'd948b00b8e1f4a81b36e2203dcd1b78f' ? <Descriptions size="middle" key={221} >
+      {(meta || []).map(i => i.widget instanceof Function ? i.widget(i) : null)}
+    </Descriptions> :
+      <Descriptions size="middle">
+        <Descriptions.Item label='' key={props.id} >
+          <h3 style={{ color: "#0e6dfb" }}>{'基础信息'}</h3>
+        </Descriptions.Item>
+        {(meta || []).map(render)}
+        <Descriptions.Item label='' key={22} >
+          {/* <h3 style={{color: "#0e6dfb"}}>{props.value}</h3> */}
+        </Descriptions.Item>
+      </Descriptions>
   )
 }
 
