@@ -175,6 +175,8 @@ export default {
       readOnly: ['repairman', 'bxbm', 'dd', 'IP', 'deviceid', 'fxxmmc', 'fxwxdw'],
       defaultValue: {
         qsr: 'realname',
+        shr: 'realname',
+        shsj: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         qssj: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         qsrlxdh: 'mobile'
       }
@@ -189,10 +191,11 @@ export default {
       }
     },
     "结果确认": {
-      hidden: ['urgentLevel', 'repairman', 'bxbm', 'resource', 'bxlx', 'shr', 'shsj', 'qsr', 'qssj', 'qsrlxdh', 'qsgs', 'solvingTime', 'fxqrr', 'acknowledgetime'],
+      hidden: ['urgentLevel', 'repairman', 'bxbm', 'resource', 'bxlx', 'shsj', 'qsr', 'qssj', 'qsrlxdh', 'qsgs', 'solvingTime', 'fxqrr', 'acknowledgetime'],
       readOnly: [],
       defaultValue: {
         fxqrr: 'realname',
+        shr: 'realname',
         acknowledgetime: () => moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
       }
     }
