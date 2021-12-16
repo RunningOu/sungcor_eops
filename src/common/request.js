@@ -1,7 +1,7 @@
 import axios from './httpConfig'
 
 // WX code => openId 接口
-export const wxGetAccessToken = async ({code}) => {
+export const wxGetAccessToken = async ({ code }) => {
   const { data } = await axios({
     method: 'get',
     url: '/wx/api/getAccessToken',
@@ -12,7 +12,7 @@ export const wxGetAccessToken = async ({code}) => {
   return data
 }
 // wx 快速登录
-export const wxQuickLogin = async ({openId}) => {
+export const wxQuickLogin = async ({ openId }) => {
   const { data } = await axios({
     method: 'get',
     url: '/user/getUserInfoByOpenId',
@@ -58,7 +58,7 @@ export const queryUserInfo = async (d) => {
 }
 
 // 创建工单
-export const createOrder = async (d, p={}) => {
+export const createOrder = async (d, p = {}) => {
   const data = await axios({
     method: 'post',
     url: '/ticket/createTicket',
@@ -254,7 +254,7 @@ export const queryDeviceByManager = async (id) => {
     method: 'get',
     url: '/cmdb/getDeptInfo',
     params: {
-      id:id
+      id: id
     }
   })
   return data
@@ -384,7 +384,7 @@ export const queryNetworkList = async (d, url) => {
 export const countTicketByStatus = async (para) => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss/app/portal/countTicketByStatus?interval='+para
+    url: '/oss/app/portal/countTicketByStatus?interval=' + para
   })
   return data
 }
@@ -393,23 +393,23 @@ export const countTicketByStatus = async (para) => {
 export const countTicketByDevType = async (para) => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss/app/portal/countTicketByDevType?interval='+para
+    url: '/oss/app/portal/countTicketByDevType?interval=' + para
   })
   return data
 }
 
 //获取工单自检信息
 export const getOrderProcess = async (ticket) => {
-    const {data} = await axios({
-      method: 'get',
-      url: '/oss/api/link/check/queryByTicket?ticketId='+ticket
-    })
-    return data.result
+  const { data } = await axios({
+    method: 'get',
+    url: '/oss/api/link/check/queryByTicket?ticketId=' + ticket
+  })
+  return data.result
 }
 
 //获取工单流程信息
 export const getOrderProcessInfo = async (ticket) => {
-  const {data} = await axios({
+  const { data } = await axios({
     method: 'get',
     url: 'oss/api/itsm/getProcessRecord?ticketId=' + ticket
   })
@@ -417,8 +417,8 @@ export const getOrderProcessInfo = async (ticket) => {
 }
 
 //改变工单挂起状态, 0挂起,1取回
-export const executeOrderHangStatus = async (ticketId,isSuspend) => {
-  const result = await axios ({
+export const executeOrderHangStatus = async (ticketId, isSuspend) => {
+  const result = await axios({
     method: 'get',
     url: `oss/api/itsm/suspendOrResumeSelf?ticketId=${ticketId}&isSuspend=${isSuspend}`
   })
@@ -427,7 +427,7 @@ export const executeOrderHangStatus = async (ticketId,isSuspend) => {
 
 //获取当前工单挂起的差值 如果有过挂起,则返回挂起的间隔
 export const getOrderHangDifference = async (ticketId) => {
-  const {data} = await axios ({
+  const { data } = await axios({
     method: 'get',
     url: `oss/api/ticket/ticketHornetInfo/getSlaSuspendById?ticketId=${ticketId}`
   })
@@ -437,7 +437,7 @@ export const getOrderHangDifference = async (ticketId) => {
 
 //通过设备IP查找对应的工单
 export const getOrderInfoByIp = async (deviceIp) => {
-  const {data} = await axios ({
+  const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/getTickertByIp?ip=${deviceIp}&pageSize=10&pageNum=1`
   })
@@ -446,14 +446,14 @@ export const getOrderInfoByIp = async (deviceIp) => {
 
 //通过键盘编码来查找对应的工单
 export const getOrderInfoByJPBH = async (deviceJPBH) => {
-  const {data} = await axios ({
+  const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/getTickertByIp?JPBH=${deviceJPBH}&pageSize=10&pageNum=1`
   })
   return data
 }
 //今日新增与今日完成工单统计
-export const getCountTodayTicket = async() => {
+export const getCountTodayTicket = async () => {
   const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/countTodayTicket`
@@ -463,7 +463,7 @@ export const getCountTodayTicket = async() => {
 
 //逾期未完成和逾期已完成工单统计
 export const getCountOverdueTicket = async () => {
-  const {data} = await axios({
+  const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/countOverdueTicket`
   })
@@ -472,7 +472,7 @@ export const getCountOverdueTicket = async () => {
 
 //今日新增/今日处理工单按项目名称分布
 export const getTodayTicketByProject = async () => {
-  const {data} = await axios({
+  const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/countTodayTicketByProject`
   })
@@ -481,7 +481,7 @@ export const getTodayTicketByProject = async () => {
 
 //逾期未完成和逾期已完成工单按项目名称分布
 export const getOverdueTicketByProject = async () => {
-  const {data} = await axios({
+  const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/countOverdueTicketByProject`
   })
@@ -489,7 +489,7 @@ export const getOverdueTicketByProject = async () => {
 }
 
 //今日新增/今日处理工单详情
-export const getTodayTicketByProjectName = async (projectName,status,pageNum) => {
+export const getTodayTicketByProjectName = async (projectName, status, pageNum) => {
   const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/queryTodayTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
@@ -499,8 +499,8 @@ export const getTodayTicketByProjectName = async (projectName,status,pageNum) =>
 }
 
 //逾期未完成和逾期已完成工单详情按项目名称分布
-export const getOverdueTicketByProjectName = async (projectName,status,pageNum) => {
-  const {data} = await axios({
+export const getOverdueTicketByProjectName = async (projectName, status, pageNum) => {
+  const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/queryOverdueTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
   })
@@ -509,7 +509,7 @@ export const getOverdueTicketByProjectName = async (projectName,status,pageNum) 
 
 //维修自我检测 ：如果是人工报修就不用检测
 export const getSelfDetection = async (ip) => {
-  const {data} = await axios({
+  const { data } = await axios({
     method: 'get',
     url: `/oss/api/link/check/linkChecking?ip=${ip}`
   })
@@ -518,16 +518,16 @@ export const getSelfDetection = async (ip) => {
 
 //获取资产信息的资产统计数据
 export const getAssetCountView = async () => {
-  const {data} = await axios({
+  const { data } = await axios({
     method: "get",
     url: `/oss/app/asset/getAssetCountView`
   })
   return data
 }
 
-export const getAssetList = async (type,pageNum,pageSize,state) => {
+export const getAssetList = async (type, pageNum, pageSize, state) => {
   try {
-    const {data} = await axios({
+    const { data } = await axios({
       method: "get",
       url: `/oss/app/asset/getAssetList?type=${type}&pageNum=${pageNum}&pageSize=${pageSize}&state=${state}`
     })
@@ -537,26 +537,26 @@ export const getAssetList = async (type,pageNum,pageSize,state) => {
   }
 }
 
-export const getAssetDetail = async(apikey,id) => {
+export const getAssetDetail = async (apikey, id) => {
   try {
-    const {data} = await axios({
+    const { data } = await axios({
       method: 'get',
       url: `/oss/app/asset/getAssetDetail?id=${id}`
     })
     return data.result
-  }catch (e) {
+  } catch (e) {
     throw new Error(e)
   }
 }
 
-export const queryDevice = async(type,key) => {
+export const queryDevice = async (type, key) => {
   try {
-    const {data} = await axios({
+    const { data } = await axios({
       method: 'get',
       url: `/oss/app/asset/queryDeviceByNameOrDeviceKey?classCode=${type}&key=${key}`
     })
     return data.result
-  }catch (e) {
+  } catch (e) {
     throw new Error(e)
   }
 }
@@ -567,7 +567,7 @@ export const queryDevice = async(type,key) => {
  * @param data 工单数据
  * @param apiKey 参数
  */
- export function handleOssTicket (data, apiKey) {
+export function handleOssTicket(data, apiKey) {
   return axios({
     url: '/oss/api/itsm/handle',
     method: 'POST',
