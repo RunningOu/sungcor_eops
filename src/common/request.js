@@ -1,4 +1,5 @@
 import axios from './httpConfig'
+import dayjs from 'dayjs'
 
 // WX code => openId 接口
 export const wxGetAccessToken = async ({ code }) => {
@@ -575,3 +576,119 @@ export function handleOssTicket(data, apiKey) {
     data
   })
 }
+
+/**
+ * 获取告警统计
+ */
+
+export function queryMobileAlertCount(severity) {
+  let data = {
+    "conditions": [
+      {
+        "field": "lastOccurTime",
+        "operator": "rangeTime",
+        "value": [
+          dayjs().subtract(7, 'day').format('YYYY-MM-DD HH:mm:ss'),
+          dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        ]
+      },
+      {
+        "field": "severity",
+        "value": severity,
+        "operator": "IN"
+      }
+    ]
+  }
+  if (severity.length > 1) {
+    data.conditions.push({
+      "field": "status",
+      "value": 255,
+      "operator": "NOTEQ",
+    })
+  }
+  return axios({
+    url: '/oss2/api/alert/mobileAlertCount',
+    method: 'POST',
+    data
+  })
+}
+
+
+/**
+ * 获取告警列表
+ */
+export function queryMobileAlertList(data) {
+  const { severity, tileId, pageNum, pageSize, search } = data
+  let params = {
+    "conditions": [
+      {
+        "field": "severity",
+        "value": severity,
+        "operator": "IN"
+      },
+      {
+        "field": "tileIds",
+        "value": tileId,
+        "operator": "IN"
+      },
+      {
+        "field": "lastOccurTime",
+        "operator": "rangeTime",
+        "value": [
+          dayjs().subtract(7, 'day').format('YYYY-MM-DD HH:mm:ss'),
+          dayjs().format('YYYY-MM-DD HH:mm:ss'),
+        ]
+      },
+
+    ],
+    "pageNum": pageNum,
+    "pageSize": pageSize
+  }
+  if (severity.length > 1) {
+    params.conditions.push({
+      "field": "status",
+      "value": 255,
+      "operator": "NOTEQ"
+    })
+  }
+
+  if (search) {
+    params.ass = [
+      {
+        cjt: 'OR',
+        conditions: [
+          {
+            field: 'name',
+            value: search,
+            operator: 'LIKE'
+          },
+          {
+            field: 'description',
+            value: search,
+            operator: 'LIKE'
+          },
+          {
+            field: 'entityName',
+            value: search,
+            operator: 'LIKE'
+          }, {
+            field: 'entityAddr',
+            value: search,
+            operator: 'LIKE'
+          }
+        ]
+      }
+    ]
+  }
+
+  return axios({
+    url: '/oss2/api/alert/mobileAlertList',
+    method: 'POST',
+    data: params
+  })
+}
+
+
+/**
+ * 查找告警
+ */

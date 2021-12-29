@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 
 import { MANAGE_ID } from '../../config'
-import _ from 'lodash'
+import _, { create } from 'lodash'
 import {
   FormBuilder,
   singleRowText,
@@ -87,20 +87,20 @@ const CreateOrder = Form.create({
   const [files, setFiles] = useState([]) //图片
   const [bxpcs, setBxpcs] = useState('') // pcs
   const [resourceId, setResourceId] = useState('') // 资产id
-  const [buttonDisable,setButtonDisable] = useState(false)
-  const [formLoading,setFormLoading] = useState(false)
+  const [buttonDisable, setButtonDisable] = useState(false)
+  const [formLoading, setFormLoading] = useState(false)
 
 
   useEffect(() => {
-    if(props.order.form.fxpcs !== undefined) {
+    if (props.order.form.fxpcs !== undefined) {
       setBxpcs(props.order.form.fxpcs)
     }
     if (props.order.form.resource && props.order.form.resource[0].id) {
       setResourceId(props.order.form.resource[0].id)
     }
-  }, [orderModal,  history, props.order.form, props.location.pathname])
+  }, [orderModal, history, props.order.form, props.location.pathname])
   useEffect(() => {
-    if(files.length) {
+    if (files.length) {
       let file = files[0]
       let reader = new FileReader()
       reader.readAsDataURL(file)
@@ -108,19 +108,19 @@ const CreateOrder = Form.create({
   }, [files])
 
   useEffect(() => {
-     // 判断如果是视频报修
-     setFormLoading(true)
-     if(orderSearch['视频报修'].modelId === modal){
+    // 判断如果是视频报修
+    setFormLoading(true)
+    if (orderSearch['视频报修'].modelId === modal) {
       orderModelConfig[modal].forEach((item) => {
         if (item.name === '开始') {
           setFormLoading(false)
           setOrderModal(item)
         }
       })
-    }else{
+    } else {
       // 加载工单模板
       queryOrderModel({ modelId: modal }).then(d => {
-        console.log('加载工单模板',d)
+        console.log('加载工单模板', d)
         setFormLoading(false)
         setOrderModal(d)
       }).catch(e => {
@@ -128,7 +128,7 @@ const CreateOrder = Form.create({
       })
     }
     // 判断是否显示gis
-    if(orderSearch['视频报修'].modelId === modal){
+    if (orderSearch['视频报修'].modelId === modal) {
       setVisible('unset');
     }
   }, [modal])
@@ -161,18 +161,18 @@ const CreateOrder = Form.create({
             message: '必填项'
           })
         }
-        if(element.code === 'fxGzlx') {
-          element.params = [...element.params,{
+        if (element.code === 'fxGzlx') {
+          element.params = [...element.params, {
             select: 0,
             label: "传输设备异常",
             value: '11',
             descEnable: 0
-          },{
+          }, {
             select: 0,
             label: "上云无数据",
             value: '10',
             descEnable: 0
-          },{
+          }, {
             select: 0,
             label: "网络不通",
             value: "9",
@@ -192,18 +192,18 @@ const CreateOrder = Form.create({
         if (props.user.userAccountInfo.hasOwnProperty(value)) {
           defaultForm[key] = props.user.userAccountInfo[value]
         } else {
-          if(typeof value === "function") {
+          if (typeof value === "function") {
             defaultForm[key] = value()
-          }else {
+          } else {
             defaultForm[key] = value
           }
         }
       }
       if (['超级管理员'].includes(props.user.userAccountInfo.roleName) && orderSearch['视频报修'].modelId === modal) {
-        if(defaultForm.hasOwnProperty('fxBxr')) delete defaultForm.fxBxr
-        if(defaultForm.hasOwnProperty('telephone')) delete defaultForm.telephone
+        if (defaultForm.hasOwnProperty('fxBxr')) delete defaultForm.fxBxr
+        if (defaultForm.hasOwnProperty('telephone')) delete defaultForm.telephone
       }
-      if(props.user.userAccountInfo.userId === MANAGE_ID && bxpcs !== '') {
+      if (props.user.userAccountInfo.userId === MANAGE_ID && bxpcs !== '') {
         getUserbyName(bxpcs).then(data => {
           setPcsInfo(data)
           defaultForm.fxBxr = data.realname
@@ -217,145 +217,147 @@ const CreateOrder = Form.create({
 
   return (
     formLoading ?
-    <div className='order-page-form'>
-      <HeaderBar title='工单创建' />
-      <Spin style={{margin: '20px auto',width: '100%'}} tip="报修模板加载中" />
-    </div> :
-    <div className='order-page-form'>
-      <HeaderBar title='工单创建' />
-      <div className='form'>
-        <Form loading={formLoading.toString()}>
-          <FormBuilder meta={meta} form={props.form} />
-        </Form>
-        {needFile ?
-          <div>
-            <h4>上传图片附件</h4>
-            <Upload
-              listType="picture-card"
-              fileList={files}
-              onRemove={file => {
-                const index = files.indexOf(file);
-                setFiles(oldFiles => {
-                  oldFiles.splice(index, 1)
-                  return [...oldFiles]
-                })
-              }}
-              beforeUpload={file => {
-                setFiles(oldFiles => [...oldFiles, file])
-                return false
-              }}>
-              上传图片
-            </Upload>
-          </div> : null}
-        <Button
-          type="primary"
-          style={{ backgroundColor: '#005da3' }}
-          block
-          disabled={buttonDisable}
-          onClick={() => {
-            setButtonDisable(true)
-            let pass = true
-            let params = {}
-            let createform = {
-              ...props.order.form,
-              overdueNotify: 'normal'
-            }
-            props.form.validateFieldsAndScroll((err, value) => {
-              if (err) {
-                pass = false
+      <div className='order-page-form'>
+        <HeaderBar title='工单创建' />
+        <Spin style={{ margin: '20px auto', width: '100%' }} tip="报修模板加载中" />
+      </div> :
+      <div className='order-page-form'>
+        <HeaderBar title='工单创建' />
+        <div className='form'>
+          <Form loading={formLoading.toString()}>
+            <FormBuilder meta={meta} form={props.form} />
+          </Form>
+          {needFile ?
+            <div>
+              <h4>上传图片附件</h4>
+              <Upload
+                listType="picture-card"
+                fileList={files}
+                onRemove={file => {
+                  const index = files.indexOf(file);
+                  setFiles(oldFiles => {
+                    oldFiles.splice(index, 1)
+                    return [...oldFiles]
+                  })
+                }}
+                beforeUpload={file => {
+                  setFiles(oldFiles => [...oldFiles, file])
+                  return false
+                }}>
+                上传图片
+              </Upload>
+            </div> : null}
+          <Button
+            type="primary"
+            style={{ backgroundColor: '#005da3' }}
+            block
+            disabled={buttonDisable}
+            onClick={() => {
+              setButtonDisable(true)
+              let pass = true
+              let params = {}
+              let createform = {
+                ...props.order.form,
+                overdueNotify: 'normal',
               }
-            })
-            if (!pass) {
-              message.warning('请填写完全工单信息！')
-              return
-            }
-            if (props.order.form.hasOwnProperty('apikey')) {
-              params.apikey = props.order.form.apikey
-            }
-            console.log(createform)
-            if(orderSearch['综合设备报修'].modelId === modal){
-              var bxsblx = document.getElementsByClassName('ant-cascader-picker-label')
-              var pcsgg = document.getElementsByClassName('ant-select-selection-selected-value')
-              var checked = document.getElementsByClassName('ant-radio-wrapper-checked')
-              var bxcc = bxsblx[0].textContent.replace(' ','')
-              bxcc = bxcc.replace(' ','')
-              createform.title = pcsgg[0].textContent + '-' + checked[0].children[1].textContent + '-' + bxcc
-            }
-            //进到综合运维服务流程，做一些定制操作
-            if(orderSearch['综合运维服务流程'].modelId ===  modal) {
-              //去掉参数中的部分key，让工单正常流转
-              const filterKey = ['deviceIp','deviceKey','fxpcs','sbmc','wxdwmc','xmmc']
-              filterKey.forEach(i => delete createform[i])
-              delete createform.overdueNotify
-
-              //如果选择了设备，但是设备没有维修单位，需要提示
-              let { resource } = createform
-              if(resource && Array.isArray(resource) && resource.length > 0) {
-                if(!createform.hasOwnProperty('fxwxdw') || (createform.hasOwnProperty('fxwxdw') && (createform.fxwxdw === '' || createform.fxwxdw === undefined))) {
-                  message.error({content: '请完善资产信息!'})
-                  setButtonDisable(false)
-                  return
-                }
-              }
-
-              const fxbxgzlx = orderModal.field_list.find((i) => i.code === 'fxbxgzlx' )
-              const filterArray = ['监控类','计算机类','其他设备类']
-              const errorTypeMap = fxbxgzlx.cascade.map(i => {
-                return {
-                  label: i.label,
-                  value: i.value
+              props.form.validateFieldsAndScroll((err, value) => {
+                if (err) {
+                  pass = false
                 }
               })
-              if(Array.isArray(createform['fxbxgzlx']) && createform['fxbxgzlx'].length) {
-                let result = errorTypeMap.find(i => i.value === createform['fxbxgzlx'][0])
-                if(filterArray.includes(result.label) &&  (createform.hasOwnProperty('fxwxdw') && !createform['fxwxdw'])){
-                  message.error('维护单位不能为空!')
-                  setButtonDisable(false)
-                  return
+              if (!pass) {
+                message.warning('请填写完全工单信息！')
+                return
+              }
+              if (props.order.form.hasOwnProperty('apikey')) {
+                params.apikey = props.order.form.apikey
+              }
+              if (orderSearch['综合设备报修'].modelId === modal) {
+                var bxsblx = document.getElementsByClassName('ant-cascader-picker-label')
+                var pcsgg = document.getElementsByClassName('ant-select-selection-selected-value')
+                var checked = document.getElementsByClassName('ant-radio-wrapper-checked')
+                var bxcc = bxsblx[0].textContent.replace(' ', '')
+                bxcc = bxcc.replace(' ', '')
+                createform.title = pcsgg[0].textContent + '-' + checked[0].children[1].textContent + '-' + bxcc
+              }
+              //进到综合运维服务流程，做一些定制操作
+              if (orderSearch['综合运维服务流程'].modelId === modal) {
+                //去掉参数中的部分key，让工单正常流转
+                const filterKey = ['deviceIp', 'deviceKey', 'fxpcs', 'sbmc', 'wxdwmc', 'xmmc']
+                filterKey.forEach(i => delete createform[i])
+                delete createform.overdueNotify
+
+                //选择了设备，但是设备没有维修单位，需要提示
+                let { resource, fxwxdw } = createform
+                if (resource && Array.isArray(resource) && resource.length > 0) {
+                  if (!createform.hasOwnProperty('fxwxdw') || (createform.hasOwnProperty('fxwxdw') && (createform.fxwxdw === '' || createform.fxwxdw === undefined))) {
+                    message.error({ content: '请完善资产信息!' })
+                    setButtonDisable(false)
+                    return
+                  }
                 }
-              }
-            }
-            message.loading({content:'创建工单中……', key:MESSAGE_KEY})
-            createOrder({
-              model_id: modal,
-              ticket_source: "wchart",
-              urgent_level: 2,
-              title: createform.title,
-              user_id: pcsInfo.userId ? pcsInfo.userId : props.user.userAccountInfo.userId,
-              description: props.order.form.ticketDesc || '',
-              form: createform,
-              handle_rules: {
-                route_id: orderModal.handle_rules[0].route_id
-              }
-            }, params).then(da => {
-              message.success({content:'创建成功', key:MESSAGE_KEY})
-              // wxMessage({id: da.data.id})
-              if(files.length) {
-                message.loading({content:'开始上传图片……', key:MESSAGE_KEY})
-                files.forEach((i) => {
-                  let reader = new FileReader();
-                  reader.readAsDataURL(i)
-                  reader.onload = e => {
-                    let imgBase64 = e.target.result
-                    updateImage({
-                      ticketId: da.data.id,
-                      filesBase64: [imgBase64.split(',')[1]]
-                    }).then(() => {
-                      message.success({content:'上传成功', key:MESSAGE_KEY})
-                    })
+
+                const fxbxgzlx = orderModal.field_list.find((i) => i.code === 'fxbxgzlx')
+                const filterArray = ['监控类', '计算机类', '其他设备类']
+                const errorTypeMap = fxbxgzlx.cascade.map(i => {
+                  return {
+                    label: i.label,
+                    value: i.value
                   }
                 })
-                setButtonDisable(false)
-                history.push('/order?modelId='+modal)
-              } else {
-                setButtonDisable(false)
-                history.push('/order?modelId='+modal)
+                if (!createform.fxwxdw) {
+                  createform.fxwxdw = '服务台'
+                }
+                if (Array.isArray(createform['fxbxgzlx']) && createform['fxbxgzlx'].length) {
+                  let result = errorTypeMap.find(i => i.value === createform['fxbxgzlx'][0])
+                  if (filterArray.includes(result.label) && (createform.hasOwnProperty('fxwxdw') && !createform['fxwxdw'])) {
+                    message.error('维护单位不能为空!')
+                    setButtonDisable(false)
+                    return
+                  }
+                }
               }
-            })
-          }}>提交</Button>
+              message.loading({ content: '创建工单中……', key: MESSAGE_KEY })
+              createOrder({
+                model_id: modal,
+                ticket_source: "wchart",
+                urgent_level: 2,
+                title: createform.title,
+                user_id: pcsInfo.userId ? pcsInfo.userId : props.user.userAccountInfo.userId,
+                description: props.order.form.ticketDesc || '',
+                form: createform,
+                handle_rules: {
+                  route_id: orderModal.handle_rules[0].route_id
+                }
+              }, params).then(da => {
+                message.success({ content: '创建成功', key: MESSAGE_KEY })
+                // wxMessage({id: da.data.id})
+                if (files.length) {
+                  message.loading({ content: '开始上传图片……', key: MESSAGE_KEY })
+                  files.forEach((i) => {
+                    let reader = new FileReader();
+                    reader.readAsDataURL(i)
+                    reader.onload = e => {
+                      let imgBase64 = e.target.result
+                      updateImage({
+                        ticketId: da.data.id,
+                        filesBase64: [imgBase64.split(',')[1]]
+                      }).then(() => {
+                        message.success({ content: '上传成功', key: MESSAGE_KEY })
+                      })
+                    }
+                  })
+                  setButtonDisable(false)
+                  history.push('/order?modelId=' + modal)
+                } else {
+                  setButtonDisable(false)
+                  history.push('/order?modelId=' + modal)
+                }
+              })
+            }}>提交</Button>
           <GisShow resourceId={resourceId} visible={visible} />
+        </div>
       </div>
-    </div>
   )
 })
 
