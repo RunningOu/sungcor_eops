@@ -352,11 +352,19 @@ export const countOnlienRate = async () => {
 export const countCameraOnlineRate = async () => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss/app/portal/countCameraOnlineRate'
+    url: '/oss2/api/ipm/getOnlineRate?type=分局摄像机'
   })
   return data
 }
 
+export const countOnlineCameraGroupByType = async () => {
+  const { data } = await axios({
+    method: 'get',
+    url: 'oss2/api/ipm/getDeviceOnlineCount?types=分局摄像机&group=1',
+
+  })
+  return data
+}
 // 通过类型统计数量
 export const countOnlineGroupByType = async (type) => {
   const { data } = await axios({

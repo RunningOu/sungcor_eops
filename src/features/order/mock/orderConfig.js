@@ -153,9 +153,11 @@ export default {
   //综合运维服务流程
   'd948b00b8e1f4a81b36e2203dcd1b78f': {
     "开始": {
+      required: ['bxbm', 'title'],
       hidden: ['urgentLevel', 'bxlx'],
       readOnly: ['repairman'],
       defaultValue: {
+        fxwxdw: '服务台',
         urgentLevel: 2,
         repairman: 'realname',
         telephone: 'mobile',
@@ -173,6 +175,7 @@ export default {
     "问题受理": {
       hidden: ['qsr', 'qssj', 'qsrlxdh', 'shsj', 'shr', 'bxlx', 'resource', 'urgentLevel', 'repairman', 'bxbm'],
       readOnly: ['repairman', 'bxbm', 'dd', 'IP', 'deviceid', 'fxxmmc', 'fxwxdw'],
+      required: ['telephone'],
       defaultValue: {
         qsr: 'realname',
         shr: 'realname',
