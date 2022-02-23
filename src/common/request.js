@@ -352,7 +352,7 @@ export const countOnlienRate = async () => {
 export const countCameraOnlineRate = async () => {
   const { data } = await axios({
     method: 'get',
-    url: '/oss2/api/ipm/getOnlineRate?type=分局摄像机'
+    url: '/oss/api/ipm/getOnlineRate?type=分局摄像机'
   })
   return data
 }
@@ -360,7 +360,7 @@ export const countCameraOnlineRate = async () => {
 export const countOnlineCameraGroupByType = async () => {
   const { data } = await axios({
     method: 'get',
-    url: 'oss2/api/ipm/getDeviceOnlineCount?types=分局摄像机&group=1',
+    url: 'oss/api/ipm/getDeviceOnlineCount?types=分局摄像机&group=1',
 
   })
   return data
@@ -615,7 +615,7 @@ export function queryMobileAlertCount(severity) {
     })
   }
   return axios({
-    url: '/oss2/api/alert/mobileAlertCount',
+    url: '/oss/api/alert/mobileAlertCount',
     method: 'POST',
     data
   })
@@ -690,7 +690,7 @@ export function queryMobileAlertList(data) {
   }
 
   return axios({
-    url: '/oss2/api/alert/mobileAlertList',
+    url: '/oss/api/alert/mobileAlertList',
     method: 'POST',
     data: params
   })

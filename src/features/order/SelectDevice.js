@@ -158,7 +158,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 <span>{item.code}</span>
                 <Button className="btn" type="link" onClick={() => {
                   console.log(item);
-                  fetch('https://fxtyyw.gaj.sh.gov.cn/mobile/oss2/api/ciSnapshot/query',{
+                  fetch('https://fxtyyw.gaj.sh.gov.cn/mobile/oss/api/ciSnapshot/query',{
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
