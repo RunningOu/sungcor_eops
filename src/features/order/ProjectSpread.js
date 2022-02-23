@@ -21,7 +21,7 @@ const ProjectSpread = ({ match }) => {
 
   const handleClickProjectCard = (project) => {
     const { name, xmmc } = project
-    history.push(`/order/ProjectSpread/${currentType}/ProjectDetail?name=${name}`)
+    history.push(`/order/ProjectSpread/${currentType}/ProjectDetail?name=${name}&xmmc=${xmmc}`)
   }
   useEffect(() => {
     if (currentType === 'todayAdd') {

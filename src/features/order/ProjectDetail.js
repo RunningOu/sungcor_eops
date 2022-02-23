@@ -43,7 +43,8 @@ const requestMap = {
 
 const ProjectDetail = ({ location, match }) => {
   const history = useHistory()
-  const xmmc = new URLSearchParams(location.search).get('name')
+  const name = new URLSearchParams(location.search).get('name')
+  const xmmc = new URLSearchParams(location.search).get('xmmc')
   const currentType = match.params.type
   const [orderList, setOrderList] = useState({ processing: [], completed: [] })
   const [processingCount, setProcessingCount] = useState(0)
@@ -95,7 +96,7 @@ const ProjectDetail = ({ location, match }) => {
 
   return (
     <>
-      <HeaderBar title={`${xmmc}-${typeMap[currentType]}工单`}></HeaderBar>
+      <HeaderBar title={`${name}-${typeMap[currentType]}工单`}></HeaderBar>
       <div className="project-detail">
         <Menu onClick={handleChangeMenu} className="menu-wrapper" defaultSelectedKeys={menuKey} mode="horizontal">
           <Menu.Item key="processing">{`处理中(${processingCount})`}</Menu.Item>
