@@ -62,7 +62,7 @@ export const queryUserInfo = async (d) => {
 export const createOrder = async (d, p = {}) => {
   const data = await axios({
     method: 'post',
-    url: '/ticket/createTicket',
+    url: '/oss/api/itsm/create',
     params: {
       ...p
     },
@@ -145,7 +145,7 @@ export const queryOrderTicketModel = async (params) => {
 export const queryOrderModel = async (modelId) => {
   const { data } = await axios({
     method: 'get',
-    url: '/ticket/getItsmTicketModel',
+    url: '/oss/api/itsm/getModelSg',
     params: {
       apikey: 'e10adc3949ba59abbe56e057f2gg88dd',
       ...modelId
@@ -194,7 +194,7 @@ export const changeOrderExecutor = async (params) => {
 export const queryOrderList = async (d) => {
   const { data } = await axios({
     method: 'post',
-    url: '/ticket/queryByMongoDB',
+    url: 'oss/app/queryTicketByMongoDB',
     data: {
       ...d
     }
@@ -219,7 +219,7 @@ export const queryOrderInfo = async (ticketId) => {
 export const queryDeviceList = async (q) => {
   const { data } = await axios({
     method: 'post',
-    url: '/cmdb/queryAll',
+    url: '/oss/app/queryAllByKey'+(q.key?'?'+q.key:''),
     data: {
       ...q
     }
@@ -241,7 +241,7 @@ export const updateDevice = async (q) => {
 export const queryDeviceById = async (id) => {
   const { data } = await axios({
     method: 'get',
-    url: '/cmdb/get',
+    url: '/oss/app/getCmdbById',
     params: {
       id: id
     }
@@ -276,7 +276,7 @@ export const queryDeviceByClassCode = async (codes) => {
 export const queryOrderCount = async (queryArr) => {
   const { data } = await axios({
     method: 'post',
-    url: '/ticket/countByDB',
+    url: '/oss/app/countTicketByMongoDB',
     data: queryArr
   })
   return data
@@ -306,7 +306,7 @@ export const countAlert = async (queryArr) => {
 export const getUserbyName = async (userName) => {
   const { data } = await axios({
     method: 'get',
-    url: '/user/getUserByName',
+    url: '/oss/app/getUserByName',
     params: {
       userName: userName
     }
@@ -696,6 +696,17 @@ export function queryMobileAlertList(data) {
   })
 }
 
+// 根据优云设备ID查询设备是否报修
+export const getRepairStatus = async (d) => {
+    const { data } = await axios({
+        method: 'get',
+        url: '/oss/app/getRepairStatus',
+        params: {
+            id: d
+        }
+    })
+    return data
+}
 
 /**
  * 查找告警

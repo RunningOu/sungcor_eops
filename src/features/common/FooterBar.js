@@ -72,7 +72,7 @@ export default (props) => {
             }
             // 待办个数
             queryOrderList({
-              'model': {'attrs': todoo},
+              'conditions':  todoo,
               "pageNum": 1,
               "pageSize": 1
             }).then((d) => {
@@ -81,7 +81,7 @@ export default (props) => {
             })
             // 逾期个数
             queryOrderList({
-              'model': {'attrs': overdue},
+              'conditions':  overdue,
               "pageNum": 1,
               "pageSize": 1
             }).then((d) => {

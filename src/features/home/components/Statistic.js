@@ -17,10 +17,10 @@ export default (props) => {
   const [cameraOnlineRate, setCameraOnlineRate] = useState(0)
 
   const OrderConfig = userId => [
-    [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }],
-    [{ key: "overdue", value: "1", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }, { key: "executor", value: userId, operator: "IN" }], // 执行人有他的逾期
-    [{ key: "status", value: "1,2", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }], // 超级管理员 统计 待办总数
-    [{ key: "overdue", value: "1", operator: "IN" }, { key: "formData.sfbx", value: "wgq", operator: "EQ" }] // 超级管理员 统计 所有逾期
+    [{ field: "executor", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "formData.sfbx", value: "wgq", operator: "EQ" }],
+    [{ field: "overdue", value: "1", operator: "IN" }, { field: "formData.sfbx", value: "wgq", operator: "EQ" }, { field: "executor", value: userId, operator: "IN" }], // 执行人有他的逾期
+    [{ field: "status", value: "1,2", operator: "IN" }, { field: "formData.sfbx", value: "wgq", operator: "EQ" }], // 超级管理员 统计 待办总数
+    [{ field: "overdue", value: "1", operator: "IN" }, { field: "formData.sfbx", value: "wgq", operator: "EQ" }] // 超级管理员 统计 所有逾期
   ]
   const tabsConfig = [
     [{ field: 'cameraState', value: 'using', operator: 'EQ' }],

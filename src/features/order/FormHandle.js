@@ -258,7 +258,7 @@ const HandleOrder = Form.create({
         })
       } else {
         queryOrderModel({
-          modelId: query.get('modelId'),
+          id: query.get('modelId'),
           actId: query.get('actId')
         }).then(d => {
           setOrderModal(d)

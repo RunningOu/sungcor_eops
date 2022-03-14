@@ -117,11 +117,10 @@ const SelectView = (props) => {
   },[])
   useEffect(() => {
     var attrs = [...tabsConfig(userInfo.userId)[1]]
-    if (searchValue !== '') attrs.push({ key: searchKey, value: searchValue, operator: "LIKE" })
+    if (searchValue !== '') attrs.push({ field: searchKey, value: searchValue, operator: "LIKE" })
+    console.log(attrs)
     queryOrderList({
-      'model': {
-        attrs: attrs
-      },
+      'conditions': attrs,
       "pageNum": pageNum,
       "pageSize": pageSize
     }).then((d) => {

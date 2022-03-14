@@ -33,40 +33,40 @@ export default (props) => {
       let AllAttrs= {
         'xmmc': {
           '逾期已完成': [
-            { key: "overdue", value: "1", operator: "IN" },
-            { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-            { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ"},
-            { key: "status", value: "3", operator: "IN" }
+            { field: "overdue", value: "1", operator: "IN" },
+            { field: "formData.sfbx", value: "wgq", operator: "EQ" },
+            { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ"},
+            { field: "status", value: "3", operator: "IN" }
           ],
           '逾期未完成': [
-            { key: "overdue", value: "1", operator: "IN" },
-            { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-            { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae",operator: "EQ"},
-            { key: "status", value: "1,2", operator: "IN" }
+            { field: "overdue", value: "1", operator: "IN" },
+            { field: "formData.sfbx", value: "wgq", operator: "EQ" },
+            { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae",operator: "EQ"},
+            { field: "status", value: "1,2", operator: "IN" }
           ],
           // 未完成不包括已挂起
-          '未完成': [{ key: "status", value: "1,2,10", operator: "IN" }, { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" },
+          '未完成': [{ field: "status", value: "1,2,10", operator: "IN" }, { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" },
           ],
           // 已挂起
-          '挂起': [  { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { key: "formData.sfbx", value: "ygq", operator: "EQ" },{ key: "status", value: "1,2,10", operator: "IN" }]
+          '挂起': [  { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { field: "formData.sfbx", value: "ygq", operator: "EQ" },{ field: "status", value: "1,2,10", operator: "IN" }]
         },
         'nc': {
-          '逾期': [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
-          '未完成': [{ key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }]
+          '逾期': [{ field: "overdue", value: "1", operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+          '未完成': [{ field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }]
         }
       }
 
         if(visible === true){
           let oAttrs = AllAttrs[tabs][type]
           if (tabs === 'xmmc') {
-            oAttrs.push({ key: 'formData.xmmc', value: title, operator: "EQ" })
+            oAttrs.push({ field: 'formData.xmmc', value: title, operator: "EQ" })
           }
           if (tabs === 'nc') {
-            oAttrs.push({ key: 'title', value: title, operator: "LIKE" })
+            oAttrs.push({ field: 'title', value: title, operator: "LIKE" })
           }
           if ( status === 'today' ) {
             console.log(formatDate(new Date(), 'yyyy-MM-dd') + ' 00:00:00')
-            oAttrs.push({ key: 'createTime', value: formatDate(new Date(), 'yyyy-MM-dd') + ' 00:00:00' , operator: "GT" })
+            oAttrs.push({ field: 'createTime', value: formatDate(new Date(), 'yyyy-MM-dd') + ' 00:00:00' , operator: "GT" })
           }
           getFieldByCode('fxGzlx').then(data => {
             var fxGzlxs = {}

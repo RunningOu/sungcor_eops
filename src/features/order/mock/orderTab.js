@@ -18,18 +18,18 @@ export default {
                 // { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }
             ],
             [
-                { key: "participation", value: userId, operator: "IN" },
-                { key: "status", value: "1,2", operator: "IN" },
-                { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+                { field: "participation", value: userId, operator: "IN" },
+                { field: "status", value: "1,2", operator: "IN" },
+                { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
             [
-                { key: "status", value: "3", operator: "IN" },
-                { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+                { field: "status", value: "3", operator: "IN" },
+                { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
             [
-                { key: "overdue", value: "1", operator: "IN" },
-                { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-                { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+                { field: "overdue", value: "1", operator: "IN" },
+                { field: "formData.sfbx", value: "wgq", operator: "EQ" },
+                { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
             [
-                { key: "formData.sfbx", value: "ygq", operator: "EQ" }
+                { field: "formData.sfbx", value: "ygq", operator: "EQ" }
             ] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
         ],
         searchList: [
@@ -51,13 +51,13 @@ export default {
             { title:'系统结单', sub: 6,  sum : 0},
         ],
         tabsConfig: userId => [
-            [{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [{ key: "executor", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [{ key: "participation", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [{ key: "status", value: "3", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [{ key: "overdue", value: "1", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }], // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
-            [{ key: "status", value: "7", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+            [{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "executor", value: userId, operator: "IN" },{ field: "status", value: "1,2", operator: "IN" },{ field: "formData.sfbx", value: "wgq", operator: "EQ" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "participation", value: userId, operator: "IN" },{ field: "status", value: "1,2", operator: "IN" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "status", value: "3", operator: "IN" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "overdue", value: "1", operator: "IN" },{ field: "formData.sfbx", value: "wgq", operator: "EQ" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "formData.sfbx", value: "ygq", operator: "EQ" }], // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+            [{ field: "status", value: "7", operator: "IN" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
         ],
         searchList: [
             {code: 'formData.deviceKey', name: '键盘编号'},
@@ -78,12 +78,12 @@ export default {
             { title: '全部', sub: 0 },
         ],
         tabsConfig: userId => [
-            [{ key: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
-            [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
-            [{ key: "participation", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
-            [{ key: "status", value: "3", operator: "IN" }, { key: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
-            [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
-            [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+            [{ field: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
+            [{ field: "executor", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
+            [{ field: "participation", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
+            [{ field: "status", value: "3", operator: "IN" }, { field: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
+            [{ field: "overdue", value: "1", operator: "IN" }, { field: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
+            [{ field: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
         ],
         searchList: [
             {code: 'title', name: '工单标题'}
@@ -101,12 +101,12 @@ export default {
             { title: '全部', sub: 0 },
         ],
         tabsConfig: userId => [
-            [{ key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
-            [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
-            [{ key: "participation", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
-            [{ key: "status", value: "3", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
-            [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
-            [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+            [{ field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+            [{ field: "executor", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+            [{ field: "participation", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+            [{ field: "status", value: "3", operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+            [{ field: "overdue", value: "1", operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+            [{ field: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
         ],
         searchList: [
             {code: 'title', name: '工单标题'}
@@ -124,12 +124,12 @@ export default {
             { title: '全部', sub: 0 },
         ],
         tabsConfig: userId => [
-            [{ key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
-            [{ key: "executor", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
-            [{ key: "participation", value: userId, operator: "IN" }, { key: "status", value: "1,2", operator: "IN" }, { key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
-            [{ key: "status", value: "3", operator: "IN" }, { key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
-            [{ key: "overdue", value: "1", operator: "IN" }, { key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
-            [{ key: "formData.sfbx", value: "ygq", operator: "EQ" },{ key: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+            [{ field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
+            [{ field: "executor", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
+            [{ field: "participation", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
+            [{ field: "status", value: "3", operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
+            [{ field: "overdue", value: "1", operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
+            [{ field: "formData.sfbx", value: "ygq", operator: "EQ" },{ field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
         ],
         searchList: [
             {code: 'title', name: '工单标题'}

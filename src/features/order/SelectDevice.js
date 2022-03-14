@@ -6,8 +6,9 @@ import InfiniteScroll from 'react-infinite-scroller';
 import * as actions from './redux/actions'
 import { HeaderBar } from '../common'
 import _ from 'lodash'
-import { queryDeviceList, queryDeviceByManager } from '../../common/request'
+import { queryDeviceList, queryDeviceByManager, getRepairStatus} from '../../common/request'
 import {cgAccountList,cgAccountMap} from './mock/cgAccountList'
+import {BASEURL} from '../../config'
 
 import './SelectDevice.less'
 
@@ -100,24 +101,25 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
     if (['派出所人员', '设备厂商'].includes(userAccountInfo.roleName)) {
       if (userAccountInfo.depts.length) {
         if (userAccountInfo.roleName === '派出所人员') conditions.push({ field: 'SSDW', value: userAccountInfo.depts.map(dep => dep.name), operator: 'IN' })
-        if (userAccountInfo.roleName === '设备厂商') conditions.push({ field: 'whcs', value: userAccountInfo.depts.map(dep => dep.id), operator: 'IN' })
+        if (userAccountInfo.roleName === '设备厂商') conditions.push({ field: 'ywdw', value: userAccountInfo.depts.map(dep => dep.name), operator: 'IN' })
       }
     }
     queryDeviceList({
       needCount: true,
       pageNum,
       pageSize: 10,
-      conditions
+      conditions,
+      key: devcieSearch
     }).then(d => {
-      console.log('queryDeviceList',d)
+      console.log('queryDeviceList',d.result.dataList)
       setLoading(false)
-      if (d.hasOwnProperty('dataList') && userAccountInfo.roleName) {
-        if (d.dataList.length !== 10) setHasMore(false)
-        setCount(d.totalRecords)
+      if (d.result.hasOwnProperty('dataList') && userAccountInfo.roleName) {
+        if (d.result.dataList.length !== 10) setHasMore(false)
+        setCount(d.result.totalRecords)
         if (pageNum > 0) {
-          setDeviceList(devlist => [...devlist, ...d.dataList])
+          setDeviceList(devlist => [...devlist, ...d.result.dataList])
         } else {
-          setDeviceList([...d.dataList])
+          setDeviceList([...d.result.dataList])
         }
       }
     })
@@ -158,7 +160,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 <span>{item.code}</span>
                 <Button className="btn" type="link" onClick={() => {
                   console.log(item);
-                  fetch('https://fxtyyw.gaj.sh.gov.cn/mobile/oss/api/ciSnapshot/query',{
+                  fetch(BASEURL+'/oss/app/queryAllByKey',{
                     method: 'POST',
                     headers: {
                       'Content-Type': 'application/json',
@@ -166,21 +168,19 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                     },
                     body: JSON.stringify({
                         "conditions": [{
-                            "field": "name",
-                            "operator": "in",
-                            "value": `${item.name}`
+                            "field": "id",
+                            "value": `${item.id}`
                         }],
-                        "pageNum": 1,
+                        "pageNum": 0,
                         "pageSize": 10
                     })
                   }).then(res => res.json()).then(res => {
-                    if(res.code === 200 && res.result.list) {
-                      let { list } = res.result
-                      if(list[0].repairStatus === null || list[0].repairStatus === 1) {
-                        handleCreateForm()
-                      } else if(list[0].repairStatus === 0) {
-                        message.error('工单已存在，请勿重复报修')
-                      }
+                    if(res.code === 200 && res.result.dataList) {
+                        if (1 === res.result.dataList[0].repairStatus){
+                            message.error('工单已存在，请勿重复报修')
+                        } else {
+                            handleCreateForm()
+                        }
                     } else {
                       message.error('请查询资产是否录入！')
                     }

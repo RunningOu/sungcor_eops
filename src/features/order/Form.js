@@ -119,7 +119,7 @@ const CreateOrder = Form.create({
       })
     } else {
       // 加载工单模板
-      queryOrderModel({ modelId: modal }).then(d => {
+      queryOrderModel({ id: modal }).then(d => {
         console.log('加载工单模板', d)
         setFormLoading(false)
         setOrderModal(d)

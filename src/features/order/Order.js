@@ -76,7 +76,7 @@ const Order = (props) => {
   useEffect(() => {
     history.replace(`/order/${props.location.search}`)
   },[props.location.search])
-  
+
   useEffect(() => {
     if (orderSearch !== '' && orderSearch[orderSearchType]) {
       setDrawerConfig(orderSearch[orderSearchType])
@@ -121,7 +121,7 @@ const Order = (props) => {
     if ((orderState === 1 || orderState === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
         attrs.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
         attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
-    } 
+    }
     // 挂起 & 逾期 图像组管理员特殊处理
     // if ((orderState === '5' || orderState === 5 || orderState === '4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
     //   attrs.push({ key: "executor", value: userAccountInfo.userId, operator: "IN" })
@@ -186,30 +186,28 @@ const Order = (props) => {
             // 命中代办
           if ((item.sub === 1 || item.sub === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
             attt.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
-            attt.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
+            attt.push({ field: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
           }
           // 挂起 & 逾期 图像组管理员特殊处理
           if ((item.sub === '5' || item.sub === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-            attt.push({ key: "executor", value: userId  , operator: "IN" })
+            attt.push({ field: "executor", value: userId  , operator: "IN" })
           // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
           if(( item.sub === '4' || item.sub === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-            attt.push({ key: "executor", value: userId  , operator: "IN" })
-            attt.push({key: "status", value: "1,2,3", operator: "IN"})
+            attt.push({ field: "executor", value: userId  , operator: "IN" })
+            attt.push({field: "status", value: "1,2,3", operator: "IN"})
           }
           // 完成工单 特殊处理
           // 命中完成
           if ((item.sub === '3' || item.sub === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-            attt.push({ key: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+            attt.push({ field: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
 
           if((item.sub === '6' || item.sub === 6) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-            attt.push({ key: "executor", value: userId, operator: "IN" })
+            attt.push({ field: "executor", value: userId, operator: "IN" })
           }
           queryOrderList({
-            'model': {
-              attrs: attt
-            },
+            'conditions': attt,
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
@@ -219,11 +217,11 @@ const Order = (props) => {
       })
     }
   }, [tabs,tabsConfig])
-  
+
   useEffect(() => {
     if(Object.keys(model).length) {
       queryOrderList({
-        'model': model,
+        'conditions': model.attrs,
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
@@ -233,7 +231,7 @@ const Order = (props) => {
             setOrderList([...d.list])
           }else {
             setOrderList((oldList) => [...oldList, ...d.list])
-          } 
+          }
           setLoading(false)
         }
         setCount(d.count)
@@ -326,14 +324,14 @@ const Order = (props) => {
               history.push(`/order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}` + '&search=' + searchTitle + '&searchType=' + searchInfo)
               }}>
                 {
-                  item.modelId === orderSearch['视频报修'].modelId ? 
+                  item.modelId === orderSearch['视频报修'].modelId ?
                   <>
                   <h2 className='title'>{item.title}</h2>
                   <p className='description'>当前处理人：{item.executor.join('，')}</p>
                   <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p>
                   <p className='description'>键盘编号：{item.formData.deviceKey ==='null' ? '' : item.formData.deviceKey}</p>
                   <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
-                  <p className='orderstate'>{item.activityName}</p> 
+                  <p className='orderstate'>{item.activityName}</p>
                   </>
                    :
                    <>
