@@ -157,7 +157,7 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
                 ]}
               >
                 <List.Item.Meta title={item.name} description={item.managementUnit} />
-                <span>{item.code}</span>
+                <span>{item.JPBH?item.JPBH:item.code}</span>
                 <Button className="btn" type="link" onClick={() => {
                   console.log(item);
                   fetch(BASEURL+'/oss/app/queryAllByKey',{
@@ -292,3 +292,8 @@ export default connect(mapStateToProps, mapDispatchToProps)((props) => {
     </div>
   )
 })
+
+
+
+
+// 视频报修   选择设备

@@ -211,6 +211,7 @@ const Order = (props) => {
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
+            console.log(d,'dd');
             item.sum = d.count
           })
         }
@@ -225,16 +226,19 @@ const Order = (props) => {
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
-        if (d.hasOwnProperty('list')) {
-          if (d.list.length !== 10) setHasMore(false)
+        // console.log(d,'d1',d.hasOwnProperty('list'));
+        let res = d.result
+        if (res.hasOwnProperty('list')) {
+          if (res.list.length !== 10) setHasMore(false) 
           if(pageNum === 1) {
-            setOrderList([...d.list])
+            setOrderList([...res.list])
           }else {
-            setOrderList((oldList) => [...oldList, ...d.list])
+            setOrderList((oldList) => [...oldList, ...res.list])
           }
           setLoading(false)
         }
-        setCount(d.count)
+        console.log(res.total,'count');
+        setCount(res.total)
       })
         .catch((e) => { })
     }
@@ -320,6 +324,7 @@ const Order = (props) => {
           useWindow={false}
         >
           <List dataSource={orderList} renderItem={item => (
+     
             <div className='item' onClick={() => {
               history.push(`/order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}` + '&search=' + searchTitle + '&searchType=' + searchInfo)
               }}>
@@ -327,7 +332,7 @@ const Order = (props) => {
                   item.modelId === orderSearch['视频报修'].modelId ?
                   <>
                   <h2 className='title'>{item.title}</h2>
-                  <p className='description'>当前处理人：{item.executor.join('，')}</p>
+                  <p className='description'>当前处理人：{item.executorCN?item.executorCN.join('，'):''}</p>
                   <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p>
                   <p className='description'>键盘编号：{item.formData.deviceKey ==='null' ? '' : item.formData.deviceKey}</p>
                   <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
@@ -336,7 +341,7 @@ const Order = (props) => {
                    :
                    <>
                   <h2 className='title'>{item.title}</h2>
-                  <p className='description'>当前处理人：{item.executor.join('，')}</p>
+                  <p className='description'>当前处理人：{item.executorCN?item.executorCN.join('，'):''}</p>
                   {/* <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p> */}
                   <p className='date'>报修时间： <span>{item.formData.bxsj === undefined ? moment(item.createTime).format("YYYY-MM-DD HH:mm:ss") : item.formData.bxsj}</span></p>
                   <p className='orderstate'>{item.activityName}</p>
