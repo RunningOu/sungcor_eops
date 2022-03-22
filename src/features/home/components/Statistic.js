@@ -69,8 +69,10 @@ export default (props) => {
       //逾期未完成和已完成
       getCountOverdueTicket().then(res => {
         if (res.code === 200 && res.result) {
-          setOverdueFinished(res.result.wcOverdue)
-          setOverdueUnFinished(res.result.wwcOverdue)
+          setOverdueFinished(res.result.total)
+          // setOverdueFinished(res.result.wcOverdue)
+          setOverdueUnFinished(res.result.complete)
+          // setOverdueUnFinished(res.result.wwcOverdue)
         }
       })
     }

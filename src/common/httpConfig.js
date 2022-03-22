@@ -25,6 +25,17 @@ Axios.interceptors.request.use(config => {
       config.params['apikey'] = config.data.apikey
       delete config.data.apikey
     }
+    // console.log(config,'config');
+    if (config.url === 'oss/api/itsm/getOverDueCount') {
+      // config.params['apikey'] = config.data.apikey
+      console.log(config,'config');
+      delete config.params.apikey
+      let a = {
+        pageNum : 1,
+        pageSize : 10
+      }
+      config.params = JSON.parse(JSON.stringify(a))
+    }
   }
   return config
 }, error => {

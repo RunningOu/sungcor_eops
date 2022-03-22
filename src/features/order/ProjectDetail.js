@@ -72,19 +72,21 @@ const ProjectDetail = ({ location, match }) => {
   }
 
   useEffect(() => {
-    Promise.all([requestMap[currentType](xmmc, 0, pageNum), requestMap[currentType](xmmc, 1, pageNum)]).then(res => {
-      setProcessingCount(res[0].result.totalRecords)
-      setCompletedCount(res[1].result.totalRecords)
+    console.log(name,'orderList');
+    // 0===》处理中    1==》已完成
+    Promise.all([requestMap[currentType]('wwc', [name], pageNum), requestMap[currentType]('ywc', [name], pageNum)]).then(res => {
+      setProcessingCount(res[0].result.total)
+      setCompletedCount(res[1].result.total)
       setOrderList((old) => {
         if (pageNum === 1) {
           return {
-            processing: [...res[0].result.dataList],
-            completed: [...res[1].result.dataList]
+            processing: [...res[0].result.records],
+            completed: [...res[1].result.records]
           }
         } else {
           return {
-            processing: [...old['processing'], ...res[0].result.dataList],
-            completed: [...old['completed'], ...res[1].result.dataList]
+            processing: [...old['processing'], ...res[0].result.records],
+            completed: [...old['completed'], ...res[1].result.records]
           }
         }
       })

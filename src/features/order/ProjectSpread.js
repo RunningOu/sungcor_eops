@@ -40,7 +40,8 @@ const ProjectSpread = ({ match }) => {
         console.log('逾期', res)
 
         const result = res.result.filter((item) => {
-          return (item.wwcOverdue + item.wcOverdue) > 0
+          // return (item.wwcOverdue + item.wcOverdue) > 0
+          return (item.complete + item.undone) > 0
         })
         //过滤掉没有name字段的数据
         // setSpreadData(res.result.filter(item => item.name))
@@ -75,8 +76,8 @@ const ProjectSpread = ({ match }) => {
               <div className="projectCard-detail">
                 <div style={{ margin: 'auto' }}>
                   <div style={{ fontWeight: 'bold', fontSize: '16px' }}>{item.name}</div>
-                  <div style={{ margin: '10px 0' }}>{`逾期工单:${item.wcOverdue + item.wwcOverdue}`}</div>
-                  <div style={{ margin: '10px 0' }}>{`${`处理中:${item.wwcOverdue}`} / 已完成:${item.wcOverdue}`}</div>
+                  <div style={{ margin: '10px 0' }}>{`逾期工单:${item.total}`}</div>
+                  <div style={{ margin: '10px 0' }}>{`${`处理中:${item.undone}`} / 已完成:${item.complete}`}</div>
                 </div>
               </div>
             </div>

@@ -473,8 +473,10 @@ export const getCountTodayTicket = async () => {
 //逾期未完成和逾期已完成工单统计
 export const getCountOverdueTicket = async () => {
   const { data } = await axios({
-    method: 'get',
-    url: `oss/app/portal/countOverdueTicket`
+    method: 'post',
+    // url: `oss/app/portal/countOverdueTicket`
+    url: `oss/api/itsm/getOverDueCount`,
+    data:{}
   })
   return data
 }
@@ -491,8 +493,10 @@ export const getTodayTicketByProject = async () => {
 //逾期未完成和逾期已完成工单按项目名称分布
 export const getOverdueTicketByProject = async () => {
   const { data } = await axios({
-    method: 'get',
-    url: `oss/app/portal/countOverdueTicketByProject`
+    method: 'post',
+    url: `oss/api/itsm/getOverDueCountList`,
+    // url: `oss/app/portal/countOverdueTicketByProject`
+    data:{}
   })
   return data
 }
@@ -508,10 +512,19 @@ export const getTodayTicketByProjectName = async (projectName, status, pageNum) 
 }
 
 //逾期未完成和逾期已完成工单详情按项目名称分布
-export const getOverdueTicketByProjectName = async (projectName, status, pageNum) => {
+export const getOverdueTicketByProjectName = async (type, projects, pageNum) => {
+  let param={
+    type:type,
+    projects:projects,
+    pageNum:pageNum,
+    pageSize:10,
+  }
+  // export const getOverdueTicketByProjectName = async (projectName, status, pageNum) => {  
   const { data } = await axios({
-    method: 'get',
-    url: `oss/app/portal/queryOverdueTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
+    method: 'post',
+    url: `oss/api/itsm/getOverDueList`,
+    // url: `oss/app/portal/queryOverdueTicketByProjectName?type=${type}&projects=${projects}&pageSize=10&pageNum=${pageNum}`,
+    data:param
   })
   return data
 }
