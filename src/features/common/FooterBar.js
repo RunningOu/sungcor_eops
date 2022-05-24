@@ -35,13 +35,13 @@ export default (props) => {
   const selectList = {
     'todo': (modelId) => [
       // { key: "executor", value: userInfo ? userInfo.userId : userInfoL.userId, operator: "IN" },
-      { key: "executor", value: userInfoL[0].userId, operator: "IN" },
-      { key: "status", value: "1,2", operator: "IN" },
-      { key: "modelId", value: modelId, operator: "EQ" }
+      { field: "executor", value: userInfoL[0].userId, operator: "IN" },
+      { field: "status", value: [1,2], operator: "IN" },
+      { field: "modelId", value: modelId, operator: "EQ" }
     ],
     'overdue': (modelId) => [
-      { key: "overdue", value: "1", operator: "IN" },
-      { key: "modelId", value: modelId, operator: "EQ" }
+      { field: "overdue", value: 1, operator: "IN" },
+      { field: "modelId", value: modelId, operator: "EQ" }
     ]
   } // 查询条件
 
@@ -59,24 +59,32 @@ export default (props) => {
           d.forEach((item,index) => {
             let todoo = selectList.todo(item.id)
             let overdue = selectList.overdue(item.id)
+            let cjtList = []
+            let cjtor = {
+              cjt:"or",
+              conditions:[]
+            }
+            cjtor.conditions.push({ field: "executor", value: userInfoL[0].userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+            cjtList.push(cjtor)
             if (orderSearch['视频报修'].modelId === item.id) {
               if(MANAGE_ID === userInfoL[0].userId) {
-                todoo.push({key: "formData.sfbx", value: "gqsh", operator: "EQ"}) // 视频报修 图像组管理员特殊处理
+                cjtor.conditions.push({field: "formData.sfbx", value: "gqsh", operator: "EQ"}) // 视频报修 图像组管理员特殊处理
               } else {
-                todoo.push({key: "formData.sfbx", value: "wgq", operator: "EQ"})
+                todoo.push({field: "formData.sfbx", value: "wgq", operator: "EQ"})
               }
-              overdue.push({key: "formData.sfbx", value: "wgq", operator: "EQ"})
+              overdue.push({field: "formData.sfbx", value: "wgq", operator: "EQ"})
             }
             if (userInfoL[0].userId !== MANAGE_ID) {
-              overdue.push({ key: "executor", value: userInfoL[0].userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+              overdue.push({ field: "executor", value: userInfoL[0].userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
             }
             // 待办个数
             queryOrderList({
               'conditions':  todoo,
               "pageNum": 1,
-              "pageSize": 1
+              "pageSize": 1,
+              "ass":cjtList
             }).then((d) => {
-              mo[index].todo = d.count
+              mo[index].todo = d.result.total
               // setOrderModal(mo)
             })
             // 逾期个数
@@ -85,7 +93,7 @@ export default (props) => {
               "pageNum": 1,
               "pageSize": 1
             }).then((d) => {
-              mo[index].overdue = d.count
+              mo[index].overdue = d.result.total
               // setOrderModal(mo)
             })
 

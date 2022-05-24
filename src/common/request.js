@@ -502,7 +502,7 @@ export const getOverdueTicketByProject = async () => {
 }
 
 //今日新增/今日处理工单详情
-export const getTodayTicketByProjectName = async (projectName, status, pageNum) => {
+export const getTodayTicketByProjectName = async (status,projectName, pageNum) => {
   const { data } = await axios({
     method: 'get',
     url: `oss/app/portal/queryTodayTicketByProjectName?projectName=${projectName}&status=${status}&pageSize=10&pageNum=${pageNum}`
@@ -519,7 +519,7 @@ export const getOverdueTicketByProjectName = async (type, projects, pageNum) => 
     pageNum:pageNum,
     pageSize:10,
   }
-  // export const getOverdueTicketByProjectName = async (projectName, status, pageNum) => {  
+  // export const getOverdueTicketByProjectName = async (projectName, status, pageNum) => {
   const { data } = await axios({
     method: 'post',
     url: `oss/api/itsm/getOverDueList`,

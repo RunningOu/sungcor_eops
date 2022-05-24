@@ -33,26 +33,26 @@ export default (props) => {
       let AllAttrs= {
         'xmmc': {
           '逾期已完成': [
-            { field: "overdue", value: "1", operator: "IN" },
+            { field: "overdue", value: 1, operator: "IN" },
             { field: "formData.sfbx", value: "wgq", operator: "EQ" },
             { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ"},
-            { field: "status", value: "3", operator: "IN" }
+            { field: "status", value: 3, operator: "IN" }
           ],
           '逾期未完成': [
-            { field: "overdue", value: "1", operator: "IN" },
+            { field: "overdue", value: 1, operator: "IN" },
             { field: "formData.sfbx", value: "wgq", operator: "EQ" },
             { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae",operator: "EQ"},
-            { field: "status", value: "1,2", operator: "IN" }
+            { field: "status", value: [1,2], operator: "IN" }
           ],
           // 未完成不包括已挂起
-          '未完成': [{ field: "status", value: "1,2,10", operator: "IN" }, { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" },
+          '未完成': [{ field: "status", value: [1,2,10], operator: "IN" }, { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" },
           ],
           // 已挂起
-          '挂起': [  { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { field: "formData.sfbx", value: "ygq", operator: "EQ" },{ field: "status", value: "1,2,10", operator: "IN" }]
+          '挂起': [  { field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }, { field: "formData.sfbx", value: "ygq", operator: "EQ" },{ field: "status", value: [1,2,10], operator: "IN" }]
         },
         'nc': {
-          '逾期': [{ field: "overdue", value: "1", operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
-          '未完成': [{ field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }]
+          '逾期': [{ field: "overdue", value: 1, operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }],
+          '未完成': [{ field: "status", value: [1,2], operator: "IN" }, { field: "modelId", value: "8e046f46a81b4988bf6de158d847059f", operator: "EQ" }]
         }
       }
 

@@ -20,11 +20,15 @@ const ProjectSpread = ({ match }) => {
   const [SpreadData, setSpreadData] = useState([])
 
   const handleClickProjectCard = (project) => {
-    const { name, xmmc } = project
+    let { name, xmmc } = project
+    if (undefined ===  xmmc) {
+      xmmc = name
+    }
+    console.log(xmmc)
     history.push(`/order/ProjectSpread/${currentType}/ProjectDetail?name=${name}&xmmc=${xmmc}`)
   }
   useEffect(() => {
-    if (currentType === 'todayAdd') {
+    if (currentType == 'todayAdd') {
       getTodayTicketByProject().then(res => {
         console.log('今日新增', res)
         //过滤掉没有name字段的数据

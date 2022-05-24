@@ -14,12 +14,12 @@ import './User.less'
 const params = (userAccountInfo) => {
   return {
     getMyTodo: [
-      { key: "executor", value: userAccountInfo.userId,operator: "IN"},
-      { key:"status", value: "1,2", operator: "IN" },
-      { key: "formData.sfbx", value: "wgq", operator: "EQ" },
+      { field: "executor", value: userAccountInfo.userId,operator: "IN"},
+      { field:"status", value: [1,2], operator: "IN" },
+      { field: "formData.sfbx", value: "wgq", operator: "EQ" },
     ],
-    getMyparticipation: 
-      [{"key":"participation","value":userAccountInfo.userId,"operator":"IN"},{"key":"status","value":"1,2","operator":"IN"},{"key":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
+    getMyparticipation:
+      [{"field":"participation","value":userAccountInfo.userId,"operator":"IN"},{"field":"status","value":[1,2],"operator":"IN"},{"field":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
   }
 }
 
@@ -34,15 +34,16 @@ const User = (props) => {
   useEffect(() => {
     let requestTodoList = []
     if(typeof userAccountInfo.realname === 'string' && userAccountInfo.realname.includes('图像组管理员')) {
-      requestTodoList.push(queryOrderCount([{key:'status',value:'1,2',operator: 'IN'},{key:'formData.sfbx',value:'gqsh',operator:'EQ'}]))
+      requestTodoList.push(queryOrderCount([{key:'formData.sfbx',value:'gqsh',operator:'EQ'}]))
     }
     requestTodoList.push(queryOrderCount(params(userAccountInfo)['getMyTodo']))
     Promise.all(requestTodoList).then(res => {
-      const myTodoCount = res.reduce((p,c) => p + c.count,0)
+      const myTodoCount = res.reduce((p,c) => p + c.result.total,0)
       setMyToDo(myTodoCount)
     })
     queryOrderCount(params(userAccountInfo)['getMyparticipation']).then(d => {
-      setParticipation(d.count)
+      console.log(d)
+      setParticipation(d.result.total)
     })
   },[userAccountInfo])
 

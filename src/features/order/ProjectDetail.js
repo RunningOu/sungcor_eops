@@ -74,19 +74,19 @@ const ProjectDetail = ({ location, match }) => {
   useEffect(() => {
     console.log(name,'orderList');
     // 0===》处理中    1==》已完成
-    Promise.all([requestMap[currentType]('wwc', [name], pageNum), requestMap[currentType]('ywc', [name], pageNum)]).then(res => {
+    Promise.all([requestMap[currentType]('wwc', [xmmc], pageNum), requestMap[currentType]('ywc', [xmmc], pageNum)]).then(res => {
       setProcessingCount(res[0].result.total)
       setCompletedCount(res[1].result.total)
       setOrderList((old) => {
         if (pageNum === 1) {
           return {
-            processing: [...res[0].result.records],
-            completed: [...res[1].result.records]
+            processing: [...res[0].result.list],
+            completed: [...res[1].result.list]
           }
         } else {
           return {
-            processing: [...old['processing'], ...res[0].result.records],
-            completed: [...old['completed'], ...res[1].result.records]
+            processing: [...old['processing'], ...res[0].result.list],
+            completed: [...old['completed'], ...res[1].result.list]
           }
         }
       })
@@ -123,7 +123,7 @@ const ProjectDetail = ({ location, match }) => {
                   {
                     <>
                       <h2 className='title'>{item.title}</h2>
-                      <p className='description'>当前处理人：{item.executor.join('，')}</p>
+                      <p className='description'>当前处理人：{item.executor}</p>
                       <p className='description'>故障类型：{ErrorMap[(item.formData.fxGzlx)]}</p>
                       <p className='description'>键盘编号：{item.formData.deviceKey === 'null' ? '未知' : item.formData.deviceKey}</p>
                       <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
@@ -138,12 +138,12 @@ const ProjectDetail = ({ location, match }) => {
               }}>
                 {
                   <>
-                    <h2 className='title'>{item.deviceName}</h2>
-                    <p className='description'>处理人：{item.ticketExecutor}</p>
-                    <p className='description'>故障类型：{ErrorMap[item.ticketType]}</p>
-                    <p className='description'>键盘编号: {item.deviceNumber}</p>
-                    <p className='description'>报修时间： {item.ticketCreateTime}</p>
-                    <p className='orderstate' style={{ color: 'rgb(255,0,0)' }}>{`${item.ticketDrainTime}小时`}</p>
+                    <h2 className='title'>{item.title}</h2>
+                    <p className='description'>当前处理人：{item.executorCN}</p>
+                    <p className='description'>故障类型：{ErrorMap[(item.formData.fxGzlx)]}</p>
+                    <p className='description'>键盘编号：{item.formData.deviceKey === 'null' ? '未知' : item.formData.deviceKey}</p>
+                    <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
+                    <p className='orderstate' style={{ color: 'rgb(255,0,0)' }}>{`${item.ticketOverdueHour}小时`}</p>
                   </>
                 }
               </div>
