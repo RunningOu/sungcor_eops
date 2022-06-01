@@ -124,14 +124,15 @@ const SelectView = (props) => {
       "pageNum": pageNum,
       "pageSize": pageSize
     }).then((d) => {
-      setTotal(d.count)
+      console.log(d,'ddddaaaa');
+      setTotal(d.result.count)
       console.log(1)
-      if (d.hasOwnProperty('list')) {
-        if (d.list.length !== 15) setHasMore(false)
+      if (d.result.hasOwnProperty('list')) {
+        if (d.result.list.length !== 15) setHasMore(false)
         if(pageNum === 1) {
-          setOrderList([...d.list])
+          setOrderList([...d.result.list])
         }else {
-          setOrderList((oldList) => [...oldList, ...d.list])
+          setOrderList((oldList) => [...oldList, ...d.result.list])
         }
         setLoading(false)
       }

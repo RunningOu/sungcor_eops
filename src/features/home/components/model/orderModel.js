@@ -81,16 +81,16 @@ export default (props) => {
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
-            if (d.hasOwnProperty('list')) {
-              if (d.list.length !== 10) setHasMore(false)
+            if (d.result.hasOwnProperty('list')) {
+              if (d.result.list.length !== 10) setHasMore(false)
               if(pageNum === 1) {
-                setOrderList([...d.list])
+                setOrderList([...d.result.list])
               }else {
-                setOrderList((oldList) => [...oldList, ...d.list])
+                setOrderList((oldList) => [...oldList, ...d.result.list])
               }
               setLoading(false)
             }
-            setCount(d.count)
+            setCount(d.result.count)
           })
             .catch((e) => { })
         } else {
