@@ -12,19 +12,22 @@ import { USER_INFO_ID } from '../../config'
 import './User.less'
 
 const params = (userAccountInfo) => {
+  // console.log(userAccountInfo,'userAccountInfo');
   return {
-    getMyTodo: [
-      { field: "executor", value: userAccountInfo.userId,operator: "IN"},
-      { field:"status", value: [1,2], operator: "IN" },
-      { field: "formData.sfbx", value: "wgq", operator: "EQ" },
-    ],
-    getMyparticipation:
-      [{"field":"participation","value":userAccountInfo.userId,"operator":"IN"},{"field":"status","value":[1,2],"operator":"IN"},{"field":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
+    getMyTodo: {"conditions":[{"field":"executor","value":userAccountInfo.userId,"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[{"field":"formData.sfbx","value":"gqsh","operator":"EQ"}]}]},
+    // [
+    //   { field: "executor", value: userAccountInfo.userId,operator: "IN"},
+    //   { field:"status", value: [1,2], operator: "IN" },
+    //   { field: "formData.sfbx", value: "wgq", operator: "EQ" },
+    // ],
+    getMyparticipation:{"conditions":[{"field":"participation","value":userAccountInfo.userId,"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[{"field":"formData.sfbx","value":"gqsh","operator":"EQ"}]}]}
+      // [{"field":"participation","value":userAccountInfo.userId,"operator":"IN"},{"field":"status","value":[1,2],"operator":"IN"},{"field":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
   }
 }
 
 const { Item } = List
 const User = (props) => {
+  // console.log(props,'pros');
   const { userAccountInfo } = props
   const history = useHistory()
 
@@ -33,16 +36,25 @@ const User = (props) => {
 
   useEffect(() => {
     let requestTodoList = []
+    // console.log(userAccountInfo,'userAccountInfo');
     if(typeof userAccountInfo.realname === 'string' && userAccountInfo.realname.includes('图像组管理员')) {
       requestTodoList.push(queryOrderCount([{key:'formData.sfbx',value:'gqsh',operator:'EQ'}]))
     }
-    requestTodoList.push(queryOrderCount(params(userAccountInfo)['getMyTodo']))
-    Promise.all(requestTodoList).then(res => {
-      const myTodoCount = res.reduce((p,c) => p + c.result.total,0)
-      setMyToDo(myTodoCount)
+    // console.log(params(userAccountInfo),'params(userAccountInfo)');
+    // requestTodoList.push(queryOrderCount(params(userAccountInfo).getMyTodo))
+    // Promise.all(requestTodoList).then(res => {
+    //   console.log(res,'res');
+    //   // const myTodoCount = res.reduce((p,c) =>  p + c.result.total,0)
+    //   // console.log(myTodoCount,'myTodoCount');
+    //   // setMyToDo(myTodoCount)
+    // })
+    queryOrderCount(params(userAccountInfo).getMyTodo).then(res=>{
+      console.log(res,'??res');
+      setMyToDo(res.result.total)
     })
-    queryOrderCount(params(userAccountInfo)['getMyparticipation']).then(d => {
-      console.log(d)
+    // console.log(params(userAccountInfo).getMyparticipation,"params(userAccountInfo)['getMyparticipation']");
+    queryOrderCount(params(userAccountInfo).getMyparticipation).then(d => {
+      // console.log(d)
       setParticipation(d.result.total)
     })
   },[userAccountInfo])

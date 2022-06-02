@@ -6,24 +6,27 @@ import {queryOrderCount } from '../../common/request'
 
 const params = (userAccountInfo) => {
     return {
-      getMyTodo: [
-        { field: "executor", value: userAccountInfo.userId,operator: "IN"},
-        { field:"status", value: "1,2", operator: "IN" },
-        { field: "formData.sfbx", value: "wgq", operator: "EQ" },
-      ],
-      getMyparticipation:
-        [{"field":"participation","value":userAccountInfo.userId,"operator":"IN"},{"field":"status","value":"1,2","operator":"IN"},{"field":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
+      getMyTodo: {"conditions":[{"field":"executor","value":userAccountInfo.userId,"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[{"field":"formData.sfbx","value":"gqsh","operator":"EQ"}]}]},
+      // [
+      //   { field: "executor", value: userAccountInfo.userId,operator: "IN"},
+      //   { field:"status", value: "1,2", operator: "IN" },
+      //   { field: "formData.sfbx", value: "wgq", operator: "EQ" },
+      // ],
+      getMyparticipation:{"conditions":[{"field":"participation","value":userAccountInfo.userId,"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[{"field":"formData.sfbx","value":"gqsh","operator":"EQ"}]}]}
+        // [{"field":"participation","value":userAccountInfo.userId,"operator":"IN"},{"field":"status","value":"1,2","operator":"IN"},{"field":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
     }
   }
 
 const OrderAlert = ({userAccountInfo}) => {
+  // console.log(userAccountInfo,'userAccountInfo//////');
     const [orderCount,setorderCount] = useState(0)
     useEffect(() => {
         let requestTodoList = []
         if(typeof userAccountInfo.realname === 'string' && userAccountInfo.realname.includes('图像组管理员')) {
-          requestTodoList.push(queryOrderCount([{field:'status',value:'1,2',operator: 'IN'},{field:'formData.sfbx',value:'gqsh',operator:'EQ'}]))
+          // requestTodoList.push(queryOrderCount([{field:'status',value:userAccountInfo.userId,operator: 'IN'},{field:'formData.sfbx',value:'gqsh',operator:'EQ'}]))
+          requestTodoList.push(queryOrderCount({"conditions":[{"field":"status","value":userAccountInfo.userId,"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[{"field":"formData.sfbx","value":"gqsh","operator":"EQ"}]}]}))
         }
-        requestTodoList.push(queryOrderCount(params(userAccountInfo)['getMyTodo']))
+        requestTodoList.push(queryOrderCount(params(userAccountInfo).getMyTodo))
         Promise.all(requestTodoList).then(res => {
           const orderCount = res.reduce((p,c) => p + c.count,0)
           if(orderCount) {

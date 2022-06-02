@@ -1,18 +1,18 @@
 export default {
-    '7ebd1cae5f4a46d6bee4e00464ccae90':{ // 公司 视频监控报修
+    'a50f0654c8a7465291f17769d4b61fae':{ // 公司 视频监控报修
         modelName: '视频监控报修',
         tabs: [
-            { title: '挂起', sub: 5 },
-            { title: '待办', sub: 1 },
-            { title: '逾期', sub: 4 },
-            { title: '完成', sub: 3 },
-            { title: '参与', sub: 2 },
-            { title: '全部', sub: 0 },
+            { title: '挂起', sub: 5 , sum: 0},
+            { title: '待办', sub: 1 , sum: 0},
+            { title: '逾期', sub: 4 , sum: 0},
+            { title: '完成', sub: 3 , sum: 0},
+            { title: '参与', sub: 2 , sum: 0},
+            { title: '全部', sub: 0 , sum: 0},
         ],
         tabsConfig: userId => [
-            [{ key: "modelId", value: "7ebd1cae5f4a46d6bee4e00464ccae90", operator: "EQ" }],
+            [{ field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
             [
-                { key: "executor", value: userId, operator: "IN" },
+                { field: "executor", value: userId, operator: "IN" },
                 // { key: "status", value: "1,2", operator: "IN" },
                 // { key: "formData.sfbx", value: "wgq", operator: "EQ" },
                 // { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }
@@ -45,9 +45,9 @@ export default {
             { title: '挂起', sub: 5 , sum: 0},
             { title: '待办', sub: 1 , sum: 0},
             { title: '逾期', sub: 4 , sum: 0},
-            { title: '完成', sub: 3 },
+            { title: '完成', sub: 3 , sum: 0},
             { title: '参与', sub: 2 , sum: 0},
-            { title: '全部', sub: 0 },
+            { title: '全部', sub: 0 , sum: 0},
             { title:'系统结单', sub: 6,  sum : 0},
         ],
         tabsConfig: userId => [

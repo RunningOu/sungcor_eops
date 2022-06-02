@@ -34,8 +34,9 @@ const Order = (props) => {
   const orderListRef = document.getElementsByClassName('order-list')[0]
   const history = useHistory()
   const [userId,setUserId] = useState(local_get(USER_INFO_ID).userId)
-  const [tabs,setTabs] = useState(orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabs) // 默认取视频的
-  const tabsConfig = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabsConfig // tab项配置
+  const [tabs,setTabs] = useState(orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabs) // 默认取视频的    //线上环境  a50f0654c8a7465291f17769d4b61fae
+  // const tabsConfig = orderTab[new URLSearchParams(search).get('modelId') || '21c50bf325a34d02af826281c24aab6f'].tabsConfig // tab项配置    
+  const tabsConfig = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabsConfig // tab项配置      //公司环境
   const searchList = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].searchList//查询条件
   const [orderList, setOrderList] = useState([]) // 工单列表
   const [modelId, setModelId] = useState(new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae') // 工单模型id
@@ -78,6 +79,7 @@ const Order = (props) => {
   },[props.location.search])
 
   useEffect(() => {
+    console.log(orderSearch,orderSearch[orderSearchType],'orderSearch');
     if (orderSearch !== '' && orderSearch[orderSearchType]) {
       setDrawerConfig(orderSearch[orderSearchType])
     } else {
@@ -113,14 +115,16 @@ const Order = (props) => {
 //   { title: '全部', sub: 0 },
 // ];
     let attrs = [...tabsConfig(userId)[orderState]]
-    if (Object.keys(drawerConfig).length) attrs.push({key: "modelId", value: drawerConfig.modelId, operator: "EQ"})
-    if (searchTitle !== "") attrs.push({ key: searchInfo, value: searchTitle, operator: "LIKE" })
-    if (Object.keys(orderSearchInfo).length) attrs.push({ key: orderSearchInfo.key, value: orderSearchInfo.value, operator: "LIKE" })
-    if (orderSearchFlow.length) attrs.push({ key: 'activityName', value: orderSearchFlow.join(','), operator: 'IN' })
+    // console.log(drawerConfig,'drawerConfig');
+    if (Object.keys(drawerConfig).length) attrs.push({field: "modelId", value: drawerConfig.modelId, operator: "EQ"})
+    if (searchTitle !== "") attrs.push({ field: searchInfo, value: searchTitle, operator: "LIKE" })
+    if (Object.keys(orderSearchInfo).length) attrs.push({ field: orderSearchInfo.key, value: orderSearchInfo.value, operator: "LIKE" })
+    if (orderSearchFlow.length) attrs.push({ field: 'activityName', value: orderSearchFlow.join(','), operator: 'IN' })
     // 视频报修 图像组管理员特殊处理
     if ((orderState === 1 || orderState === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
         attrs.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
-        attrs.push({ key: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
+        attrs.push( {"field":"status","value":[1,2],"operator":"IN"},
+        {"field":"modelId","value":modelId,"operator":"EQ"})
     }
     // 挂起 & 逾期 图像组管理员特殊处理
     // if ((orderState === '5' || orderState === 5 || orderState === '4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
@@ -128,18 +132,18 @@ const Order = (props) => {
     //   // 挂起 & 逾期 / 不是图像组管理员 添加参数
     // }
     if((orderState==='5' || orderState === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID ) {
-      attrs.push({key: "executor",value: userId, operator: "IN" })
+      attrs.push({field: "executor",value: userId, operator: "IN" })
     }
     if((orderState==='4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-      attrs.push({key: "status", value: "1,2,3", operator: "IN"})
-      attrs.push({key: "executor",value: userId, operator: "IN" })
+      attrs.push({field: "status", value: "1,2,3", operator: "IN"})
+      attrs.push({field: "executor",value: userId, operator: "IN" })
     }
     // 完成工单 特殊处理
     if ((orderState === '3' || orderState === 3 ) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-      attrs.push({ key: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
+      attrs.push({ field: "participation", value: userId, operator: "IN" }) // 挂起 & 逾期 / 不是图像组管理员 添加参数
     }
     if((orderState === '6' || orderState === 6) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
-      attrs.push({ key: "executor", value: userId, operator: "IN" })
+      attrs.push({ field: "executor", value: userId, operator: "IN" })
     }
     setLoading(true)
     setModel(oldModel => {
@@ -172,25 +176,35 @@ const Order = (props) => {
       //   { title: '全部', sub: 0 },
       // ]
       // tabsConfig: userId => [
-      //   [{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-      //   [{ key: "executor", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-      //   [{ key: "participation", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-      //   [{ key: "status", value: "3", operator: "IN" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-      //   [{ key: "overdue", value: "1", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+      //   [{ key: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+      //   [{ key: "executor", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+      //   [{ key: "participation", value: userId, operator: "IN" },{ key: "status", value: "1,2", operator: "IN" },{ key: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+      //   [{ key: "status", value: "3", operator: "IN" },{ key: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+      //   [{ key: "overdue", value: "1", operator: "IN" },{ key: "formData.sfbx", value: "wgq", operator: "EQ" },{ key: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
       //   [{ key: "formData.sfbx", value: "ygq", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
       // ],
       tabs.forEach((item,index) => {
+        console.log(item,'item?');
         if(item.sum !== undefined){
           let attt = [...tabsConfig(userId)[item.sub]]
+          // console.log(attt,'ssssss',modelName);
             // 视频报修 图像组管理员特殊处理
             // 命中代办
+            // console.log(modelId,orderSearch,'orderSearch');
+            // console.log(local_get(USER_INFO_ID),MANAGE_ID,'MANAGE_ID');
           if ((item.sub === 1 || item.sub === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
-            attt.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
-            attt.push({ field: 'formData.sfbx', value:"gqsh", operator: 'EQ' })
+            // attt.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
+            attt.push(
+              // { "field": 'executor', "value":local_get(USER_INFO_ID).userId, "operator": 'IN' },
+              {"field":"status","value":[1,2],"operator":"IN"},
+              {"field":"modelId","value":modelId,"operator":"EQ"})
+            
+            console.log('待办待办');
           }
           // 挂起 & 逾期 图像组管理员特殊处理
           if ((item.sub === '5' || item.sub === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
             attt.push({ field: "executor", value: userId  , operator: "IN" })
+            attt.push({ field: "modelId", value: modelId  , operator: "EQ" })
           // 挂起 & 逾期 / 不是图像组管理员 添加参数
           }
           if(( item.sub === '4' || item.sub === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
@@ -206,13 +220,14 @@ const Order = (props) => {
           if((item.sub === '6' || item.sub === 6) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
             attt.push({ field: "executor", value: userId, operator: "IN" })
           }
+          // console.log(item.sub,attt,'attt');
           queryOrderList({
             'conditions': attt,
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
             console.log(d,'dd');
-            item.sum = d.count
+            item.sum = d.result.total
           })
         }
       })
@@ -221,12 +236,13 @@ const Order = (props) => {
 
   useEffect(() => {
     if(Object.keys(model).length) {
+      console.log(model,'???mo');
       queryOrderList({
         'conditions': model.attrs,
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
-        // console.log(d,'d1',d.hasOwnProperty('list'));
+        console.log(d,'d1',d.hasOwnProperty('list'));
         let res = d.result
         if (res.hasOwnProperty('list')) {
           if (res.list.length !== 10) setHasMore(false) 
@@ -246,10 +262,12 @@ const Order = (props) => {
 
   return (
     <div className='order-page-index'>
+     
       <HeaderBar title={modelName+'-工单列表'} />
       <Tabs defaultActiveKey={orderState} onChange={callback} >
+        {/* {console.log(tabs,'?????')} */}
         {tabs.map((tab) =>
-        (<TabPane tab={!tab.sum ? tab.title : tab.title + '('+tab.sum+')' }  key={tab.sub} />))
+        (<TabPane tab={tab.title }  key={tab.sub} />))     //+ '('+tab.sum+')'数字先隐藏
         }
       </Tabs>
       <div className='search-bar'>
@@ -324,7 +342,7 @@ const Order = (props) => {
           useWindow={false}
         >
           <List dataSource={orderList} renderItem={item => (
-     
+             
             <div className='item' onClick={() => {
               history.push(`/order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}` + '&search=' + searchTitle + '&searchType=' + searchInfo)
               }}>

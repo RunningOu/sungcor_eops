@@ -77,7 +77,8 @@ export default (props) => {
           })
           // 逾期
           queryOrderList({
-            'model': {'attrs':oAttrs},
+            // 'model': {'attrs':oAttrs},
+            "conditions":oAttrs,
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
