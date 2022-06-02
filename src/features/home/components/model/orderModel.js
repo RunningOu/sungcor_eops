@@ -126,7 +126,7 @@ export default (props) => {
                        tabs === 'xmmc' ?
                        <>
                         <h2 className='title'>{item.title}</h2>
-                        <p className='description'>当前处理人：{item.executor.join('，')}</p>
+                        <p className='description'>当前处理人：{item.executorCN.join('，')}</p>
                         <p className='description'>故障类型：{fxGzlxs[item.formData.fxGzlx]}</p>
                         <p className='description'>键盘编号：{item.formData.deviceKey}</p>
                         <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
@@ -135,7 +135,7 @@ export default (props) => {
                         :
                         <>
                         <h2 className='title'>{item.title}</h2>
-                        <p className='description'>当前处理人：{item.executor.join('，')}</p>
+                        <p className='description'>当前处理人：{item.executorCN.join('，')}</p>
                         <p className='date'>报修时间： <span>{item.formData.bxsj === undefined ? moment(item.createTime).format("YYYY-MM-DD HH:mm:ss") : item.formData.bxsj}</span></p>
                         <p className='orderstate'>{item.activityName}</p>
                        </>

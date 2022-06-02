@@ -118,12 +118,13 @@ const ProjectDetail = ({ location, match }) => {
             if (currentType === 'todayAdd') {
               return (
                 <div className='item' onClick={() => {
+                  // console.log(item,'???????????');
                   history.push(`/order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}&search&searchTitle`)
                 }}>
                   {
                     <>
                       <h2 className='title'>{item.title}</h2>
-                      <p className='description'>当前处理人：{item.executor}</p>
+                      <p className='description'>当前处理人：{item.executorCN}</p>
                       <p className='description'>故障类型：{ErrorMap[(item.formData.fxGzlx)]}</p>
                       <p className='description'>键盘编号：{item.formData.deviceKey === 'null' ? '未知' : item.formData.deviceKey}</p>
                       <p className='date'>报修时间： <span>{item.formData.bxsj}</span></p>
