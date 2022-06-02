@@ -20,7 +20,7 @@ const params = (userAccountInfo) => {
     //   { field:"status", value: [1,2], operator: "IN" },
     //   { field: "formData.sfbx", value: "wgq", operator: "EQ" },
     // ],
-    getMyparticipation:{"conditions":[{"field":"participation","value":userAccountInfo.userId,"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[{"field":"formData.sfbx","value":"gqsh","operator":"EQ"}]}]}
+    getMyparticipation:{"conditions":[{"field":"participation","value":userAccountInfo.userId,"operator":"IN"},{"field":"status","value":[1,2,10],"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[]}],"pageNum":1,"pageSize":1}
       // [{"field":"participation","value":userAccountInfo.userId,"operator":"IN"},{"field":"status","value":[1,2],"operator":"IN"},{"field":"modelId","value":"a50f0654c8a7465291f17769d4b61fae","operator":"EQ"}]
   }
 }
@@ -48,6 +48,7 @@ const User = (props) => {
     //   // console.log(myTodoCount,'myTodoCount');
     //   // setMyToDo(myTodoCount)
     // })
+    console.log(params(userAccountInfo).getMyparticipation,'params(userAccountInfo).getMyparticipation');
     queryOrderCount(params(userAccountInfo).getMyTodo).then(res=>{
       console.log(res,'??res');
       setMyToDo(res.result.total)

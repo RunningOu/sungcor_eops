@@ -123,8 +123,8 @@ const Order = (props) => {
     // 视频报修 图像组管理员特殊处理
     if ((orderState === 1 || orderState === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
         attrs.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
-        attrs.push( {"field":"status","value":[1,2],"operator":"IN"},
-        {"field":"modelId","value":modelId,"operator":"EQ"})
+        // attrs.push( {"field":"status","value":[1,2],"operator":"IN"},
+        // {"field":"modelId","value":modelId,"operator":"EQ"})
     }
     // 挂起 & 逾期 图像组管理员特殊处理
     // if ((orderState === '5' || orderState === 5 || orderState === '4' || orderState === 4) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
@@ -194,12 +194,12 @@ const Order = (props) => {
             // console.log(local_get(USER_INFO_ID),MANAGE_ID,'MANAGE_ID');
           if ((item.sub === 1 || item.sub === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
             // attt.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
-            attt.push(
+            // attt.push(
               // { "field": 'executor', "value":local_get(USER_INFO_ID).userId, "operator": 'IN' },
-              {"field":"status","value":[1,2],"operator":"IN"},
-              {"field":"modelId","value":modelId,"operator":"EQ"})
+              // {"field":"status","value":[1,2],"operator":"IN"},
+              // {"field":"modelId","value":modelId,"operator":"EQ"})
             
-            console.log('待办待办');
+            // console.log('待办待办');
           }
           // 挂起 & 逾期 图像组管理员特殊处理
           if ((item.sub === '5' || item.sub === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
@@ -222,12 +222,15 @@ const Order = (props) => {
           }
           // console.log(item.sub,attt,'attt');
           queryOrderList({
-            'conditions': attt,
+            'conditions': [...new Set(attt)],
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
-            console.log(d,'dd');
-            item.sum = d.result.total
+            if(d.code==200){
+                item.sum = d.result.total
+            }
+            // console.log(d,'dd');
+           
           })
         }
       })
@@ -238,7 +241,7 @@ const Order = (props) => {
     if(Object.keys(model).length) {
       console.log(model,'???mo');
       queryOrderList({
-        'conditions': model.attrs,
+        'conditions': [...new Set(model.attrs)],
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
@@ -267,7 +270,7 @@ const Order = (props) => {
       <Tabs defaultActiveKey={orderState} onChange={callback} >
         {/* {console.log(tabs,'?????')} */}
         {tabs.map((tab) =>
-        (<TabPane tab={tab.title }  key={tab.sub} />))     //+ '('+tab.sum+')'数字先隐藏
+        (<TabPane tab={tab.title=='挂起'||tab.title=='待办'? tab.title + '('+tab.sum+')':tab.title }  key={tab.sub} />))     //+ '('+tab.sum+')'数字先隐藏
         }
       </Tabs>
       <div className='search-bar'>

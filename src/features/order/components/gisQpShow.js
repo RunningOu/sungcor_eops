@@ -36,6 +36,7 @@ export default function(props) {
             if (data.id) {
                 message.info("位置纠偏成功", 1)
                 queryDeviceById(resourceId).then((d) => {
+                    console.log(d,'ddddd1');
                     setDeviseInfo(d)
                 })
             }

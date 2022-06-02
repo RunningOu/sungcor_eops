@@ -238,7 +238,7 @@ export default function (props) {
         if (resourceId !== '') {
             queryDeviceById(resourceId).then((d) => {
                 console.log(d);
-                setDeviseInfo(d)
+                setDeviseInfo(d.result)
             })
         }
     }, [resourceId])
@@ -257,9 +257,10 @@ export default function (props) {
         var map = new BMap.Map('allmap', { mapType: tileMapType });
 
         // 百度地图API功能
+        console.log(deviseInfo,'deviseInfo');
         if (deviseInfo.longitude) {
             var DBD09 = wgs2bd(parseFloat(deviseInfo.latitude), parseFloat(deviseInfo.longitude))
-            console.log(DBD09)
+            // console.log(DBD09,'??????????')
             var latitude = DBD09[0]
             var longitude = DBD09[1]
             map.centerAndZoom(new BMap.Point(longitude, latitude), 15);  // 初始化地图,设置中心点坐标和地图级别
