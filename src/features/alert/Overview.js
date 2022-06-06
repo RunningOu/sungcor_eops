@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { HeaderBar, FooterBar } from '../common'
+import { Badge, Icon } from 'antd'
 import { Router, useHistory } from 'react-router-dom'
 import { Card, Statistic, Col, Radio, Tabs, message, Spin, Menu } from 'antd'
 import { connect } from 'react-redux'
@@ -15,6 +16,8 @@ const Overview = (props) => {
   const [menuKey, setMenuKey] = useState('newAlert')
   const [loading, setLoading] = useState(false)
   const [data, setData] = useState([])
+  // const [newAlertTotal, setNewAlertTotal] = useState(0)
+  // const [newRecoveryTotal, setNewRecoveryTotal] = useState(0)
   const history = useHistory()
 
   const paramsMap = {
@@ -28,6 +31,11 @@ const Overview = (props) => {
       const { result, code, success } = res.data
       if (code === 200 && success) {
         setData(result)
+        // let tot = 0
+        // result.forEach(val=>{
+        //   tot += val.count
+        // })
+        // setNewAlertTotal(tot)
       }
     }).finally(() => {
       setLoading(false)
@@ -46,7 +54,8 @@ const Overview = (props) => {
     <div className="alert-overview">
       <HeaderBar title="集中告警总览(近7天)" />
       <Menu mode="horizontal" defaultSelectedKeys={menuKey} onClick={handleChangeMenu} className="menu-wrapper">
-        <Menu.Item key="newAlert">新告警</Menu.Item>
+        <Menu.Item key="newAlert">新告警</Menu.Item> 
+        {/* <Badge count={newAlertTotal} offset={[-4,10]}></Badge> */}
         <Menu.Item key="recovered">已恢复</Menu.Item>
       </Menu>
       <div >
