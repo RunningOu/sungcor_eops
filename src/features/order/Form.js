@@ -233,14 +233,17 @@ const CreateOrder = Form.create({
             }
           }
           if (['超级管理员'].includes(props.user.userAccountInfo.roleName) && orderSearch['视频报修'].modelId === modal) {
+            // console.log(11111111);
             if (defaultForm.hasOwnProperty('fxBxr')) delete defaultForm.fxBxr
             if (defaultForm.hasOwnProperty('telephone')) delete defaultForm.telephone
           }
           if (props.user.userAccountInfo.userId === MANAGE_ID && bxpcs !== '') {
+            // console.log(22222);
             getUserbyName(bxpcs).then(data => {
               setPcsInfo(data)
-              defaultForm.fxBxr = data.realname
-              defaultForm.telephone = data.mobile
+              // console.log(data,'dadadadada');
+              defaultForm.fxBxr = data.result.realname
+              defaultForm.telephone = data.result.mobile
               props.actions.setForm(defaultForm)
             })
           }

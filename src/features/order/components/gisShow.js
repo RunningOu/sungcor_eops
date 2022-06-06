@@ -237,7 +237,7 @@ export default function (props) {
     useEffect(() => {
         if (resourceId !== '') {
             queryDeviceById(resourceId).then((d) => {
-                console.log(d);
+                // console.log(d);
                 setDeviseInfo(d.result)
             })
         }
@@ -247,7 +247,7 @@ export default function (props) {
         Overlay()
         var tileLayer = new BMap.TileLayer();
         tileLayer.getTilesUrl = function (tileCoord, zoom) {
-            console.log('00000', window.outputPath)
+            // console.log('00000', window.outputPath)
             var x = tileCoord.x;
             var y = tileCoord.y;
             var url = window.outputPath + zoom + '/' + x + '/' + y + window.format;
@@ -257,7 +257,7 @@ export default function (props) {
         var map = new BMap.Map('allmap', { mapType: tileMapType });
 
         // 百度地图API功能
-        console.log(deviseInfo,'deviseInfo');
+        // console.log(deviseInfo,'deviseInfo');
         if (deviseInfo.longitude) {
             var DBD09 = wgs2bd(parseFloat(deviseInfo.latitude), parseFloat(deviseInfo.longitude))
             // console.log(DBD09,'??????????')
