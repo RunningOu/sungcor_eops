@@ -380,7 +380,7 @@ export const getUserbyName = async (userName) => {
     data
   } = await axios({
     method: 'get',
-    url: '/oss/app/getUserByName',
+    url: '/user/getUserByName',
     params: {
       userName: userName
     }

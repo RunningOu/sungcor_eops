@@ -241,9 +241,10 @@ const CreateOrder = Form.create({
             // console.log(22222);
             getUserbyName(bxpcs).then(data => {
               setPcsInfo(data)
-              // console.log(data,'dadadadada');
-              defaultForm.fxBxr = data.result.realname
-              defaultForm.telephone = data.result.mobile
+              // console.log(props.user.userAccountInfo,'props','dadadadada');
+              defaultForm.fxBxr = data?data.realname :''
+              // defaultForm.fxBxr = props.user.userAccountInfo.realname
+              defaultForm.telephone = data?data.mobile : ''
               props.actions.setForm(defaultForm)
             })
           }
