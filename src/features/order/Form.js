@@ -151,7 +151,7 @@ const CreateOrder = Form.create({
         } else {
           // 加载工单模板
           queryOrderModel({
-            id: modal
+            modelId: modal
           }).then(d => {
             console.log('加载工单模板', d)
             setFormLoading(false)

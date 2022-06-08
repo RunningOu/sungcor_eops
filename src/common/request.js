@@ -189,7 +189,7 @@ export const queryOrderModel = async (modelId) => {
     data
   } = await axios({
     method: 'get',
-    url: '/oss/api/itsm/getModelSg',
+    url: '/ticket/getItsmTicketModel',
     params: {
       apikey: 'e10adc3949ba59abbe56e057f2gg88dd',
       ...modelId
@@ -338,7 +338,7 @@ export const queryDeviceByClassCode = async (codes) => {
 }
 // 查询指定工单数量
 export const queryOrderCount = async (queryArr) => {
- 
+
   const {
     data
   } = await axios({

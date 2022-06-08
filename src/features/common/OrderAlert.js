@@ -7,10 +7,7 @@ import {queryOrderCount } from '../../common/request'
 const params = (userAccountInfo) => {
     return {
       // getMyTodo: {"conditions":[{"field":"executor","value":userAccountInfo.userId,"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[{"field":"formData.sfbx","value":"gqsh","operator":"EQ"}]}]},
-      getMyTodo:{"conditions": [{"field": "executor","value": userAccountInfo.userId,"operator": "IN"},
-            {"field": "modelId","value": "a50f0654c8a7465291f17769d4b61fae","operator": "EQ"}],
-        "ass": [{"cjt": "or","conditions": [{"field": "status","value": [1,2,10],"operator": "IN"},
-                    {"field": "formData.sfbx","value": "gqsh","operator": "EQ"}]}],
+      getMyTodo:{"conditions": [{"field": "executor","value": userAccountInfo.userId,"operator": "IN"},{"field": "status","value": [1,2],"operator": "IN"}],
         "pageNum": 1,
         "pageSize": 1
     },
