@@ -166,6 +166,7 @@ const Order = (props) => {
   }, [count])
 
   useEffect(() => {
+    console.log(tabs,'?Sdasdsadsa');
     if(tabs && tabsConfig){
       // tabs: [
       //   { title: '挂起', sub: 5 , sum: 0},
