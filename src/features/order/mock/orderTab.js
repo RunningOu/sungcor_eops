@@ -71,11 +71,11 @@ export default {
         modelName:'综合设备报修',
         tabs: [
             // { title: '挂起', sub: 5 },
-            { title: '待办', sub: 1 },
-            { title: '逾期', sub: 4 },
-            { title: '完成', sub: 3 },
-            { title: '参与', sub: 2 },
-            { title: '全部', sub: 0 },
+            { title: '待办', sub: 1  , sum: 0},
+            { title: '逾期', sub: 4  , sum: 0},
+            { title: '完成', sub: 3  , sum: 0},
+            { title: '参与', sub: 2  , sum: 0},
+            { title: '全部', sub: 0  , sum: 0},
         ],
         tabsConfig: userId => [
             [{ field: "modelId", value: "7df0049df1b6493189430e20cc8877a4", operator: "EQ" }],
@@ -116,12 +116,12 @@ export default {
     'd948b00b8e1f4a81b36e2203dcd1b78f': {
         modelName: "综合运维服务流程",
         tabs: [
-            { title: '挂起', sub: 5 },
-            { title: '待办', sub: 1 },
-            { title: '逾期', sub: 4 },
-            { title: '完成', sub: 3 },
-            { title: '参与', sub: 2 },
-            { title: '全部', sub: 0 },
+            { title: '挂起', sub: 5  , sum: 0},
+            { title: '待办', sub: 1  , sum: 0},
+            { title: '逾期', sub: 4  , sum: 0},
+            { title: '完成', sub: 3  , sum: 0},
+            { title: '参与', sub: 2  , sum: 0},
+            { title: '全部', sub: 0  , sum: 0},
         ],
         tabsConfig: userId => [
             [{ field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
