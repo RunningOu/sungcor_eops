@@ -125,8 +125,8 @@ export default {
         ],
         tabsConfig: userId => [
             [{ field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
-            [{ field: "executor", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
-            [{ field: "participation", value: userId, operator: "IN" }, { field: "status", value: "1,2", operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
+            [{ field: "executor", value: userId, operator: "IN" }, { field: "status", value: [1,2], operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
+            [{ field: "participation", value: userId, operator: "IN" }, { field: "status", value: [1,2], operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
             [{ field: "status", value: "3", operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
             [{ field: "overdue", value: "1", operator: "IN" }, { field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }],
             [{ field: "formData.sfbx", value: "ygq", operator: "EQ" },{ field: "modelId", value: "d948b00b8e1f4a81b36e2203dcd1b78f", operator: "EQ" }] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
