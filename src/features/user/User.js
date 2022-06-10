@@ -16,11 +16,12 @@ const params = (userAccountInfo) => {
   return {
     // getMyTodo: {"conditions":[{"field":"executor","value":userAccountInfo.userId,"operator":"IN"}],"ass":[{"cjt":"OR","conditions":[{"field":"formData.sfbx","value":"gqsh","operator":"EQ"}]}]},
     getMyTodo:{"conditions": [{"field": "executor","value": userAccountInfo.userId,"operator": "IN"},
-    {"field": "modelId","value": "a50f0654c8a7465291f17769d4b61fae","operator": "EQ"}],
-"ass": [{"cjt": "or","conditions": [{"field": "status","value": [1,2],"operator": "IN"}]}],
-"pageNum": 1,
-"pageSize": 1
-},
+                              {"field": "modelId","value": "a50f0654c8a7465291f17769d4b61fae","operator": "EQ"},
+                              {"field": "status","value": [1,2],"operator": "IN"}],
+                "ass": [{"cjt": "OR","conditions": []}],
+                "pageNum": 1,
+                "pageSize": 1
+              },
     // [
     //   { field: "executor", value: userAccountInfo.userId,operator: "IN"},
     //   { field:"status", value: [1,2], operator: "IN" },
@@ -41,25 +42,25 @@ const User = (props) => {
   const [participation, setParticipation] = useState(0)
 
   useEffect(() => {
-    let requestTodoList = []
-    // console.log(userAccountInfo,'userAccountInfo');
     if(typeof userAccountInfo.realname === 'string' && userAccountInfo.realname.includes('图像组管理员')) {
-      requestTodoList.push(queryOrderCount([{key:'formData.sfbx',value:'gqsh',operator:'EQ'}]))
+      let param = params(userAccountInfo).getMyTodo;
+      let cons = param.conditions
+      //去掉工单状态
+      cons.splice(0,1)
+      param.conditions = cons
+      param.ass[0].conditions.push({field:'formData.sfbx',value:'gqsh',operator:'EQ'})
+      param.ass[0].conditions.push({field: "executor",value: userAccountInfo.userId,operator: "IN"})
+      console.log(param)
+      queryOrderCount(param).then(res=>{
+        console.log(res,'??res');
+        setMyToDo(res.result.total)
+      })
+    }else {
+      queryOrderCount(params(userAccountInfo).getMyTodo).then(res=>{
+        console.log(res,'??res');
+        setMyToDo(res.result.total)
+      })
     }
-    // console.log(params(userAccountInfo),'params(userAccountInfo)');
-    // requestTodoList.push(queryOrderCount(params(userAccountInfo).getMyTodo))
-    // Promise.all(requestTodoList).then(res => {
-    //   console.log(res,'res');
-    //   // const myTodoCount = res.reduce((p,c) =>  p + c.result.total,0)
-    //   // console.log(myTodoCount,'myTodoCount');
-    //   // setMyToDo(myTodoCount)
-    // })
-    console.log(params(userAccountInfo).getMyparticipation,'params(userAccountInfo).getMyparticipation');
-    queryOrderCount(params(userAccountInfo).getMyTodo).then(res=>{
-      console.log(res,'??res');
-      setMyToDo(res.result.total)
-    })
-    // console.log(params(userAccountInfo).getMyparticipation,"params(userAccountInfo)['getMyparticipation']");
     queryOrderCount(params(userAccountInfo).getMyparticipation).then(d => {
       // console.log(d)
       setParticipation(d.result.total)

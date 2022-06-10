@@ -1,5 +1,6 @@
 export default {
-    '21c50bf325a34d02af826281c24aab6f':{ // 公司 视频监控报修
+    // 公司 视频监控报修
+    '21c50bf325a34d02af826281c24aab6f':{
         modelName: '视频监控报修',
         tabs: [
             { title: '挂起', sub: 5 , sum: 0},
@@ -8,29 +9,16 @@ export default {
             { title: '完成', sub: 3 , sum: 0},
             { title: '参与', sub: 2 , sum: 0},
             { title: '全部', sub: 0 , sum: 0},
+            { title:'系统结单', sub: 6,  sum : 0},
         ],
         tabsConfig: userId => [
             [{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
-            [
-                { field: "executor", value: userId, operator: "IN" },
-                // { key: "status", value: "1,2", operator: "IN" },
-                // { key: "formData.sfbx", value: "wgq", operator: "EQ" },
-                // { key: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }
-            ],
-            [
-                { field: "participation", value: userId, operator: "IN" },
-                { field: "status", value: [1,2], operator: "IN" },
-                { field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
-            [
-                { field: "status", value: 3, operator: "IN" },
-                { field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
-            [
-                { field: "overdue", value: 1, operator: "IN" },
-                { field: "formData.sfbx", value: "wgq", operator: "EQ" },
-                { field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
-            [
-                { field: "formData.sfbx", value: "ygq", operator: "EQ" }
-            ] // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+            [{ field: "executor", value: userId, operator: "IN" },{ field: "status", value: [1,2], operator: "IN" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "participation", value: userId, operator: "IN" },{ field: "status", value: [1,2], operator: "IN" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "status", value: 3, operator: "IN" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "overdue", value: 1, operator: "IN" },{ field: "formData.sfbx", value: "wgq", operator: "EQ" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
+            [{ field: "formData.sfbx", value: "ygq", operator: "EQ" },{ field: "status", value: [1,2,10], operator: "IN" },], // 挂起 只显示 执行人 有 他的，图像组管理员特殊处理
+            [{ field: "status", value: 7, operator: "IN" },{ field: "modelId", value: "21c50bf325a34d02af826281c24aab6f", operator: "EQ" }],
         ],
         searchList: [
             {code: 'formData.deviceKey', name: '键盘编号'},
@@ -52,7 +40,7 @@ export default {
         ],
         tabsConfig: userId => [
             [{ field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
-            [{ field: "executor", value: userId, operator: "IN" },{ field: "status", value: [1,2], operator: "IN" },{ field: "formData.sfbx", value: "wgq", operator: "EQ" },{ field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
+            [{ field: "executor", value: userId, operator: "IN" },{ field: "status", value: [1,2], operator: "IN" },{ field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
             [{ field: "participation", value: userId, operator: "IN" },{ field: "status", value: [1,2], operator: "IN" },{ field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
             [{ field: "status", value: 3, operator: "IN" },{ field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],
             [{ field: "overdue", value: 1, operator: "IN" },{ field: "formData.sfbx", value: "wgq", operator: "EQ" },{ field: "modelId", value: "a50f0654c8a7465291f17769d4b61fae", operator: "EQ" }],

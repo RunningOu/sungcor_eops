@@ -68,7 +68,11 @@ export default (props) => {
             cjtList.push(cjtor)
             if (orderSearch['视频报修'].modelId === item.id) {
               if(MANAGE_ID === userInfoL[0].userId) {
-                cjtor.conditions.push({field: "formData.sfbx", value: "gqsh", operator: "EQ"}) // 视频报修 图像组管理员特殊处理
+                  //移除 处理人
+                todoo.splice(0,1)
+                // 视频报修 图像组管理员特殊处理
+                cjtor.conditions.push({field: "formData.sfbx", value: "gqsh", operator: "EQ"})
+                cjtor.conditions.push({ field: "executor", value: userInfoL[0].userId, operator: "IN" })
               } else {
                 todoo.push({field: "formData.sfbx", value: "wgq", operator: "EQ"})
               }
@@ -120,10 +124,10 @@ export default (props) => {
         {console.log(orderModal,'orderModal')}
                 {orderModal.map((modal,index) => (
                   <Col span={12} style={style} key={index}>
-                  <Card key={modal.id} bodyStyle={{background: '#fff', border: '1px solid rgb(119, 174, 254, 0.3)', boxShadow: '3px 3px 4px 0px rgba(119, 174, 254,.1)', 'borderRadius': '10px', 'padding': '15px 2px 15px 20px' }} 
+                  <Card key={modal.id} bodyStyle={{background: '#fff', border: '1px solid rgb(119, 174, 254, 0.3)', boxShadow: '3px 3px 4px 0px rgba(119, 174, 254,.1)', 'borderRadius': '10px', 'padding': '15px 2px 15px 20px' }}
                   onClick={() => {
                     setVisible(false)
-                  
+
                     history.push(`order?modelId=${modal.id}&modelName=${modal.name}`)
                     }}>
                     <p>

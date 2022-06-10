@@ -35,7 +35,7 @@ const Order = (props) => {
   const history = useHistory()
   const [userId,setUserId] = useState(local_get(USER_INFO_ID).userId)
   const [tabs,setTabs] = useState(orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabs) // 默认取视频的    //线上环境  a50f0654c8a7465291f17769d4b61fae
-  // const tabsConfig = orderTab[new URLSearchParams(search).get('modelId') || '21c50bf325a34d02af826281c24aab6f'].tabsConfig // tab项配置    
+  // const tabsConfig = orderTab[new URLSearchParams(search).get('modelId') || '21c50bf325a34d02af826281c24aab6f'].tabsConfig // tab项配置
   const tabsConfig = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].tabsConfig // tab项配置      //公司环境
   const searchList = orderTab[new URLSearchParams(search).get('modelId') || 'a50f0654c8a7465291f17769d4b61fae'].searchList//查询条件
   const [orderList, setOrderList] = useState([]) // 工单列表
@@ -115,6 +115,7 @@ const Order = (props) => {
 //   { title: '全部', sub: 0 },
 // ];
     let attrs = [...tabsConfig(userId)[orderState]]
+    let ass = {cjt:"OR",conditions:[]}
     // console.log(drawerConfig,'drawerConfig');
     if (Object.keys(drawerConfig).length) attrs.push({field: "modelId", value: drawerConfig.modelId, operator: "EQ"})
     if (searchTitle !== "") attrs.push({ field: searchInfo, value: searchTitle, operator: "LIKE" })
@@ -122,7 +123,10 @@ const Order = (props) => {
     if (orderSearchFlow.length) attrs.push({ field: 'activityName', value: orderSearchFlow.join(','), operator: 'IN' })
     // 视频报修 图像组管理员特殊处理
     if ((orderState === 1 || orderState === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
-        attrs.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
+        attrs.splice(0,1) // 将待办中原有的 处理人 参数剪切掉
+        ass.conditions.push({"field":"formData.sfbx","value":"gqsh","operator":"EQ"})
+        ass.conditions.push({field: "executor",value: userId, operator: "IN" })
+        console.log('待办');
         // attrs.push( {"field":"status","value":[1,2],"operator":"IN"},
         // {"field":"modelId","value":modelId,"operator":"EQ"})
     }
@@ -149,7 +153,8 @@ const Order = (props) => {
     setModel(oldModel => {
       return {
         ...oldModel,
-        attrs
+        attrs,
+        ass
       }
     })
   }, [orderState, userAccountInfo, searchTitle, orderSearchInfo, orderSearchFlow, drawerConfig, search])
@@ -188,19 +193,18 @@ const Order = (props) => {
         console.log(item,'item?');
         if(item.sum !== undefined){
           let attt = [...tabsConfig(userId)[item.sub]]
+          let assList = [];
+          let ass={cjt:"OR",conditions:[]}
+          assList.push(ass);
           // console.log(attt,'ssssss',modelName);
             // 视频报修 图像组管理员特殊处理
             // 命中代办
             // console.log(modelId,orderSearch,'orderSearch');
             // console.log(local_get(USER_INFO_ID),MANAGE_ID,'MANAGE_ID');
           if ((item.sub === 1 || item.sub === '1') && (local_get(USER_INFO_ID).userId === MANAGE_ID) && orderSearch['视频报修'].modelId === modelId) {
-            // attt.splice(2,1) // 将待办中原有的 formData.sfbx 参数剪切掉
-            // attt.push(
-              // { "field": 'executor', "value":local_get(USER_INFO_ID).userId, "operator": 'IN' },
-              // {"field":"status","value":[1,2],"operator":"IN"},
-              // {"field":"modelId","value":modelId,"operator":"EQ"})
-            
-            // console.log('待办待办');
+            attt.splice(0,1) // 将待办中原有的 formData.sfbx 参数剪切掉
+            assList[0].conditions.push({"field":"formData.sfbx","value":"gqsh","operator":"EQ"});
+            assList[0].conditions.push({ field: "executor", value: userId  , operator: "IN" });
           }
           // 挂起 & 逾期 图像组管理员特殊处理
           if ((item.sub === '5' || item.sub === 5) && local_get(USER_INFO_ID).userId !== MANAGE_ID) {
@@ -224,6 +228,7 @@ const Order = (props) => {
           // console.log(item.sub,attt,'attt');
           queryOrderList({
             'conditions': [...new Set(attt)],
+            'ass':assList,
             "pageNum": pageNum,
             "pageSize": 10
           }).then((d) => {
@@ -231,7 +236,6 @@ const Order = (props) => {
                 item.sum = d.result.total
             }
             // console.log(d,'dd');
-           
           })
         }
       })
@@ -243,13 +247,14 @@ const Order = (props) => {
       console.log(model,'???mo');
       queryOrderList({
         'conditions': [...new Set(model.attrs)],
+        "ass":[model.ass],
         "pageNum": pageNum,
         "pageSize": 10
       }).then((d) => {
         console.log(d,'d1',d.hasOwnProperty('list'));
         let res = d.result
         if (res.hasOwnProperty('list')) {
-          if (res.list.length !== 10) setHasMore(false) 
+          if (res.list.length !== 10) setHasMore(false)
           if(pageNum === 1) {
             setOrderList([...res.list])
           }else {
@@ -266,7 +271,7 @@ const Order = (props) => {
 
   return (
     <div className='order-page-index'>
-     
+
       <HeaderBar title={modelName+'-工单列表'} />
       <Tabs defaultActiveKey={orderState} onChange={callback} >
         {/* {console.log(tabs,'?????')} */}
@@ -346,7 +351,7 @@ const Order = (props) => {
           useWindow={false}
         >
           <List dataSource={orderList} renderItem={item => (
-             
+
             <div className='item' onClick={() => {
               history.push(`/order/${item.ticketId}?actId=${item.activityId}&modelId=${item.modelId}` + '&search=' + searchTitle + '&searchType=' + searchInfo)
               }}>
