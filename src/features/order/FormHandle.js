@@ -258,7 +258,7 @@ const HandleOrder = Form.create({
         })
       } else {
         queryOrderModel({
-          id: query.get('modelId'),
+          modelId: query.get('modelId'),
           actId: query.get('actId')
         }).then(d => {
           setOrderModal(d)
@@ -345,7 +345,7 @@ const HandleOrder = Form.create({
         if (orderFindGq.code === "resource") {
           console.log(orderFindGq)
 
-          setResourceId(orderFindGq.default_value ? orderFindGq.default_value[0].id : orderFindGq.id)
+          setResourceId(orderFindGq.default_value ? orderFindGq.default_value[0].id : "")
         }
       })
     }
@@ -387,6 +387,7 @@ const HandleOrder = Form.create({
         </>
         <div className="handle-button-group">
           {sfgq ? null : orderInfo.handle_rules?.map(d => (<HandleButton
+            key={d.route_id}
             route={d.route_id}
             handle={handle}
             orderInfo={orderInfo}
