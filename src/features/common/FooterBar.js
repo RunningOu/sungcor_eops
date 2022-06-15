@@ -41,7 +41,8 @@ export default (props) => {
     ],
     'overdue': (modelId) => [
       { field: "overdue", value: 1, operator: "IN" },
-      { field: "modelId", value: modelId, operator: "EQ" }
+      { field: "modelId", value: modelId, operator: "EQ" },
+      { field: "status", value: [1,2], operator: "IN" },
     ]
   } // 查询条件
 
