@@ -254,44 +254,28 @@ const CreateOrder = Form.create({
 
       return (
         formLoading ?
-        <
-        div className = 'order-page-form' >
-        <
-        HeaderBar title = '工单创建' / >
-        <
-        Spin style = {
+        <div className = 'order-page-form' ><HeaderBar title = '工单创建'/>
+        <Spin style = {
           {
             margin: '20px auto',
             width: '100%'
           }
         }
-        tip = "报修模板加载中" / >
-        <
-        /div> : <
-        div className = 'order-page-form' >
-        <
-        HeaderBar title = '工单创建' / >
-        <
-        div className = 'form' >
-        <
-        Form loading = {
+        tip = "报修模板加载中"/>
+        </div> : <div className = 'order-page-form' >
+        <HeaderBar title = '工单创建' / ><div className = 'form' >
+        <Form loading = {
           formLoading.toString()
         } >
-        <
-        FormBuilder meta = {
+        <FormBuilder meta = {
           meta
         }
         form = {
           props.form
-        }
-        /> <
-        /Form> {
+        }/> </Form> {
           needFile ?
-            <
-            div >
-            <
-            h4 > 上传图片附件 < /h4> <
-            Upload
+            <div>
+            <h4> 上传图片附件 </h4> <Upload
           listType = "picture-card"
           fileList = {
             files
@@ -310,11 +294,8 @@ const CreateOrder = Form.create({
                 setFiles(oldFiles => [...oldFiles, file])
                 return false
               }
-            } >
-            上传图片 <
-            /Upload> <
-            /div> : null} <
-            Button
+            }>上传图片 </Upload> 
+            </div> : null} <Button
           type = "primary"
           style = {
             {
@@ -400,6 +381,11 @@ const CreateOrder = Form.create({
                   content: '创建工单中……',
                   key: MESSAGE_KEY
                 })
+
+
+                console.log(createform,'createformcreateform');
+
+
                 createOrder({
                   // model_id: "21c50bf325a34d02af826281c24aab6f",
                   model_id: modal,
@@ -424,15 +410,17 @@ const CreateOrder = Form.create({
                       content: '开始上传图片……',
                       key: MESSAGE_KEY
                     })
+                    console.log(files,'files',da);
                     files.forEach((i) => {
                       let reader = new FileReader();
                       reader.readAsDataURL(i)
                       reader.onload = e => {
                         let imgBase64 = e.target.result
                         updateImage({
-                          ticketId: da.data.id,
+                          ticketId: da.data.result.id,
                           filesBase64: [imgBase64.split(',')[1]]
                         }).then(() => {
+                          console.log(1111,'11111');
                           message.success({
                             content: '上传成功',
                             key: MESSAGE_KEY
@@ -448,16 +436,12 @@ const CreateOrder = Form.create({
                   }
                 })
               }
-            } > 提交 < /Button> <
-            GisShow resourceId = {
+            }> 提交 </Button> <GisShow resourceId = {
               resourceId
             }
           visible = {
             visible
-          }
-          /> <
-          /div> <
-          /div>
+          }/></div> </div>
         )
       })
 
