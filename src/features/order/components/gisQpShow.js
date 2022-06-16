@@ -10,7 +10,7 @@ import './gisShow.css'
 export default function(props) {
     const { location: { search } } = props
     var BMap = window.BMap
-    console.log(new URLSearchParams(search).get('resourceId'))
+    // console.log(new URLSearchParams(search).get('resourceId'))
     const [resourceId, setResourceId] = useState(new URLSearchParams(search).get('resourceId'))
     const [deviseInfo, setDeviseInfo] = useState({}) // 设备信息
     const [sfzb, setZb] = useState(false)
@@ -28,7 +28,7 @@ export default function(props) {
         setVisible(false)
     }
     function handleOk () {
-        console.log(deviseInfo)
+        console.log(deviseInfo,'deviseInfo1')
         var updatee = deviseInfo
         updatee.longitude = jwd.lng
         updatee.latitude = jwd.lat
@@ -229,7 +229,8 @@ export default function(props) {
     useEffect(()=>{
         if (resourceId !== '') {
             queryDeviceById(resourceId).then((d) => {
-                setDeviseInfo(d)
+                console.log(d,'ddd');
+                setDeviseInfo(d.result)
             })
         }
     },[resourceId])
@@ -248,6 +249,7 @@ export default function(props) {
         var map = new BMap.Map('allmap', {mapType: tileMapType});
     
         // 百度地图API功能
+        console.log(deviseInfo,'deviseInfo234');
         if (deviseInfo.longitude) {
             var DBD09 = wgs2bd(parseFloat(deviseInfo.latitude), parseFloat(deviseInfo.longitude))
             console.log(DBD09)
