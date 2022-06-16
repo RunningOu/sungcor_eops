@@ -84,13 +84,14 @@ const Details = (props) => {
                 <Tag
                   className={item.severityCN === '警告' ? 'alert-warning' : item.severityCN === '错误' ? 'alert-error' : item.severityCN === '紧急' ? 'alert-critical' : 'alert-hf'}>{item.name}
                 </Tag ></span>}
-              extra={TimeToHours(new Date(item.lastOccurTime) - new Date(item.firstOccurTime))}
+              extra={status === 'newAlert' ? TimeToHours(new Date() - new Date(item.lastOccurTime.replace(/-/g, '/'))) : TimeToHours(new Date(item.closeTime.replace(/-/g, '/')) - new Date(item.lastOccurTime.replace(/-/g, '/'))) }
               headStyle={{ 'padding': '0px 0px 0px 5px', 'background': 'rgba(64, 169, 255, 0.7)', 'borderRadius': '10px', 'minHeight': '44px' }}
               className="alert-card" key="alert_processed" bodyStyle={{ 'borderRadius': '10px', 'padding': '8px 2px 5px 14px' }}>
               <p>设备名称：<span>{item.entityName}</span></p>
               <p>设备IP：<span>{item.entityAddr || '暂无'}</span></p>
-              <p>首次发生时间：<span>{formatDate(new Date(item.firstOccurTime), 'yyyy-MM-dd HH:mm')}</span></p>
-              <p>最后发生时间：<span>{formatDate(new Date(item.lastOccurTime), 'yyyy-MM-dd HH:mm')}</span></p>
+              <p>首次发生时间：<span>{formatDate(new Date(item.firstOccurTime.replace(/-/g, '/')), 'yyyy-MM-dd HH:mm')}</span></p>    
+              {/* replace(/-/g, '/')   这里是解决ios端时间格式适配的问题，IOS端不能识别new Date(2022-06-16) 这样的格式，所以将-替换为/ */}
+              <p>最后发生时间：<span>{formatDate(new Date(item.lastOccurTime.replace(/-/g, '/')), 'yyyy-MM-dd HH:mm')}</span></p>
               <p>告警描述：<span>{item.description}</span></p>
               <p>告警状态:<span><Tag className={status === 'newAlert' ? 'alert-critical' : 'alert-hf'} >{status === 'newAlert' ? '新告警' : '已恢复'}</Tag></span></p>
             </Card>
